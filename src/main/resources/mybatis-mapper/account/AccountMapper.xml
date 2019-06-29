@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.account.IAccountMapper">
+
+    <!--查询用户账号-->
+    <select id="selectAccountInfo" parameterMap="com.ral.manages.entity.account.AccountEntity" resultType="com.ral.manages.entity.account.AccountEntity">
+        SELECT account,password,tellphone,cancellation FROM biz_user WHERE account=#{account} AND cancellation!=1
+    </select>
+
+
+
+
+    <!--暂时这些字段-->
+    <sql id="checkParams">
+        <if test="account != null and account != ''">
+			AND account like '%${account}%'
+		</if>
+        <if test="tellphone != null and tellphone != ''">
+            AND tellphone like '%${tellphone}%'
+        </if>
+    </sql>
+
+    <!--查询账号-->
+    <select id="selectAccountInfo" parameterType="map" resultType="com.ral.manages.entity.account.AccountEntity">
+
+    </select>
+
+    <!--新增账号-->
+    <insert id="insertAccountInfo" parameterType="com.ral.manages.entity.account.AccountEntity">
+        INSERT INTO biz_game_user(id,account,pass,source,tellphone,lrrq,cancellation) VALUES
+        (#{id},#{account},#{pass},#{source},#{tellphone},to_date(#{lrrq,jdbcType=TIMESTAMP},'yyyy-MM-dd HH24:mi:ss'),#{cancellation})
+    </insert>
+</mapper>

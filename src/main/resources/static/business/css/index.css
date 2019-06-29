@@ -1,0 +1,50 @@
+@charset "utf-8";
+*{
+	padding:0;
+	margin: 0;
+	box-sizing: border-box;
+}
+.li{
+	list-style: none;
+}
+/*登录*/
+.login-header{
+	width: 100%;
+	height: 57px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	z-index: 3;
+}
+.login-header.content{
+	margin: 0 auto;
+	width: 1200px;
+	overflow: hidden;
+}
+
+.login-box{
+	min-width: 1200px;
+	height: 900px;
+}
+.login-box.content{
+	margin: 0 auto;
+	width: 1200px;
+	overflow: hidden;
+}
+.login-box.content.title{
+	margin-top: 150px;
+	overflow: hidden;
+}
+.login-box.content.title.rows{
+	margin: 120px 40px 0;
+	overflow: hidden;
+}
+.login-box.content.title.rows.login-item{
+	width: 330px;
+	height: 50px;
+	float: left;
+	margin-right: 64px;
+	border-bottom: 1px solid #a7d3e7;
+	padding-bottom: 22px;
+}
