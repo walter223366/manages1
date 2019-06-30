@@ -6,6 +6,10 @@ package com.ral.manages.emun;
  */
 public interface StateTable {
 
+    /*返回值状态*/
+    public final static String RETURNCODE_ONE = "1"; //成功
+    public final static String RETURNCODE_ZERO = "0"; //失败
+
     /* biz_game_user */
     public final static int USER_SOURCE = 1; // 来源->
 

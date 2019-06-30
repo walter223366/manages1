@@ -3,35 +3,25 @@
 #web
 server:
   port: 8888
-#resources datasource freemarker
+#resources datasource
 spring:
   mvc:
     static-path-pattern: /static/**
+    view:
+      suffix: .html
+      prefix: /
   resources:
     static-locations: classpath:/static/
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql:thin:47.106.185.221:3306:gamerdb?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-    username: gamer
-    password: gamer123456
-  freemarker:
-    template-loader-path: classpath:/templates/
-    suffix: .html
-    request-context-attribute: request
-    charset: utf-8
-    enabled: true
-    cache: false
-    check-template-location: true
-    content-type: text/html
-    expose-session-attributes: true
-    expose-request-attributes: true
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/gamerdb?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root
+      password: root
 
 #mybatis
 mybatis:
   mapper-locations: classpath:/mybatis-mapper/*/*Mapper.xml
   type-aliases-package: com.ral.manages.entity
 
-#log
-#logging:
-#  config: classpath:logback.xml
-#  path: E://log

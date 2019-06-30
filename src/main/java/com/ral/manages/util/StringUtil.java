@@ -15,13 +15,20 @@ public class StringUtil {
     /**
      * 校验字符串
      */
-    public static boolean isNull(String str){
-        if(null == str || str.equals("") || str.equals("null")){
+    public static boolean isNull(String value){
+        if(null == value ){
             return true;
-        }else{
-            return false;
         }
+        if("".equals(value)){
+            return true;
+        }
+        if("null".equals(value)){
+            return true;
+        }
+        return false;
+
     }
+
 
     /**
      * 去掉空格
