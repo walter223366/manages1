@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
@@ -27,6 +28,10 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
+    @GetMapping("/ai")
+    public String user(){
+        return "hello ";
+    }
 
     /**用户登录*/
     @RequestMapping("/userLoad")

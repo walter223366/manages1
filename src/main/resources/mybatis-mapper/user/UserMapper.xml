@@ -19,7 +19,7 @@
         SELECT <include refid="userResult" /> FROM biz_user WHERE account=#{user.account}
     </select>
 
-    
+
     <!--用户新增-->
     <insert id="insertUserInfo" parameterType="com.ral.manages.entity.user.User">
         INSERT INTO biz_user(id,account,pass,source,tellphone,cancellation)
@@ -32,7 +32,7 @@
         UPDATE biz_user SET pass=#{user.pass},tellphone=#{user.tellphone} WHERE account=#{user.account}
     </update>
 
-    
+
     <!--用户注销-->
     <update id="updateUserInfoToCancellation"  parameterType="com.ral.manages.entity.user.User">
         UPDATE biz_user SET cancellation=#{user.cancellation} WHERE account=#{user.account}

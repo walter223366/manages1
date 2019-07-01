@@ -3,7 +3,7 @@ package com.ral.manages.entity.user;
 import lombok.Data;
 
 /**
- * 用户表
+ * 用户表 biz_user
  */
 @Data
 public class User {

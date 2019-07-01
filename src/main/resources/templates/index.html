@@ -35,7 +35,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="layui-icon">&#xe66f;</i>账号管理</a>
+                    <a class="" href="javascript:;"><!--<i class="layui-icon">&#xe66f;</i>-->账号管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">列表一</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
@@ -111,6 +111,8 @@
                     <li class="layui-this" lay-id="11">首页</li>
                 </ul>
                 <div class="layui-tab-content">
+                    <a href="/static/business/html/account.html" target="ifrPage" />
+                    <iframe id="ifrPage" name="ifrPage" src="/static/business/html/account.html"></iframe>
                 </div>
             </div>
         </div>
