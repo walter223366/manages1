@@ -13,6 +13,4 @@ public class School {
     private String info;//说明
     private int influence;//影响力
 
-    private int current;
-    private int limit;
 }

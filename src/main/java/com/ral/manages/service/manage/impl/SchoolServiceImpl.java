@@ -18,12 +18,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     @Override
     public PageBean<?> pageCheckSchoolInfo(School school) {
-        int current = school.getCurrent();
-        int limit = school.getLimit();
-        PageBean<?> page = new PageBean<>(limit, current);
-        if (current != 0 && limit != 0) {
 
-        }
         return null;
     }
 }
