@@ -1,18 +1,19 @@
 package com.ral.manages.mapper.manage;
 
 import com.ral.manages.entity.manage.School;
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ISchoolMapper {
 
-    List<School> selectPageSchoolInfo(School school);
-    int selectCountSchoolInfo(School school);
+    List<School> selectPageSchoolInfo(@Param("school") School school);
+    int selectCountSchoolInfo(@Param("school") School school);
 
-    School selectSchoolInfo(School school);
-    
-    void insertSchoolInfo(School school);
+    School selectSchoolInfo(@Param("school") School school);
 
-    int updateSchoolInfo(School school);
+    void insertSchoolInfo(@Param("school") School school);
 
-    int deleteSchoolInfo(School school);
+    int updateSchoolInfo(@Param("school") School school);
+
+    int deleteSchoolInfo(@Param("school") School school);
 }

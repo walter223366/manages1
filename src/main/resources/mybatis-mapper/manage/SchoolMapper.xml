@@ -6,12 +6,45 @@
 
     <sql id="selectSchool">
         <if test="name != null and name != ''">
-            AND FPDM like '%${name}%'
+            AND name like '%${school.name}%'
+        </if>
+        <if test="sinfluence != null and sinfluence != ''">
+            AND influence <![CDATA[>=]]> school.sinfluence
+        </if>
+        <if test="einfluence != null and einfluence != ''">
+            AND influence <![CDATA[<=]]> school.einfluence
         </if>
     </sql>
 
+    <!--分页查询-->
     <select id="selectCountSchoolInfo" parameterType="com.ral.manages.entity.manage.School" resultType="int">
-
+        SELECT COUNT(1) FROM dict_school WHERE 1=1 <include refid="selectSchool"/>
     </select>
+    <select id="selectPageSchoolInfo" parameterType="com.ral.manages.entity.manage.School" resultType="map">
+        SELECT * FROM (SELECT ROWNUM RN, tt.* FROM (
+        SELECT school_id,name,info,influence
+        FROM dict_school WHERE 1=1
+        <include refid="selectSchool"/>
+        ) tt WHERE 1 = 1
+        <if test="end !=null and end !=''">
+            AND ROWNUM &lt;= #{end}
+        </if>
+        ) WHERE 1 = 1
+        <if test="start !=null and start !=''">
+            AND RN &gt;= #{start}
+        </if>
+    </select>
+
+    <insert id="insertSchoolInfo" parameterType="com.ral.manages.entity.manage.School">
+        INSERT INTO dict_school(school_id,name,info,influence)VALUES (#{school.school_id},#{school.name},#{school.info},#{school.influence})
+    </insert>
+
+    <update id="updateSchoolInfo" parameterType="com.ral.manages.entity.manage.School">
+        UPDATE dict_school SET name=#{school.name},info=#{school.info},influence=#{school.influence} WHERE name=#{school.name}
+    </update>
+
+    <delete id="deleteSchoolInfo" parameterType="com.ral.manages.entity.manage.School">
+        DELETE dict_school WHERE name=#{school.name}
+    </delete>
 
 </mapper>
