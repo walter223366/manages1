@@ -49,10 +49,10 @@
             <scope>test</scope>
         </dependency>
         <!--security-->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+        </dependency>-->
         <!--druid-->
         <dependency>
             <groupId>com.alibaba</groupId>

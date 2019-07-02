@@ -14,8 +14,7 @@ function login() {
 			dataType : "json",
 			success:function(data){
 				var code = data.code;
-				if(code == "0"){
-				}
+				alert(code);
 			}
 		});
 	}else{

@@ -1,13 +1,57 @@
 @charset "utf-8";
-*{
-	padding:0;
-	margin: 0;
-	box-sizing: border-box;
+a{text-decoration: none;color:gray;}
+a:HOVER{color:white !important;text-decoration:none !important;}
+a:link{text-decoration:none;}
+a:visited{text-decoration:none;}
+a:hover{text-decoration:none;}
+a:active{text-decoration:none;}
+ul li{list-style: none;}
+textarea {outline: 0px; font-family: "微软雅黑", Arial; font-size: 14px; -webkit-appearance: none;}
+
+.login-back{
+	width: 100%;
+	min-height: 900px;
+	position: absolute;
 }
-.li{
-	list-style: none;
+.login-box{
+	margin-left: 30%;
+	margin-top: 250px;
+	height: 500px;
+	width: 600px;
+	border: 5px solid #FBFBFB;
+	box-shadow:4px 4px 10px #FBFBFB;
 }
-/*登录*/
+.login-title{
+	height: 80px;
+	width: auto;
+	background-color: #5FB878;
+}
+.login-content{
+	height: 420px;
+	width: auto;
+}
+.login-content ul{
+	text-align:center;
+	float:left;
+}
+.login-content ul li{
+	padding-top: 50px;
+	padding-left: 120px;
+	font-size: 20px;
+}
+.content-li input{
+	height: 40px;
+}
+.content-li button{
+	height: 40px;
+	width: 140px;
+	background-color: #5FB878;
+	border-radius:5px 5px 5px 5px
+}
+
+/*
+
+!*登录*!
 .login-header{
 	width: 100%;
 	height: 57px;
@@ -47,4 +91,4 @@
 	margin-right: 64px;
 	border-bottom: 1px solid #a7d3e7;
 	padding-bottom: 22px;
-}
+}*/
