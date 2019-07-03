@@ -1,3 +1,4 @@
+/*
 package com.ral.manages.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -14,3 +15,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(web);
     }
 }
+*/

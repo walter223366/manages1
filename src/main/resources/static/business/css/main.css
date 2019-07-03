@@ -7,3 +7,9 @@ p.sansserif{
 .layui-layout.layui-header{
 
 }
+.showData{
+	width: 100% ;
+	height: 100%;
+	position: absolute;
+}
+
