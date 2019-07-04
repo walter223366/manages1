@@ -1,0 +1,39 @@
+@charset "utf-8";
+body {
+	margin:0;
+	padding:0;
+	font-weight:500;
+	font-family:"Microsoft YaHei","宋体","Segoe UI","Lucida Grande",Helvetica,Arial,sans-serif,FreeSans,Arimo;
+}
+.account-global{
+	width: 100%;
+	height: 900px;
+	position: absolute;
+}
+.account-title{
+	width: 100%;
+	height: 50px;
+	background-color: #FBFBFB;
+	border: 1px solid #FBFBFB;
+}
+.account-data{
+	width: 100%;
+	height: 850px;
+	position: absolute;
+}
+.data-operat{
+	width: 100%;
+	height: 100px;
+}
+.date-show{
+	width: 100%;
+	height: 450px;
+}
+.data-operat ul{
+	float: left;
+}
+.date-show input {
+	width:100%;
+	height:42px;
+	padding-left:13px;
+}

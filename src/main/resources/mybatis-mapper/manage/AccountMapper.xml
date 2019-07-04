@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.manage.IAccountMapper">
+
+    <sql id="AccountResult">
+        id,account,pass,source,tellphone,lrrq,cancellation
+    </sql>
+
+    <select id="selectAccount" parameterType="com.ral.manages.entity.manage.Account" resultType="list">
+        SELECT <include refid="AccountResult" />
+        FROM biz_user WHERE 1=1
+        AND account=#{account.account} AND pass=#{account.pass} AND cancellation=#{account.cancellation}
+    </select>
+
+    <insert id="insertAccount" parameterType="com.ral.manages.entity.manage.Account">
+        INSERT INTO biz_user(id,account,pass,source,tellphone,lrrq,cancellation)
+        VALUES (#{account.id},#{account.account},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation})
+    </insert>
+
+    <update id="updateAccount" parameterType="com.ral.manages.entity.manage.Account">
+        UPDATE biz_user SET tellphone=#{account.tellphone},cancellation=#{account.cancellation}
+        WHERE 1=1 AND account=#{account.account} AND pass=#{account.pass}
+    </update>
+
+    <delete id="deleteAccount" parameterType="com.ral.manages.entity.manage.Account">
+        UPDATE biz_user SET cancellation=#{account.cancellation}
+        WHERE 1=1 AND account=#{account.account} AND pass=#{account.pass}
+    </delete>
+
+
+</mapper>
