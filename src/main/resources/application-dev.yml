@@ -1,9 +1,10 @@
 #开发配置
 
-#web
+#tomcat配置
 server:
-  port: 8888
-#resources datasource
+  port: 8088
+
+#spring配置
 spring:
   mvc:
     static-path-pattern: /static/**
@@ -19,9 +20,30 @@ spring:
       url: jdbc:mysql://47.106.185.221:3306/gamerdb?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
       username: gamer
       password: gamer123456
-      filters: stat,wall
 
-#mybatis
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+
+      filters: stat,wall,log4j
+      max-pool-prepared-statement-per-connection-size: 20
+      use-global-data-source-stat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+
+#mybatis配置
 mybatis:
   mapper-locations: classpath:/mybatis-mapper/*/*Mapper.xml
   type-aliases-package: com.ral.manages.entity

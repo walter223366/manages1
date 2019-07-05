@@ -1,6 +1,5 @@
 package com.ral.manages.controller.user;
 
-import com.ral.manages.check.CheckParams;
 import com.ral.manages.emun.CloudResponseCode;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.exception.BizException;
@@ -13,13 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@RestController
+import javax.servlet.http.HttpServletRequest;
+
+@Controller
 @Scope("prototype")
 @RequestMapping("/manages/user")
 public class UserController {
@@ -28,9 +30,15 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    @GetMapping("/ai")
-    public String user(){
-        return "hello ";
+    @RequestMapping(value="/{name}")
+    public String user(@PathVariable String name){
+        return name;
+    }
+
+    @RequestMapping(value = "/toPage",method = RequestMethod.GET)
+    public String toPage(HttpServletRequest request){
+        String url = request.getParameter("url");
+        return url;
     }
 
     /**用户登录*/

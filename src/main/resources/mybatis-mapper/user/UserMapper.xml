@@ -5,12 +5,12 @@
 <mapper namespace="com.ral.manages.mapper.user.IUserMapper">
 
     <sql id="userResult">
-        id,account,pass,source,tellphone,lrrq,cancellation
+        id,account,password,source,tellphone,lrrq,cancellation
     </sql>
 
     <!--用户查询-->
     <select id="selectUserInfo" parameterType="com.ral.manages.entity.user.User" resultType="com.ral.manages.entity.user.User">
-        SELECT <include refid="userResult" /> FROM biz_user WHERE account=#{user.account} AND pass=#{user.pass} AND cancellation=#{user.cancellation}
+        SELECT <include refid="userResult" /> FROM biz_user WHERE account=#{user.account} AND pass=#{user.password} AND cancellation=#{user.cancellation}
     </select>
     <select id="selectUserExist" parameterType="com.ral.manages.entity.user.User" resultType="int">
         SELECT COUNT(1) FROM biz_user WHERE account=#{user.account}

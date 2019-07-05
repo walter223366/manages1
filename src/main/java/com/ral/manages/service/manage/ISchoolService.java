@@ -7,5 +7,9 @@ public interface ISchoolService {
 
     PageBean<?> pageCheckSchoolInfo(School school);
 
+    void insertSchoolInfo(School school);
 
+    void updateSchoolInfo(School school);
+
+    void deleteSchoolInfo(School school);
 }

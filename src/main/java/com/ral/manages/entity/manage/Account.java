@@ -10,7 +10,7 @@ public class Account {
 
     private String id;
     private String account;//账号
-    private String pass;//密码
+    private String password;//密码
     private int source;//来源
     private int tellphone;//电话
     private String lrrq;//创建日期

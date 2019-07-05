@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class SchoolServiceImpl implements ISchoolService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SchoolServiceImpl.class);
+
     @Autowired
     private ISchoolMapper iSchoolMapper;
 
@@ -20,5 +21,20 @@ public class SchoolServiceImpl implements ISchoolService {
     public PageBean<?> pageCheckSchoolInfo(School school) {
 
         return null;
+    }
+
+    @Override
+    public void insertSchoolInfo(School school) {
+
+    }
+
+    @Override
+    public void updateSchoolInfo(School school) {
+
+    }
+
+    @Override
+    public void deleteSchoolInfo(School school) {
+
     }
 }

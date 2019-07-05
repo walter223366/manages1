@@ -6,7 +6,7 @@ import lombok.Data;
  * 功夫表 dict_kongfu
  */
 @Data
-public class Kongfu {
+public class KongFu {
 
     private String kongfu_id;//id
     private String name;//名称

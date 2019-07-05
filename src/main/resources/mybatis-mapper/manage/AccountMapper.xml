@@ -4,12 +4,12 @@
 
 <mapper namespace="com.ral.manages.mapper.manage.IAccountMapper">
 
-    <sql id="AccountResult">
+    <sql id="accountResult">
         id,account,pass,source,tellphone,lrrq,cancellation
     </sql>
 
     <select id="selectAccount" parameterType="com.ral.manages.entity.manage.Account" resultType="list">
-        SELECT <include refid="AccountResult" />
+        SELECT <include refid="accountResult" />
         FROM biz_user WHERE 1=1
         AND account=#{account.account} AND pass=#{account.pass} AND cancellation=#{account.cancellation}
     </select>
