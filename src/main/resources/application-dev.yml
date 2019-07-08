@@ -11,6 +11,10 @@ spring:
     view:
       suffix: .html
       prefix: /
+  devtools:
+    restart:
+      enabled: true
+      additional-exclude: WEB-INF/**
   resources:
     static-locations: classpath:/static/
   datasource:
@@ -42,6 +46,7 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML
+    cache: false
 
 #mybatis配置
 mybatis:

@@ -13,12 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -39,6 +36,10 @@ public class UserController {
     public String toPage(HttpServletRequest request){
         String url = request.getParameter("url");
         return url;
+    }
+    @RequestMapping("/login")
+    public String toLogin() {
+        return "login.html";
     }
 
     /**用户登录*/
