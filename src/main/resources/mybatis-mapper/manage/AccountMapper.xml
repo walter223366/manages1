@@ -7,12 +7,29 @@
     <sql id="accountResult">
         id,account,pass,source,tellphone,lrrq,cancellation
     </sql>
+    <sql id="conditionalCheck">
+        <if test="account != null and account != ''">
+         AND account like '%${account}%'
+        </if>
+        <if test="tellphone != null and tellphone != ''">
+         AND tellphone like '%${tellphone}%'
+        </if>
+        <if test="starttime != null and starttime != ''">
+         AND cast(lrrq as date) <![CDATA[>=]]> to_date(#{starttime},'yyyy-MM-dd')
+        </if>
+        <if test="endtime != null and endtime != ''">
+         AND cast(lrrq as date) <![CDATA[<=]]> to_date(#{endtime},'yyyy-MM-dd')+1
+        </if>
+    </sql>
 
-    <select id="selectAccount" parameterType="com.ral.manages.entity.manage.Account" resultType="list">
-        SELECT <include refid="accountResult" />
-        FROM biz_user WHERE 1=1
-        AND account=#{account.account} AND pass=#{account.pass} AND cancellation=#{account.cancellation}
+    <!--<select id="selectAccountToPage" parameterType="map" resultType="list">
+        SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 <include refid="conditionalCheck"/> ORDER BY lrrq DESC
+    </select>-->
+    <select id="selectAccountToPage" resultType="map">
+    	SELECT *
+    	FROM biz_user
     </select>
+
 
     <insert id="insertAccount" parameterType="com.ral.manages.entity.manage.Account">
         INSERT INTO biz_user(id,account,pass,source,tellphone,lrrq,cancellation)

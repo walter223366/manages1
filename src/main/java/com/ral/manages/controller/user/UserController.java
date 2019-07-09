@@ -4,7 +4,6 @@ import com.ral.manages.emun.CloudResponseCode;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.exception.BizException;
 import com.ral.manages.exception.CloudResponse;
-import com.ral.manages.exception.Result;
 import com.ral.manages.service.user.IUserService;
 import com.ral.manages.util.Base64Util;
 import net.sf.json.JSONObject;
@@ -13,34 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/manages/user")
+@RequestMapping("/user")
 public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private IUserService iUserService;
-
-    @RequestMapping(value="/{name}")
-    public String user(@PathVariable String name){
-        return name;
-    }
-
-    @RequestMapping(value = "/toPage",method = RequestMethod.GET)
-    public String toPage(HttpServletRequest request){
-        String url = request.getParameter("url");
-        return url;
-    }
-    @RequestMapping("/login")
-    public String toLogin() {
-        return "login.html";
-    }
 
     /**用户登录*/
     @RequestMapping("/userLoad")
@@ -48,8 +29,8 @@ public class UserController {
         LOG.info("userLoad method -> 参数：" + user);
         CloudResponse cloudResponse = new CloudResponse();
         try {
-            Result result = iUserService.loadUserInfo(user);
-            JSONObject resultJson = JSONObject.fromObject(result);
+            iUserService.loadUserInfo(user);
+            JSONObject resultJson = JSONObject.fromObject(null);
             cloudResponse.setRows(Base64Util.Base64Encode(resultJson.toString()));
             cloudResponse.setReqid("");
             LOG.info("userLoad method -> 返回值：" + resultJson);
@@ -92,8 +73,8 @@ public class UserController {
         LOG.info("alterUser method -> 参数：" + user);
         CloudResponse cloudResponse = new CloudResponse();
         try {
-            Result result = iUserService.updateUserInfo(user);
-            JSONObject resultJson = JSONObject.fromObject(result);
+            iUserService.updateUserInfo(user);
+            JSONObject resultJson = JSONObject.fromObject(null);
             cloudResponse.setRows(Base64Util.Base64Encode(resultJson.toString()));
             cloudResponse.setReqid("");
             LOG.info("alterUser method -> 返回值：" + resultJson);
@@ -115,8 +96,8 @@ public class UserController {
         LOG.info("cancetUser method -> 参数：" + user);
         CloudResponse cloudResponse = new CloudResponse();
         try {
-            Result result = iUserService.updataUserToCancet(user);
-            JSONObject resultJson = JSONObject.fromObject(result);
+            iUserService.updataUserToCancet(user);
+            JSONObject resultJson = JSONObject.fromObject(null);
             cloudResponse.setRows(Base64Util.Base64Encode(resultJson.toString()));
             cloudResponse.setReqid("");
             LOG.info("cancetUser method -> 返回值：" + resultJson);

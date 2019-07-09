@@ -1,5 +1,6 @@
 package com.ral.manages.util;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -33,7 +34,6 @@ public class StringUtil {
 
     }
 
-
     /**
      * 去掉空格
      */
@@ -41,4 +41,6 @@ public class StringUtil {
         value = value.replace(" ","");
         return value;
     }
+
+
 }

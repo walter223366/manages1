@@ -3,11 +3,12 @@ package com.ral.manages.mapper.manage;
 import com.ral.manages.entity.manage.Account;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Map;
 
 public interface IAccountMapper {
 
     //查询
-    List<Account> selectAccount(@Param("account") Account account);
+    List<Map<String,Object>> selectAccountToPage();
     //新增
     void insertAccount(@Param("account") Account account);
     //修改

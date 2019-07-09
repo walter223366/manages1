@@ -4,7 +4,6 @@ import com.ral.manages.check.CheckParams;
 import com.ral.manages.emun.StateTable;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.exception.BizException;
-import com.ral.manages.exception.Result;
 import com.ral.manages.mapper.user.IUserMapper;
 import com.ral.manages.service.user.IUserService;
 import com.ral.manages.util.StringUtil;
@@ -12,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements IUserService , StateTable {
@@ -21,11 +18,9 @@ public class UserServiceImpl implements IUserService , StateTable {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private IUserMapper iUserMapper;
-    @Autowired
-    private Result result;
 
     @Override
-    public Result loadUserInfo(User user) {
+    public void loadUserInfo(User user) {
         CheckParams.userCheck(user);
         user.setCancellation(CANCELLATION_ZERO);
         User resultUser = iUserMapper.selectUserInfo(user);
@@ -36,8 +31,7 @@ public class UserServiceImpl implements IUserService , StateTable {
         if(!passworld.equals(resultUser.getPass())){
             throw new BizException("登录失败，账号或密码有误");
         }
-        result.setResult("登录成功");
-        return result;
+
     }
 
     @Override
@@ -58,7 +52,7 @@ public class UserServiceImpl implements IUserService , StateTable {
     }
 
     @Override
-    public Result updateUserInfo(User user) {
+    public void updateUserInfo(User user) {
         CheckParams.userCheck(user);
         User resultUser = iUserMapper.selectUserExistToAccount(user);
         if(resultUser == null){
@@ -73,12 +67,11 @@ public class UserServiceImpl implements IUserService , StateTable {
             throw new BizException("修改失败，该账号已注销");
         }
         int count = iUserMapper.updateUserInfo(user);
-        result.setResult(count == 0?"修改失败":"修改成功");
-        return result;
+       // result.setResult(count == 0?"修改失败":"修改成功");
     }
 
     @Override
-    public Result updataUserToCancet(User user) {
+    public void updataUserToCancet(User user) {
         CheckParams.userCheck(user);
         User resultUser = iUserMapper.selectUserExistToAccount(user);
         if(resultUser == null){
@@ -93,7 +86,7 @@ public class UserServiceImpl implements IUserService , StateTable {
             throw new BizException("该账号已被注销过");
         }
         int count = iUserMapper.updateUserInfoToCancellation(user);
-        result.setResult(count == 0?"注销失败":"注销成功");
-        return result;
+      /*  result.setResult(count == 0?"注销失败":"注销成功");
+        return result;*/
     }
 }
