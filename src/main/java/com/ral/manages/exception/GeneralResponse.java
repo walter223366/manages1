@@ -1,6 +1,8 @@
 package com.ral.manages.exception;
 
+import com.ral.manages.util.Base64Util;
 import lombok.Data;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Data
@@ -14,29 +16,39 @@ public class GeneralResponse<T> {
     private String result;
 
     /*消息描述*/
-    private String message;
+    private String msg;
 
     /*数据*/
-    private T datas;
+    private T rows;
 
     public GeneralResponse(){}
 
-    public GeneralResponse(String code,String result,String message,T datas) {
+    public GeneralResponse(String code,String result,String msg,T rows) {
         this.code = code;
         this.result = result;
-        this.message = message;
-        this.datas = datas;
+        this.msg = msg;
+        this.rows = rows;
     }
 
-    public GeneralResponse success(String message, T datas) {
-        return new GeneralResponse("0","SECCESS", message, datas);
+    /*操作成功，有数据*/
+    public GeneralResponse success(String msg, T rows) {
+        JSONObject json = JSONObject.fromObject(rows);
+        String base64 = Base64Util.Base64Encode(json.toString());
+        return new GeneralResponse("0","SECCESS", msg, base64);
     }
 
-    public GeneralResponse fail(String message) {
-        return new GeneralResponse("1", "ERROR",message,"");
+    /*操作成功，无数据*/
+    public static GeneralResponse successNotdatas(String msg) {
+        return new GeneralResponse("0","SECCESS", msg, "");
     }
 
-    public GeneralResponse error(String message) {
-        return new GeneralResponse("999", "ERROR",message,"");
+    /*操作失败*/
+    public static GeneralResponse fail(String msg) {
+        return new GeneralResponse("1", "ERROR",msg,"");
+    }
+
+    /*系统异常*/
+    public static GeneralResponse error(String msg) {
+        return new GeneralResponse("999", "ERROR",msg,"");
     }
 }

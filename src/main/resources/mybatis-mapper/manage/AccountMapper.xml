@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.manage.IAccountMapper">
 
     <sql id="accountResult">
-        id,account,pass,source,tellphone,lrrq,cancellation
+        id,account,password,source,tellphone,DATE_FORMAT(lrrq,'%Y-%m-%d %H:%i:%s') as lrrq,cancellation
     </sql>
     <sql id="conditionalCheck">
         <if test="account != null and account != ''">
@@ -22,18 +22,18 @@
         </if>
     </sql>
 
-    <!--<select id="selectAccountToPage" parameterType="map" resultType="list">
+    <select id="selectAccountToPage" parameterType="map" resultType="map">
         SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 <include refid="conditionalCheck"/> ORDER BY lrrq DESC
-    </select>-->
-    <select id="selectAccountToPage" resultType="map">
-    	SELECT *
-    	FROM biz_user
     </select>
 
 
+
+    <select id="selectAccountToExist" parameterType="com.ral.manages.entity.manage.Account" resultType="int">
+        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account.account}
+    </select>
     <insert id="insertAccount" parameterType="com.ral.manages.entity.manage.Account">
-        INSERT INTO biz_user(id,account,pass,source,tellphone,lrrq,cancellation)
-        VALUES (#{account.id},#{account.account},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation})
+        INSERT INTO biz_user(id,account,password,source,tellphone,lrrq,cancellation)
+        VALUES (#{account.id},#{account.account},#{account.password},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation})
     </insert>
 
     <update id="updateAccount" parameterType="com.ral.manages.entity.manage.Account">

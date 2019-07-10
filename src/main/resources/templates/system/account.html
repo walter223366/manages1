@@ -3,46 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>账号管理</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
-
-    <link rel="shortcut icon" th:href="@{/favicon.ico}" type="image/x-icon" />
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
     <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/base64.min.js}"></script>
     <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
     <script th:src="@{/js/index.js}" type="text/javascript"></script>
-
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 <body>
 <div class="x-body">
 
-    <!--搜索部分-->
+    <!--搜索栏-->
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
             <input class="layui-input" placeholder="请输入账号名" id="account" type="text" autocomplete="off" >
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             <input class="layui-input" placeholder="开始日期" id="starttime">
             <input class="layui-input" placeholder="截止日期" id="endtime">
-            <button class="layui-btn" onclick="account_check()" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn" type="button" onclick="account_check()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
         </form>
     </div>
 
-    <!--操作部分-->
+    <!--操作栏-->
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','./admin-add.html')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon">&#xe640;</i>批量删除</button>
+        <button class="layui-btn layui-btn-normal" onclick="x_admin_show('新增用户','/system/account/add',800,400)"><i class="layui-icon">&#xe654;</i>新增</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
     </xblock>
 
-    <!--数据表列表-->
+    <!--数据栏-->
     <table class="layui-table">
         <!--数据表头-->
         <thead><tr>
@@ -60,19 +50,18 @@
             <td><div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div></td>
             <td>1</td>
             <td>admin</td>
-            <td>18925139194</td>
-            <td>113664000@qq.com</td>
+            <td>12345678901</td>
+            <td>微信</td>
             <td>2017-01-01 11:11:42</td>
             <td>正常</td>
             <td class="td-manage">
-                <a title="编辑" class="layui-btn layui-btn-sm layui-btn-normal" onclick="x_admin_show('编辑','member-edit.html',600,400)" href="javascript:;">编辑</a>
-                <a title="删除" class="layui-btn layui-btn-sm layui-btn-danger" onclick="member_del(this,'要删除的id')" href="javascript:;">删除</a>
+                <a title="编辑" class="layui-btn layui-btn-sm layui-btn-warm" onclick="x_admin_show('编辑','/system/account/update',800,400)" href="javascript:;"><i class="layui-icon">&#xe642;</i>编辑</a>
+                <a title="删除" class="layui-btn layui-btn-sm layui-btn-danger" onclick="member_del(this,'要删除的id')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>
             </td>
-        </tr>
-        </tbody>
+        </tr></tbody>
     </table>
 
-    <!--分页-->
+    <!--分页栏-->
     <div class="page">
         <div>
             <a class="prev" href="">&lt;&lt;</a>
@@ -87,31 +76,52 @@
 </div>
 <script>
 
+    //ajax请求(分页查询)
     function account_check(){
         var account = $("#account").val();
         var tellphone = $("#tellphone").val();
         var starttime = $("#starttime").val();
         var endtime = $("#endtime").val();
-        alert(tellphone);
         $.ajax({
             type:"POST",
-            url:"/account/toPagingQuery",
-            data:{
-                "account":account,"tellphone":tellphone,"starttime":starttime,"endtime":endtime,"pageNum":1,"pageSize":10
-            },
+            url:"/account/toAccountPage",
+            data: JSON.stringify({
+                account:account,tellphone:tellphone,starttime:starttime,endtime:endtime,pageNum:1,pageSize:10
+            }),
             dataType:"JSON",
-            contentType : 'application/json;charset=utf-8',
-            success:function(result){
-                alert(result.code)
+            contentType : 'application/json; charset=utf-8',
+            success:function(data){
+                var code = data.code;
+                var rows = data.rows;
+
+                alert(rows);
                 //请求成功时处理
             },
-            error:function(){
+            error:function(data){
+                alert("123456");
+                alert(data);
                 //请求出错处理
             }
         })
     }
 
-    /*时间*/
+    //分页
+    /*layui.use(['laypage', 'layer'], function() {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+
+        laypage.render({
+            elem: 'demo7'
+            ,count: 100
+            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            ,jump: function(obj){
+                console.log(obj)
+            }
+        });
+    });*/
+
+
+        /*时间*/
     layui.use('laydate', function(){
         var laydate = layui.laydate;
         laydate.render({
@@ -123,23 +133,23 @@
     });
 
     /*用户-删除*/
-    function member_del(obj,id){
+    /*function member_del(obj,id){
         layer.confirm('确认要删除吗？',function(index){
             //发异步删除数据
             $(obj).parents("tr").remove();
             layer.msg('已删除!',{icon:1,time:1000});
         });
-    }
+    }*/
 
     /*批量删除*/
-    function delAll (argument) {
+    /*function delAll (argument) {
         var data = tableCheck.getData();
         layer.confirm('确认要删除吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
             layer.msg('删除成功', {icon: 1});
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
-    }
+    }*/
 </script>
 </body>
 

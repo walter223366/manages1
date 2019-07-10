@@ -10,6 +10,7 @@ public interface IAccountMapper {
     //查询
     List<Map<String,Object>> selectAccountToPage();
     //新增
+    int selectAccountToExist(@Param("account") Account account);
     void insertAccount(@Param("account") Account account);
     //修改
     void updateAccount(@Param("account") Account account);

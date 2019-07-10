@@ -12,7 +12,7 @@ public class Account {
     private String account;//账号
     private String password;//密码
     private int source;//来源
-    private int tellphone;//电话
+    private long tellphone;//电话
     private String lrrq;//创建日期
     private int cancellation;//注销标志
 

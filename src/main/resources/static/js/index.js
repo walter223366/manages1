@@ -1,12 +1,10 @@
 $(function () {
-    //加载弹出层
     layui.use(['form','element'],
     function() {
         layer = layui.layer;
         element = layui.element;
     });
 
-    //触发事件
   var tab = {
         tabAdd: function(title,url,id){
           //新增一个Tab项
@@ -59,8 +57,6 @@ $(function () {
 
     //开启表格多选
     tableCheck.init();
-      
-
     $('.container .left_open i').click(function(event) {
         if($('.left-nav').css('left')=='0px'){
             $('.left-nav').animate({left: '-221px'}, 100);
@@ -120,16 +116,16 @@ $(function () {
         if($(this).children('.sub-menu').length){
             if($(this).hasClass('open')){
                 $(this).removeClass('open');
-                $(this).find('.nav_right').html('&#xe6a7;');
+                $(this).find('.nav_right').html('<i class="layui-icon">&#xe61a;</i>');
                 $(this).children('.sub-menu').stop().slideUp();
                 $(this).siblings().children('.sub-menu').slideUp();
 				
             }else{
                 $(this).addClass('open');
-                $(this).children('a').find('.nav_right').html('&#xe6a6;');
+                $(this).children('a').find('.nav_right').html('<i class="layui-icon">&#xe61a;</i>');
                 $(this).children('.sub-menu').stop().slideDown();
                 $(this).siblings().children('.sub-menu').stop().slideUp();
-                $(this).siblings().find('.nav_right').html('&#xe6a7;');
+                $(this).siblings().find('.nav_right').html('<i class="layui-icon">&#xe61a;</i>');
                 $(this).siblings().removeClass('open');
             }
         }else{
@@ -179,7 +175,7 @@ function x_admin_show(title,url,w,h){
         title=false;
     };
     if (url == null || url == '') {
-        url="404.html";
+        url="/system/404";
     };
     if (w == null || w == '') {
         w=($(window).width()*0.9);

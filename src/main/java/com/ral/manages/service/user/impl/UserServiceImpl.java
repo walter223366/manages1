@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements IUserService , StateTable {
+public class UserServiceImpl implements IUserService {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
@@ -22,7 +22,7 @@ public class UserServiceImpl implements IUserService , StateTable {
     @Override
     public void loadUserInfo(User user) {
         CheckParams.userCheck(user);
-        user.setCancellation(CANCELLATION_ZERO);
+        user.setCancellation(0);
         User resultUser = iUserMapper.selectUserInfo(user);
         if(resultUser == null){
             throw new BizException("登录失败，该账号不存在");
@@ -40,9 +40,10 @@ public class UserServiceImpl implements IUserService , StateTable {
         if(count > 0){
             throw new BizException("注册失败，该账号已存在");
         }
-        user.setCancellation(CANCELLATION_ZERO);
+        user.setCancellation(0);
         user.setId(StringUtil.getUUID());
-        user.setSource(USER_SOURCE);
+        int source = (int) StateTable.USER_SOURCE.getCode();
+        user.setSource(source);
         try{
             iUserMapper.insertUserInfo(user);
         }catch (Exception e){
@@ -63,7 +64,7 @@ public class UserServiceImpl implements IUserService , StateTable {
         if(!pass.equals(user.getPass())){
             throw new BizException("修改失败，该账号密码错误");
         }
-        if(CANCELLATION_ZERO != cancellation){
+        if(0 != cancellation){
             throw new BizException("修改失败，该账号已注销");
         }
         int count = iUserMapper.updateUserInfo(user);
@@ -82,7 +83,7 @@ public class UserServiceImpl implements IUserService , StateTable {
         if(!pass.equals(user.getPass())){
             throw new BizException("注销失败，该账号密码错误");
         }
-        if(CANCELLATION_ZERO != cancellation){
+        if(0 != cancellation){
             throw new BizException("该账号已被注销过");
         }
         int count = iUserMapper.updateUserInfoToCancellation(user);
