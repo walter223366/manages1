@@ -22,7 +22,7 @@
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             <input class="layui-input" placeholder="开始日期" id="starttime">
             <input class="layui-input" placeholder="截止日期" id="endtime">
-            <button class="layui-btn" type="button" onclick="account_check()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn" type="button" onclick="pageQuery()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
         </form>
     </div>
 
@@ -49,9 +49,11 @@
         <!--数据来源-->
         <tbody class="table" id="showAccountData"></tbody>
     </table>
+    <div id="pageInfo">
 
+    </div>
     <!--分页栏-->
-    <div class="page">
+    <!--<div class="page" >
         <div>
             <a class="prev" href="">&lt;&lt;</a>
             <a class="num" href="">1</a>
@@ -60,13 +62,89 @@
             <a class="num" href="">489</a>
             <a class="next" href="">&gt;&gt;</a>
         </div>
-    </div>
+    </div>-->
 
 </div>
 <script>
+    function pageQuery(){
+        $("#showAccountData").empty();
+        //AJAX 查总数
+        var account = $("#account").val();
+        var tellphone = $("#tellphone").val();
+        var starttime = $("#starttime").val();
+        var endtime = $("#endtime").val();
+        $.ajax({
+            type:"POST",
+            url:"/account/toAccountPage",
+            data: JSON.stringify({
+                "account":account,
+                "tellphone":tellphone,
+                "starttime":starttime,
+                "endtime":endtime,
+            }),
+            dataType:"JSON",
+            contentType:"application/json",
+            success:function(data){
+                var rows = $.base64.atob(data.rows,"utf-8");
+                obj = JSON.parse(rows);
+                layui.use('laypage', function(){
+                    var laypage = layui.laypage;
+                    //执行一个laypage实例
+                    laypage.render({
+                        elem: 'pageInfo'
+                        ,count: obj.total
+                        ,limit: 2
+                        ,limits: [10,20,30,50]
+                        ,curr:1
+                        ,groups:5
+                        ,prev: "上一页"
+                        ,next:"下一页"
+                        ,theme:'#15c142'
+                        ,jump:function (obj, first) {
+                            $("#showAccountData").empty();
+                            //同样的条件查数据
+                            obj.curr;
+                            obj.limit;
+                            account;
+                            tellphone;
+                            starttime;
+                            endtime;
+                            $.ajax({
+                                type:"POST",
+                                url:"/account/toAccountPage",
+                                data: JSON.stringify({
+                                    "account":account,
+                                    "tellphone":tellphone,
+                                    "starttime":starttime,
+                                    "endtime":endtime,
+                                    "pageNum":obj.curr,
+                                    "pageSize":obj.limit
+                                }),
+                                dataType:"JSON",
+                                contentType:"application/json",
+                                success:function(data){
+                                    if(data.code == "0" && data.result == "SECCESS"){
+                                        var rows = $.base64.atob(data.rows,"utf-8");
+                                        if(isJSON(rows)){
+                                            showData(rows);
+                                        }
+                                    }else{
+                                        layer.msg(data.msg);
+                                    }
+                                }
+                            })
+                        }
+                    });
+                });
+            }
+        })
+
+    }
+
+
 
     $(function(){
-        account_check();
+        pageQuery();
     });
 
     /**分页条件查询*/
