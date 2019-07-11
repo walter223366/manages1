@@ -47,19 +47,7 @@
             <th>操作</th>
         </thead>
         <!--数据来源-->
-        <tbody><tr>
-            <td><div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div></td>
-            <td>1</td>
-            <td>admin</td>
-            <td>12345678901</td>
-            <td>微信</td>
-            <td>2017-01-01 11:11:42</td>
-            <td>正常</td>
-            <td class="td-manage">
-                <a title="编辑" class="layui-btn layui-btn-sm layui-btn-warm" onclick="x_admin_show('编辑','/system/account/update',800,400)" href="javascript:;"><i class="layui-icon">&#xe642;</i>编辑</a>
-                <a title="删除" class="layui-btn layui-btn-sm layui-btn-danger" onclick="member_del(this,'要删除的id')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>
-            </td>
-        </tr></tbody>
+        <tbody class="table" id="showAccountData"></tbody>
     </table>
 
     <!--分页栏-->
@@ -77,52 +65,99 @@
 </div>
 <script>
 
-    //ajax请求(分页查询)
+    $(function(){
+        account_check();
+    });
+
+    /**分页条件查询*/
     function account_check(){
-        var account = $("#account").val();
-        var tellphone = $("#tellphone").val();
-        var starttime = $("#starttime").val();
-        var endtime = $("#endtime").val();
-        $.ajax({
-            type:"POST",
-            url:"/account/toAccountPage",
-            data: JSON.stringify({
-                account:account,tellphone:tellphone,starttime:starttime,endtime:endtime,pageNum:1,pageSize:10
-            }),
-            dataType:"JSON",
-            contentType : 'application/json; charset=utf-8',
-            success:function(data){
-                var code = data.code;
-                alert(code);
-                var data_row = $.base64.atob(data.rows,"utf-8");
-                alert(data_row);
-                //请求成功时处理
-            },
-            error:function(data){
-                alert("123456");
-                alert(data);
-                //请求出错处理
-            }
+        $("#showAccountData").empty();
+        layui.use(['layer'], function() {
+            var layer = layui.layer;
+            var account = $("#account").val();
+            var tellphone = $("#tellphone").val();
+            var starttime = $("#starttime").val();
+            var endtime = $("#endtime").val();
+            $.ajax({
+                type:"POST",
+                url:"/account/toAccountPage",
+                data: JSON.stringify({
+                    "account":account,
+                    "tellphone":tellphone,
+                    "starttime":starttime,
+                    "endtime":endtime,
+                    "pageNum":1,
+                    "pageSize":10
+                }),
+                dataType:"JSON",
+                contentType:"application/json",
+                success:function(data){
+                    if(data.code == "0" && data.result == "SECCESS"){
+                        var rows = $.base64.atob(data.rows,"utf-8");
+                        if(isJSON(rows)){
+                            showData(rows);
+                        }
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+             })
         })
     }
 
-    //分页
-    /*layui.use(['laypage', 'layer'], function() {
-        var laypage = layui.laypage
-            , layer = layui.layer;
-
-        laypage.render({
-            elem: 'demo7'
-            ,count: 100
-            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-            ,jump: function(obj){
-                console.log(obj)
+    /**数据展示*/
+    function showData(rows){
+        obj = JSON.parse(rows);
+        var total = obj.total;
+        if(total == 0){
+            $("#showAccountData").append("<tr><td>未查询到数据</td></tr>");
+        }else {
+            for (var i = 0; i < obj.datas.length; i++) {
+                $("#showAccountData").append("<tr><td><div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div></td>" +
+                    "<td>" + (i + 1) + "</td>" +
+                    "<td>" + (isNull(obj.datas[i].account)) + "</td>" +
+                    "<td>" + (isNull(obj.datas[i].tellphone)) + "</td>" +
+                    "<td>" + (isNull(obj.datas[i].source)) + "</td>" +
+                    "<td>" + (isNull(obj.datas[i].lrrq)) + "</td>" +
+                    "<td>" + (isNull(obj.datas[i].cancellation)) + "</td>" +
+                    "<td class=\"td-manage\">" +
+                    "<a title=\"编辑\" class=\"layui-btn layui-btn-sm layui-btn-warm\" onclick=\"x_admin_show('编辑','/system/account/update',800,400)\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</a>" +
+                    "<a title=\"删除\" class=\"layui-btn layui-btn-sm layui-btn-danger\" onclick=\"member_del(this,'要删除的id')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe640;</i>删除</a>" +
+                    "</td></tr>");
             }
-        });
-    });*/
+        }
+    }
+
+    /**判断json格式*/
+    function isJSON(str){
+        try{
+            JSON.parse(str);
+            return true;
+        }catch (e) {
+            return false;
+        }
+    }
+
+    /**判断字符串*/
+    function isNull(str){
+        if(str == null || str == ""){
+            return "-";
+        }else{
+            return str;
+        }
+    }
+
+    /**分页*/
 
 
-        /*时间*/
+    function ajax_page() {
+        layui.use(['laypage', 'layer'], function() {
+
+        })
+    }
+
+
+    /*时间*/
     layui.use('laydate', function(){
         var laydate = layui.laydate;
         laydate.render({

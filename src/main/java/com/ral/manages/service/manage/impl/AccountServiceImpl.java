@@ -26,6 +26,7 @@ public class AccountServiceImpl implements IAccountService {
     @Autowired
     private IAccountMapper iAccountMapper;
 
+    /**分页查询*/
     @Override
     public GeneralResponse toPagingQueryAtAccount(Map<String,Object> map) {
         GeneralResponse generalResponse = new GeneralResponse();
@@ -35,14 +36,19 @@ public class AccountServiceImpl implements IAccountService {
         pageSize = (pageSize==0?10:pageSize);
         Page<Map<String,Object>> page = PageHelper.startPage(pageNum,pageSize);
         List<Map<String,Object>> accountList = iAccountMapper.selectAccountToPage();
-        System.out.println("总共条数："+page.getTotal());
+        for(Map<String,Object> accountMap : accountList){
+            int source = SetUtil.toMapValueInt(accountMap,"source");
+            accountMap.put("source",source==1?"微信":"其他");
+            int cancellation = SetUtil.toMapValueInt(accountMap,"cancellation");
+            accountMap.put("cancellation",cancellation==1?"注销":"正常");
+        }
         Map<String,Object> result = new HashMap<>();
         result.put("datas",accountList);
         result.put("total",page.getTotal());
-        generalResponse = generalResponse.success("操作成功",result);
-        return generalResponse;
+        return generalResponse.success("操作成功",result);
     }
 
+    /**新增*/
     @Override
     public GeneralResponse toAddAtAccount(Account account) {
         int count = iAccountMapper.selectAccountToExist(account);

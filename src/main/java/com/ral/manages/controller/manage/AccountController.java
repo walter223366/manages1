@@ -22,18 +22,19 @@ public class AccountController {
     @Autowired
     private IAccountService iAccountService;
 
+    /**分页查询*/
     @RequestMapping("/toAccountPage")
     public Object toAccountPage(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数：" + map);
         System.out.println(map);
         try{
-            GeneralResponse generalResponse = iAccountService.toPagingQueryAtAccount(map);
-            System.out.println(generalResponse);
-            return generalResponse;
+            return iAccountService.toPagingQueryAtAccount(map);
         }catch (Exception e){
             return GeneralResponse.error("系统错误"+e.getMessage());
         }
     }
 
+    /**新增*/
     @RequestMapping("toAccountAdd")
     public Object toAccountAdd(Account account){
         try{
