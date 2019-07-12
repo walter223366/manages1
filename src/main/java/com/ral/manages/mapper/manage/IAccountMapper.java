@@ -8,7 +8,7 @@ import java.util.Map;
 public interface IAccountMapper {
 
     //查询
-    List<Map<String,Object>> selectAccountToPage();
+    List<Map<String,Object>> selectAccountPagingQuery(Map<String,Object> map);
     //新增
     int selectAccountToExist(@Param("account") Account account);
     void insertAccount(@Param("account") Account account);

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
 @RestController
@@ -23,26 +22,62 @@ public class AccountController {
     private IAccountService iAccountService;
 
     /**分页查询*/
-    @RequestMapping("/toAccountPage")
-    public Object toAccountPage(@RequestBody Map<String,Object> map){
-        LOG.info("请求参数：" + map);
-        System.out.println(map);
+    @RequestMapping("/pagingQuery")
+    public Object pagingQuery(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        GeneralResponse generalResponse = new GeneralResponse();
         try{
-            return iAccountService.toPagingQueryAtAccount(map);
+            generalResponse = iAccountService.pagingQuery(map);
+            LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            return GeneralResponse.error("系统错误"+e.getMessage());
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
         }
+        return generalResponse;
     }
 
     /**新增*/
-    @RequestMapping("toAccountAdd")
-    public Object toAccountAdd(Account account){
+    @RequestMapping("accountAdd")
+    public Object accountAdd(Account account){
+        LOG.info("请求参数:" + account);
+        GeneralResponse generalResponse = new GeneralResponse();
         try{
-            GeneralResponse generalResponse = iAccountService.toAddAtAccount(account);
-            System.out.println(generalResponse);
-            return generalResponse;
+            generalResponse = iAccountService.accountAdd(account);
+            LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            return GeneralResponse.error("系统错误"+e.getMessage());
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
         }
+        return generalResponse;
+    }
+
+    /**修改*/
+    @RequestMapping("accountUpdate")
+    public Object accountUpdate(Account account){
+        LOG.info("请求参数:" + account);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iAccountService.accountUpdate(account);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**删除*/
+    @RequestMapping("accountDelete")
+    public Object accountDelete(Account account){
+        LOG.info("请求参数:" + account);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iAccountService.accountDelete(account);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
     }
 }

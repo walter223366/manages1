@@ -25,4 +25,7 @@ public class JumpController {
 
     @RequestMapping("/school")
     public String jumpSchool(){ return "/system/school.html"; }
+
+    @RequestMapping("/school/add")
+    public String jumpSchoolAdd(){ return "/system/school-add.html"; }
 }

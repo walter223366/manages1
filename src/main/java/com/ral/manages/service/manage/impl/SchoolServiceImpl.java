@@ -3,7 +3,6 @@ package com.ral.manages.service.manage.impl;
 import com.ral.manages.entity.manage.School;
 import com.ral.manages.mapper.manage.ISchoolMapper;
 import com.ral.manages.service.manage.ISchoolService;
-import com.ral.manages.util.page.PageBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ public class SchoolServiceImpl implements ISchoolService {
     private ISchoolMapper iSchoolMapper;
 
     @Override
-    public PageBean<?> pageCheckSchoolInfo(School school) {
+    public String pageCheckSchoolInfo(School school) {
 
         return null;
     }

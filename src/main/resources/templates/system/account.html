@@ -22,7 +22,7 @@
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             <input class="layui-input" placeholder="开始日期" id="starttime">
             <input class="layui-input" placeholder="截止日期" id="endtime">
-            <button class="layui-btn" type="button" onclick="pageQuery()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn" type="button" onclick="pagingQuery()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
         </form>
     </div>
 
@@ -30,7 +30,6 @@
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon">&#xe640;</i>批量删除</button>
         <button class="layui-btn layui-btn-normal" onclick="x_admin_show('新增用户','/system/account/add',800,400)"><i class="layui-icon">&#xe654;</i>新增</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
     </xblock>
 
     <!--数据栏-->
@@ -49,162 +48,136 @@
         <!--数据来源-->
         <tbody class="table" id="showAccountData"></tbody>
     </table>
-    <div id="pageInfo">
 
-    </div>
     <!--分页栏-->
-    <!--<div class="page" >
-        <div>
-            <a class="prev" href="">&lt;&lt;</a>
-            <a class="num" href="">1</a>
-            <span class="current">2</span>
-            <a class="num" href="">3</a>
-            <a class="num" href="">489</a>
-            <a class="next" href="">&gt;&gt;</a>
-        </div>
-    </div>-->
+    <div class="page" id="pageInfo"></div>
 
 </div>
 <script>
-    function pageQuery(){
+
+    /**初始化*/
+    $(function(){
+        pagingQuery();
+    });
+
+    /**分页查询*/
+    function pagingQuery(){
         $("#showAccountData").empty();
-        //AJAX 查总数
         var account = $("#account").val();
         var tellphone = $("#tellphone").val();
         var starttime = $("#starttime").val();
         var endtime = $("#endtime").val();
         $.ajax({
             type:"POST",
-            url:"/account/toAccountPage",
+            url:"/account/pagingQuery",
             data: JSON.stringify({
                 "account":account,
                 "tellphone":tellphone,
                 "starttime":starttime,
-                "endtime":endtime,
+                "endtime":endtime
             }),
             dataType:"JSON",
             contentType:"application/json",
             success:function(data){
-                var rows = $.base64.atob(data.rows,"utf-8");
-                obj = JSON.parse(rows);
-                layui.use('laypage', function(){
-                    var laypage = layui.laypage;
-                    //执行一个laypage实例
-                    laypage.render({
-                        elem: 'pageInfo'
-                        ,count: obj.total
-                        ,limit: 2
-                        ,limits: [10,20,30,50]
-                        ,curr:1
-                        ,groups:5
-                        ,prev: "上一页"
-                        ,next:"下一页"
-                        ,theme:'#15c142'
-                        ,jump:function (obj, first) {
-                            $("#showAccountData").empty();
-                            //同样的条件查数据
-                            obj.curr;
-                            obj.limit;
-                            account;
-                            tellphone;
-                            starttime;
-                            endtime;
-                            $.ajax({
-                                type:"POST",
-                                url:"/account/toAccountPage",
-                                data: JSON.stringify({
-                                    "account":account,
-                                    "tellphone":tellphone,
-                                    "starttime":starttime,
-                                    "endtime":endtime,
-                                    "pageNum":obj.curr,
-                                    "pageSize":obj.limit
-                                }),
-                                dataType:"JSON",
-                                contentType:"application/json",
-                                success:function(data){
-                                    if(data.code == "0" && data.result == "SECCESS"){
-                                        var rows = $.base64.atob(data.rows,"utf-8");
-                                        if(isJSON(rows)){
-                                            showData(rows);
-                                        }
-                                    }else{
-                                        layer.msg(data.msg);
-                                    }
-                                }
-                            })
-                        }
-                    });
-                });
+                if(data.code == "0" && data.result == "SECCESS"){
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if(isJSON(rows)){
+                        obj = JSON.parse(rows);
+                        pagePlugin(obj,account,tellphone,starttime,endtime);
+                    }
+                }else{
+                    layer.msg(data.msg);
+                }
             }
         })
-
     }
 
-
-
-    $(function(){
-        pageQuery();
-    });
-
-    /**分页条件查询*/
-    function account_check(){
-        $("#showAccountData").empty();
-        layui.use(['layer'], function() {
-            var layer = layui.layer;
-            var account = $("#account").val();
-            var tellphone = $("#tellphone").val();
-            var starttime = $("#starttime").val();
-            var endtime = $("#endtime").val();
-            $.ajax({
-                type:"POST",
-                url:"/account/toAccountPage",
-                data: JSON.stringify({
-                    "account":account,
-                    "tellphone":tellphone,
-                    "starttime":starttime,
-                    "endtime":endtime,
-                    "pageNum":1,
-                    "pageSize":10
-                }),
-                dataType:"JSON",
-                contentType:"application/json",
-                success:function(data){
-                    if(data.code == "0" && data.result == "SECCESS"){
-                        var rows = $.base64.atob(data.rows,"utf-8");
-                        if(isJSON(rows)){
-                            showData(rows);
+    /**分页插件*/
+    function pagePlugin(obj,account,tellphone,starttime,endtime){
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            laypage.render({
+                elem: 'pageInfo'
+                ,count: obj.total
+                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                ,theme: '#15c142'
+                ,jump:function (obj) {
+                    $("#showAccountData").empty();
+                    $.ajax({
+                        type:"POST",
+                        url:"/account/pagingQuery",
+                        data: JSON.stringify({
+                            "account":account,
+                            "tellphone":tellphone,
+                            "starttime":starttime,
+                            "endtime":endtime,
+                            "pageNum":obj.curr,
+                            "pageSize":obj.limit
+                        }),
+                        dataType:"JSON",
+                        contentType:"application/json",
+                        success:function(data){
+                            if(data.code == "0" && data.result == "SECCESS"){
+                                var rows = $.base64.atob(data.rows,"utf-8");
+                                if(isJSON(rows)){
+                                    obj = JSON.parse(rows);
+                                    showData(obj);
+                                }
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error:function () {
+                            layer.alert("数据加载超时，请求重试！");
                         }
-                    }else{
-                        layer.msg(data.msg);
-                    }
+                    })
                 }
-             })
-        })
+            });
+        });
     }
 
     /**数据展示*/
-    function showData(rows){
-        obj = JSON.parse(rows);
+    function showData(obj){
         var total = obj.total;
+        var data = "";
         if(total == 0){
-            $("#showAccountData").append("<tr><td>未查询到数据</td></tr>");
+            data = "<tr><td colspan='14' style='text-align:center;'>未查询到数据</td></tr>";
         }else {
-            for (var i = 0; i < obj.datas.length; i++) {
-                $("#showAccountData").append("<tr><td><div class=\"layui-unselect layui-form-checkbox\" lay-skin=\"primary\" data-id='2'><i class=\"layui-icon\">&#xe605;</i></div></td>" +
-                    "<td>" + (i + 1) + "</td>" +
-                    "<td>" + (isNull(obj.datas[i].account)) + "</td>" +
-                    "<td>" + (isNull(obj.datas[i].tellphone)) + "</td>" +
-                    "<td>" + (isNull(obj.datas[i].source)) + "</td>" +
-                    "<td>" + (isNull(obj.datas[i].lrrq)) + "</td>" +
-                    "<td>" + (isNull(obj.datas[i].cancellation)) + "</td>" +
-                    "<td class=\"td-manage\">" +
-                    "<a title=\"编辑\" class=\"layui-btn layui-btn-sm layui-btn-warm\" onclick=\"x_admin_show('编辑','/system/account/update',800,400)\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe642;</i>编辑</a>" +
-                    "<a title=\"删除\" class=\"layui-btn layui-btn-sm layui-btn-danger\" onclick=\"member_del(this,'要删除的id')\" href=\"javascript:;\"><i class=\"layui-icon\">&#xe640;</i>删除</a>" +
-                    "</td></tr>");
-            }
+            $.each(obj.datas,function (i,n) {
+                data = data+"<tr>";
+                data = data+"<td><div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
+                data = data+"<td>"+(i+1)+"</td>";
+                data = data+"<td>"+(isNull(n.account))+"</td>";
+                data = data+"<td>"+(isNull(n.tellphone))+"</td>";
+                data = data+"<td>"+(isNull(n.source))+"</td>";
+                data = data+"<td>"+(isNull(n.lrrq))+"</td>";
+                data = data+"<td>"+(isNull(n.cancellation))+"</td>";
+                data = data+"<td class='td-manage'>";
+                data = data+"<a title='编辑' onclick=\"x_admin_show('编辑','/system/account/update',800,400)\" href='javascript:;' class='layui-btn layui-btn-sm layui-btn-warm'><i class='layui-icon'>&#xe642;</i>编辑</a>";
+                data = data+"<a title='删除' onclick=\"deleteData(this)\" class='layui-btn layui-btn-sm layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</a>";
+                data = data+"</td></tr>";
+            });
+            $("#showAccountData").html(data);
         }
     }
+
+    /**删除*/
+    function deleteData(obj){
+        var trData = $("#showAccountData tr");
+        codeId = $(trData).text();
+        alert(trData);
+        alert(codeId);
+    }
+
+    /**批量删除*/
+    /*function delAll (argument) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要删除吗？'+data,function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }*/
 
     /**判断json格式*/
     function isJSON(str){
@@ -225,17 +198,7 @@
         }
     }
 
-    /**分页*/
-
-
-    function ajax_page() {
-        layui.use(['laypage', 'layer'], function() {
-
-        })
-    }
-
-
-    /*时间*/
+    /**时间控件*/
     layui.use('laydate', function(){
         var laydate = layui.laydate;
         laydate.render({
@@ -244,27 +207,7 @@
         laydate.render({
             elem: '#endtime'
         });
-    });
-
-    /*用户-删除*/
-    /*function member_del(obj,id){
-        layer.confirm('确认要删除吗？',function(index){
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!',{icon:1,time:1000});
-        });
-    }*/
-
-    /*批量删除*/
-    /*function delAll (argument) {
-        var data = tableCheck.getData();
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-    }*/
+    })
 </script>
 </body>
-
 </html>

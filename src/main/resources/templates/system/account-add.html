@@ -19,7 +19,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="account" name="account" autocomplete="off" class="layui-input">
+                <input type="text" id="account" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux" id="errorAccount"></div>
         </div>
@@ -27,63 +27,54 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
             <div class="layui-input-inline">
-                <input type="number" id="tellphone" name="phone" required lay-verify="phone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <input type="number" id="tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             </div>
+            <div class="layui-form-mid layui-word-aux" id="errorTellphone"></div>
         </div>
 
         <div class="layui-form-item">
-            <label for="password" class="layui-form-label"><span class="x-red">*</span>密码</label>
+            <label class="layui-form-label"><span class="x-red">*</span>密码</label>
             <div class="layui-input-inline">
-                <input type="password" id="password" name="pass" required lay-verify="pass" autocomplete="off" class="layui-input"></div>
+                <input type="password" id="spassword" autocomplete="off" class="layui-input"></div>
             <div class="layui-form-mid layui-word-aux">由6到16个字符组成</div>
         </div>
 
         <div class="layui-form-item">
-            <label for="re_password" class="layui-form-label"><span class="x-red">*</span>确认密码</label>
+            <label class="layui-form-label"><span class="x-red">*</span>确认密码</label>
             <div class="layui-input-inline">
-                <input type="password" id="re_password" name="repass" required lay-verify="repass" autocomplete="off" class="layui-input">
+                <input type="password" id="epassword" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="source" class="layui-form-label"><span class="x-red">*</span>来源</label>
+            <label class="layui-form-label"><span class="x-red">*</span>来源</label>
             <div class="layui-input-inline">
-                <input type="text" id="source" name="source" autocomplete="off" class="layui-input">
+                <input type="text" id="source" autocomplete="off" class="layui-input">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label for="re_password" class="layui-form-label"></label>
+            <label for="epassword" class="layui-form-label"></label>
             <button class="layui-btn" lay-filter="add" lay-submit="" type="button" onclick="account_add()">新增</button>
-            <button class="layui-btn layui-btn-primary" type="button" onclick="">重置</button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="account_reset()">重置</button>
         </div>
     </form>
 </div>
 <script>
 
-    /**新增请求*/
+    /**新增*/
     function account_add(){
         $("#errorAccount").empty();
+        $("#errorTellphone").empty();
         var account = $("#account").val();
         var tellphone = $("#tellphone").val();
-        var password = $("#password").val();
-        var repassword = $("#re_password").val();
+        var password = $("#spassword").val();
+        var repassword = $("#epassword").val();
         var source = $("#source").val();
-        if(account==null || account==""){
-            layui.alert("账号名不能为空");
-            //$("#errorAccount").append("<p class='color:red'>账号名不能为空</p>");
-            return;
-        }else{
-            if(account.length <=6 && account.length >= 12){
-                $("#errorAccount").append("<p class='color:red'>账号名由6至12位字符组成</p>");
-                return;
-            }
-        }
-
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/account/toAccountAdd",
+            url: "/account/accountAdd",
             data: {
                 account: account,
                 tellphone: Number(tellphone),
@@ -92,52 +83,22 @@
             },
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
-                    layer.alert(data.msg);
+                    layer.msg(data.msg);
                 }else{
-                    layer.alert(data.msg);
+                    layer.msg(data.msg);
                 }
             }
         })
     }
 
-
-
-   /* window.a = layui.use(['form','layer'], function(){
-        $ = layui.jquery;
-        var form = layui.form
-            ,layer = layui.layer;
-        //校验
-        form.verify({
-            required: function(value){
-                if(value.length < 6){
-                    return '账号名称至少得6个字符';
-                }
-            },
-            phone: function(value){
-                if(value != null || value != ""){
-                    if(value.length != 11){
-                        return '手机号码由11个数字组成';
-                    }
-                }
-            },
-            pass: [/(.+){6,12}$/, '密码必须6到12位字符组成'],
-            repass: function(value){
-                if($('#password').val()!=$('#re_password').val()){
-                    return '两次密码不一致';
-                }
-            }
-        });
-
-        //监听提交
-        /!*form.on('submit(add)', function(data){
-            console.log(data);
-            layer.alert("增加成功", {icon: 6},function () {
-                var index = parent.layer.getFrameIndex(window.name);
-                parent.layer.close(index);
-            });
-            return false;
-        });*!/
-    });*/
+    /**重置*/
+    function account_reset(){
+        document.getElementById("account").value = '';
+        document.getElementById("tellphone").value = '';
+        document.getElementById("spassword").value = '';
+        document.getElementById("epassword").value = '';
+        document.getElementById("source").value = '';
+    }
 </script>
 </body>
 </html>

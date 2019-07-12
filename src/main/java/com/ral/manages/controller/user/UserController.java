@@ -1,9 +1,8 @@
+/*
 package com.ral.manages.controller.user;
 
 import com.ral.manages.emun.CloudResponseCode;
 import com.ral.manages.entity.user.User;
-import com.ral.manages.exception.BizException;
-import com.ral.manages.exception.CloudResponse;
 import com.ral.manages.service.user.IUserService;
 import com.ral.manages.util.Base64Util;
 import net.sf.json.JSONObject;
@@ -23,7 +22,9 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    /**用户登录*/
+    */
+/**用户登录*//*
+
     @RequestMapping("/userLoad")
     public Object userLoad(User user) {
         LOG.info("userLoad method -> 参数：" + user);
@@ -46,7 +47,9 @@ public class UserController {
         return cloudResponse;
     }
 
-    /**用户新增*/
+    */
+/**用户新增*//*
+
     @RequestMapping("/newUser")
     public Object newUser(User user){
         LOG.info("newUser method -> 参数：" + user);
@@ -67,7 +70,9 @@ public class UserController {
         return cloudResponse;
     }
 
-    /**用户修改*/
+    */
+/**用户修改*//*
+
     @RequestMapping("/alterUser")
     public Object alterUser(User user){
         LOG.info("alterUser method -> 参数：" + user);
@@ -90,7 +95,9 @@ public class UserController {
         return cloudResponse;
     }
 
-    /**用户注销*/
+    */
+/**用户注销*//*
+
     @RequestMapping("/cancetUser")
     public Object cancetUser(User user){
         LOG.info("cancetUser method -> 参数：" + user);
@@ -113,3 +120,4 @@ public class UserController {
         return cloudResponse;
     }
 }
+*/

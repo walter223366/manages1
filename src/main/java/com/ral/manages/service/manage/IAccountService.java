@@ -7,9 +7,12 @@ import java.util.Map;
 public interface IAccountService {
 
     //查询
-    GeneralResponse toPagingQueryAtAccount(Map<String,Object> map);
-
+    GeneralResponse pagingQuery(Map<String,Object> map);
     //新增
-    GeneralResponse toAddAtAccount(Account account);
+    GeneralResponse accountAdd(Account account);
+    //修改
+    GeneralResponse accountUpdate(Account account);
+    //删除
+    GeneralResponse accountDelete(Account account);
 
 }

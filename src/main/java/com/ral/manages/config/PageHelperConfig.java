@@ -1,4 +1,3 @@
-/*
 package com.ral.manages.config;
 
 import com.github.pagehelper.PageHelper;
@@ -21,4 +20,4 @@ public class PageHelperConfig {
         return pageHelper;
     }
 }
-*/
+
