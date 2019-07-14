@@ -11,6 +11,7 @@
     <script th:src="@{/js/base64.js}"></script>
     <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
     <script th:src="@{/js/index.js}" type="text/javascript"></script>
+    <script th:src="@{/js/system/account.js}" type="text/javascript"></script>
 </head>
 <body>
 <div class="x-body">
@@ -22,14 +23,15 @@
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             <input class="layui-input" placeholder="开始日期" id="starttime">
             <input class="layui-input" placeholder="截止日期" id="endtime">
-            <button class="layui-btn" type="button" onclick="pagingQuery()" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn" type="button" onclick="pagingQuery()"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="account_empty()"><i class="layui-icon">&#xe640;</i>清空条件</button>
         </form>
     </div>
 
     <!--操作栏-->
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon">&#xe640;</i>批量删除</button>
-        <button class="layui-btn layui-btn-normal" onclick="x_admin_show('新增用户','/system/account/add',800,400)"><i class="layui-icon">&#xe654;</i>新增</button>
+        <button class="layui-btn layui-btn-normal" onclick="x_admin_show('新增用户','.x-body',800,400)"><i class="layui-icon">&#xe654;</i>新增</button>
     </xblock>
 
     <!--数据栏-->
@@ -51,6 +53,56 @@
 
     <!--分页栏-->
     <div class="page" id="pageInfo"></div>
+
+
+    <!--新增-->
+    <div class="x-body" hidden>
+        <form class="layui-form">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_account" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="errorAccount"></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="add_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="errorTellphone"></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="add_spassword" autocomplete="off" class="layui-input"></div>
+                <div class="layui-form-mid layui-word-aux">由6到16个字符组成</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>确认密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="add_epassword" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>来源</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_source" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="add_epassword" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" onclick="account_add()">新增</button>
+                <button class="layui-btn layui-btn-primary" type="button" onclick="account_reset()">重置</button>
+            </div>
+        </form>
+    </div>
 
 </div>
 <script>
@@ -141,7 +193,7 @@
         var total = obj.total;
         var data = "";
         if(total == 0){
-            data = "<tr><td colspan='14' style='text-align:center;'>未查询到数据</td></tr>";
+            data = "<tr><td colspan='8' style='text-align:center;'>未查询到数据</td></tr>";
         }else {
             $.each(obj.datas,function (i,n) {
                 data = data+"<tr>";
@@ -153,21 +205,84 @@
                 data = data+"<td>"+(isNull(n.lrrq))+"</td>";
                 data = data+"<td>"+(isNull(n.cancellation))+"</td>";
                 data = data+"<td class='td-manage'>";
-                data = data+"<a title='编辑' onclick=\"x_admin_show('编辑','/system/account/update',800,400)\" href='javascript:;' class='layui-btn layui-btn-sm layui-btn-warm'><i class='layui-icon'>&#xe642;</i>编辑</a>";
-                data = data+"<a title='删除' onclick=\"deleteData(this)\" class='layui-btn layui-btn-sm layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</a>";
+                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' onclick=\"x_admin_show('编辑','/system/account/update',800,400)\" href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
+                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon'>&#xe640;</i>删除</a>";
                 data = data+"</td></tr>";
             });
-            $("#showAccountData").html(data);
         }
+        $("#showAccountData").html(data);
     }
 
     /**删除*/
-    function deleteData(obj){
+    $('#showAccountData').on('click','.del',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        var obj = JSON.parse(str);
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/account/accountDelete",
+            data: {account:obj.account},
+            success: function (data) {
+                if(data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg);
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    });
+
+    $('#seeqd').click(function() {
+        //切换
+        if($(this).html() == "查看清单明细") {
+            $('#viewfp2').show();
+            $('#viewfp1').hide();
+            $(this).html("查看发票明细")
+        }
+    })
+
+    /*弹出层*/
+    /*
+        参数解释：
+        title   标题
+        url     请求的url
+        id      需要操作的数据id
+        w       弹出层宽度（缺省调默认值）
+        h       弹出层高度（缺省调默认值）
+    */
+    function x_admin_show(title,url,w,h){
+        if (title == null || title == '') {
+            title=false;
+        };
+        if (url == null || url == '') {
+            url="/system/404";
+        };
+        if (w == null || w == '') {
+            w=($(window).width()*0.9);
+        };
+        if (h == null || h == '') {
+            h=($(window).height() - 50);
+        };
+        layer.open({
+            type: 2,
+            area: [w+'px', h +'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: title,
+            content: url
+        });
+    }
+
+    /*function deleteData(obj){
+        alert(obj);
         var trData = $("#showAccountData tr");
         codeId = $(trData).text();
         alert(trData);
         alert(codeId);
-    }
+    }*/
 
     /**批量删除*/
     /*function delAll (argument) {
@@ -178,6 +293,14 @@
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
     }*/
+
+    /**清空条件*/
+    function account_empty(){
+        document.getElementById("account").value = '';
+        document.getElementById("tellphone").value = '';
+        document.getElementById("starttime").value = '';
+        document.getElementById("endtime").value = '';
+    }
 
     /**判断json格式*/
     function isJSON(str){

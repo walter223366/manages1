@@ -52,7 +52,7 @@ public class AccountServiceImpl implements IAccountService {
     /**新增*/
     @Override
     public GeneralResponse accountAdd(Account account) {
-        String msg = VerificationParams.verification_Account(account);
+        String msg = VerificationParams.verificationAccount(account);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
@@ -96,7 +96,7 @@ public class AccountServiceImpl implements IAccountService {
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该账号不存在");
         }
-        int cancellation = (int) StateTable.CANCELLATION_ZERO.getCode();
+        int cancellation = (int) StateTable.CANCELLATION_ONE.getCode();
         account.setCancellation(cancellation);
         try{
             iAccountMapper.deleteAccount(account);
