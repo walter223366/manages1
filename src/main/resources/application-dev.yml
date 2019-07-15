@@ -13,8 +13,8 @@ spring:
       prefix: /
   devtools:
     restart:
-      enabled: true
-      additional-exclude: WEB-INF/**
+      trigger-file: trigger.txt
+      exclude: static/**
   resources:
     static-locations: classpath:/static/
   datasource:

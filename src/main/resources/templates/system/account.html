@@ -23,15 +23,15 @@
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             <input class="layui-input" placeholder="开始日期" id="starttime">
             <input class="layui-input" placeholder="截止日期" id="endtime">
-            <button class="layui-btn" type="button" onclick="pagingQuery()"><i class="layui-icon">&#xe615;</i>查询</button>
-            <button class="layui-btn layui-btn-primary" type="button" onclick="account_empty()"><i class="layui-icon">&#xe640;</i>清空条件</button>
+            <button class="layui-btn" id="pagingQueryId" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn layui-btn-primary" id="emptyId" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
         </form>
     </div>
 
     <!--操作栏-->
     <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon">&#xe640;</i>批量删除</button>
-        <button class="layui-btn layui-btn-normal" onclick="x_admin_show('新增用户','.x-body',800,400)"><i class="layui-icon">&#xe654;</i>新增</button>
+        <button class="layui-btn layui-btn-danger" id="bacthDeleteId"><i class="layui-icon">&#xe640;</i>批量删除</button>
+        <button class="layui-btn layui-btn-normal" id="addInfoId"><i class="layui-icon">&#xe654;</i>新增</button>
     </xblock>
 
     <!--数据栏-->
@@ -54,9 +54,8 @@
     <!--分页栏-->
     <div class="page" id="pageInfo"></div>
 
-
-    <!--新增-->
-    <div class="x-body" hidden>
+    <!--新增用户-->
+    <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form">
 
             <div class="layui-form-item">
@@ -99,16 +98,19 @@
             <div class="layui-form-item">
                 <label for="add_epassword" class="layui-form-label"></label>
                 <button class="layui-btn" lay-filter="add" lay-submit="" type="button" onclick="account_add()">新增</button>
-                <button class="layui-btn layui-btn-primary" type="button" onclick="account_reset()">重置</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="resetId">重置</button>
             </div>
         </form>
     </div>
-
 </div>
 <script>
 
     /**初始化*/
     $(function(){
+        pagingQuery();
+    });
+
+    $("#pagingQueryId").click(function () {
         pagingQuery();
     });
 
@@ -205,7 +207,7 @@
                 data = data+"<td>"+(isNull(n.lrrq))+"</td>";
                 data = data+"<td>"+(isNull(n.cancellation))+"</td>";
                 data = data+"<td class='td-manage'>";
-                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' onclick=\"x_admin_show('编辑','/system/account/update',800,400)\" href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
+                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
                 data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon'>&#xe640;</i>删除</a>";
                 data = data+"</td></tr>";
             });
@@ -233,24 +235,66 @@
         });
     });
 
-    $('#seeqd').click(function() {
-        //切换
-        if($(this).html() == "查看清单明细") {
-            $('#viewfp2').show();
-            $('#viewfp1').hide();
-            $(this).html("查看发票明细")
-        }
-    })
+    $("#showAccountData").on('click','.edit',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        var obj = JSON.parse(str);
+        str = "<div class='x-body site-demo-button' id='addInfo'>\n" +
+            "        <form class='layui-form'>\n" +
+            "\n" +
+            "            <div class='layui-form-item'>\n" +
+            "                <label class='layui-form-label'>账号名称</label>\n" +
+            "                <div class='layui-input-inline'>\n" +
+            "                    <input type='text' id='update_account' value='"+obj.account+"' class='layui-input'>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <div class='layui-form-item'>\n" +
+            "                <label class='layui-form-label'>手机号码</label>\n" +
+            "                <div class='layui-input-inline'>\n" +
+            "                    <input type='number' id='update_tellphone' value='"+obj.tellphone+"' class='layui-input' onkeypress=\"return (/[\\d]/.test(String.fromCharCode(event.keyCode)))\">\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <div class='layui-form-item'>\n" +
+            "                <label class='layui-form-label'>创建时间</label>\n" +
+            "                <div class='layui-input-inline'>\n" +
+            "                    <input type='text' id='update_lrrq' value='"+obj.lrrq+"' class='layui-input'></div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <div class='layui-form-item'>\n" +
+            "                <label class='layui-form-label'>来源</label>\n" +
+            "                <div class='layui-input-inline'>\n" +
+            "                    <input type='text' id='update_source' value='"+obj.source+"' class='layui-input'>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <div class='layui-form-item'>\n" +
+            "                <label class='layui-form-label'>注销状态</label>\n" +
+            "                <div class='layui-input-inline'>\n" +
+            "                    <input type='text' id='update_cancellation' value='"+obj.cancellation+"' class='layui-input'>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <div class='layui-form-item'>\n" +
+            "               <label for='update_cancellation' class='ayui-form-label'></label>\n" +
+            "                <button class='layui-btn' type='button' lay-filter='update' lay-submit='' onclick='account_add()'>更新</button>\n" +
+            "                <button class='layui-btn layui-btn-primary' type='button' onclick='account_reset()'>重置</button>\n" +
+            "            </div>\n" +
+            "        </form>\n" +
+            "    </div>";
+        layer.open({
+            type: 1,
+            area: [800+'px', 400 +'px'],
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            shade:0.4,
+            title: "编辑",
+            content: str
+        });
 
-    /*弹出层*/
-    /*
-        参数解释：
-        title   标题
-        url     请求的url
-        id      需要操作的数据id
-        w       弹出层宽度（缺省调默认值）
-        h       弹出层高度（缺省调默认值）
-    */
+    });
+
+    /**弹出层*/
     function x_admin_show(title,url,w,h){
         if (title == null || title == '') {
             title=false;
@@ -271,36 +315,82 @@
             maxmin: true,
             shadeClose: true,
             shade:0.4,
-            title: title,
+            title: "新增用户",
             content: url
         });
     }
 
-    /*function deleteData(obj){
-        alert(obj);
-        var trData = $("#showAccountData tr");
-        codeId = $(trData).text();
-        alert(trData);
-        alert(codeId);
-    }*/
+    /**弹出层（新增）*/
+    $("#addInfoId").click(function () {
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "新增用户",
+            content: $("#addInfo"),
+            yes:function() {
+                $("#addInfo").hide();
+            },
+            cancel:function (index) {
+                $("#addInfo").hide();
 
-    /**批量删除*/
-    /*function delAll (argument) {
-        var data = tableCheck.getData();
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            }
         });
-    }*/
+    });
+
+    /**新增*/
+    function account_add(){
+        $("#errorAccount").empty();
+        $("#errorTellphone").empty();
+        var account = $("#add_account").val();
+        var tellphone = $("#add_tellphone").val();
+        var password = $("#add_spassword").val();
+        var repassword = $("#add_epassword").val();
+        var source = $("#add_source").val();
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/account/accountAdd",
+            data: {
+                account: account,
+                tellphone: Number(tellphone),
+                password: password,
+                source: Number(source)
+            },
+            success: function (data) {
+                if (data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg);
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg);
+                }
+            }
+        })
+    }
+
+    /**新增-重置*/
+    $("#resetId").click(function () {
+        document.getElementById("add_account").value = '';
+        document.getElementById("add_tellphone").value = '';
+        document.getElementById("add_spassword").value = '';
+        document.getElementById("add_epassword").value = '';
+        document.getElementById("add_source").value = '';
+    });
+
 
     /**清空条件*/
-    function account_empty(){
+    $("#emptyId").click(function account_empty(){
         document.getElementById("account").value = '';
         document.getElementById("tellphone").value = '';
         document.getElementById("starttime").value = '';
         document.getElementById("endtime").value = '';
-    }
+    });
+
 
     /**判断json格式*/
     function isJSON(str){

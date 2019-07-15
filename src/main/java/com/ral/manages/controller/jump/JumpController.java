@@ -17,15 +17,7 @@ public class JumpController {
     @RequestMapping("/account")
     public String jumpAccount(){ return "/system/account.html"; }
 
-    @RequestMapping("/account/add")
-    public String jumpAccountAdd(){ return "/system/account-add.html"; }
-
-    @RequestMapping("/account/update")
-    public String jumpAccountUpdate(){ return "/system/account-update.html"; }
-
     @RequestMapping("/school")
     public String jumpSchool(){ return "/system/school.html"; }
 
-    @RequestMapping("/school/add")
-    public String jumpSchoolAdd(){ return "/system/school-add.html"; }
 }

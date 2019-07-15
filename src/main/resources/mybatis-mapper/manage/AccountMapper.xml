@@ -4,8 +4,8 @@
 
 <mapper namespace="com.ral.manages.mapper.manage.IAccountMapper">
 
-    <sql id="accountResult">_
-        id,account,password,source,tellphone,DATEFORMAT(lrrq,'%Y-%m-%d %H:%i:%s') as lrrq,cancellation
+    <sql id="accountResult">
+        id,account,password,source,tellphone,DATE_FORMAT(lrrq,'%Y-%m-%d %H:%i:%s') as lrrq,cancellation
     </sql>
     <sql id="conditionalCheck">
         <if test="account != null and account != ''">
@@ -24,7 +24,7 @@
 
     <!--分页查询-->
     <select id="selectAccountPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 AND cancellation!=1 <include refid="conditionalCheck"/> ORDER BY lrrq DESC
+        SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1 AND cancellation!=1  <include refid="conditionalCheck"/>  ORDER BY lrrq DESC
     </select>
 
     <!--新增-->
