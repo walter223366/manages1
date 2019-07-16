@@ -38,8 +38,7 @@
 
     <!--修改-->
     <update id="updateAccount" parameterType="com.ral.manages.entity.manage.Account">
-        UPDATE biz_user SET tellphone=#{account.tellphone},cancellation=#{account.cancellation}
-        WHERE 1=1 AND account=#{account.account}
+        UPDATE biz_user SET tellphone=#{account.tellphone} WHERE 1=1 AND account=#{account.account}
     </update>
 
     <!--删除-->

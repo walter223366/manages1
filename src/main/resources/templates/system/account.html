@@ -23,8 +23,8 @@
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
             <input class="layui-input" placeholder="开始日期" id="starttime">
             <input class="layui-input" placeholder="截止日期" id="endtime">
-            <button class="layui-btn" id="pagingQueryId" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
-            <button class="layui-btn layui-btn-primary" id="emptyId" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
+            <button class="layui-btn" id="query_info" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn layui-btn-primary" id="query_empty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
         </form>
     </div>
 
@@ -97,8 +97,55 @@
 
             <div class="layui-form-item">
                 <label for="add_epassword" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" onclick="account_add()">新增</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="resetId">重置</button>
+                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" id="add_info">新增</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="add_reset">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <!--编辑用户-->
+    <div class="x-body" id="updateInfo" aria-hidden="true" hidden>
+        <form class="layui-form">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_account" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="update_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="updateTellphoneError"></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>创建时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_lrrq" autocomplete="off" class="layui-input" disabled="true"></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>来源</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_source" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>注销状态</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_cancellation" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="add_epassword" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="update" lay-submit="" type="button" id="update_info">修改</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="update_reset">重置</button>
             </div>
         </form>
     </div>
@@ -110,7 +157,8 @@
         pagingQuery();
     });
 
-    $("#pagingQueryId").click(function () {
+    /**分页查询事件*/
+    $("#query_info").click(function () {
         pagingQuery();
     });
 
@@ -143,7 +191,7 @@
                     layer.msg(data.msg);
                 }
             }
-        })
+        });
     }
 
     /**分页插件*/
@@ -235,90 +283,72 @@
         });
     });
 
+    /**弹出层（编辑）*/
     $("#showAccountData").on('click','.edit',function () {
         var str = $.base64.atob($(this).attr("obj"), "utf-8");
-        var obj = JSON.parse(str);
-        str = "<div class='x-body site-demo-button' id='addInfo'>\n" +
-            "        <form class='layui-form'>\n" +
-            "\n" +
-            "            <div class='layui-form-item'>\n" +
-            "                <label class='layui-form-label'>账号名称</label>\n" +
-            "                <div class='layui-input-inline'>\n" +
-            "                    <input type='text' id='update_account' value='"+obj.account+"' class='layui-input'>\n" +
-            "                </div>\n" +
-            "            </div>\n" +
-            "\n" +
-            "            <div class='layui-form-item'>\n" +
-            "                <label class='layui-form-label'>手机号码</label>\n" +
-            "                <div class='layui-input-inline'>\n" +
-            "                    <input type='number' id='update_tellphone' value='"+obj.tellphone+"' class='layui-input' onkeypress=\"return (/[\\d]/.test(String.fromCharCode(event.keyCode)))\">\n" +
-            "                </div>\n" +
-            "            </div>\n" +
-            "\n" +
-            "            <div class='layui-form-item'>\n" +
-            "                <label class='layui-form-label'>创建时间</label>\n" +
-            "                <div class='layui-input-inline'>\n" +
-            "                    <input type='text' id='update_lrrq' value='"+obj.lrrq+"' class='layui-input'></div>\n" +
-            "            </div>\n" +
-            "\n" +
-            "            <div class='layui-form-item'>\n" +
-            "                <label class='layui-form-label'>来源</label>\n" +
-            "                <div class='layui-input-inline'>\n" +
-            "                    <input type='text' id='update_source' value='"+obj.source+"' class='layui-input'>\n" +
-            "                </div>\n" +
-            "            </div>\n" +
-            "\n" +
-            "            <div class='layui-form-item'>\n" +
-            "                <label class='layui-form-label'>注销状态</label>\n" +
-            "                <div class='layui-input-inline'>\n" +
-            "                    <input type='text' id='update_cancellation' value='"+obj.cancellation+"' class='layui-input'>\n" +
-            "                </div>\n" +
-            "            </div>\n" +
-            "\n" +
-            "            <div class='layui-form-item'>\n" +
-            "               <label for='update_cancellation' class='ayui-form-label'></label>\n" +
-            "                <button class='layui-btn' type='button' lay-filter='update' lay-submit='' onclick='account_add()'>更新</button>\n" +
-            "                <button class='layui-btn layui-btn-primary' type='button' onclick='account_reset()'>重置</button>\n" +
-            "            </div>\n" +
-            "        </form>\n" +
-            "    </div>";
+        obj = JSON.parse(str);
+        document.getElementById("update_account").value = toNull(obj.account);
+        document.getElementById("update_tellphone").value = toNull(obj.tellphone);
+        document.getElementById("update_lrrq").value = toNull(obj.lrrq);
+        document.getElementById("update_source").value = toNull(obj.source);
+        document.getElementById("update_cancellation").value = toNull(obj.cancellation);
         layer.open({
             type: 1,
-            area: [800+'px', 400 +'px'],
             offset: "auto",
             id: 'layerDemo'+'auto',
-            shade:0.4,
-            title: "编辑",
-            content: str
-        });
-
-    });
-
-    /**弹出层*/
-    function x_admin_show(title,url,w,h){
-        if (title == null || title == '') {
-            title=false;
-        };
-        if (url == null || url == '') {
-            url="/system/404";
-        };
-        if (w == null || w == '') {
-            w=($(window).width()*0.9);
-        };
-        if (h == null || h == '') {
-            h=($(window).height() - 50);
-        };
-        layer.open({
-            type: 2,
-            area: [w+'px', h +'px'],
-            fix: false, //不固定
+            area: [800+'px', 400 +'px'],
+            fix: false,
             maxmin: true,
             shadeClose: true,
             shade:0.4,
-            title: "新增用户",
-            content: url
+            title: "编辑",
+            content: $("#updateInfo"),
+            yes:function() {
+                alert(obj.account);
+                $("#updateInfo").hide();
+            }
         });
-    }
+    });
+
+    /**编辑*/
+    $("#update_info").click(function () {
+        var account = $("#update_account").val();
+        var tellphone = $("#update_tellphone").val();
+        var lrrq = $("#update_lrrq").val();
+        var source = $("#update_source").val();
+        var cancellation = $("#update_cancellation").val();
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/account/accountUpdate",
+            data: {
+                account:account,
+                tellphone:Number(tellphone)
+            },
+            success:function(data){
+                if(data.code == "0" && data.result == "SECCESS"){
+                    layer.msg(data.msg);
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    });
+
+    /**编辑-重置*/
+    $("#update_reset").click(function () {
+        $("#showAccountData").on('.edit',function () {
+            var str = $.base64.atob($(this).attr("obj"), "utf-8");
+            obj = JSON.parse(str);
+            alert(obj.account);
+            document.getElementById("update_account").value = toNull(obj.account);
+            document.getElementById("update_tellphone").value = toNull(obj.tellphone);
+            document.getElementById("update_lrrq").value = toNull(obj.lrrq);
+            document.getElementById("update_source").value = toNull(obj.source);
+            document.getElementById("update_cancellation").value = toNull(obj.cancellation);
+        });
+    });
 
     /**弹出层（新增）*/
     $("#addInfoId").click(function () {
@@ -327,7 +357,7 @@
             offset: "auto",
             id: 'layerDemo'+'auto',
             area: [800+'px', 400 +'px'],
-            fix: false, //不固定
+            fix: false,
             maxmin: true,
             shadeClose: true,
             shade:0.4,
@@ -335,16 +365,12 @@
             content: $("#addInfo"),
             yes:function() {
                 $("#addInfo").hide();
-            },
-            cancel:function (index) {
-                $("#addInfo").hide();
-
             }
         });
     });
 
     /**新增*/
-    function account_add(){
+    $("#add_info").click(function () {
         $("#errorAccount").empty();
         $("#errorTellphone").empty();
         var account = $("#add_account").val();
@@ -370,11 +396,11 @@
                     layer.msg(data.msg);
                 }
             }
-        })
-    }
+        });
+    });
 
     /**新增-重置*/
-    $("#resetId").click(function () {
+    $("#add_reset").click(function () {
         document.getElementById("add_account").value = '';
         document.getElementById("add_tellphone").value = '';
         document.getElementById("add_spassword").value = '';
@@ -382,15 +408,13 @@
         document.getElementById("add_source").value = '';
     });
 
-
     /**清空条件*/
-    $("#emptyId").click(function account_empty(){
+    $("#query_empty").click(function (){
         document.getElementById("account").value = '';
         document.getElementById("tellphone").value = '';
         document.getElementById("starttime").value = '';
         document.getElementById("endtime").value = '';
     });
-
 
     /**判断json格式*/
     function isJSON(str){
@@ -408,6 +432,22 @@
             return "-";
         }else{
             return str;
+        }
+    }
+
+    /**判断字符串*/
+    function toNull(str){
+        if(str == null || str == ""){
+           return "";
+        }
+        return str;
+    }
+
+    function verNull(str){
+        if(str == null || str == ""){
+            return true;
+        }else{
+            return false;
         }
     }
 
