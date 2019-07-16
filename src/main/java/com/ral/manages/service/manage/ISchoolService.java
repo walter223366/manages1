@@ -1,14 +1,12 @@
 package com.ral.manages.service.manage;
 
-import com.ral.manages.entity.manage.School;
+import com.ral.manages.exception.GeneralResponse;
+import java.util.Map;
 
 public interface ISchoolService {
 
-    String pageCheckSchoolInfo(School school);
+    //查询
+    GeneralResponse schoolPagingQuery(Map<String,Object> map);
 
-    void insertSchoolInfo(School school);
 
-    void updateSchoolInfo(School school);
-
-    void deleteSchoolInfo(School school);
 }

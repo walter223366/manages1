@@ -5,7 +5,6 @@
     <title>账号管理</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
-    <link rel="stylesheet" th:href="@{/favicon.ico}">
 
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/base64.js}"></script>
@@ -19,10 +18,10 @@
     <!--搜索栏-->
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="请输入账号名" id="account" type="text" autocomplete="off" >
+            <input class="layui-input" placeholder="请输入账号名称" id="account" type="text" autocomplete="off" >
             <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-            <input class="layui-input" placeholder="开始日期" id="starttime">
-            <input class="layui-input" placeholder="截止日期" id="endtime">
+            <input class="layui-input" placeholder="请输入开始日期" id="starttime">
+            <input class="layui-input" placeholder="请输入截止日期" id="endtime">
             <button class="layui-btn" id="query_info" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
             <button class="layui-btn layui-btn-primary" id="query_empty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
         </form>
@@ -54,7 +53,7 @@
     <!--分页栏-->
     <div class="page" id="pageInfo"></div>
 
-    <!--新增用户-->
+    <!--新增-->
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form">
 
@@ -63,7 +62,6 @@
                 <div class="layui-input-inline">
                     <input type="text" id="add_account" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux" id="errorAccount"></div>
             </div>
 
             <div class="layui-form-item">
@@ -71,14 +69,13 @@
                 <div class="layui-input-inline">
                     <input type="number" id="add_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
-                <div class="layui-form-mid layui-word-aux" id="errorTellphone"></div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>密码</label>
+                <label class="layui-form-label"><span class="x-red">*</span>密&emsp;&emsp;码</label>
                 <div class="layui-input-inline">
                     <input type="password" id="add_spassword" autocomplete="off" class="layui-input"></div>
-                <div class="layui-form-mid layui-word-aux">由6到16个字符组成</div>
+                <div class="layui-form-mid layui-word-aux">由6-16个字符组成</div>
             </div>
 
             <div class="layui-form-item">
@@ -89,7 +86,7 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>来源</label>
+                <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
                 <div class="layui-input-inline">
                     <input type="text" id="add_source" autocomplete="off" class="layui-input">
                 </div>
@@ -103,7 +100,7 @@
         </form>
     </div>
 
-    <!--编辑用户-->
+    <!--编辑-->
     <div class="x-body" id="updateInfo" aria-hidden="true" hidden>
         <form class="layui-form">
 
@@ -119,7 +116,6 @@
                 <div class="layui-input-inline">
                     <input type="number" id="update_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
-                <div class="layui-form-mid layui-word-aux" id="updateTellphoneError"></div>
             </div>
 
             <div class="layui-form-item">
@@ -129,7 +125,7 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>来源</label>
+                <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
                 <div class="layui-input-inline">
                     <input type="text" id="update_source" autocomplete="off" class="layui-input" disabled="true">
                 </div>
@@ -157,12 +153,10 @@
         pagingQuery();
     });
 
-    /**分页查询事件*/
+    /**分页查询*/
     $("#query_info").click(function () {
         pagingQuery();
     });
-
-    /**分页查询*/
     function pagingQuery(){
         $("#showAccountData").empty();
         var account = $("#account").val();
@@ -188,13 +182,11 @@
                         pagePlugin(obj,account,tellphone,starttime,endtime);
                     }
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 2});
                 }
             }
         });
     }
-
-    /**分页插件*/
     function pagePlugin(obj,account,tellphone,starttime,endtime){
         layui.use('laypage', function(){
             var laypage = layui.laypage;
@@ -226,19 +218,17 @@
                                     showData(obj);
                                 }
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.msg,{icon: 2});
                             }
                         },
                         error:function () {
-                            layer.alert("数据加载超时，请求重试！");
+                            layer.msg("数据加载超时，请求重试！",{icon: 2});
                         }
                     })
                 }
             });
         });
     }
-
-    /**数据展示*/
     function showData(obj){
         var total = obj.total;
         var data = "";
@@ -247,7 +237,7 @@
         }else {
             $.each(obj.datas,function (i,n) {
                 data = data+"<tr>";
-                data = data+"<td><div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
+                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
                 data = data+"<td>"+(i+1)+"</td>";
                 data = data+"<td>"+(isNull(n.account))+"</td>";
                 data = data+"<td>"+(isNull(n.tellphone))+"</td>";
@@ -262,6 +252,13 @@
         }
         $("#showAccountData").html(data);
     }
+    $("#query_empty").click(function (){
+        document.getElementById("account").value = '';
+        document.getElementById("tellphone").value = '';
+        document.getElementById("starttime").value = '';
+        document.getElementById("endtime").value = '';
+    });
+
 
     /**删除*/
     $('#showAccountData').on('click','.del',function () {
@@ -274,16 +271,17 @@
             data: {account:obj.account},
             success: function (data) {
                 if(data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 1});
                     pagingQuery();
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 2});
                 }
             }
         });
     });
 
-    /**弹出层（编辑）*/
+
+    /**编辑*/
     $("#showAccountData").on('click','.edit',function () {
         var str = $.base64.atob($(this).attr("obj"), "utf-8");
         obj = JSON.parse(str);
@@ -309,14 +307,22 @@
             }
         });
     });
-
-    /**编辑*/
     $("#update_info").click(function () {
         var account = $("#update_account").val();
         var tellphone = $("#update_tellphone").val();
         var lrrq = $("#update_lrrq").val();
         var source = $("#update_source").val();
         var cancellation = $("#update_cancellation").val();
+        if(tellphone==null||tellphone==""){
+            layer.msg("手机号码不能为空",{icon: 2});
+            return;
+        }else{
+            var tver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
+            if(!tver.test(tellphone)){
+                layer.msg("手机号码格式不合法",{icon: 2});
+                return;
+            }
+        }
         $.ajax({
             type:"POST",
             dataType:"JSON",
@@ -327,30 +333,20 @@
             },
             success:function(data){
                 if(data.code == "0" && data.result == "SECCESS"){
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 1});
                     pagingQuery();
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 2});
                 }
             }
         });
     });
-
-    /**编辑-重置*/
     $("#update_reset").click(function () {
-        $("#showAccountData").on('.edit',function () {
-            var str = $.base64.atob($(this).attr("obj"), "utf-8");
-            obj = JSON.parse(str);
-            alert(obj.account);
-            document.getElementById("update_account").value = toNull(obj.account);
-            document.getElementById("update_tellphone").value = toNull(obj.tellphone);
-            document.getElementById("update_lrrq").value = toNull(obj.lrrq);
-            document.getElementById("update_source").value = toNull(obj.source);
-            document.getElementById("update_cancellation").value = toNull(obj.cancellation);
-        });
+        document.getElementById("update_tellphone").value = "";
     });
 
-    /**弹出层（新增）*/
+
+    /**新增*/
     $("#addInfoId").click(function () {
         layer.open({
             type: 1,
@@ -368,16 +364,16 @@
             }
         });
     });
-
-    /**新增*/
     $("#add_info").click(function () {
-        $("#errorAccount").empty();
-        $("#errorTellphone").empty();
         var account = $("#add_account").val();
         var tellphone = $("#add_tellphone").val();
         var password = $("#add_spassword").val();
         var repassword = $("#add_epassword").val();
         var source = $("#add_source").val();
+        var flag = checkParams(account,tellphone,password,repassword);
+        if(flag == false){
+            return;
+        }
         $.ajax({
             type: "POST",
             dataType: "JSON",
@@ -390,16 +386,14 @@
             },
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 1});
                     pagingQuery();
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon: 2});
                 }
             }
         });
     });
-
-    /**新增-重置*/
     $("#add_reset").click(function () {
         document.getElementById("add_account").value = '';
         document.getElementById("add_tellphone").value = '';
@@ -407,14 +401,46 @@
         document.getElementById("add_epassword").value = '';
         document.getElementById("add_source").value = '';
     });
-
-    /**清空条件*/
-    $("#query_empty").click(function (){
-        document.getElementById("account").value = '';
-        document.getElementById("tellphone").value = '';
-        document.getElementById("starttime").value = '';
-        document.getElementById("endtime").value = '';
-    });
+    function checkParams(account,tellphone,password,repassword){
+        if(account==null||account==""){
+            layer.msg("账号名称不能为空",{icon: 2});
+            return false;
+        }else{
+            if(account.length<6 || account.length>12){
+                layer.msg("账号名称规定6-12个字符",{icon: 2});
+                return false;
+            }
+        }
+        if(tellphone==null||tellphone==""){
+            layer.msg("手机号码不能为空",{icon: 2});
+            return false;
+        }else{
+            var tver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
+            if(!tver.test(tellphone)){
+                layer.msg("手机号码格式不合法",{icon: 2});
+                return false;
+            }
+        }
+        if(password==null||password==""){
+            layer.msg("密码不能为空",{icon: 2});
+            return false;
+        }else{
+            if(password.length<6 || password.length>12){
+                layer.msg("密码规定6-12个字符",{icon: 2});
+                return false;
+            }
+        }
+        if(repassword==null||repassword==""){
+            layer.msg("确认密码不能为空",{icon: 2});
+            return false;
+        }else{
+            if(password != repassword){
+                layer.msg("两次密码不一致",{icon: 2});
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**判断json格式*/
     function isJSON(str){
@@ -434,21 +460,11 @@
             return str;
         }
     }
-
-    /**判断字符串*/
     function toNull(str){
         if(str == null || str == ""){
            return "";
         }
         return str;
-    }
-
-    function verNull(str){
-        if(str == null || str == ""){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     /**时间控件*/

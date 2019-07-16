@@ -26,11 +26,11 @@
     <select id="selectAccountPagingQuery" parameterType="map" resultType="map">
         SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1 AND cancellation!=1  <include refid="conditionalCheck"/>  ORDER BY lrrq DESC
     </select>
-
-    <!--新增-->
     <select id="selectAccountToExist" parameterType="com.ral.manages.entity.manage.Account" resultType="int">
         SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account.account}
     </select>
+
+    <!--新增-->
     <insert id="insertAccount" parameterType="com.ral.manages.entity.manage.Account">
         INSERT INTO biz_user(id,account,password,source,tellphone,lrrq,cancellation)
         VALUES (#{account.id},#{account.account},#{account.password},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation})
@@ -46,6 +46,5 @@
         UPDATE biz_user SET cancellation=#{account.cancellation}
         WHERE 1=1 AND account=#{account.account}
     </delete>
-
 
 </mapper>

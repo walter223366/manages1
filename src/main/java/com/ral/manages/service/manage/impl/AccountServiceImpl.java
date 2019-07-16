@@ -29,7 +29,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**分页查询*/
     @Override
-    public GeneralResponse pagingQuery(Map<String,Object> map) {
+    public GeneralResponse accountPagingQuery(Map<String,Object> map) {
         GeneralResponse generalResponse = new GeneralResponse();
         int pageNum = SetUtil.toMapValueInt(map,"pageNum");
         int pageSize = SetUtil.toMapValueInt(map,"pageSize");

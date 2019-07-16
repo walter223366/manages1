@@ -7,7 +7,7 @@ import java.util.Map;
 public interface IAccountService {
 
     //查询
-    GeneralResponse pagingQuery(Map<String,Object> map);
+    GeneralResponse accountPagingQuery(Map<String,Object> map);
     //新增
     GeneralResponse accountAdd(Account account);
     //修改

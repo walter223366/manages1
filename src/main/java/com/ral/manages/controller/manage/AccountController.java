@@ -23,11 +23,11 @@ public class AccountController {
 
     /**分页查询*/
     @RequestMapping("/pagingQuery")
-    public Object pagingQuery(@RequestBody Map<String,Object> map){
+    public Object accountPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iAccountService.pagingQuery(map);
+            generalResponse = iAccountService.accountPagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
