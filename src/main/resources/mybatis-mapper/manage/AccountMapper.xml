@@ -42,9 +42,9 @@
     </update>
 
     <!--删除-->
-    <delete id="deleteAccount" parameterType="com.ral.manages.entity.manage.Account">
+    <update id="deleteAccount" parameterType="com.ral.manages.entity.manage.Account">
         UPDATE biz_user SET cancellation=#{account.cancellation}
         WHERE 1=1 AND account=#{account.account}
-    </delete>
+    </update>
 
 </mapper>

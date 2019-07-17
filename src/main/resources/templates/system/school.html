@@ -27,10 +27,9 @@
 
     <!--操作栏-->
     <xblock>
-        <button class="layui-btn layui-btn-danger" id="bacthDeleteId"><i class="layui-icon">&#xe640;</i>批量删除</button>
-        <button class="layui-btn layui-btn-normal" id="addInfoId"><i class="layui-icon">&#xe654;</i>新增</button>
+        <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon">&#xe640;</i>批量删除</button>
+        <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon">&#xe654;</i>新增</button>
     </xblock>
-
 
     <!--数据栏-->
     <table class="layui-table">
@@ -47,10 +46,67 @@
     </table>
 
     <!--分页栏-->
-    <div class="page" id="page_school"></div>
+    <div class="page" id="page_schoolInfo"></div>
 
-    <!--详情-->
-    <div class="x-body" id="addInfo" aria-hidden="true" hidden></div>
+    <!--新增栏-->
+    <div class="x-body" id="add_schoolInfo" aria-hidden="true" hidden>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>门派名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_name" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">影响力值</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="add_influence" value="0" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><p style="color:red">注意：该项不填则默认影响力值为0</p></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">门派说明</label>
+                <div class="layui-input-inline" style="width: 500px;">
+                    <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="add_name" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" id="addSchool_but">新增</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="addSchool_reset">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <!--编辑栏-->
+    <div class="x-body" id="update_schoolInfo" aria-hidden="true" hidden>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>门派名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_name" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">影响力值</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="update_influence" value="0" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                </div>
+                <div class="layui-form-mid layui-word-aux"><p style="color:red">注意：该项不填则默认影响力值为0</p></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">门派说明</label>
+                <div class="layui-input-inline" style="width: 500px;">
+                    <textarea class="layui-textarea" id="update_info" placeholder="请输入内容"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="add_name" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" id="updateSchool_but">修改</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="updateSchool_reset">重置</button>
+            </div>
+        </form>
+    </div>
 
 </div>
 <script>
@@ -59,7 +115,8 @@
         pagingQuerySchool();
     });
 
-    /**分页查询*/
+
+    /**查询部分*/
     $("#query_schoolPage").click(function () {
         pagingQuerySchool();
     });
@@ -143,11 +200,11 @@
                 data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
                 data = data+"<td>"+(i+1)+"</td>";
                 data = data+"<td>"+(isNull(n.name))+"</td>";
-                data = data+"<td>"+(isNull(n.influence))+"</td>";
+                data = data+"<td>"+(n.influence)+"</td>";
                 data = data+"<td class='td-manage'>";
-                data = data+"<a title='详情' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm school_details'><i class='layui-icon'>&#xe615;</i>详情</a>";
-                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm school_edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
-                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger school_delete'><i class='layui-icon'>&#xe640;</i>删除</a>";
+                data = data+"<a title='详情' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm details'><i class='layui-icon'>&#xe615;</i>详情</a>";
+                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
+                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon'>&#xe640;</i>删除</a>";
                 data = data+"</td></tr>";
             });
         }
@@ -159,6 +216,161 @@
         document.getElementById("query_einfluence").value = '';
     });
 
+
+    /**新增部分*/
+    $("#add_button").click(function () {
+        addSchool_reset();
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "新增用户",
+            content: $("#add_schoolInfo"),
+            yes:function() {
+                $("#add_schoolInfo").hide();
+            }
+        });
+    });
+    $("#addSchool_but").click(function(){
+        var name = $("#add_name").val();
+        var influence = $("#add_influence").val();
+        var info = $("#add_info").val();
+        if(name==null||name==""){
+            layer.msg("门派名称不能为空",{icon: 2});
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/school/schoolAdd",
+            data: {
+                name: name,
+                influence: Number(influence),
+                info: info
+            },
+            success: function (data) {
+                if (data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQuerySchool();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+    $("#addSchool_reset").click(function () {
+        addSchool_reset();
+    });
+    function addSchool_reset() {
+        document.getElementById("add_name").value = '';
+        document.getElementById("add_influence").value = '';
+        document.getElementById("add_info").value = '';
+    }
+
+
+    /**详情部分*/
+    $("#show_schoolData").on('click','.details',function (){
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        obj = JSON.parse(str);
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            btn: ['明白了'],
+            shade:0.4,
+            title: '详情',
+            content: '<div style="padding:30px;line-height:22px;text-align:center;">' +
+                '<p style="font-size:24px">'+obj.name+'</p><br>'+
+                '<p style="font-size:20px">影响力分值：'+obj.influence+'</p><br>'+
+                '<p style="font-size:14px;text-indent:2em;">'+(obj.info==null?"未查询到门派说明":obj.info)+'</p><br></div>'
+        });
+    });
+
+
+    /**编辑部分*/
+    $("#show_schoolData").on('click','.edit',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        obj = JSON.parse(str);
+        document.getElementById("update_name").value = toNull(obj.name);
+        document.getElementById("update_influence").value = obj.influence;
+        document.getElementById("update_info").value = toNull(obj.info);
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "编辑",
+            content: $("#update_schoolInfo"),
+            yes:function() {
+                $("#update_schoolInfo").hide();
+            }
+        });
+    });
+    $("#updateSchool_but").click(function () {
+        var name = $("#update_name").val();
+        var influence = $("#update_influence").val();
+        var info = $("#update_info").val();
+        if(name==null || name==""){
+            layer.msg("门派名称不能为空",{icon: 2});
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/school/schoolUpdate",
+            data: {
+                name: name,
+                influence: Number(influence),
+                info: info
+            },
+            success: function (data) {
+                if (data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQuerySchool();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+    $("#updateSchool_reset").click(function () {
+        document.getElementById("update_influence").value = '';
+        document.getElementById("update_info").value = '';
+    });
+
+
+    /**删除部分*/
+    $("#show_schoolData").on('click','.del',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        var obj = JSON.parse(str);
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/school/schoolDelete",
+            data: {name:obj.name},
+            success: function (data) {
+                if(data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQuerySchool();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
 
 
     /**判断json格式*/
@@ -177,6 +389,12 @@
         }else{
             return str;
         }
+    }
+    function toNull(str){
+        if(str == null || str == ""){
+            return "";
+        }
+        return str;
     }
 
 </script>

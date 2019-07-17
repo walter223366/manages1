@@ -12,5 +12,6 @@ public class School {
     private String name;//名称
     private String info;//说明
     private int influence;//影响力
+    private int del_status;//删除状态
 
 }

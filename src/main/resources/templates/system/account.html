@@ -18,19 +18,19 @@
     <!--搜索栏-->
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="请输入账号名称" id="account" type="text" autocomplete="off" >
-            <input class="layui-input" placeholder="请输入手机号码" id="tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-            <input class="layui-input" placeholder="请输入开始日期" id="starttime">
-            <input class="layui-input" placeholder="请输入截止日期" id="endtime">
-            <button class="layui-btn" id="query_info" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
-            <button class="layui-btn layui-btn-primary" id="query_empty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
+            <input class="layui-input" placeholder="请输入账号名称" id="query_account" type="text" autocomplete="off" >
+            <input class="layui-input" placeholder="请输入手机号码" id="query_tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+            <input class="layui-input" placeholder="请输入开始日期" id="query_starttime">
+            <input class="layui-input" placeholder="请输入截止日期" id="query_endtime">
+            <button class="layui-btn" id="query_accountPage" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
+            <button class="layui-btn layui-btn-primary" id="query_accountEmpty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
         </form>
     </div>
 
     <!--操作栏-->
     <xblock>
-        <button class="layui-btn layui-btn-danger" id="bacthDeleteId"><i class="layui-icon">&#xe640;</i>批量删除</button>
-        <button class="layui-btn layui-btn-normal" id="addInfoId"><i class="layui-icon">&#xe654;</i>新增</button>
+        <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon">&#xe640;</i>批量删除</button>
+        <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon">&#xe654;</i>新增</button>
     </xblock>
 
     <!--数据栏-->
@@ -47,122 +47,110 @@
             <th>操作</th>
         </thead>
         <!--数据来源-->
-        <tbody class="table" id="showAccountData"></tbody>
+        <tbody class="table" id="show_accountData"></tbody>
     </table>
 
     <!--分页栏-->
-    <div class="page" id="pageInfo"></div>
+    <div class="page" id="page_accountInfo"></div>
 
-    <!--新增-->
-    <div class="x-body" id="addInfo" aria-hidden="true" hidden>
+    <!--新增栏-->
+    <div class="x-body" id="add_accountInfo" aria-hidden="true" hidden>
         <form class="layui-form">
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
                 <div class="layui-input-inline">
                     <input type="text" id="add_account" autocomplete="off" class="layui-input">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
                 <div class="layui-input-inline">
                     <input type="number" id="add_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>密&emsp;&emsp;码</label>
                 <div class="layui-input-inline">
                     <input type="password" id="add_spassword" autocomplete="off" class="layui-input"></div>
-                <div class="layui-form-mid layui-word-aux">由6-16个字符组成</div>
+                <div class="layui-form-mid layui-word-aux"><p style="color:red">注意：请填写6到16位密码</p></div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>确认密码</label>
                 <div class="layui-input-inline">
                     <input type="password" id="add_epassword" autocomplete="off" class="layui-input">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
                 <div class="layui-input-inline">
                     <input type="text" id="add_source" autocomplete="off" class="layui-input">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label for="add_epassword" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" id="add_info">新增</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="add_reset">重置</button>
+                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" id="addAccount_but">新增</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="addAccount_reset">重置</button>
             </div>
         </form>
     </div>
 
-    <!--编辑-->
-    <div class="x-body" id="updateInfo" aria-hidden="true" hidden>
+    <!--编辑栏-->
+    <div class="x-body" id="update_accountInfo" aria-hidden="true" hidden>
         <form class="layui-form">
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
                 <div class="layui-input-inline">
                     <input type="text" id="update_account" autocomplete="off" class="layui-input" disabled="true">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
                 <div class="layui-input-inline">
                     <input type="number" id="update_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>创建时间</label>
                 <div class="layui-input-inline">
                     <input type="text" id="update_lrrq" autocomplete="off" class="layui-input" disabled="true"></div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
                 <div class="layui-input-inline">
                     <input type="text" id="update_source" autocomplete="off" class="layui-input" disabled="true">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>注销状态</label>
                 <div class="layui-input-inline">
                     <input type="text" id="update_cancellation" autocomplete="off" class="layui-input" disabled="true">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <label for="add_epassword" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="update" lay-submit="" type="button" id="update_info">修改</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="update_reset">重置</button>
+                <button class="layui-btn" lay-filter="update" lay-submit="" type="button" id="updateAccount_but">修改</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="updateAccount_reset">重置</button>
             </div>
         </form>
     </div>
 </div>
 <script>
-
     /**初始化*/
     $(function(){
-        pagingQuery();
+        pagingQueryAccount();
     });
 
-    /**分页查询*/
-    $("#query_info").click(function () {
-        pagingQuery();
+
+    /**查询部分*/
+    $("#query_accountPage").click(function () {
+        pagingQueryAccount();
     });
-    function pagingQuery(){
-        $("#showAccountData").empty();
-        var account = $("#account").val();
-        var tellphone = $("#tellphone").val();
-        var starttime = $("#starttime").val();
-        var endtime = $("#endtime").val();
+    function pagingQueryAccount(){
+        $("#show_accountData").empty();
+        var account = $("#query_account").val();
+        var tellphone = $("#query_tellphone").val();
+        var starttime = $("#query_starttime").val();
+        var endtime = $("#query_endtime").val();
         $.ajax({
             type:"POST",
             url:"/account/pagingQuery",
@@ -179,7 +167,7 @@
                     var rows = $.base64.atob(data.rows,"utf-8");
                     if(isJSON(rows)){
                         obj = JSON.parse(rows);
-                        pagePlugin(obj,account,tellphone,starttime,endtime);
+                        pagingPluginAccount(obj,account,tellphone,starttime,endtime);
                     }
                 }else{
                     layer.msg(data.msg,{icon: 2});
@@ -187,16 +175,16 @@
             }
         });
     }
-    function pagePlugin(obj,account,tellphone,starttime,endtime){
+    function pagingPluginAccount(obj,account,tellphone,starttime,endtime){
         layui.use('laypage', function(){
             var laypage = layui.laypage;
             laypage.render({
-                elem: 'pageInfo'
+                elem: 'page_accountInfo'
                 ,count: obj.total
                 ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
                 ,theme: '#15c142'
                 ,jump:function (obj) {
-                    $("#showAccountData").empty();
+                    $("#show_accountData").empty();
                     $.ajax({
                         type:"POST",
                         url:"/account/pagingQuery",
@@ -215,7 +203,7 @@
                                 var rows = $.base64.atob(data.rows,"utf-8");
                                 if(isJSON(rows)){
                                     obj = JSON.parse(rows);
-                                    showData(obj);
+                                    showAccountData(obj);
                                 }
                             }else{
                                 layer.msg(data.msg,{icon: 2});
@@ -229,7 +217,7 @@
             });
         });
     }
-    function showData(obj){
+    function showAccountData(obj){
         var total = obj.total;
         var data = "";
         if(total == 0){
@@ -250,104 +238,19 @@
                 data = data+"</td></tr>";
             });
         }
-        $("#showAccountData").html(data);
+        $("#show_accountData").html(data);
     }
-    $("#query_empty").click(function (){
-        document.getElementById("account").value = '';
-        document.getElementById("tellphone").value = '';
-        document.getElementById("starttime").value = '';
-        document.getElementById("endtime").value = '';
+    $("#query_accountEmpty").click(function (){
+        document.getElementById("query_account").value = '';
+        document.getElementById("query_tellphone").value = '';
+        document.getElementById("query_starttime").value = '';
+        document.getElementById("query_endtime").value = '';
     });
 
 
-    /**删除*/
-    $('#showAccountData').on('click','.del',function () {
-        var str = $.base64.atob($(this).attr("obj"), "utf-8");
-        var obj = JSON.parse(str);
-        $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/account/accountDelete",
-            data: {account:obj.account},
-            success: function (data) {
-                if(data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg,{icon: 1});
-                    pagingQuery();
-                }else{
-                    layer.msg(data.msg,{icon: 2});
-                }
-            }
-        });
-    });
-
-
-    /**编辑*/
-    $("#showAccountData").on('click','.edit',function () {
-        var str = $.base64.atob($(this).attr("obj"), "utf-8");
-        obj = JSON.parse(str);
-        document.getElementById("update_account").value = toNull(obj.account);
-        document.getElementById("update_tellphone").value = toNull(obj.tellphone);
-        document.getElementById("update_lrrq").value = toNull(obj.lrrq);
-        document.getElementById("update_source").value = toNull(obj.source);
-        document.getElementById("update_cancellation").value = toNull(obj.cancellation);
-        layer.open({
-            type: 1,
-            offset: "auto",
-            id: 'layerDemo'+'auto',
-            area: [800+'px', 400 +'px'],
-            fix: false,
-            maxmin: true,
-            shadeClose: true,
-            shade:0.4,
-            title: "编辑",
-            content: $("#updateInfo"),
-            yes:function() {
-                alert(obj.account);
-                $("#updateInfo").hide();
-            }
-        });
-    });
-    $("#update_info").click(function () {
-        var account = $("#update_account").val();
-        var tellphone = $("#update_tellphone").val();
-        var lrrq = $("#update_lrrq").val();
-        var source = $("#update_source").val();
-        var cancellation = $("#update_cancellation").val();
-        if(tellphone==null||tellphone==""){
-            layer.msg("手机号码不能为空",{icon: 2});
-            return;
-        }else{
-            var tver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
-            if(!tver.test(tellphone)){
-                layer.msg("手机号码格式不合法",{icon: 2});
-                return;
-            }
-        }
-        $.ajax({
-            type:"POST",
-            dataType:"JSON",
-            url:"/account/accountUpdate",
-            data: {
-                account:account,
-                tellphone:Number(tellphone)
-            },
-            success:function(data){
-                if(data.code == "0" && data.result == "SECCESS"){
-                    layer.msg(data.msg,{icon: 1});
-                    pagingQuery();
-                }else{
-                    layer.msg(data.msg,{icon: 2});
-                }
-            }
-        });
-    });
-    $("#update_reset").click(function () {
-        document.getElementById("update_tellphone").value = "";
-    });
-
-
-    /**新增*/
-    $("#addInfoId").click(function () {
+    /**新增部分*/
+    $("#add_button").click(function () {
+        addAccount_reset();
         layer.open({
             type: 1,
             offset: "auto",
@@ -358,13 +261,13 @@
             shadeClose: true,
             shade:0.4,
             title: "新增用户",
-            content: $("#addInfo"),
+            content: $("#add_accountInfo"),
             yes:function() {
-                $("#addInfo").hide();
+                $("#add_accountInfo").hide();
             }
         });
     });
-    $("#add_info").click(function () {
+    $("#addAccount_but").click(function () {
         var account = $("#add_account").val();
         var tellphone = $("#add_tellphone").val();
         var password = $("#add_spassword").val();
@@ -387,20 +290,23 @@
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
                     layer.msg(data.msg,{icon: 1});
-                    pagingQuery();
+                    pagingQueryAccount();
                 }else{
                     layer.msg(data.msg,{icon: 2});
                 }
             }
         });
     });
-    $("#add_reset").click(function () {
+    $("#addAccount_reset").click(function () {
+        addAccount_reset();
+    });
+    function addAccount_reset(){
         document.getElementById("add_account").value = '';
         document.getElementById("add_tellphone").value = '';
         document.getElementById("add_spassword").value = '';
         document.getElementById("add_epassword").value = '';
         document.getElementById("add_source").value = '';
-    });
+    }
     function checkParams(account,tellphone,password,repassword){
         if(account==null||account==""){
             layer.msg("账号名称不能为空",{icon: 2});
@@ -442,7 +348,93 @@
         return true;
     }
 
-    /**判断json格式*/
+
+    /**编辑部分*/
+    $("#show_accountData").on('click','.edit',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        obj = JSON.parse(str);
+        document.getElementById("update_account").value = toNull(obj.account);
+        document.getElementById("update_tellphone").value = toNull(obj.tellphone);
+        document.getElementById("update_lrrq").value = toNull(obj.lrrq);
+        document.getElementById("update_source").value = toNull(obj.source);
+        document.getElementById("update_cancellation").value = toNull(obj.cancellation);
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "编辑",
+            content: $("#update_accountInfo"),
+            yes:function() {
+                $("#update_accountInfo").hide();
+            }
+        });
+    });
+    $("#updateAccount_but").click(function () {
+        var account = $("#update_account").val();
+        var tellphone = $("#update_tellphone").val();
+        var lrrq = $("#update_lrrq").val();
+        var source = $("#update_source").val();
+        var cancellation = $("#update_cancellation").val();
+        if(tellphone==null||tellphone==""){
+            layer.msg("手机号码不能为空",{icon: 2});
+            return;
+        }else{
+            var tver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
+            if(!tver.test(tellphone)){
+                layer.msg("手机号码格式不合法",{icon: 2});
+                return;
+            }
+        }
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/account/accountUpdate",
+            data: {
+                account:account,
+                tellphone:Number(tellphone)
+            },
+            success:function(data){
+                if(data.code == "0" && data.result == "SECCESS"){
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQueryAccount();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+    $("#updateAccount_reset").click(function () {
+        document.getElementById("update_tellphone").value = "";
+    });
+
+
+    /**删除部分*/
+    $('#show_accountData').on('click','.del',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        var obj = JSON.parse(str);
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/account/accountDelete",
+            data: {account:obj.account},
+            success: function (data) {
+                if(data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQueryAccount();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+
+
+    /**判断json格式、字符串*/
     function isJSON(str){
         try{
             JSON.parse(str);
@@ -451,8 +443,6 @@
             return false;
         }
     }
-
-    /**判断字符串*/
     function isNull(str){
         if(str == null || str == ""){
             return "-";
@@ -467,14 +457,15 @@
         return str;
     }
 
+
     /**时间控件*/
     layui.use('laydate', function(){
         var laydate = layui.laydate;
         laydate.render({
-            elem: '#starttime'
+            elem: '#query_starttime'
         });
         laydate.render({
-            elem: '#endtime'
+            elem: '#query_endtime'
         });
     })
 </script>

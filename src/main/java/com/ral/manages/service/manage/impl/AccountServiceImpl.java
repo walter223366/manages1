@@ -76,6 +76,10 @@ public class AccountServiceImpl implements IAccountService {
     /**修改*/
     @Override
     public GeneralResponse accountUpdate(Account account) {
+        String msg = VerificationParams.verificationAccount(account);
+        if(!StringUtil.isNull(msg)){
+            return GeneralResponse.fail(msg);
+        }
         int count = iAccountMapper.selectAccountToExist(account);
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该账号不存在");
