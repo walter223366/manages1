@@ -8,40 +8,11 @@
         kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation
     </sql>
 
-    <sql id="conditionSelectKongFu">
-        <if test="kongFu.name != null and kongFu.name != ''">
-            AND name like '%${kongFu.name}%'
-        </if>
-        <if test="kongFu.type != null and kongFu.type !=''">
-            AND type=#{kongFu.type}
-        </if>
-        <if test="kongFu.enable !=null and kongFu.enable != ''">
-            AND enable=#{kongFu.enable}
-        </if>
-        <if test="kongFu.cancellation !=null and kongFu.cancellation != ''">
-            AND cancellation=#{kongFu.cancellation}
-        </if>
-    </sql>
 
-    <select id="selectKongFu" parameterType="com.ral.manages.entity.manage.KongFu" resultType="com.ral.manages.entity.manage.KongFu">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu
-        WHERE 1=1 <include refid="conditionSelectKongFu"/>
+
+    <select id="selectKongFuPagingQuery" parameterType="map" resultType="map">
+
     </select>
-
-    <insert id="insertKongFu" parameterType="com.ral.manages.entity.manage.KongFu">
-        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation)
-        VALUES (#{kongFu.kongfu_id},#{kongFu.name},#{kongFu.info},#{kongFu.type},#{kongFu.experience_limit},#{kongFu.kongfu_attainments},
-        #{kongFu.enable},#{kongFu.cancellation})
-    </insert>
-
-    <update id="updateKongFu" parameterType="com.ral.manages.entity.manage.KongFu">
-        UPDATE dict_kongfu SET info=#{kongFu.info},type=#{kongFu.type},enable=#{kongFu.enable},cancellation=#{kongFu.cancellation}
-        WHERE 1=1 AND name=#{kongFu.name}
-    </update>
-
-    <update id="deleteKongFu" parameterType="com.ral.manages.entity.manage.KongFu">
-        UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND name=#{kongFu.name}
-    </update>
 
 
 

@@ -114,7 +114,7 @@ $(function () {
 				
             }else{
                 $(this).addClass('open');
-                $(this).children('a').find('.nav_right').html('<i class="layui-icon iconfont">&#xe602;</i>');
+                $(this).children('a').find('.nav_right').html('<i class="layui-icon iconfont">&#xe61a;</i>');
                 $(this).children('.sub-menu').stop().slideDown();
                 $(this).siblings().children('.sub-menu').stop().slideUp();
                 $(this).siblings().find('.nav_right').html('<i class="layui-icon iconfont">&#xe602;</i>');

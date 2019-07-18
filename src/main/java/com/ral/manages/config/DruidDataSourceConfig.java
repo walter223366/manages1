@@ -9,6 +9,12 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ *   <p>功能描述：druid数据源配置</p>
+ *   <p>创建时间: 2019-07-18 </p>
+ *
+ *   @author Double
+ */
 @Configuration
 public class DruidDataSourceConfig {
 

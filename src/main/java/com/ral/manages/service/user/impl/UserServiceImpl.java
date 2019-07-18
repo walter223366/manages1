@@ -21,9 +21,6 @@ public class UserServiceImpl implements IUserService {
     public void loadUserInfo(User user) {
         user.setCancellation(0);
         User resultUser = iUserMapper.selectUserInfo(user);
-        String passworld = resultUser.getPass();
-
-
     }
 
     @Override
@@ -32,7 +29,6 @@ public class UserServiceImpl implements IUserService {
         user.setCancellation(0);
         user.setId(StringUtil.getUUID());
         int source = (int) StateTable.USER_SOURCE.getCode();
-        user.setSource(source);
         iUserMapper.insertUserInfo(user);
 
     }
@@ -41,7 +37,6 @@ public class UserServiceImpl implements IUserService {
     public void updateUserInfo(User user) {
         User resultUser = iUserMapper.selectUserExistToAccount(user);
         int cancellation = resultUser.getCancellation();
-        String pass = resultUser.getPass();
         int count = iUserMapper.updateUserInfo(user);
     }
 
@@ -49,7 +44,6 @@ public class UserServiceImpl implements IUserService {
     public void updataUserToCancet(User user) {
         User resultUser = iUserMapper.selectUserExistToAccount(user);
         int cancellation = resultUser.getCancellation();
-        String pass = resultUser.getPass();
         int count = iUserMapper.updateUserInfoToCancellation(user);
     }
 }

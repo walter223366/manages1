@@ -4,6 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ *   <p>功能描述：页面跳转</p>
+ *   <p>创建时间: 2019-07-18 </p>
+ *
+ *   @author Double
+ */
 @Controller
 @RequestMapping("/system")
 public class JumpController {
@@ -19,5 +25,8 @@ public class JumpController {
 
     @RequestMapping("/school")
     public String jumpSchool(){ return "/system/school.html"; }
+
+    @RequestMapping("/kongFu")
+    public String jumpKongFu(){ return "/system/kongfu.html"; }
 
 }

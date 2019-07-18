@@ -1,13 +1,18 @@
 package com.ral.manages.entity.manage;
 
 import lombok.Data;
+import java.io.Serializable;
 
 /**
- * 效果表 dict_effect
+ *   <p>功能描述：效果管理bean （dict_effect）</p>
+ *   <p>创建时间: 2019-07-18 </p>
+ *
+ *   @author Double
  */
 @Data
-public class Effect {
+public class Effect implements Serializable {
 
+    private static final long serialVersionUID = -127115926109132218L;
     private String effect_id;//效果主键
     private String info;//效果说明
     private int target;//效果执行的目标：0自己1对方 默认是0

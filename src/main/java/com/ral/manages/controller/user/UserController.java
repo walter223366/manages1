@@ -1,17 +1,15 @@
-/*
 package com.ral.manages.controller.user;
 
-import com.ral.manages.emun.CloudResponseCode;
-import com.ral.manages.entity.user.User;
+import com.ral.manages.exception.GeneralResponse;
 import com.ral.manages.service.user.IUserService;
-import com.ral.manages.util.Base64Util;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.Map;
 
 @Controller
 @Scope("prototype")
@@ -22,102 +20,19 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    */
-/**用户登录*//*
-
-    @RequestMapping("/userLoad")
-    public Object userLoad(User user) {
-        LOG.info("userLoad method -> 参数：" + user);
-        CloudResponse cloudResponse = new CloudResponse();
-        try {
-            iUserService.loadUserInfo(user);
-            JSONObject resultJson = JSONObject.fromObject(null);
-            cloudResponse.setRows(Base64Util.Base64Encode(resultJson.toString()));
-            cloudResponse.setReqid("");
-            LOG.info("userLoad method -> 返回值：" + resultJson);
-        } catch (BizException ex) {
-            LOG.debug("操作失败", ex);
-            cloudResponse.setCode(CloudResponseCode.BIZ_EXCEPTION);
-            cloudResponse.setMsg(ex.getMessage());
-        } catch (Exception e) {
-            LOG.error("系统错误", e);
-            cloudResponse.setCode(CloudResponseCode.UNKNOW_EXCEPTION);
-            cloudResponse.setMsg(e.getMessage());
+    /**分页查询*/
+    @RequestMapping("/pagingQuery")
+    public Object accountPagingQuery(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
         }
-        return cloudResponse;
+        return generalResponse;
     }
 
-    */
-/**用户新增*//*
-
-    @RequestMapping("/newUser")
-    public Object newUser(User user){
-        LOG.info("newUser method -> 参数：" + user);
-        CloudResponse cloudResponse = new CloudResponse();
-        try {
-            iUserService.newUserInfo(user);
-            cloudResponse.setRows(Base64Util.Base64Encode(new JSONObject().toString()));
-            cloudResponse.setReqid("");
-        } catch (BizException ex) {
-            LOG.debug("操作失败", ex);
-            cloudResponse.setCode(CloudResponseCode.BIZ_EXCEPTION);
-            cloudResponse.setMsg(ex.getMessage());
-        } catch (Exception e) {
-            LOG.error("系统错误", e);
-            cloudResponse.setCode(CloudResponseCode.UNKNOW_EXCEPTION);
-            cloudResponse.setMsg(e.getMessage());
-        }
-        return cloudResponse;
-    }
-
-    */
-/**用户修改*//*
-
-    @RequestMapping("/alterUser")
-    public Object alterUser(User user){
-        LOG.info("alterUser method -> 参数：" + user);
-        CloudResponse cloudResponse = new CloudResponse();
-        try {
-            iUserService.updateUserInfo(user);
-            JSONObject resultJson = JSONObject.fromObject(null);
-            cloudResponse.setRows(Base64Util.Base64Encode(resultJson.toString()));
-            cloudResponse.setReqid("");
-            LOG.info("alterUser method -> 返回值：" + resultJson);
-        } catch (BizException ex) {
-            LOG.debug("操作失败", ex);
-            cloudResponse.setCode(CloudResponseCode.BIZ_EXCEPTION);
-            cloudResponse.setMsg(ex.getMessage());
-        } catch (Exception e) {
-            LOG.error("系统错误", e);
-            cloudResponse.setCode(CloudResponseCode.UNKNOW_EXCEPTION);
-            cloudResponse.setMsg(e.getMessage());
-        }
-        return cloudResponse;
-    }
-
-    */
-/**用户注销*//*
-
-    @RequestMapping("/cancetUser")
-    public Object cancetUser(User user){
-        LOG.info("cancetUser method -> 参数：" + user);
-        CloudResponse cloudResponse = new CloudResponse();
-        try {
-            iUserService.updataUserToCancet(user);
-            JSONObject resultJson = JSONObject.fromObject(null);
-            cloudResponse.setRows(Base64Util.Base64Encode(resultJson.toString()));
-            cloudResponse.setReqid("");
-            LOG.info("cancetUser method -> 返回值：" + resultJson);
-        } catch (BizException ex) {
-            LOG.debug("操作失败", ex);
-            cloudResponse.setCode(CloudResponseCode.BIZ_EXCEPTION);
-            cloudResponse.setMsg(ex.getMessage());
-        } catch (Exception e) {
-            LOG.error("系统错误", e);
-            cloudResponse.setCode(CloudResponseCode.UNKNOW_EXCEPTION);
-            cloudResponse.setMsg(e.getMessage());
-        }
-        return cloudResponse;
-    }
 }
-*/
+
