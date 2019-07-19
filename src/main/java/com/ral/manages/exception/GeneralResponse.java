@@ -5,6 +5,8 @@ import lombok.Data;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Data
 @Component
 public class GeneralResponse<T> {
@@ -31,7 +33,7 @@ public class GeneralResponse<T> {
     }
 
     /*操作成功，有数据*/
-    public GeneralResponse success(String msg, T rows) {
+    public static GeneralResponse success(String msg, Map<String,Object> rows) {
         JSONObject json = JSONObject.fromObject(rows);
         String base64 = Base64Util.Base64Encode(json.toString());
         return new GeneralResponse("0","SECCESS", msg, base64);

@@ -8,6 +8,7 @@ import com.ral.manages.exception.GeneralResponse;
 import com.ral.manages.exception.VerificationParams;
 import com.ral.manages.mapper.manage.IAccountMapper;
 import com.ral.manages.service.manage.IAccountService;
+import com.ral.manages.util.PageUtil;
 import com.ral.manages.util.SetUtil;
 import com.ral.manages.util.StringUtil;
 import com.ral.manages.util.TimeUtil;
@@ -15,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +29,7 @@ public class AccountServiceImpl implements IAccountService {
     /**分页查询*/
     @Override
     public GeneralResponse accountPagingQuery(Map<String,Object> map) {
-        GeneralResponse generalResponse = new GeneralResponse();
-        int pageNum = SetUtil.toMapValueInt(map,"pageNum");
-        int pageSize = SetUtil.toMapValueInt(map,"pageSize");
-        pageNum = (pageNum==0?1:pageNum);
-        pageSize = (pageSize==0?10:pageSize);
-        Page<Map<String,Object>> page = PageHelper.startPage(pageNum,pageSize);
+        Page<Map<String,Object>> page = PageHelper.startPage(PageUtil.pageNum(map),PageUtil.pageSize(map));
         List<Map<String,Object>> accountList = iAccountMapper.selectAccountPagingQuery(map);
         for(Map<String,Object> accountMap : accountList){
             int source = SetUtil.toMapValueInt(accountMap,"source");
@@ -43,10 +37,7 @@ public class AccountServiceImpl implements IAccountService {
             int cancellation = SetUtil.toMapValueInt(accountMap,"cancellation");
             accountMap.put("cancellation",cancellation==1?"注销":"正常");
         }
-        Map<String,Object> result = new HashMap<>();
-        result.put("datas",accountList);
-        result.put("total",page.getTotal());
-        return generalResponse.success("操作成功",result);
+        return GeneralResponse.success("操作成功",PageUtil.resultPage(page.getTotal(),accountList));
     }
 
     /**新增*/

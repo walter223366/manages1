@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>账号管理</title>
-    <link rel="stylesheet" th:href="@{/css/index.css}">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
 
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/base64.js}"></script>
@@ -17,20 +17,54 @@
 
     <!--搜索栏-->
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="请输入账号名称" id="query_account" type="text" autocomplete="off" >
-            <input class="layui-input" placeholder="请输入手机号码" id="query_tellphone" type="number" autocomplete="off" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-            <input class="layui-input" placeholder="请输入开始日期" id="query_starttime">
-            <input class="layui-input" placeholder="请输入截止日期" id="query_endtime">
-            <button class="layui-btn" id="query_accountPage" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
-            <button class="layui-btn layui-btn-primary" id="query_accountEmpty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
-        </form>
+        <!--搜索条件-->
+        <div class="search-conditional">
+            <form class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号名称</label>
+                    <div class="layui-input-inline inputwidth" >
+                        <input type="text" id="query_account" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">手机号码</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input type="number" id="query_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input id="query_starttime" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input id="query_endtime" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--搜索查询-->
+        <div class="search-button">
+            <div class="layui-inline">
+                <button class="layui-btn" id="query_accountPage" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-primary" id="query_accountEmpty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
+            </div>
+        </div>
     </div>
 
     <!--操作栏-->
     <xblock>
-        <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon">&#xe640;</i>批量删除</button>
-        <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon">&#xe654;</i>新增</button>
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon">&#xe640;</i>批量删除</button>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon">&#xe654;</i>新增</button>
+        </div>
     </xblock>
 
     <!--数据栏-->
@@ -247,6 +281,13 @@
         document.getElementById("query_endtime").value = '';
     });
 
+    /**批量删除*/
+    $("#show_accountData").on('click','.batch',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        obj = JSON.parse(str);
+        alert(obj);
+
+    });
 
     /**新增部分*/
     $("#add_button").click(function () {
