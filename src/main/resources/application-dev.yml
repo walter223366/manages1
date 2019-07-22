@@ -14,8 +14,7 @@ spring:
   devtools:
     restart:
       trigger-file: trigger.txt
-  resources:
-    static-locations: classpath:/static/
+  resources: static-locations:classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver

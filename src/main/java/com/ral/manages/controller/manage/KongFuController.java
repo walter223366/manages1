@@ -1,5 +1,6 @@
 package com.ral.manages.controller.manage;
 
+import com.ral.manages.entity.manage.KongFu;
 import com.ral.manages.exception.GeneralResponse;
 import com.ral.manages.service.manage.IKongFuService;
 import org.slf4j.Logger;
@@ -36,5 +37,49 @@ public class KongFuController {
         return generalResponse;
     }
 
+    /**新增*/
+    @PostMapping("/kongFuAdd")
+    public Object kongFuAdd(KongFu kongFu){
+        LOG.info("请求参数:" + kongFu);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuAdd(kongFu);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**修改*/
+    @PostMapping("/kongFuUpdate")
+    public Object kongFuUpdate(KongFu kongFu){
+        LOG.info("请求参数:" + kongFu);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuUpdate(kongFu);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**删除*/
+    @PostMapping("/kongFuDelete")
+    public Object kongFuDelete(KongFu kongFu){
+        LOG.info("请求参数:" + kongFu);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuDelete(kongFu);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
 
 }

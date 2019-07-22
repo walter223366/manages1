@@ -49,10 +49,10 @@
         <!--搜索查询-->
         <div class="search-button">
             <div class="layui-inline">
-                <button class="layui-btn" id="query_accountPage" type="button"><i class="layui-icon">&#xe615;</i>查询</button>
+                <button class="layui-btn" id="query_accountPage" type="button"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-primary" id="query_accountEmpty" type="button"><i class="layui-icon">&#xe640;</i>清空条件</button>
+                <button class="layui-btn layui-btn-primary" id="query_accountEmpty" type="button"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
@@ -60,10 +60,10 @@
     <!--操作栏-->
     <xblock>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon">&#xe640;</i>批量删除</button>
+            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
         </div>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon">&#xe654;</i>新增</button>
+            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon layui-icon-add-1"></i>新增</button>
         </div>
     </xblock>
 
@@ -71,7 +71,7 @@
     <table class="layui-table">
         <!--数据表头-->
         <thead><tr>
-            <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div></th>
+            <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></th>
             <th>ID</th>
             <th>账号名称</th>
             <th>手机号码</th>
@@ -122,7 +122,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="add_epassword" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="" type="button" id="addAccount_but">新增</button>
+                <button class="layui-btn" type="button" id="addAccount_but">新增</button>
                 <button class="layui-btn layui-btn-primary" type="button" id="addAccount_reset">重置</button>
             </div>
         </form>
@@ -162,7 +162,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="add_epassword" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="update" lay-submit="" type="button" id="updateAccount_but">修改</button>
+                <button class="layui-btn" type="button" id="updateAccount_but">修改</button>
                 <button class="layui-btn layui-btn-primary" type="button" id="updateAccount_reset">重置</button>
             </div>
         </form>
@@ -259,7 +259,7 @@
         }else {
             $.each(obj.datas,function (i,n) {
                 data = data+"<tr>";
-                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
+                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon layui-icon-ok'></i></div></td>";
                 data = data+"<td>"+(i+1)+"</td>";
                 data = data+"<td>"+(isNull(n.account))+"</td>";
                 data = data+"<td>"+(isNull(n.tellphone))+"</td>";
@@ -267,8 +267,8 @@
                 data = data+"<td>"+(isNull(n.lrrq))+"</td>";
                 data = data+"<td>"+(isNull(n.cancellation))+"</td>";
                 data = data+"<td class='td-manage'>";
-                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
-                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon'>&#xe640;</i>删除</a>";
+                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon layui-icon-edit'></i>编辑</a>";
+                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon layui-icon-delete'></i>删除</a>";
                 data = data+"</td></tr>";
             });
         }
