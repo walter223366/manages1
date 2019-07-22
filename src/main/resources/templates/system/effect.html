@@ -173,7 +173,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="add_target" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit=""  type="button" id="addEffect_but">新增</button>
+                <button class="layui-btn" type="button" id="addEffect_but">新增</button>
                 <button class="layui-btn layui-btn-primary" type="button" id="addEffect_reset">重置</button>
             </div>
         </form>
@@ -372,13 +372,12 @@
             shade:0.4,
             title: "新增效果",
             content: $("#add_effectInfo"),
-            yes:function(index) {
-                $(obj).click();
+            yes:function() {
                 $("#add_effectInfo").hide();
             }
         });
     });
-    $("#add_effect_hp").click(function () {
+    $("#add_effect_hp",parent.document()).click(function () {
         addeffecthp();
     });
     function addeffecthp(){

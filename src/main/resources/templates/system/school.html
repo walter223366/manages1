@@ -414,13 +414,9 @@
     }
     /**判断字符串*/
     function isNull(str){
-        if(str instanceof String){
-            if(str == null || str == ""){
-                return "-";
-            }else{
-                return str;
-            }
-        }else if(str instanceof number){
+        if(str == null || str == ""){
+            return "-";
+        }else{
             return str;
         }
     }
