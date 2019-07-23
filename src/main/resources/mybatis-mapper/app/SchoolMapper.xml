@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.manage.ISchoolMapper">
+
+    <sql id="schoolResult">
+        school_id,name,info,influence,cancellation
+    </sql>
+    <sql id="conditionalCheck">
+        <if test="name != null and name != ''">
+            AND name like '%${name}%'
+        </if>
+        <if test="sinfluence != null and sinfluence != ''">
+            AND influence <![CDATA[>=]]> #{sinfluence}
+        </if>
+        <if test="einfluence != null and einfluence != ''">
+            AND influence <![CDATA[<=]]> #{einfluence}
+        </if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="selectSchoolPagingQuery" parameterType="map" resultType="map">
+        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND cancellation!=1 <include refid="conditionalCheck"/>
+    </select>
+    <select id="selectSchoolToExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
+        SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}
+    </select>
+
+    <!--新增-->
+    <insert id="insertSchool" parameterType="com.ral.manages.entity.app.School">
+        INSERT INTO dict_school(school_id,name,info,influence)
+        VALUES(#{school.school_id},#{school.name},#{school.info},#{school.influence})
+    </insert>
+
+    <!--修改-->
+    <update id="updateSchool"  parameterType="com.ral.manages.entity.app.School">
+        UPDATE dict_school SET info=#{school.info},influence=#{school.influence}
+        WHERE 1=1 AND name=#{school.name}
+    </update>
+
+    <!--删除-->
+    <update id="deleteSchool" parameterType="com.ral.manages.entity.app.School">
+        UPDATE dict_school SET cancellation=#{school.cancellation} WHERE 1=1 AND name=#{school.name}
+    </update>
+
+</mapper>

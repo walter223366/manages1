@@ -1,6 +1,6 @@
 package com.ral.manages.controller.user;
 
-import com.ral.manages.exception.GeneralResponse;
+import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.service.user.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

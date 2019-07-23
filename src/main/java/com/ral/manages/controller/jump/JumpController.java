@@ -21,15 +21,18 @@ public class JumpController {
     public String jumpError(){ return "/error/404.html"; }
 
     @RequestMapping("/account")
-    public String jumpAccount(){ return "/system/account.html"; }
+    public String jumpAccount(){ return "/app/account.html"; }
 
     @RequestMapping("/school")
-    public String jumpSchool(){ return "/system/school.html"; }
+    public String jumpSchool(){ return "/app/school.html"; }
 
     @RequestMapping("/effect")
-    public String jumpEffect(){ return "/system/effect.html"; }
+    public String jumpEffect(){ return "/app/effect.html"; }
+
+    @RequestMapping("/zhaoshi")
+    public String jumpZhaoShi(){ return "/app/zhaoshi.html"; }
 
     @RequestMapping("/kongFu")
-    public String jumpKongFu(){ return "/system/kongfu.html"; }
+    public String jumpKongFu(){ return "/app/kongfu.html"; }
 
 }

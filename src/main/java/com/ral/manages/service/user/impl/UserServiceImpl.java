@@ -1,6 +1,5 @@
 package com.ral.manages.service.user.impl;
 
-import com.ral.manages.emun.StateTable;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.mapper.user.IUserMapper;
 import com.ral.manages.service.user.IUserService;
@@ -28,7 +27,7 @@ public class UserServiceImpl implements IUserService {
         int count = iUserMapper.selectUserExist(user);
         user.setCancellation(0);
         user.setId(StringUtil.getUUID());
-        int source = (int) StateTable.USER_SOURCE.getCode();
+        //int source = (int) StateTable.USER_SOURCE.getCode();
         iUserMapper.insertUserInfo(user);
 
     }

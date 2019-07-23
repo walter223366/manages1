@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.manage.IArticleMapper">
+
+    <sql id="articleResult">
+        article_id,img,name
+    </sql>
+
+    <select id="selectArticle" parameterType="com.ral.manages.entity.app.Article" resultType="com.ral.manages.entity.app.Article">
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 AND name=#{article.name}
+    </select>
+
+    <insert id="insertAritcle" parameterType="com.ral.manages.entity.app.Article">
+        INSERT INTO dict_article(article_id,img,name) VALUES(#{article.article_id},#{article.img},#{article.name})
+    </insert>
+
+    <update id="updateAritcle" parameterType="com.ral.manages.entity.app.Article">
+        UPDATE dict_article SET img=#{article.img},name=#{article.name} WHERE 1=1 AND name=#{article.name}
+    </update>
+
+    <delete id="deleteAritcle" parameterType="com.ral.manages.entity.app.Article">
+        DELETE dict_article SET
+    </delete>
+
+
+</mapper>

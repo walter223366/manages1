@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.manage.IKongFuMapper">
+
+    <sql id="kongFuResult">
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation
+    </sql>
+    <sql id="conditionalCheck">
+        <if test="name != null and name != ''">
+            AND name like '%${name}%'
+        </if>
+        <if test="type != null and type != ''">
+            AND type=#{type}
+        </if>
+        <if test="kongfu_attainments != null and kongfu_attainments != ''">
+            AND kongfu_attainments=#{attainments}
+        </if>
+        <if test="enable != null and enable != ''">
+            AND enable=#{enable}
+        </if>
+    </sql>
+
+    <!--查询-->
+    <select id="selectKongFuPagingQuery" parameterType="map" resultType="map">
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND cancellation!=1 <include refid="conditionalCheck"/>
+    </select>
+    <select id="selectKongFuToExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
+        SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    </select>
+
+    <!--新增-->
+    <insert id="insertKongFu" parameterType="com.ral.manages.entity.app.KongFu">
+        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation)
+        VALUES(#{kongFu.kongfu_id},#{kongFu.name},#{kongFu.info},#{kongFu.type},#{kongFu.experience_limit},
+        #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.cancellation})
+    </insert>
+
+    <!--修改-->
+    <update id="updateKongFu" parameterType="com.ral.manages.entity.app.KongFu">
+        UPDATE dict_kongfu SET info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
+        kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable}
+        WHERE 1=1 AND name=#{kongFu.name}
+    </update>
+
+    <!--删除-->
+    <update id="deleteKongFu" parameterType="com.ral.manages.entity.app.KongFu">
+        UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND name=#{kongFu.name}
+    </update>
+
+
+
+</mapper>

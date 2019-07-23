@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>账号管理</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/base64.js}"></script>
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+    <script th:src="@{/js/main.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="x-body">
+
+    <!--搜索栏-->
+    <div class="layui-row">
+        <!--搜索条件-->
+        <div class="search-conditional">
+            <form class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号名称</label>
+                    <div class="layui-input-inline inputwidth" >
+                        <input type="text" id="query_account" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">手机号码</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input type="number" id="query_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">开始时间</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input id="query_starttime" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input id="query_endtime" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--搜索查询-->
+        <div class="search-button">
+            <div class="layui-inline">
+                <button class="layui-btn" id="query_accountPage" type="button"><i class="layui-icon layui-icon-search"></i>查询</button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-primary" id="query_accountEmpty" type="button"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+            </div>
+        </div>
+    </div>
+
+    <!--操作栏-->
+    <xblock>
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        </div>
+    </xblock>
+
+    <!--数据栏-->
+    <table class="layui-table">
+        <!--数据表头-->
+        <thead><tr>
+            <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></th>
+            <th>ID</th>
+            <th>账号名称</th>
+            <th>手机号码</th>
+            <th>来源</th>
+            <th>创建时间</th>
+            <th>注销状态</th>
+            <th>操作</th>
+        </thead>
+        <!--数据来源-->
+        <tbody class="table" id="show_accountData"></tbody>
+    </table>
+
+    <!--分页栏-->
+    <div class="page" id="page_accountInfo"></div>
+
+    <!--新增栏-->
+    <div class="x-body" id="add_accountInfo" aria-hidden="true" hidden>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_account" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="add_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>密&emsp;&emsp;码</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="add_spassword" autocomplete="off" class="layui-input"></div>
+                <div class="layui-form-mid layui-word-aux"><p style="color:red">注意：请填写6到16位密码</p></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>确认密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" id="add_epassword" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_source" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="add_epassword" class="layui-form-label"></label>
+                <button class="layui-btn" type="button" id="addAccount_but">新增</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="addAccount_reset">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <!--编辑栏-->
+    <div class="x-body" id="update_accountInfo" aria-hidden="true" hidden>
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_account" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="update_tellphone" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>创建时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_lrrq" autocomplete="off" class="layui-input" disabled="true"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_source" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>注销状态</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="update_cancellation" autocomplete="off" class="layui-input" disabled="true">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="add_epassword" class="layui-form-label"></label>
+                <button class="layui-btn" type="button" id="updateAccount_but">修改</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="updateAccount_reset">重置</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    /**初始化*/
+    $(function(){
+        pagingQueryAccount();
+    });
+
+
+    /**查询部分*/
+    $("#query_accountPage").click(function () {
+        pagingQueryAccount();
+    });
+    function pagingQueryAccount(){
+        $("#show_accountData").empty();
+        var account = $("#query_account").val();
+        var tellphone = $("#query_tellphone").val();
+        var starttime = $("#query_starttime").val();
+        var endtime = $("#query_endtime").val();
+        $.ajax({
+            type:"POST",
+            url:"/account/pagingQuery",
+            data: JSON.stringify({
+                "account":account,
+                "tellphone":tellphone,
+                "starttime":starttime,
+                "endtime":endtime
+            }),
+            dataType:"JSON",
+            contentType:"application/json",
+            success:function(data){
+                if(data.code == "0" && data.result == "SECCESS"){
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if(isJSON(rows)){
+                        obj = JSON.parse(rows);
+                        pagingPluginAccount(obj,account,tellphone,starttime,endtime);
+                    }
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    }
+    function pagingPluginAccount(obj,account,tellphone,starttime,endtime){
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            laypage.render({
+                elem: 'page_accountInfo'
+                ,count: obj.total
+                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                ,theme: '#15c142'
+                ,jump:function (obj) {
+                    $("#show_accountData").empty();
+                    $.ajax({
+                        type:"POST",
+                        url:"/account/pagingQuery",
+                        data: JSON.stringify({
+                            "account":account,
+                            "tellphone":tellphone,
+                            "starttime":starttime,
+                            "endtime":endtime,
+                            "pageNum":obj.curr,
+                            "pageSize":obj.limit
+                        }),
+                        dataType:"JSON",
+                        contentType:"application/json",
+                        success:function(data){
+                            if(data.code == "0" && data.result == "SECCESS"){
+                                var rows = $.base64.atob(data.rows,"utf-8");
+                                if(isJSON(rows)){
+                                    obj = JSON.parse(rows);
+                                    showAccountData(obj);
+                                }
+                            }else{
+                                layer.msg(data.msg,{icon: 2});
+                            }
+                        },
+                        error:function () {
+                            layer.msg("数据加载超时，请求重试！",{icon: 2});
+                        }
+                    })
+                }
+            });
+        });
+    }
+    function showAccountData(obj){
+        var total = obj.total;
+        var data = "";
+        if(total == 0){
+            data = "<tr><td colspan='8' style='text-align:center;'>未查询到数据</td></tr>";
+        }else {
+            $.each(obj.datas,function (i,n) {
+                data = data+"<tr>";
+                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon layui-icon-ok'></i></div></td>";
+                data = data+"<td>"+(i+1)+"</td>";
+                data = data+"<td>"+(isNull(n.account))+"</td>";
+                data = data+"<td>"+(isNull(n.tellphone))+"</td>";
+                data = data+"<td>"+(isNull(n.source))+"</td>";
+                data = data+"<td>"+(isNull(n.lrrq))+"</td>";
+                data = data+"<td>"+(isNull(n.cancellation))+"</td>";
+                data = data+"<td class='td-manage'>";
+                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon layui-icon-edit'></i>编辑</a>";
+                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon layui-icon-delete'></i>删除</a>";
+                data = data+"</td></tr>";
+            });
+        }
+        $("#show_accountData").html(data);
+    }
+    $("#query_accountEmpty").click(function (){
+        document.getElementById("query_account").value = '';
+        document.getElementById("query_tellphone").value = '';
+        document.getElementById("query_starttime").value = '';
+        document.getElementById("query_endtime").value = '';
+    });
+
+    /**批量删除*/
+    $("#show_accountData").on('click','.batch',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        obj = JSON.parse(str);
+        alert(obj);
+
+    });
+
+    /**新增部分*/
+    $("#add_button").click(function () {
+        addAccount_reset();
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "新增用户",
+            content: $("#add_accountInfo"),
+            yes:function() {
+                $("#add_accountInfo").hide();
+            }
+        });
+    });
+    $("#addAccount_but").click(function () {
+        var account = $("#add_account").val();
+        var tellphone = $("#add_tellphone").val();
+        var password = $("#add_spassword").val();
+        var repassword = $("#add_epassword").val();
+        var source = $("#add_source").val();
+        var flag = checkParams(account,tellphone,password,repassword);
+        if(flag == false){
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/account/accountAdd",
+            data: {
+                account: account,
+                tellphone: Number(tellphone),
+                password: password,
+                source: Number(source)
+            },
+            success: function (data) {
+                if (data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQueryAccount();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+    $("#addAccount_reset").click(function () {
+        addAccount_reset();
+    });
+    function addAccount_reset(){
+        document.getElementById("add_account").value = '';
+        document.getElementById("add_tellphone").value = '';
+        document.getElementById("add_spassword").value = '';
+        document.getElementById("add_epassword").value = '';
+        document.getElementById("add_source").value = '';
+    }
+    function checkParams(account,tellphone,password,repassword){
+        if(account==null||account==""){
+            layer.msg("账号名称不能为空",{icon: 2});
+            return false;
+        }else{
+            if(account.length<6 || account.length>12){
+                layer.msg("账号名称规定6-12个字符",{icon: 2});
+                return false;
+            }
+        }
+        if(tellphone==null||tellphone==""){
+            layer.msg("手机号码不能为空",{icon: 2});
+            return false;
+        }else{
+            var tver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
+            if(!tver.test(tellphone)){
+                layer.msg("手机号码格式不合法",{icon: 2});
+                return false;
+            }
+        }
+        if(password==null||password==""){
+            layer.msg("密码不能为空",{icon: 2});
+            return false;
+        }else{
+            if(password.length<6 || password.length>12){
+                layer.msg("密码规定6-12个字符",{icon: 2});
+                return false;
+            }
+        }
+        if(repassword==null||repassword==""){
+            layer.msg("确认密码不能为空",{icon: 2});
+            return false;
+        }else{
+            if(password != repassword){
+                layer.msg("两次密码不一致",{icon: 2});
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**编辑部分*/
+    $("#show_accountData").on('click','.edit',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        obj = JSON.parse(str);
+        document.getElementById("update_account").value = toNull(obj.account);
+        document.getElementById("update_tellphone").value = toNull(obj.tellphone);
+        document.getElementById("update_lrrq").value = toNull(obj.lrrq);
+        document.getElementById("update_source").value = toNull(obj.source);
+        document.getElementById("update_cancellation").value = toNull(obj.cancellation);
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [800+'px', 400 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "编辑",
+            content: $("#update_accountInfo"),
+            yes:function() {
+                $("#update_accountInfo").hide();
+            }
+        });
+    });
+    $("#updateAccount_but").click(function () {
+        var account = $("#update_account").val();
+        var tellphone = $("#update_tellphone").val();
+        var lrrq = $("#update_lrrq").val();
+        var source = $("#update_source").val();
+        var cancellation = $("#update_cancellation").val();
+        if(tellphone==null||tellphone==""){
+            layer.msg("手机号码不能为空",{icon: 2});
+            return;
+        }else{
+            var tver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
+            if(!tver.test(tellphone)){
+                layer.msg("手机号码格式不合法",{icon: 2});
+                return;
+            }
+        }
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/account/accountUpdate",
+            data: {
+                account:account,
+                tellphone:Number(tellphone)
+            },
+            success:function(data){
+                if(data.code == "0" && data.result == "SECCESS"){
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQueryAccount();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+    $("#updateAccount_reset").click(function () {
+        document.getElementById("update_tellphone").value = "";
+    });
+
+
+    /**删除部分*/
+    $('#show_accountData').on('click','.del',function () {
+        var str = $.base64.atob($(this).attr("obj"), "utf-8");
+        var obj = JSON.parse(str);
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/account/accountDelete",
+            data: {account:obj.account},
+            success: function (data) {
+                if(data.code == "0" && data.result == "SECCESS") {
+                    layer.msg(data.msg,{icon: 1});
+                    pagingQueryAccount();
+                }else{
+                    layer.msg(data.msg,{icon: 2});
+                }
+            }
+        });
+    });
+
+
+    /**判断json格式、字符串*/
+    function isJSON(str){
+        try{
+            JSON.parse(str);
+            return true;
+        }catch (e) {
+            return false;
+        }
+    }
+    function isNull(str){
+        if(str == null || str == ""){
+            return "-";
+        }else{
+            return str;
+        }
+    }
+    function toNull(str){
+        if(str == null || str == ""){
+           return "";
+        }
+        return str;
+    }
+
+
+    /**时间控件*/
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#query_starttime'
+        });
+        laydate.render({
+            elem: '#query_endtime'
+        });
+    })
+</script>
+</body>
+</html>

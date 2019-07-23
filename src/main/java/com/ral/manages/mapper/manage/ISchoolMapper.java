@@ -1,6 +1,6 @@
 package com.ral.manages.mapper.manage;
 
-import com.ral.manages.entity.manage.School;
+import com.ral.manages.entity.app.School;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;

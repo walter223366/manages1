@@ -1,6 +1,6 @@
 package com.ral.manages.mapper.manage;
 
-import com.ral.manages.entity.manage.Article;
+import com.ral.manages.entity.app.Article;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
