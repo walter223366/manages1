@@ -24,7 +24,7 @@
 
     <!--查询-->
     <select id="selectKongFuPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND cancellation!=1 <include refid="conditionalCheck"/>
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND cancellation=0 OR cancellation IS NULL <include refid="conditionalCheck"/>
     </select>
     <select id="selectKongFuToExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
@@ -48,7 +48,5 @@
     <update id="deleteKongFu" parameterType="com.ral.manages.entity.app.KongFu">
         UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND name=#{kongFu.name}
     </update>
-
-
 
 </mapper>

@@ -21,7 +21,7 @@
 
     <!--分页查询-->
     <select id="selectSchoolPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND cancellation!=1 <include refid="conditionalCheck"/>
+        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND cancellation=0 OR cancellation IS NULL <include refid="conditionalCheck"/>
     </select>
     <select id="selectSchoolToExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
         SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}

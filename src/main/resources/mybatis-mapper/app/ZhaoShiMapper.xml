@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.manage.IZhaoShiMapper">
+
+    <sql id="zhaoShiResult">
+        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost
+    </sql>
+    <sql id="conditionalCheck">
+        <if test="name != null and name != ''">
+            AND name like '%${name}%'
+        </if>
+        <if test="MP_cost != null and MP_cost != ''">
+            AND MP_cost=#{MP_cost}
+        </if>
+        <if test="sexperience != null and sexperience != ''">
+            AND zhaoshi_experience_cost <![CDATA[>=]]> #{sexperience}
+        </if>
+        <if test="eexperience != null and eexperience != ''">
+            AND zhaoshi_experience_cost <![CDATA[<=]]> #{eexperience}
+        </if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="selectZhaoShiPagingQuery" parameterType="map" resultType="map">
+        SELECT <include refid="zhaoShiResult"/> FROM dict_zhaoshi WHERE 1=1 <include refid="conditionalCheck"/>
+    </select>
+    <select id="selectZhaoShiToExist" parameterType="com.ral.manages.entity.app.ZhaoShi" resultType="int">
+        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{zhaoshi.zhaoshi_id}
+    </select>
+    <select id="selectZhaoShiToName" parameterType="com.ral.manages.entity.app.ZhaoShi" resultType="int">
+        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND name=#{zhaoshi.name}
+    </select>
+
+    <!--新增-->
+    <insert id="insertZhaoShi" parameterType="com.ral.manages.entity.app.ZhaoShi">
+        INSERT INTO dict_zhaoshi(zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost)
+        VALUES(#{zhaoshi.zhaoshi_id},#{zhaoshi.kongfu_id},#{zhaoshi.name},#{zhaoshi.MP_cost},#{zhaoshi.zhaoshi_effect},#{zhaoshi.zhaoshi_experience_cost})
+    </insert>
+
+    <!--修改-->
+    <update id="updateZhaoShi" parameterType="com.ral.manages.entity.app.ZhaoShi">
+        UPDATE dict_zhaoshi SET kongfu_id=#{zhaoshi.kongfu_id},name=#{zhaoshi.name},MP_cost=#{zhaoshi.MP_cost},info=#{zhaoshi.info},zhaoshi_effect=#{zhaoshi.zhaoshi_effect},
+        zhaoshi_experience_cost=#{zhaoshi.zhaoshi_experience_cost} WHERE 1=1 AND zhaoshi_id=#{zhaoshi.zhaoshi_id}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteZhaoShi" parameterType="com.ral.manages.entity.app.ZhaoShi">
+        DELETE FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{zhaoshi.zhaoshi_id}
+    </delete>
+
+</mapper>

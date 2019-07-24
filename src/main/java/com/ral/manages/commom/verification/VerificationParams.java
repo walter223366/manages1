@@ -1,9 +1,6 @@
 package com.ral.manages.commom.verification;
 
-import com.ral.manages.entity.app.Account;
-import com.ral.manages.entity.app.Effect;
-import com.ral.manages.entity.app.KongFu;
-import com.ral.manages.entity.app.School;
+import com.ral.manages.entity.app.*;
 import com.ral.manages.util.StringUtil;
 
 /**
@@ -38,9 +35,24 @@ public class VerificationParams {
         return null;
     }
 
+    /**效果管理参数校验*/
     public static String verificationEffect(Effect effect){
         if(StringUtil.isNull(Integer.toString(effect.getTarget()))){
             return "效果执行目标不能为空";
+        }
+        return null;
+    }
+
+    /**招式管理参数校验*/
+    public static String verificationZhaoShi(ZhaoShi zhaoShi){
+        if(StringUtil.isNull(zhaoShi.getName())){
+            return "招式名称不能为空";
+        }
+        if(StringUtil.isNull(zhaoShi.getMP_cost())){
+            return "内力花费不能为空";
+        }
+        if(StringUtil.isNull(zhaoShi.getKongfu_id())){
+            return "武学选项不能为空";
         }
         return null;
     }
