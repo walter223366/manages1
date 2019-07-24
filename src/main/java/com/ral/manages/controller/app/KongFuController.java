@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @RestController
@@ -37,6 +35,21 @@ public class KongFuController {
         }
         return generalResponse;
     }
+
+    /**招式管理选项查询*/
+    @GetMapping("/kongFuOrZhaoShi")
+    public Object kongFuOrZhaoShi(){
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuOrZhaoShi();
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
 
     /**新增*/
     @PostMapping("/kongFuAdd")

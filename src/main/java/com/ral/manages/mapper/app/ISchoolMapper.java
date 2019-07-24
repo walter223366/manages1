@@ -1,4 +1,4 @@
-package com.ral.manages.mapper.manage;
+package com.ral.manages.mapper.app;
 
 import com.ral.manages.entity.app.School;
 import org.apache.ibatis.annotations.Param;

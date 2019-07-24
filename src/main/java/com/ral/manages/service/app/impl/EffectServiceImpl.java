@@ -7,7 +7,7 @@ import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.commom.verification.VerificationParams;
 import com.ral.manages.entity.app.Effect;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.mapper.manage.IEffectMapper;
+import com.ral.manages.mapper.app.IEffectMapper;
 import com.ral.manages.service.app.IEffectService;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.util.SetUtil;

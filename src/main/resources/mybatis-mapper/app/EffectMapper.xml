@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ral.manages.mapper.manage.IEffectMapper">
+<mapper namespace="com.ral.manages.mapper.app.IEffectMapper">
 
     <sql id="effectResult">
         effect_id,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,

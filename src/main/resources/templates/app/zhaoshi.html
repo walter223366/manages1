@@ -91,6 +91,59 @@
     <!--分页栏-->
     <div class="page" id="page_zhaoShiInfo"></div>
 
+    <!--新增栏-->
+    <div class="x-body" id="add_zhaoShiInfo" aria-hidden="true" hidden>
+        <div class="search-conditional">
+            <form class="layui-form-item layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_name" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
+                <div class="layui-input-inline inputwidth">
+                    <select id="add_kongFu" class="layui-input">
+                        <option value="0">自己</option>
+                        <option value="1">对方</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_MP_cost" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="add_zhaoshi_effect" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
+                <div class="layui-input-inline">
+                    <input type="number" id="add_zhaoshi_experience_cost" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
+                <div class="layui-input-inline" style="width: 500px;">
+                    <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="add_name" class="layui-form-label"></label>
+                <button class="layui-btn"  type="button" id="addZhaoShi_but">新增</button>
+                <button class="layui-btn layui-btn-primary" type="button" id="addZhaoShi_reset">重置</button>
+            </div>
+            <div class="demo-transfer" id="test7"></div>
+        </form>
+        </div>
+    </div>
+
 
 
 </div>
@@ -152,7 +205,7 @@
                             "name":name,
                             "mpcost":mpcost,
                             "sexperience":Number(sexperience),
-                            "eexperience":Number(eexperience)
+                            "eexperience":Number(eexperience),
                             "pageNum":obj.curr,
                             "pageSize":obj.limit
                         }),
@@ -205,10 +258,72 @@
         document.getElementById("query_szhaoShi_experience").value = '';
         document.getElementById("query_ezhaoShi_experience").value = '';
     });
-    
-    
 
-    /**判断json格式、字符串*/
+
+
+    /**新增部分*/
+    $("#add_button").click(function () {
+        addZhaoShi_reset();
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [100+'%', 100 +'%'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "新增",
+            content: $("#add_zhaoShiInfo"),
+            yes:function() {
+                $("#add_zhaoShiInfo").hide();
+            }
+        });
+    });
+
+    $("#addZhaoShi_reset").click(function () {
+        addZhaoShi_reset();
+    });
+    function addZhaoShi_reset() {
+        document.getElementById("add_name").value = '';
+        document.getElementById("add_kongFu").value = '';
+        document.getElementById("add_MP_cost").value = '';
+        document.getElementById("add_zhaoshi_effect").value = '';
+        document.getElementById("add_zhaoshi_experience_cost").value = '';
+        document.getElementById("add_info").value = '';
+    }
+
+
+
+
+    layui.use(['transfer', 'layer', 'util'], function(){
+        var $ = layui.$
+            ,transfer = layui.transfer
+            ,layer = layui.layer
+            ,util = layui.util;
+
+        //模拟数据
+        var data1 = [
+            {"value": "1", "title": "李白"}
+            ,{"value": "2", "title": "杜甫"}
+            ,{"value": "3", "title": "苏轼"}
+            ,{"value": "4", "title": "李清照"}
+            ,{"value": "5", "title": "鲁迅", "disabled": true}
+            ,{"value": "6", "title": "巴金"}
+            ,{"value": "7", "title": "冰心"}
+            ,{"value": "8", "title": "矛盾"}
+            ,{"value": "9", "title": "贤心"}
+        ];
+
+        transfer.render({
+            elem: '#test7'
+            ,data: data1
+            ,id: 'key123' //定义唯一索引
+        });
+    });
+
+
+        /**判断json格式、字符串*/
     function isJSON(str){
         try{
             JSON.parse(str);

@@ -7,7 +7,7 @@ import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.entity.app.Account;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.commom.verification.VerificationParams;
-import com.ral.manages.mapper.manage.IAccountMapper;
+import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.service.app.IAccountService;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.util.SetUtil;

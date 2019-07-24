@@ -7,7 +7,7 @@ import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.commom.verification.VerificationParams;
 import com.ral.manages.entity.app.ZhaoShi;
-import com.ral.manages.mapper.manage.IZhaoShiMapper;
+import com.ral.manages.mapper.app.IZhaoShiMapper;
 import com.ral.manages.service.app.IZhaoShiService;
 import com.ral.manages.util.StringUtil;
 import org.slf4j.Logger;

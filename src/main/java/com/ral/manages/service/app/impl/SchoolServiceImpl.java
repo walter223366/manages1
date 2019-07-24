@@ -7,7 +7,7 @@ import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.entity.app.School;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.commom.verification.VerificationParams;
-import com.ral.manages.mapper.manage.ISchoolMapper;
+import com.ral.manages.mapper.app.ISchoolMapper;
 import com.ral.manages.service.app.ISchoolService;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.util.StringUtil;

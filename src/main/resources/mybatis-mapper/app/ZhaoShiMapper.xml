@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ral.manages.mapper.manage.IZhaoShiMapper">
+<mapper namespace="com.ral.manages.mapper.app.IZhaoShiMapper">
 
     <sql id="zhaoShiResult">
         zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost

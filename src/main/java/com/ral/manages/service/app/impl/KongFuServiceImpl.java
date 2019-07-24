@@ -7,7 +7,7 @@ import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.entity.app.KongFu;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.commom.verification.VerificationParams;
-import com.ral.manages.mapper.manage.IKongFuMapper;
+import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.service.app.IKongFuService;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.util.SetUtil;
@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,15 @@ public class KongFuServiceImpl implements IKongFuService {
             kongFuMap.put("type",kongFuType(SetUtil.toMapValueInt(kongFuMap,"type")));
         }
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),kongFuList));
+    }
+
+    /**招式管理选项查询*/
+    @Override
+    public GeneralResponse kongFuOrZhaoShi() {
+        List<Map<String,Object>> kongFuList = iKongFuMapper.selectKongFuToNameId();
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("datas",kongFuList);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
 
     /**新增*/

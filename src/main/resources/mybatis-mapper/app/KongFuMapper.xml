@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ral.manages.mapper.manage.IKongFuMapper">
+<mapper namespace="com.ral.manages.mapper.app.IKongFuMapper">
 
     <sql id="kongFuResult">
         kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation
@@ -28,6 +28,10 @@
     </select>
     <select id="selectKongFuToExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    </select>
+    
+    <select id="selectKongFuToNameId" parameterType="map">
+        SELECT kongfu_id,name FROM  dict_kongfu  
     </select>
 
     <!--新增-->

@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ral.manages.mapper.manage.IAccountMapper">
+<mapper namespace="com.ral.manages.mapper.app.IAccountMapper">
 
     <sql id="accountResult">
         id,account,password,source,tellphone,DATE_FORMAT(lrrq,'%Y-%m-%d %H:%i:%s') as lrrq,cancellation
