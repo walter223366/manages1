@@ -41,13 +41,13 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">招式经验</label>
                     <div class="layui-input-inline inputwidth" >
-                        <input type="number" id="query_szhaoShi_experience" placeholder="武学经验开始范围" autocomplete="off" class="layui-input">
+                        <input type="number" id="query_szhaoShi_experience" placeholder="开始范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">招式经验</label>
                     <div class="layui-input-inline inputwidth" >
-                        <input type="number" id="query_ezhaoShi_experience" placeholder="武学经验结束范围" autocomplete="off" class="layui-input">
+                        <input type="number" id="query_ezhaoShi_experience" placeholder="结束范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </form>
@@ -92,56 +92,51 @@
     <div class="page" id="page_zhaoShiInfo"></div>
 
     <!--新增栏-->
-    <div class="x-body" id="add_zhaoShiInfo" aria-hidden="true" hidden>
-        <div class="search-conditional">
+    <div class="x-body search-conditional" id="add_zhaoShiInfo" aria-hidden="true" hidden>
+
             <form class="layui-form-item layui-form">
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="add_name" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
+                    <div class="layui-input-inline inputwidth" >
+                        <input type="text" id="add_name" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
-                <div class="layui-input-inline inputwidth">
-                    <select id="add_kongFu" class="layui-input">
-                        <option value="0">自己</option>
-                        <option value="1">对方</option>
-                    </select>
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input type="text" id="add_MP_cost" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="add_MP_cost" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
+                    <div class="layui-input-inline inputwidth">
+                        <input type="number" id="add_zhaoshi_experience_cost" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="add_zhaoshi_effect" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
+                    <div class="layui-input-inline" style="width: 900px;">
+                        <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="add_zhaoshi_experience_cost" autocomplete="off" class="layui-input">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
+                    <div class="layui-input-inline inputwidth">
+                        <select id="add_kongFu" class="layui-input">
+                            <option value="0">自己</option>
+                            <option value="1">对方</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
-                <div class="layui-input-inline" style="width: 500px;">
-                    <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_zhaoshi_effect" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="add_name" class="layui-form-label"></label>
-                <button class="layui-btn"  type="button" id="addZhaoShi_but">新增</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="addZhaoShi_reset">重置</button>
-            </div>
-            <div class="demo-transfer" id="test7"></div>
-        </form>
-        </div>
+                <div class="demo-transfer" id="test7"></div>
+            </form>
+
     </div>
 
 
@@ -169,7 +164,7 @@
             url:"/zhaoShi/pagingQuery",
             data: JSON.stringify({
                 "name":name,
-                "mpcost":mpcost,
+                "mpcost":Number(mpcost),
                 "sexperience":Number(sexperience),
                 "eexperience":Number(eexperience)
             }),

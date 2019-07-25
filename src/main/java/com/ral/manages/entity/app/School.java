@@ -17,6 +17,6 @@ public class School implements Serializable {
     private String name;//名称
     private String info;//说明
     private int influence;//影响力（默认是0）
-    private int cancellation;//删除状态（0：未删除（默认） 1：已删除）
+    private int cancellation;////删除状态，0或null正常，1已删除
 
 }

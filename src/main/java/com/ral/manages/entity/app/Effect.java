@@ -38,6 +38,6 @@ public class Effect implements Serializable {
     private String suck_mp_green;//绿球影响
     private String suck_mp_blue;//蓝球影响
     private String suck_mp_purple;//紫球影响
-    private int cancellation;//注销标志(0或null正常，1注销)
+    private int cancellation;//删除状态，0或null正常，1已删除
 
 }

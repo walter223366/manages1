@@ -8,21 +8,36 @@
         article_id,img,name
     </sql>
 
-    <select id="selectArticle" parameterType="com.ral.manages.entity.app.Article" resultType="com.ral.manages.entity.app.Article">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 AND name=#{article.name}
+    <sql id="conditionalCheck">
+        <if test="name != null and name != ''">
+            AND name=#{name}
+        </if>
+    </sql>
+
+    <!--分页查询-->
+    <select id="selectArticlePagingQuery" parameterType="map" resultType="map">
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>
+    </select>
+    <select id="selectArticleToExist" parameterType="com.ral.manages.entity.app.Article" resultType="int">
+        SELECT COUNT(1) FROM dict_article WHERE 1=1 AND article_id=#{article.article_id}
+    </select>
+    <select id="selectArticleToName" parameterType="com.ral.manages.entity.app.Article" resultType="int">
+        SELECT COUNT(1) FROM dict_article WHERE 1=1 AND name=#{article.name}
     </select>
 
-    <insert id="insertAritcle" parameterType="com.ral.manages.entity.app.Article">
-        INSERT INTO dict_article(article_id,img,name) VALUES(#{article.article_id},#{article.img},#{article.name})
+    <!--新增-->
+    <insert id="insertArticle" parameterType="com.ral.manages.entity.app.Article">
+        INSERT INTO dict_article(article_id,img,name)VALUES (#{article.article_id},#{article.img},#{article.name})
     </insert>
 
-    <update id="updateAritcle" parameterType="com.ral.manages.entity.app.Article">
-        UPDATE dict_article SET img=#{article.img},name=#{article.name} WHERE 1=1 AND name=#{article.name}
+    <!--修改-->
+    <update id="updateArticle" parameterType="com.ral.manages.entity.app.Article">
+        UPDATE dict_article SET img=#{article.img},name=#{article.name} WHERE 1=1 AND article_id=#{article.article_id}
     </update>
 
-    <delete id="deleteAritcle" parameterType="com.ral.manages.entity.app.Article">
-        DELETE dict_article SET
-    </delete>
-
+    <!--删除-->
+    <update id="deleteArticle" parameterType="com.ral.manages.entity.app.Article">
+        UPDATE dict_article SET cancellation=#{article.cancellation} WHERE 1=1 AND article_id=#{article.article_id}
+    </update>
 
 </mapper>

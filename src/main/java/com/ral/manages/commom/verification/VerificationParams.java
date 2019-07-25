@@ -56,4 +56,15 @@ public class VerificationParams {
         }
         return null;
     }
+
+    /**物品管理参数校验*/
+    public static String verificationArticle(Article article){
+        if(StringUtil.isNull(article.getName())){
+            return "物品名称不能为空";
+        }
+        if(StringUtil.isNull(article.getImg())){
+            return "物品图片不能为空";
+        }
+       return null;
+    }
 }

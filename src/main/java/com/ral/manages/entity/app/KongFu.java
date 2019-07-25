@@ -20,6 +20,6 @@ public class KongFu implements Serializable {
     private long experience_limit;//可学经验上限(默认100)
     private String kongfu_attainments;//造诣，格式：[{"10":"1"},...]。说明：前面的值是武学经验，后面的值是提升的造诣值（根据武功分类提升对应的造诣）
     private int enable;//启用状态，0或null未启用，1启用
-    private int cancellation;//注销状态，0或null正常，1注销
+    private int cancellation;////删除状态，0或null正常，1已删除
     private String kongfu_zhaoshi;//武学招式，格式：12,14,20。效果id被逗号隔开。
 }

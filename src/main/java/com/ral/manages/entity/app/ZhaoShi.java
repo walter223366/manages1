@@ -20,5 +20,6 @@ public class ZhaoShi implements Serializable {
     private String info;//招式说明
     private String zhaoshi_effect;//招式效果，格式：12,14,20。效果id被逗号隔开。
     private long zhaoshi_experience_cost;//招式所需武学经验
+    private int cancellation;//删除状态，0或null正常，1已删除
 
 }

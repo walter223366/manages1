@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IZhaoShiMapper">
 
     <sql id="zhaoShiResult">
-        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost
+        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost,cancellation
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -24,7 +24,7 @@
 
     <!--分页查询-->
     <select id="selectZhaoShiPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="zhaoShiResult"/> FROM dict_zhaoshi WHERE 1=1 <include refid="conditionalCheck"/>
+        SELECT <include refid="zhaoShiResult"/> FROM dict_zhaoshi WHERE 1=1 AND cancellation=0 OR cancellation IS NULL <include refid="conditionalCheck"/>
     </select>
     <select id="selectZhaoShiToExist" parameterType="com.ral.manages.entity.app.ZhaoShi" resultType="int">
         SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{zhaoshi.zhaoshi_id}
@@ -46,8 +46,8 @@
     </update>
 
     <!--删除-->
-    <delete id="deleteZhaoShi" parameterType="com.ral.manages.entity.app.ZhaoShi">
-        DELETE FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{zhaoshi.zhaoshi_id}
-    </delete>
+    <update id="deleteZhaoShi" parameterType="com.ral.manages.entity.app.ZhaoShi">
+        UPDATE dict_zhaoshi SET cancellation=#{zhaoshi.cancellation} WHERE 1=1 AND zhaoshi_id=#{zhaoshi.zhaoshi_id}
+    </update>
 
 </mapper>
