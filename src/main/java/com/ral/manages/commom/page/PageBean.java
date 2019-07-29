@@ -1,7 +1,6 @@
 package com.ral.manages.commom.page;
 
 import com.ral.manages.util.SetUtil;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,15 +12,23 @@ public class PageBean {
 
     /**页数*/
     public static int pageNum(Map<String,Object> map){
-        int pageNum = SetUtil.toMapValueInt(map,"pageNum");
-        pageNum = (pageNum==0?PAGENUM:pageNum);
-        return pageNum;
+        try{
+            int pageNum = SetUtil.toMapValueInt(map,"pageNum");
+            pageNum = (pageNum==0?PAGENUM:pageNum);
+            return pageNum;
+        }catch (Exception e){
+            return PAGENUM;
+        }
     }
     /**每页条数*/
     public static int pageSize(Map<String,Object> map){
-        int pageSize = SetUtil.toMapValueInt(map,"pageSize");
-        pageSize = (pageSize==0?PAGESIZE:pageSize);
-        return pageSize;
+        try{
+            int pageSize = SetUtil.toMapValueInt(map,"pageSize");
+            pageSize = (pageSize==0?PAGESIZE:pageSize);
+            return pageSize;
+        }catch (Exception e){
+            return PAGESIZE;
+        }
     }
     /**分页返回*/
     public static Map<String,Object> resultPage(long total, List<Map<String,Object>> datas){

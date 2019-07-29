@@ -17,7 +17,7 @@
 
     <!--查询-->
     <select id="selectEffectPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND cancellation=0 OR cancellation IS NULL <include refid="conditionalCheck"/>
+        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0)
     </select>
     <select id="selectEffectToExist" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
         SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}

@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IArticleMapper">
 
     <sql id="articleResult">
-        article_id,img,name
+        article_id,img,name,cancellation
     </sql>
 
     <sql id="conditionalCheck">
@@ -16,7 +16,7 @@
 
     <!--分页查询-->
     <select id="selectArticlePagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0)
     </select>
     <select id="selectArticleToExist" parameterType="com.ral.manages.entity.app.Article" resultType="int">
         SELECT COUNT(1) FROM dict_article WHERE 1=1 AND article_id=#{article.article_id}

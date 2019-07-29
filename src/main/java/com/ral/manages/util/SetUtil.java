@@ -30,42 +30,42 @@ public class SetUtil {
     }
 
     /**
-     * 取map集合key null为""
+     * 获取map集合value
      * @param map
      * @param key
-     * @return
+     * @return String
      */
-    public final static String toMapValueString(Map<?,?> map, String key){
+    public static String toMapValueString(Map<String,Object> map,String key){
         String value = "";
         if (null == map) {
             return value;
-        } else {
-            Object obj = map.get(key);
-            if (null == obj) {
-                return "";
-            } else {
-                if (null != obj) {
-                    value = obj.toString();
-                }
-                return value;
-            }
         }
+        Object obj = map.get(key);
+        if (null == obj) {
+            return value;
+        }else{
+            value = obj.toString();
+        }
+        return value;
     }
 
-    public final static int toMapValueInt(Map<?,?> map,String key){
+    /**
+     * 获取map集合value
+     * @param map
+     * @param key
+     * @return int
+     */
+    public static int toMapValueInt(Map<String,Object> map,String key){
         int value = 0;
         if (null == map) {
             return value;
-        } else {
-            Object obj = map.get(key);
-            if (null == obj) {
-                return value;
-            } else {
-                if (null != obj) {
-                    value = Integer.valueOf((Integer) obj);
-                }
-                return value;
-            }
         }
+        Object obj = map.get(key);
+        if (null == obj) {
+            return value;
+        }else{
+            value = Integer.parseInt(obj.toString());
+        }
+        return value;
     }
 }

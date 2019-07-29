@@ -13,6 +13,7 @@ public class MyWebMvcConfig extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
+                .addResourceLocations("classpath:/js")
                 .addResourceLocations("classpath:/css");
         super.addResourceHandlers(registry);
     }

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Management System</title>
+    <link rel="stylesheet" href="/../layui/css/layui.css">
+    <link rel="stylesheet" href="/../favicon.ico">
+    <link rel="stylesheet" href="/../css/main.css">
+
+    <script src="/../js/jquery.min.js"></script>
+    <script src="/../layui/layui.js" charset="utf-8"></script>
+    <script src="/../js/app/main.js" type="text/javascript"></script>
+
+<body>
+<!-- 顶部栏 -->
+<div class="container">
+    <div class="logo"><a href="">Management System</a></div>
+    <div class="left_open">
+        <i title="展开左侧栏" class="layui-icon layui-icon-shrink-right iconfont"></i>
+    </div>
+    <ul class="layui-nav right">
+        <li class="layui-nav-item">
+            <a href="javascript:;"><i class="layui-icon layui-icon-username"></i>admin</a>
+            <dl class="layui-nav-child">
+                <dd><a onClick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                <dd><a onClick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item to-index"><a href="#">安全退出</a></li>
+    </ul>
+</div>
+
+<!-- 左侧栏 -->
+<div class="left-nav">
+    <div id="side-nav">
+        <ul id="nav">
+            <!--主页-->
+            <li>
+                <a _href="javascript:;">
+                    <i class="layui-icon layui-icon-home iconfont "></i>
+                    <cite>主页</cite>
+                </a>
+            </li>
+            <!--应用管理-->
+            <li >
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-app iconfont"></i>
+                    <cite>应用管理</cite>
+                    <i class="layui-icon iconfont nav_right">&#xe602;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a _href="/view/app/system/account.html"><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>账号管理</cite></a></li >
+                    <li><a _href="/system/school"><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>门派管理</cite></a></li>
+                    <li><a _href="/system/effect"><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>效果管理</cite></a></li>
+                    <li><a _href="/system/zhaoshi"><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>招式管理</cite></a></li>
+                    <li><a _href="/system/kongFu"><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>武学管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>人物管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>buff管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>内容管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>状态管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>物品管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-template-1 iconfont"></i><cite>装备管理</cite></a></li>
+                </ul>
+            </li>
+            <!--订单管理-->
+            <li>
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-templeate-1 iconfont"></i>
+                    <cite>订单管理</cite>
+                    <i class="layui-icon iconfont nav_right">&#xe602;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a _href=""><i class="layui-icon layui-icon-form iconfont"></i><cite>订单列表</cite></a></li >
+                </ul>
+            </li>
+            <!--权限管理-->
+            <li>
+                <a href="javascript:;">
+                    <i class="layui-icon iconfont layui-icon-auz"></i>
+                    <cite>权限管理</cite>
+                    <i class="layui-icon iconfont nav_right">&#xe602;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a _href=""><i class="layui-icon layui-icon-user iconfont"></i><cite>用户管理</cite></a></li>
+                    <li><a _href=""><i class="layui-icon layui-icon-group iconfont"></i><cite>管理员列表</cite></a></li >
+                    <li><a _href=""><i class="layui-icon layui-icon-auz confont"></i><cite>权限分类</cite></a></li >>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- 右侧栏 -->
+<div class="page-content">
+    <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+        <ul class="layui-tab-title">
+            <li class="home"><i class="layui-icon layui-icon-home"></i>我的主页</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <iframe src='' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-bg"></div>
+
+<!-- 底部栏 -->
+<<div class="footer">
+    <div class="copyright">Copyright ©2019 L-admin v2.3 All Rights Reserved</div>
+</div>
+</body>
+</html>
