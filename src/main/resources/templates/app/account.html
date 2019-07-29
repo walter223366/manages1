@@ -79,22 +79,21 @@
 
 
     <!--数据栏-->
-    <table class="layui-hide" id="showInfo" lay-filter="test"></table>
-    <!-- <table class="layui-table">
-         &lt;!&ndash;数据表头&ndash;&gt;
-         <thead><tr>
-             <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></th>
-             <th>ID</th>
-             <th>账号名称</th>
-             <th>手机号码</th>
-             <th>来源</th>
-             <th>创建时间</th>
-             <th>状态</th>
-             <th>操作</th>
-         </thead>
-         &lt;!&ndash;数据来源&ndash;&gt;
+    <table class="layui-table" >
+        <!--数据表头-->
+        <thead><tr>
+            <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></th>
+            <th>ID</th>
+            <th>账号名称</th>
+            <th>手机号码</th>
+            <th>来源</th>
+            <th>创建时间</th>
+            <th>状态</th>
+            <th>操作</th>
+        </thead>
+        <!--数据来源-->
          <tbody class="table" id="showInfo"></tbody>
-     </table>-->
+     </table>
 
 
     <!--分页栏-->
@@ -204,8 +203,6 @@
     });
 
 
-
-
     /*查询部分*/
     $("#pagingQuery").click(function () {
         pagingQuery();
@@ -226,7 +223,7 @@
         laydate.render({
             elem: '#query_endTime'
         });
-    })
+    });
     function queryParams() {
         var datas = {
             account: $("#query_account").val(),
@@ -259,12 +256,8 @@
             }
         });
     }
-    function pagingTable(rows,datas,url) {
-        var obj = JSON.parse(rows);
-        layer.use();
-    }
     function pagingPlugin(rows,datas,url){
-        var obj = JSON.parse(rows);
+        obj = JSON.parse(rows);
         layui.use('laypage', function(){
             var laypage = layui.laypage;
             laypage.render({
@@ -273,9 +266,9 @@
                 layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
                 theme: '#15c142',
                 jump:function (obj) {
+                    $("#showInfo").empty();
                     datas.pageNum = obj.curr;
                     datas.pageSize = obj.limit;
-                    $("#showInfo").empty();
                     $.ajax({
                         type:"POST",
                         url:url,
@@ -289,7 +282,7 @@
                                     showInfo(rows);
                                 }
                             }else{
-                                layer.msg(data.msg,{icon: 2});
+                                layer.msg(data.msg,{icon:2});
                             }
                         }
                     })
@@ -298,7 +291,7 @@
         });
     }
     function showInfo(rows){
-        var obj = JSON.parse(rows);
+        obj = JSON.parse(rows);
         var data = "";
         if( obj.total == 0){
             data = "<tr><td colspan='8' style='text-align:center;'>未查询到数据</td></tr>";
@@ -320,7 +313,6 @@
         }
         $("#showInfo").html(data);
     }
-
 
 
     /*新增部分*/
@@ -356,7 +348,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/account/accountAdd",
+            url: "/account/inAdd",
             data: datas,
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
@@ -455,7 +447,7 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/account/accountUpdate",
+            url:"/account/inUpdate",
             data:datas,
             success:function(data){
                 if(data.code == "0" && data.result == "SECCESS"){
@@ -514,7 +506,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/account/accountDelete",
+            url: "/account/inDelete",
             data: {account:obj.account},
             success: function (data) {
                 if(data.code == "0" && data.result == "SECCESS") {

@@ -39,7 +39,7 @@ public class SchoolController {
     }
 
     /**新增*/
-    @RequestMapping("/schoolAdd")
+    @RequestMapping("/inAdd")
     public Object schoolAdd(School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -54,7 +54,7 @@ public class SchoolController {
     }
 
     /**修改*/
-    @RequestMapping("/schoolUpdate")
+    @RequestMapping("/inUpdate")
     public Object schoolUpdate(School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -69,7 +69,7 @@ public class SchoolController {
     }
 
     /**删除*/
-    @RequestMapping("/schoolDelete")
+    @RequestMapping("/inDelete")
     public Object schoolDelete(School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();

@@ -22,20 +22,20 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">门派名称</label>
                     <div class="layui-input-inline inputwidth" >
-                        <input type="text" id="query_name" autocomplete="off" class="layui-input">
+                        <input id="query_name" type="text" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">门派影响力</label>
                     <div class="layui-input-inline inputwidth" >
-                        <input type="number" id="query_sinfluence" placeholder="开始范围" autocomplete="off" class="layui-input"  onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        <input id="query_sinfluence" type="number" placeholder="开始范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">门派影响力</label>
                     <div class="layui-input-inline inputwidth" >
-                        <input type="number" id="query_einfluence" placeholder="结束范围" autocomplete="off" class="layui-input"  onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        <input id="query_einfluence" type="number" placeholder="结束范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </form>
@@ -43,10 +43,10 @@
         <!--搜索查询-->
         <div class="search-button">
             <div class="layui-inline">
-                <button class="layui-btn" id="query_schoolPage" type="button"><i class="layui-icon layui-icon-search"></i>查询</button>
+                <button id="pagingQuery" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-primary" id="query_schoolEmpty" type="button"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+                <button id="cleanUp" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
@@ -55,10 +55,10 @@
     <!--操作栏-->
     <xblock>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+            <button id="bomb_Delete" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
         </div>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            <button id="bomb_Add" type="button" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增</button>
         </div>
     </xblock>
 
@@ -73,157 +73,161 @@
             <th>操作</th>
         </thead>
         <!--数据来源-->
-        <tbody class="table" id="show_schoolData"></tbody>
+        <tbody class="table" id="showInfo"></tbody>
     </table>
 
     <!--分页栏-->
-    <div class="page" id="page_schoolInfo"></div>
+    <div class="page" id="pageInfo"></div>
 
     <!--新增栏-->
-    <div class="x-body" id="add_schoolInfo" aria-hidden="true" hidden>
+    <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>门派名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="add_name" autocomplete="off" class="layui-input">
+                    <input id="add_name" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">影响力值</label>
                 <div class="layui-input-inline">
-                    <input type="number" id="add_influence" value="0" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-                </div>
-                <div class="layui-form-mid layui-word-aux"><p style="color:red">注意：该项不填则默认影响力值为0</p></div>
+                    <input id="add_influence" type="number" value="0" autocomplete="off" class="layui-input">
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">该项不填则默认影响力值为0</span></div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">门派说明</label>
-                <div class="layui-input-inline" style="width: 500px;">
-                    <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
+                <div class="layui-input-inline">
+                    <textarea id="add_info" class="layui-textarea layui-input-width" placeholder="请输入内容"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="add_name" class="layui-form-label"></label>
-                <button class="layui-btn"  type="button" id="addSchool_but">新增</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="addSchool_reset">重置</button>
+                <label class="layui-form-label"></label>
+                <button id="request_Add" type="button" class="layui-btn">新增</button>
+                <button id="reset_Add" type="button" class="layui-btn layui-btn-primary" >重置</button>
             </div>
         </form>
     </div>
 
     <!--编辑栏-->
-    <div class="x-body" id="update_schoolInfo" aria-hidden="true" hidden>
+    <div class="x-body" id="editInfo" aria-hidden="true" hidden>
         <form class="layui-form">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">门派id</label>
+                <div class="layui-input-inline">
+                    <input id="edit_school_id" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>门派名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="update_name" autocomplete="off" class="layui-input" disabled="true">
+                    <input id="edit_name" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">影响力值</label>
                 <div class="layui-input-inline">
-                    <input type="number" id="update_influence" value="0" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-                </div>
-                <div class="layui-form-mid layui-word-aux"><p style="color:red">注意：该项不填则默认影响力值为0</p></div>
+                    <input id="edit_influence" type="number" value="0" autocomplete="off" class="layui-input">
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">该项不填则默认影响力值为0</span></div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">门派说明</label>
-                <div class="layui-input-inline" style="width: 500px;">
-                    <textarea class="layui-textarea" id="update_info" placeholder="请输入内容"></textarea>
+                <div class="layui-input-inline layui-input-width">
+                    <textarea id="edit_info" class="layui-textarea layui-input-width" placeholder="请输入内容"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="add_name" class="layui-form-label"></label>
-                <button class="layui-btn" type="button" id="updateSchool_but">修改</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="updateSchool_reset">重置</button>
+                <label class="layui-form-label"></label>
+                <button id="request_Edit" type="button" class="layui-btn">修改</button>
+                <button id="reset_Edit" type="button" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
 
 </div>
 <script>
-    /**初始化*/
     $(function(){
-        pagingQuerySchool();
+        pagingQuery();
     });
 
 
-    /**查询部分*/
-    $("#query_schoolPage").click(function () {
-        pagingQuerySchool();
+    /*查询部分*/
+    $("#pagingQuery").click(function () {
+        pagingQuery();
     });
-    function pagingQuerySchool(){
-        $("#show_schoolData").empty();
-        var name = $("#query_name").val();
-        var sinfluence = $("#query_sinfluence").val();
-        var einfluence = $("#query_einfluence").val();
+    $("#cleanUp").click(function (){
+        $("#query_name").val('');
+        $("#query_sinfluence").val('');
+        $("#query_einfluence").val('');
+        pagingQuery();
+    });
+    function queryParams() {
+        var datas = {
+            name: $("#query_name").val(),
+            sinfluence: $("#query_sinfluence").val(),
+            einfluence: $("#query_einfluence").val()
+        };
+        return datas;
+    }
+    function pagingQuery(){
+        $("#showInfo").empty();
+        var datas = queryParams();
+        var url = "/school/pagingQuery";
         $.ajax({
             type:"POST",
-            url:"/school/pagingQuery",
-            data: JSON.stringify({
-                "name":name,
-                "sinfluence":sinfluence,
-                "einfluence":einfluence
-            }),
+            url:url,
+            data: JSON.stringify(datas),
             dataType:"JSON",
             contentType:"application/json",
             success:function(data){
                 if(data.code == "0" && data.result == "SECCESS"){
                     var rows = $.base64.atob(data.rows,"utf-8");
                     if(isJSON(rows)){
-                        obj = JSON.parse(rows);
-                        pagingPluginSchool(obj,name,sinfluence,einfluence);
+                        pagingPlugin(rows,datas,url);
                     }
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.msg,{icon:2});
                 }
             }
         });
     }
-    function pagingPluginSchool(obj,name,sinfluence,einfluence){
+    function pagingPlugin(rows,datas,url){
+        var obj = JSON.parse(rows);
         layui.use('laypage', function(){
             var laypage = layui.laypage;
             laypage.render({
-                elem: 'page_schoolInfo'
-                ,count: obj.total
-                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                ,theme: '#15c142'
-                ,jump:function (obj) {
-                    $("#show_schoolData").empty();
+                elem: 'pageInfo',
+                count: obj.total,
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                theme: '#15c142',
+                jump:function (obj) {
+                    $("#showInfo").empty();
+                    datas.pageNum = obj.curr;
+                    datas.pageSize = obj.limit;
                     $.ajax({
                         type:"POST",
-                        url:"/school/pagingQuery",
-                        data: JSON.stringify({
-                            "name":name,
-                            "sinfluence":sinfluence,
-                            "einfluence":einfluence,
-                            "pageNum":obj.curr,
-                            "pageSize":obj.limit
-                        }),
+                        url:url,
+                        data: JSON.stringify(datas),
                         dataType:"JSON",
                         contentType:"application/json",
                         success:function(data){
                             if(data.code == "0" && data.result == "SECCESS"){
                                 var rows = $.base64.atob(data.rows,"utf-8");
                                 if(isJSON(rows)){
-                                    obj = JSON.parse(rows);
-                                    showSchoolData(obj);
+                                    showInfo(rows);
                                 }
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.msg,{icon:2});
                             }
-                        },
-                        error:function () {
-                            layer.alert("数据加载超时，请求重试！");
                         }
                     })
                 }
             });
         });
     }
-    function showSchoolData(obj){
-        var total = obj.total;
+    function showInfo(rows){
+        obj = JSON.parse(rows);
         var data = "";
-        if(total == 0){
+        if(obj.total == 0){
             data = "<tr><td colspan='5' style='text-align:center;'>未查询到数据</td></tr>";
         }else {
             $.each(obj.datas,function (i,n) {
@@ -239,80 +243,73 @@
                 data = data+"</td></tr>";
             });
         }
-        $("#show_schoolData").html(data);
+        $("#showInfo").html(data);
     }
-    $("#query_schoolEmpty").click(function (){
-        document.getElementById("query_name").value = '';
-        document.getElementById("query_sinfluence").value = '';
-        document.getElementById("query_einfluence").value = '';
-    });
 
 
-    /**新增部分*/
-    $("#add_button").click(function () {
-        addSchool_reset();
+    /*新增部分*/
+    $("#bomb_Add").click(function () {
+        reset_Add();
         layer.open({
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [800+'px', 400 +'px'],
+            area: [900+'px', 450 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
             shade:0.4,
             title: "新增",
-            content: $("#add_schoolInfo"),
+            content: $("#addInfo"),
             yes:function() {
-                $("#add_schoolInfo").hide();
+                $("#addInfo").hide();
             }
         });
     });
-    $("#addSchool_but").click(function(){
-        var name = $("#add_name").val();
-        var influence = $("#add_influence").val();
-        var info = $("#add_info").val();
-        if(name==null||name==""){
-            layer.msg("门派名称不能为空",{icon: 2});
+    $("#request_Add").click(function(){
+        var datas = {
+            name:$("#add_name").val(),
+            influence: Number($("#add_influence").val()),
+            info: $("#add_info").val()
+        };
+        if(datas.name==null || datas.name==""){
+            layer.msg("门派名称不能为空",{icon:2});
             return;
         }
         $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/school/schoolAdd",
-            data: {
-                name: name,
-                influence: Number(influence),
-                info: info
-            },
+            type:"POST",
+            dataType:"JSON",
+            url:"/school/inAdd",
+            data:datas,
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg,{icon: 1});
-                    pagingQuerySchool();
+                    layer.msg(data.msg,{icon:1});
+                    pagingQuery();
                 }else{
-                    layer.msg(data.msg,{icon: 2});
+                    layer.msg(data.msg,{icon:2});
                 }
             }
         });
     });
-    $("#addSchool_reset").click(function () {
-        addSchool_reset();
+    $("#reset_Add").click(function () {
+        reset_Add();
     });
-    function addSchool_reset() {
-        document.getElementById("add_name").value = '';
-        document.getElementById("add_influence").value = '';
-        document.getElementById("add_info").value = '';
+    function reset_Add() {
+        $("#add_name").val('');
+        $("#add_influence").val('');
+        $("#add_info").val('');
     }
 
 
-    /**详情部分*/
-    $("#show_schoolData").on('click','.details',function (){
+    /*详情部分*/
+    $("#showInfo").on('click','.details',function (){
         var str = $.base64.atob($(this).attr("obj"), "utf-8");
         obj = JSON.parse(str);
         layer.open({
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [800+'px', 400 +'px'],
+            area: [1000+'px', 520 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
@@ -327,84 +324,85 @@
     });
 
 
-    /**编辑部分*/
-    $("#show_schoolData").on('click','.edit',function () {
+    /*编辑部分*/
+    $("#showInfo").on('click','.edit',function () {
         var str = $.base64.atob($(this).attr("obj"), "utf-8");
         obj = JSON.parse(str);
-        document.getElementById("update_name").value = toNull(obj.name);
-        document.getElementById("update_influence").value = obj.influence;
-        document.getElementById("update_info").value = toNull(obj.info);
+        document.getElementById("edit_school_id").value = toNull(obj.school_id);
+        document.getElementById("edit_name").value = toNull(obj.name);
+        document.getElementById("edit_influence").value = obj.influence;
+        document.getElementById("edit_info").value = toNull(obj.info);
         layer.open({
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [800+'px', 400 +'px'],
+            area: [900+'px', 450 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
             shade:0.4,
             title: "编辑",
-            content: $("#update_schoolInfo"),
+            content: $("#editInfo"),
             yes:function() {
-                $("#update_schoolInfo").hide();
+                $("#editInfo").hide();
             }
         });
     });
-    $("#updateSchool_but").click(function () {
-        var name = $("#update_name").val();
-        var influence = $("#update_influence").val();
-        var info = $("#update_info").val();
-        if(name==null || name==""){
-            layer.msg("门派名称不能为空",{icon: 2});
+    $("#request_Edit").click(function () {
+        var datas = {
+            school_id:$("#edit_school_id").val(),
+            name:$("#edit_name").val(),
+            influence:Number($("#edit_influence").val()),
+            info:$("#edit_info").val()
+        };
+        if(datas.name==null || datas.name==""){
+            layer.msg("门派名称不能为空",{icon:2});
             return;
         }
         $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/school/schoolUpdate",
-            data: {
-                name: name,
-                influence: Number(influence),
-                info: info
-            },
+            type:"POST",
+            dataType:"JSON",
+            url:"/school/inUpdate",
+            data:datas,
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg,{icon: 1});
-                    pagingQuerySchool();
+                    layer.msg(data.msg,{icon:1});
+                    pagingQuery();
                 }else{
-                    layer.msg(data.msg,{icon: 2});
+                    layer.msg(data.msg,{icon:2});
                 }
             }
         });
     });
-    $("#updateSchool_reset").click(function () {
-        document.getElementById("update_influence").value = '';
-        document.getElementById("update_info").value = '';
+    $("#reset_Edit").click(function () {
+        $("#edit_name").val('');
+        $("#edit_influence").val('');
+        $("#edit_info").val('');
     });
 
 
     /**删除部分*/
-    $("#show_schoolData").on('click','.del',function () {
+    $("#showInfo").on('click','.del',function () {
         var str = $.base64.atob($(this).attr("obj"), "utf-8");
         var obj = JSON.parse(str);
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/school/schoolDelete",
+            url: "/school/inDelete",
             data: {name:obj.name},
             success: function (data) {
                 if(data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg,{icon: 1});
-                    pagingQuerySchool();
+                    layer.msg(data.msg,{icon:1});
+                    pagingQuery();
                 }else{
-                    layer.msg(data.msg,{icon: 2});
+                    layer.msg(data.msg,{icon:2});
                 }
             }
         });
     });
 
 
-    /**判断json格式*/
+    /*判断json格式、字符串*/
     function isJSON(str){
         try{
             JSON.parse(str);
@@ -413,7 +411,6 @@
             return false;
         }
     }
-    /**判断字符串*/
     function isNull(str){
         if(str == null || str == ""){
             return "-";

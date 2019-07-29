@@ -21,9 +21,9 @@
             <form class="layui-form-item layui-form">
                 <div class="layui-inline">
                     <label class="layui-form-label">执行目标</label>
-                    <div class="layui-input-inline inputwidth" >
+                    <div class="layui-input-inline inputWidth" >
                         <select id="query_target" class="layui-input">
-                            <option value="">请选择</option>
+                            <option value="">全选</option>
                             <option value="0">自己</option>
                             <option value="1">对方</option>
                         </select>
@@ -34,23 +34,25 @@
         <!--搜索查询-->
         <div class="search-button">
             <div class="layui-inline">
-                <button class="layui-btn" id="query_effectPage" type="button"><i class="layui-icon layui-icon-search"></i>查询</button>
+                <button id="pagingQuery" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-primary" id="query_effectEmpty" type="button"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+                <button id="cleanUp" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
 
+
     <!--操作栏-->
     <xblock>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+            <button id="bomb_Delete" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
         </div>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            <button id="bomb_Add" type="button" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增</button>
         </div>
     </xblock>
+
 
     <!--数据栏-->
     <table class="layui-table">
@@ -61,6 +63,7 @@
             <th>执行目标</th>
             <th>攻击力</th>
             <th>防御力</th>
+            <th>暴击力</th>
             <th>HP影响</th>
             <th>外伤</th>
             <th>内伤</th>
@@ -69,7 +72,6 @@
             <th>闪避率</th>
             <th>命中率</th>
             <th>暴击率</th>
-            <th>暴击力</th>
             <th>吸血</th>
             <th>操作</th>
         </thead>

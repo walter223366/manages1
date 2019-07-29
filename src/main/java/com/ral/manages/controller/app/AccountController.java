@@ -38,7 +38,7 @@ public class AccountController {
     }
 
     /**新增*/
-    @RequestMapping("accountAdd")
+    @RequestMapping("inAdd")
     public Object accountAdd(Account account){
         LOG.info("请求参数:" + account);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -53,7 +53,7 @@ public class AccountController {
     }
 
     /**修改*/
-    @RequestMapping("accountUpdate")
+    @RequestMapping("inUpdate")
     public Object accountUpdate(Account account){
         LOG.info("请求参数:" + account);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -68,7 +68,7 @@ public class AccountController {
     }
 
     /**删除*/
-    @RequestMapping("accountDelete")
+    @RequestMapping("inDelete")
     public Object accountDelete(Account account){
         LOG.info("请求参数:" + account);
         GeneralResponse generalResponse = new GeneralResponse();

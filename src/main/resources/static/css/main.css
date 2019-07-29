@@ -546,14 +546,22 @@ input::-webkit-outer-spin-button{
 .layui-input:focus{border-color:#1E9FFF!important}
 .search-conditional,.search-button{float: left}
 .search-conditional{
-    width: 78%;
+    width: 75%;
 }
 .search-button{
-    width: 22%;
+    width: 25%;
 }
 .inputWidth{
     width: 200px;
 }
 .footer.copyright{
     text-align: center;
+}
+.layui-table{
+    word-break:break-all
+}
+.layui-textarea:focus{border-color:#1E9FFF!important}
+.layui-input-width{
+    width: 500px;
+    height: 150px;
 }
