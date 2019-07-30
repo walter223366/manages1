@@ -21,15 +21,15 @@
             <form class="layui-form-item layui-form">
                 <div class="layui-inline">
                     <label class="layui-form-label">招式名称</label>
-                    <div class="layui-input-inline inputwidth" >
-                        <input type="text" id="query_name" autocomplete="off" class="layui-input">
+                    <div class="layui-input-inline inputWidth" >
+                        <input id="query_name" type="text" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">内力花费</label>
-                    <div class="layui-input-inline inputwidth" >
-                        <select id="query_MP_cost" class="layui-input">
-                            <option value="">请选择</option>
+                    <div class="layui-input-inline inputWidth" >
+                        <select id="query_spend" class="layui-input">
+                            <option value="">全选</option>
                             <option value="0">黄色</option>
                             <option value="1">金色</option>
                             <option value="2">绿色</option>
@@ -40,14 +40,14 @@
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">招式经验</label>
-                    <div class="layui-input-inline inputwidth" >
-                        <input type="number" id="query_szhaoShi_experience" placeholder="开始范围" autocomplete="off" class="layui-input">
+                    <div class="layui-input-inline inputWidth" >
+                        <input id="query_sExp" placeholder="开始范围" type="number" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">招式经验</label>
-                    <div class="layui-input-inline inputwidth" >
-                        <input type="number" id="query_ezhaoShi_experience" placeholder="结束范围" autocomplete="off" class="layui-input">
+                    <div class="layui-input-inline inputWidth" >
+                        <input id="query_eExp" placeholder="结束范围" type="number" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </form>
@@ -55,23 +55,25 @@
         <!--搜索查询-->
         <div class="search-button">
             <div class="layui-inline">
-                <button class="layui-btn" id="query_zhaoShiPage" type="button"><i class="layui-icon layui-icon-search"></i>查询</button>
+                <button id="pagingQuery" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-primary" id="query_zhaoShiEmpty" type="button"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+                <button id="cleanUp" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
 
+
     <!--操作栏-->
     <xblock>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+            <button id="bomb_Delete" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
         </div>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            <button id="bomb_Add" type="button" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增</button>
         </div>
     </xblock>
+
 
     <!--数据栏-->
     <table class="layui-table">
@@ -85,97 +87,103 @@
             <th>操作</th>
         </thead>
         <!--数据来源-->
-        <tbody class="table" id="show_zhaoShiData"></tbody>
+        <tbody class="table" id="showInfo"></tbody>
     </table>
 
+
     <!--分页栏-->
-    <div class="page" id="page_zhaoShiInfo"></div>
+    <div class="page" id="pageInfo"></div>
+
 
     <!--新增栏-->
-    <div class="x-body search-conditional" id="add_zhaoShiInfo" aria-hidden="true" hidden>
-
-            <form class="layui-form-item layui-form">
-                <div class="layui-inline">
-                    <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
-                    <div class="layui-input-inline inputwidth" >
-                        <input type="text" id="add_name" autocomplete="off" class="layui-input">
-                    </div>
+    <div class="x-body search-conditional" id="addInfo" aria-hidden="true" hidden>
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
+                <div class="layui-input-inline inputWidth" >
+                    <input id="add_name" type="text" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
-                    <div class="layui-input-inline inputwidth">
-                        <input type="text" id="add_MP_cost" autocomplete="off" class="layui-input">
-                    </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_spend" type="text" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
-                    <div class="layui-input-inline inputwidth">
-                        <input type="number" id="add_zhaoshi_experience_cost" autocomplete="off" class="layui-input">
-                    </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_exp" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
-                    <div class="layui-input-inline" style="width: 900px;">
-                        <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
-                    </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
+                <div class="layui-input-inline">
+                    <textarea id="add_info" placeholder="请输入内容" class="layui-textarea layui-input-width"></textarea>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
-                    <div class="layui-input-inline inputwidth">
-                        <select id="add_kongFu" class="layui-input">
-                            <option value="0">自己</option>
-                            <option value="1">对方</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <select id="add_kName" class="layui-input">
+                        <option value="0">自己</option>
+                        <option value="1">对方</option>
+                    </select>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="add_zhaoshi_effect" autocomplete="off" class="layui-input">
-                    </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
+                <div class="layui-input-inline">
+                    <input id="add_zeffect" type="text" autocomplete="off" class="layui-input">
                 </div>
-                <div class="demo-transfer" id="test7"></div>
-            </form>
-
+            </div>
+            <!-- <div class="demo-transfer" id="test7"></div>-->
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button id="request_Add" type="button" class="layui-btn">修改</button>
+                <button id="reset_Add" type="button" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
     </div>
-
-
 
 </div>
 <script>
-    /**初始化*/
     $(function(){
-        pagingQueryZhaoShi();
+        pagingQuery();
     });
 
-    
+
+
     /*查询部分*/
-    $("#query_zhaoShiPage").click(function () {
-        pagingQueryZhaoShi();
+    $("#pagingQuery").click(function () {
+        pagingQuery();
     });
-    function pagingQueryZhaoShi(){
-        $("#show_zhaoShiData").empty();
-        var name = $("#query_name").val();
-        var mpcost = $("#query_MP_cost").val();
-        var sexperience = $("#query_szhaoShi_experience").val();
-        var eexperience = $("#query_ezhaoShi_experience").val();
+    $("#cleanUp").click(function () {
+        $("#query_name").val('');
+        $("#query_sExp").val('');
+        $("#query_eExp").val('');
+        pagingQuery();
+    });
+    function pagingQuery(){
+        $("#showInfo").empty();
+        var datas = {
+            name:$("#query_name").val(),
+            mpcost:Number($("#query_spend").val()),
+            sexperience:Number($("#query_sExp").val()),
+            eexperience:Number($("#query_eExp").val())
+        };
+        var url = "/zhaoShi/pagingQuery";
         $.ajax({
             type:"POST",
-            url:"/zhaoShi/pagingQuery",
-            data: JSON.stringify({
-                "name":name,
-                "mpcost":Number(mpcost),
-                "sexperience":Number(sexperience),
-                "eexperience":Number(eexperience)
-            }),
+            url:url,
+            data: JSON.stringify(datas),
             dataType:"JSON",
             contentType:"application/json",
             success:function(data){
                 if(data.code == "0" && data.result == "SECCESS"){
                     var rows = $.base64.atob(data.rows,"utf-8");
                     if(isJSON(rows)){
-                        obj = JSON.parse(rows);
-                        pagingPluginZhaoShi(obj,name,mpcost,sexperience,eexperience);
+                        pagingPlugin(rows,datas,url);
                     }
                 }else{
                     layer.msg(data.msg,{icon:2});
@@ -183,82 +191,68 @@
             }
         });
     }
-    function pagingPluginZhaoShi(obj,name,mpcost,sexperience,eexperience){
+    function pagingPlugin(rows,datas,url){
+        obj = JSON.parse(rows);
         layui.use('laypage', function(){
             var laypage = layui.laypage;
             laypage.render({
-                elem: 'page_zhaoShiInfo'
-                ,count: obj.total
-                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                ,theme: '#15c142'
-                ,jump:function (obj) {
-                    $("#show_zhaoShiData").empty();
+                elem: 'pageInfo',
+                count: obj.total,
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                theme: '#15c142',
+                jump:function (obj) {
+                    $("#showInfo").empty();
+                    datas.pageNum = obj.curr;
+                    datas.pageSize = obj.limit;
                     $.ajax({
                         type:"POST",
-                        url:"/zhaoShi/pagingQuery",
-                        data: JSON.stringify({
-                            "name":name,
-                            "mpcost":mpcost,
-                            "sexperience":Number(sexperience),
-                            "eexperience":Number(eexperience),
-                            "pageNum":obj.curr,
-                            "pageSize":obj.limit
-                        }),
+                        url:url,
+                        data: JSON.stringify(datas),
                         dataType:"JSON",
                         contentType:"application/json",
                         success:function(data){
                             if(data.code == "0" && data.result == "SECCESS"){
                                 var rows = $.base64.atob(data.rows,"utf-8");
                                 if(isJSON(rows)){
-                                    obj = JSON.parse(rows);
-                                    showZhaoShiData(obj);
+                                    showInfo(rows);
                                 }
                             }else{
-                                layer.msg(data.msg,{icon: 2});
+                                layer.msg(data.msg,{icon:2});
                             }
-                        },
-                        error:function () {
-                            layer.msg("数据加载超时，请求重试！",{icon: 2});
                         }
                     })
                 }
             });
         });
     }
-    function showZhaoShiData(obj){
-        var total = obj.total;
+    function showInfo(rows){
+        obj = JSON.parse(rows);
         var data = "";
-        if(total == 0){
+        if(obj.total == 0){
             data = "<tr><td colspan='8' style='text-align:center;'>未查询到数据</td></tr>";
         }else {
             $.each(obj.datas,function (i,n) {
                 data = data+"<tr>";
-                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
+                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon layui-icon-ok'></i></div></td>";
                 data = data+"<td>"+(i+1)+"</td>";
                 data = data+"<td>"+(isNull(n.name))+"</td>";
                 data = data+"<td>"+(isNull(n.MP_cost))+"</td>";
                 data = data+"<td>"+(isNull(n.zhaoshi_experience_cost))+"</td>";
                 data = data+"<td class='td-manage'>";
-                data = data+"<a title='详情' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm details'><i class='layui-icon'>&#xe615;</i>详情</a>";
-                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon'>&#xe642;</i>编辑</a>";
-                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon'>&#xe640;</i>删除</a>";
+                data = data+"<a title='详情' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm details'><i class='layui-icon layui-icon-log'></i>详情</a>";
+                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon layui-icon-edit'></i>编辑</a>";
+                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon layui-icon-delete'></i>删除</a>";
                 data = data+"</td></tr>";
             });
         }
-        $("#show_zhaoShiData").html(data);
+        $("#showInfo").html(data);
     }
-    $("#query_zhaoShiEmpty").click(function () {
-        document.getElementById("query_name").value = '';
-        document.getElementById("query_MP_cost").value = '';
-        document.getElementById("query_szhaoShi_experience").value = '';
-        document.getElementById("query_ezhaoShi_experience").value = '';
-    });
 
 
 
-    /**新增部分*/
-    $("#add_button").click(function () {
-        addZhaoShi_reset();
+    /*新增部分*/
+    $("#bomb_Add").click(function () {
+        reset_Add();
         layer.open({
             type: 1,
             offset: "auto",
@@ -269,17 +263,16 @@
             shadeClose: true,
             shade:0.4,
             title: "新增",
-            content: $("#add_zhaoShiInfo"),
+            content: $("#addInfo"),
             yes:function() {
-                $("#add_zhaoShiInfo").hide();
+                $("#addInfo").hide();
             }
         });
     });
-
-    $("#addZhaoShi_reset").click(function () {
-        addZhaoShi_reset();
+    $("#reset_Add").click(function () {
+        reset_Add();
     });
-    function addZhaoShi_reset() {
+    function reset_Add() {
         document.getElementById("add_name").value = '';
         document.getElementById("add_kongFu").value = '';
         document.getElementById("add_MP_cost").value = '';
@@ -318,7 +311,7 @@
     });
 
 
-        /**判断json格式、字符串*/
+    /*判断json格式、字符串*/
     function isJSON(str){
         try{
             JSON.parse(str);

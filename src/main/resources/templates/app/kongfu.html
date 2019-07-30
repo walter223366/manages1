@@ -21,15 +21,15 @@
             <form class="layui-form-item layui-form">
                 <div class="layui-inline">
                     <label class="layui-form-label">功夫名称</label>
-                    <div class="layui-input-inline inputwidth" >
-                        <input type="text" id="query_name" autocomplete="off" class="layui-input">
+                    <div class="layui-input-inline inputWidth" >
+                        <input id="query_name" type="text" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">功夫类型</label>
-                    <div class="layui-input-inline inputwidth" >
+                    <div class="layui-input-inline inputWidth" >
                         <select id="query_type" class="layui-input">
-                            <option value="">请选择</option>
+                            <option value="">全选</option>
                             <option value="0">内功</option>
                             <option value="1">轻功</option>
                             <option value="2">拳脚</option>
@@ -42,10 +42,10 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">启用状态</label>
-                    <div class="layui-input-inline inputwidth" >
+                    <label class="layui-form-label">是否启用</label>
+                    <div class="layui-input-inline inputWidth" >
                         <select id="query_enable" class="layui-input">
-                            <option value="">请选择</option>
+                            <option value="">全选</option>
                             <option value="0">未启用</option>
                             <option value="1">已启用</option>
                         </select>
@@ -56,23 +56,25 @@
         <!--搜索查询-->
         <div class="search-button">
             <div class="layui-inline">
-                <button class="layui-btn" id="query_kongFuPage" type="button"><i class="layui-icon layui-icon-search"></i>查询</button>
+                <button id="pagingQuery" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-primary" id="query_kongFuEmpty" type="button"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+                <button id="cleanUp" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
 
+
     <!--操作栏-->
     <xblock>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-danger" id="bacthDelete_button"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+            <button id="bomb_Delete" type="button"  class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
         </div>
         <div class="layui-inline">
-            <button class="layui-btn layui-btn-normal" id="add_button"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            <button id="bomb_Add" type="button" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增</button>
         </div>
     </xblock>
+
 
     <!--数据栏-->
     <table class="layui-table">
@@ -88,19 +90,21 @@
             <th>操作</th>
         </thead>
         <!--数据来源-->
-        <tbody class="table" id="show_kongFuData"></tbody>
+        <tbody class="table" id="showInfo"></tbody>
     </table>
 
+
     <!--分页栏-->
-    <div class="page" id="page_kongFuInfo"></div>
+    <div class="page" id="pageInfo"></div>
+
 
     <!--新增栏-->
-    <div class="x-body" id="add_kongFuInfo" aria-hidden="true" hidden>
+    <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form">
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="add_name" autocomplete="off" class="layui-input">
+                    <input id="add_name" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item layui-inline">
@@ -120,107 +124,102 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">功夫说明</label>
-                <div class="layui-input-inline" style="width: 500px;">
-                    <textarea class="layui-textarea" id="add_info" placeholder="请输入内容"></textarea>
+                <div class="layui-input-inline">
+                    <textarea  id="add_info" placeholder="请输入内容" class="layui-textarea layui-input-width"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="add_name" class="layui-form-label"></label>
-                <button class="layui-btn"  type="button" id="addKongFu_but">新增</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="addKongFu_reset">重置</button>
+                <label class="layui-form-label"></label>
+                <button id="request_Add" type="button" class="layui-btn">新增</button>
+                <button id="reset_Add" type="button" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
 </div>
 <script>
-    /**初始化*/
     $(function(){
-        pagingQueryKongFu();
+        pagingQuery();
     });
 
 
-    /**查询部分*/
-    $("#query_kongFuPage").click(function () {
-        pagingQueryKongFu();
+
+    /*查询部分*/
+    $("#pagingQuery").click(function () {
+        pagingQuery();
     });
-    function pagingQueryKongFu() {
-        $("#show_kongFuData").empty();
-        var name = $("#query_name").val();
-        var type = $("#query_type").val();
-        var enable = $("#query_enable").val();
+    $("#cleanUp").click(function () {
+        $("#query_name").val('');
+        pagingQuery();
+    });
+    function pagingQuery() {
+        $("#showInfo").empty();
+        var datas = {
+            name:$("#query_name").val(),
+            type:$("#query_type").val(),
+            enable:$("#query_enable").val()
+        };
+        var url = "/kongFu/pagingQuery";
         $.ajax({
             type:"POST",
-            url:"/kongFu/pagingQuery",
-            data: JSON.stringify({
-                "name":name,
-                "type":type,
-                "enable":enable
-            }),
+            url:url,
+            data: JSON.stringify(datas),
             dataType:"JSON",
             contentType:"application/json",
             success:function(data){
                 if(data.code == "0" && data.result == "SECCESS"){
                     var rows = $.base64.atob(data.rows,"utf-8");
                     if(isJSON(rows)){
-                        obj = JSON.parse(rows);
-                        pagingPluginKongFu(obj,name,type,enable);
+                        pagingPlugin(rows,datas,url);
                     }
                 }else{
-                    layer.msg(data.msg,{icon: 2});
+                    layer.msg(data.msg,{icon:2});
                 }
             }
         });
     }
-    function  pagingPluginKongFu(obj,name,type,enable) {
+    function pagingPlugin(rows,datas,url) {
+        var obj = JSON.parse(rows);
         layui.use('laypage', function(){
             var laypage = layui.laypage;
             laypage.render({
-                elem: 'page_kongFuInfo'
-                ,count: obj.total
-                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                ,theme: '#15c142'
-                ,jump:function (obj) {
-                    $("#show_kongFuData").empty();
+                elem: 'pageInfo',
+                count: obj.total,
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                theme: '#15c142',
+                jump:function (obj) {
+                    $("#showInfo").empty();
+                    datas.pageNum = obj.curr;
+                    datas.pageSize = obj.limit;
                     $.ajax({
                         type:"POST",
-                        url:"/kongFu/pagingQuery",
-                        data: JSON.stringify({
-                            "name":name,
-                            "type":type,
-                            "enable":enable,
-                            "pageNum":obj.curr,
-                            "pageSize":obj.limit
-                        }),
+                        url:url,
+                        data: JSON.stringify(datas),
                         dataType:"JSON",
                         contentType:"application/json",
                         success:function(data){
                             if(data.code == "0" && data.result == "SECCESS"){
                                 var rows = $.base64.atob(data.rows,"utf-8");
                                 if(isJSON(rows)){
-                                    obj = JSON.parse(rows);
-                                    showKongFuData(obj);
+                                    showInfo(rows);
                                 }
                             }else{
-                                layer.msg(data.msg,{icon: 2});
+                                layer.msg(data.msg,{icon:2});
                             }
-                        },
-                        error:function () {
-                            layer.msg("数据加载超时，请求重试！",{icon: 2});
                         }
                     })
                 }
             });
         });
     }
-    function showKongFuData(obj){
-        var total = obj.total;
+    function showInfo(rows){
+        obj = JSON.parse(rows);
         var data = "";
-        if(total == 0){
+        if(obj.total == 0){
             data = "<tr><td colspan='8' style='text-align:center;'>未查询到数据</td></tr>";
         }else {
             $.each(obj.datas,function (i,n) {
                 data = data+"<tr>";
-                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon'>&#xe605;</i></div></td>";
+                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon layui-icon-ok'></i></div></td>";
                 data = data+"<td>"+(i+1)+"</td>";
                 data = data+"<td>"+(isNull(n.name))+"</td>";
                 data = data+"<td>"+(isNull(n.type))+"</td>";
@@ -234,73 +233,66 @@
                 data = data+"</td></tr>";
             });
         }
-        $("#show_kongFuData").html(data);
+        $("#showInfo").html(data);
     }
-    $("#query_kongFuEmpty").click(function () {
-        document.getElementById("query_name").value = '';
-        document.getElementById("query_type").value = '';
-        document.getElementById("enable").value = '';
-    });
 
 
-    /**新增部分*/
-    $("#add_button").click(function () {
-        addKongFu_reset();
+
+    /*新增部分*/
+    $("#bomb_Add").click(function () {
+        reset_Add();
         layer.open({
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [800+'px', 400 +'px'],
+            area: [900+'px', 450 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
             shade:0.4,
             title: "新增",
-            content: $("#add_kongFuInfo"),
+            content: $("#addInfo"),
             yes:function() {
-                $("#add_kongFuInfo").hide();
+                $("#addInfo").hide();
             }
         });
     });
-    $("#addKongFu_but").click(function(){
-        var name = $("#add_name").val();
-        var type = $("#add_type").val();
-        var info = $("#add_info").val();
-        if(name==null||name==""){
-            layer.msg("功夫名称不能为空",{icon: 2});
+    $("#request_Add").click(function(){
+        var datas = {
+            name:$("#add_name").val(),
+            type:Number($("#add_type").val()),
+            info:$("#add_info").val()
+        };
+        if(datas.name==null || datas.name==""){
+            layer.msg("功夫名称不能为空",{icon:2});
             return;
         }
         $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/kongFu/kongFuAdd",
-            data: {
-                name: name,
-                influence: Number(type),
-                info: info
-            },
+            type:"POST",
+            dataType:"JSON",
+            url:"/kongFu/inAdd",
+            data:datas,
             success: function (data) {
                 if (data.code == "0" && data.result == "SECCESS") {
-                    layer.msg(data.msg,{icon: 1});
-                    pagingQueryKongFu();
+                    layer.msg(data.msg,{icon:1});
+                    pagingQuery();
                 }else{
-                    layer.msg(data.msg,{icon: 2});
+                    layer.msg(data.msg,{icon:2});
                 }
             }
         });
     });
-    $("#addKongFu_reset").click(function () {
-        addKongFu_reset();
+    $("#reset_Add").click(function () {
+        reset_Add();
     });
-    function addKongFu_reset() {
-        document.getElementById("add_name").value = '';
-        document.getElementById("add_type").value = '';
-        document.getElementById("add_info").value = '';
+    function reset_Add() {
+        $("#add_name").val('');
+        $("#add_info").val('');
     }
 
 
 
-    /**判断json格式、字符串*/
+    /*判断json格式、字符串*/
     function isJSON(str){
         try{
             JSON.parse(str);

@@ -52,7 +52,7 @@ public class KongFuController {
 
 
     /**新增*/
-    @PostMapping("/kongFuAdd")
+    @PostMapping("/inAdd")
     public Object kongFuAdd(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -67,7 +67,7 @@ public class KongFuController {
     }
 
     /**修改*/
-    @PostMapping("/kongFuUpdate")
+    @PostMapping("/inUpdate")
     public Object kongFuUpdate(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -82,7 +82,7 @@ public class KongFuController {
     }
 
     /**删除*/
-    @PostMapping("/kongFuDelete")
+    @PostMapping("/inDelete")
     public Object kongFuDelete(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();

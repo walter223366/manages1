@@ -21,20 +21,20 @@
             <form class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">门派名称</label>
-                    <div class="layui-input-inline inputwidth" >
+                    <div class="layui-input-inline inputWidth" >
                         <input id="query_name" type="text" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">门派影响力</label>
-                    <div class="layui-input-inline inputwidth" >
+                    <div class="layui-input-inline inputWidth" >
                         <input id="query_sinfluence" type="number" placeholder="开始范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
                 <div class="layui-inline">
                     <label class="layui-form-label">门派影响力</label>
-                    <div class="layui-input-inline inputwidth" >
+                    <div class="layui-input-inline inputWidth" >
                         <input id="query_einfluence" type="number" placeholder="结束范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -191,7 +191,7 @@
         });
     }
     function pagingPlugin(rows,datas,url){
-        var obj = JSON.parse(rows);
+        obj = JSON.parse(rows);
         layui.use('laypage', function(){
             var laypage = layui.laypage;
             laypage.render({

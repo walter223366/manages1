@@ -39,7 +39,7 @@ public class EffectController {
     }
 
     /**新增*/
-    @RequestMapping("/effectAdd")
+    @RequestMapping("/inAdd")
     public Object effectAdd(Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -54,7 +54,7 @@ public class EffectController {
     }
 
     /**修改*/
-    @RequestMapping("/effectUpdate")
+    @RequestMapping("/inUpdate")
     public Object effectUpdate(Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -69,7 +69,7 @@ public class EffectController {
     }
 
     /**删除*/
-    @RequestMapping("/effectDelete")
+    @RequestMapping("/inDelete")
     public Object effectDelete(Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();

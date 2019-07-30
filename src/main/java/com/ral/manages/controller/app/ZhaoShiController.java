@@ -39,7 +39,7 @@ public class ZhaoShiController {
     }
 
     /**新增*/
-    @RequestMapping("zhaoShiAdd")
+    @RequestMapping("inAdd")
     public Object accountAdd(ZhaoShi zhaoShi){
         LOG.info("请求参数:" + zhaoShi);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -54,7 +54,7 @@ public class ZhaoShiController {
     }
 
     /**修改*/
-    @RequestMapping("zhaoShiUpdate")
+    @RequestMapping("inUpdate")
     public Object accountUpdate(ZhaoShi zhaoShi){
         LOG.info("请求参数:" + zhaoShi);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -69,7 +69,7 @@ public class ZhaoShiController {
     }
 
     /**删除*/
-    @RequestMapping("zhaoShiDelete")
+    @RequestMapping("inDelete")
     public Object accountDelete(ZhaoShi zhaoShi){
         LOG.info("请求参数:" + zhaoShi);
         GeneralResponse generalResponse = new GeneralResponse();
