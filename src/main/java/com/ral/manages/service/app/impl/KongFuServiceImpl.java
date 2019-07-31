@@ -8,6 +8,7 @@ import com.ral.manages.entity.app.KongFu;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.commom.verification.VerificationParams;
 import com.ral.manages.mapper.app.IKongFuMapper;
+import com.ral.manages.mapper.app.IMoveMapper;
 import com.ral.manages.service.app.IKongFuService;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.util.SetUtil;
@@ -16,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +26,10 @@ import java.util.Map;
 public class KongFuServiceImpl implements IKongFuService {
 
     private static final Logger LOG = LoggerFactory.getLogger(KongFuServiceImpl.class);
-
     @Autowired
     private IKongFuMapper iKongFuMapper;
+    @Autowired
+    private IMoveMapper iMoveMapper;
 
     /**分页查询*/
     @Override
@@ -42,7 +44,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**招式管理选项查询*/
     @Override
-    public GeneralResponse kongFuOrZhaoShi() {
+    public GeneralResponse kongFuQueryMove() {
         List<Map<String,Object>> kongFuList = iKongFuMapper.selectKongFuToNameId();
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("datas",kongFuList);
@@ -110,6 +112,32 @@ public class KongFuServiceImpl implements IKongFuService {
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+        }
+    }
+
+    /**详情*/
+    @Override
+    public GeneralResponse kongFuDetails(KongFu kongFu) {
+        if(StringUtil.isNull(kongFu.getName())){
+            return GeneralResponse.fail("功夫名称为空");
+        }
+        Map<String,Object> map = iKongFuMapper.selectKongFuDetails(kongFu);
+        if(SetUtil.isMapNull(map)){
+            return GeneralResponse.fail("该功夫名称不存在");
+        }
+        Map<String,Object> valueMap = SetUtil.clearValueNullToMap(map);
+        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+        String union = SetUtil.toMapValueString(valueMap,"kongfu_zhaoshi");
+        valueMap.put("move",list);
+        if(StringUtil.isNull(union)){
+            return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),valueMap);
+        }else{
+            String[] array = StringUtil.arrayToString(union);
+            for(String id : array){
+                Map<String,Object> moveMap = iMoveMapper.selectMoveName(id);
+                list.add(moveMap);
+            }
+            return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),valueMap);
         }
     }
 

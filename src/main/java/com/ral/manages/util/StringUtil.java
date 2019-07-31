@@ -42,4 +42,8 @@ public class StringUtil {
     }
 
 
+    public static String[] arrayToString(String str){
+        String[] arrayString = str.split(",");
+        return arrayString;
+    }
 }

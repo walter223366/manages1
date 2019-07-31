@@ -37,11 +37,11 @@ public class KongFuController {
     }
 
     /**招式管理选项查询*/
-    @GetMapping("/kongFuOrZhaoShi")
-    public Object kongFuOrZhaoShi(){
+    @GetMapping("/kongFuQueryMove")
+    public Object kongFuQueryMove(){
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iKongFuService.kongFuOrZhaoShi();
+            generalResponse = iKongFuService.kongFuQueryMove();
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -96,4 +96,18 @@ public class KongFuController {
         return generalResponse;
     }
 
+    /**详情*/
+    @PostMapping("inDetails")
+    public Object kongFuDetails(KongFu kongFu){
+        LOG.info("请求参数:" + kongFu);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuDetails(kongFu);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
 }

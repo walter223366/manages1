@@ -10,7 +10,7 @@ import java.io.Serializable;
  *   @author Double
  */
 @Data
-public class ZhaoShi implements Serializable {
+public class Move implements Serializable {
 
     private static final long serialVersionUID = -6551161807605307530L;
     private String zhaoshi_id;

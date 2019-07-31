@@ -9,12 +9,13 @@ public interface IKongFuService {
 
     /*查询*/
     GeneralResponse kongFuPagingQuery(Map<String,Object> map);
-    GeneralResponse kongFuOrZhaoShi();
+    GeneralResponse kongFuQueryMove();
     /*新增*/
     GeneralResponse kongFuAdd(KongFu kongFu);
     /*修改*/
     GeneralResponse kongFuUpdate(KongFu kongFu);
     /*删除*/
     GeneralResponse kongFuDelete(KongFu kongFu);
-
+    /*详情*/
+    GeneralResponse kongFuDetails(KongFu kongFu);
 }

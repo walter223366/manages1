@@ -29,8 +29,8 @@ public class JumpController {
     @RequestMapping("/effect")
     public String jumpEffect(){ return "/app/effect.html"; }
 
-    @RequestMapping("/zhaoshi")
-    public String jumpZhaoShi(){ return "/app/zhaoshi.html"; }
+    @RequestMapping("/move")
+    public String jumpZhaoShi(){ return "/app/move.html"; }
 
     @RequestMapping("/kongFu")
     public String jumpKongFu(){ return "/app/kongfu.html"; }

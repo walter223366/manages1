@@ -14,6 +14,7 @@ public class Effect implements Serializable {
 
     private static final long serialVersionUID = -127115926109132218L;
     private String effect_id;//效果主键
+    private String name;//效果名称
     private String info;//效果说明
     private int target;//效果执行的目标：0自己1对方 默认是0
     private long Aggressivity;//攻击力

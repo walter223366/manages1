@@ -44,7 +44,7 @@ public class VerificationParams {
     }
 
     /**招式管理参数校验*/
-    public static String verificationZhaoShi(ZhaoShi zhaoShi){
+    public static String verificationZhaoShi(Move zhaoShi){
         if(StringUtil.isNull(zhaoShi.getName())){
             return "招式名称不能为空";
         }

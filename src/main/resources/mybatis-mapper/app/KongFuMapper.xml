@@ -22,6 +22,7 @@
         </if>
     </sql>
 
+
     <!--查询-->
     <select id="selectKongFuPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
@@ -29,10 +30,17 @@
     <select id="selectKongFuToExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
     </select>
-    
     <select id="selectKongFuToNameId" parameterType="map">
         SELECT kongfu_id,name FROM  dict_kongfu  
     </select>
+    <select id="selectKongFuDetails" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    </select>
+    <select id="selectKongFuName" parameterType="string" resultType="map">
+        SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
+    </select>
+
+
 
     <!--新增-->
     <insert id="insertKongFu" parameterType="com.ral.manages.entity.app.KongFu">
@@ -41,12 +49,16 @@
         #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.cancellation})
     </insert>
 
+
+
     <!--修改-->
     <update id="updateKongFu" parameterType="com.ral.manages.entity.app.KongFu">
         UPDATE dict_kongfu SET info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
         kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable}
         WHERE 1=1 AND name=#{kongFu.name}
     </update>
+
+
 
     <!--删除-->
     <update id="deleteKongFu" parameterType="com.ral.manages.entity.app.KongFu">

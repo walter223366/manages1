@@ -2,8 +2,8 @@ package com.ral.manages.controller.app;
 
 import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.entity.app.ZhaoShi;
-import com.ral.manages.service.app.IZhaoShiService;
+import com.ral.manages.entity.app.Move;
+import com.ral.manages.service.app.IMoveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/zhaoShi")
-public class ZhaoShiController {
+@RequestMapping("/move")
+public class MoveController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ZhaoShiController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MoveController.class);
     @Autowired
-    private IZhaoShiService iZhaoShiService;
+    private IMoveService iMoveService;
 
 
     /**分页查询*/
@@ -29,7 +29,7 @@ public class ZhaoShiController {
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iZhaoShiService.zhaoShiPagingQuery(map);
+            generalResponse = iMoveService.movePagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -40,11 +40,11 @@ public class ZhaoShiController {
 
     /**新增*/
     @RequestMapping("inAdd")
-    public Object accountAdd(ZhaoShi zhaoShi){
-        LOG.info("请求参数:" + zhaoShi);
+    public Object accountAdd(Move move){
+        LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iZhaoShiService.zhaoShiAdd(zhaoShi);
+            generalResponse = iMoveService.moveAdd(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -55,11 +55,11 @@ public class ZhaoShiController {
 
     /**修改*/
     @RequestMapping("inUpdate")
-    public Object accountUpdate(ZhaoShi zhaoShi){
-        LOG.info("请求参数:" + zhaoShi);
+    public Object accountUpdate(Move move){
+        LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iZhaoShiService.zhaoShiUpdate(zhaoShi);
+            generalResponse = iMoveService.moveUpdate(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -70,11 +70,11 @@ public class ZhaoShiController {
 
     /**删除*/
     @RequestMapping("inDelete")
-    public Object accountDelete(ZhaoShi zhaoShi){
-        LOG.info("请求参数:" + zhaoShi);
+    public Object accountDelete(Move move){
+        LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iZhaoShiService.zhaoShiDelete(zhaoShi);
+            generalResponse = iMoveService.moveDelete(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

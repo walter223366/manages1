@@ -11,6 +11,8 @@ public interface IKongFuMapper {
     List<Map<String,Object>> selectKongFuPagingQuery(Map<String,Object> map);
     int selectKongFuToExist(@Param("kongFu")KongFu kongFu);
     List<Map<String,Object>> selectKongFuToNameId();
+    Map<String,Object> selectKongFuDetails(@Param("kongFu")KongFu kongFu);
+    Map<String,Object> selectKongFuName(@Param("kongFuId")String kongFuId);
     /*新增*/
     void insertKongFu(@Param("kongFu")KongFu kongFu);
     /*修改*/
