@@ -116,8 +116,9 @@ public class MoveServiceImpl implements IMoveService {
     @Override
     public GeneralResponse moveDetails(Move move) {
         if(StringUtil.isNull(move.getName())){
-            return
+            return GeneralResponse.fail("招式名称为空");
         }
+
         return null;
     }
 }
