@@ -1,13 +1,14 @@
 package com.ral.manages.service.app;
 
-import com.ral.manages.entity.app.Account;
 import com.ral.manages.commom.response.GeneralResponse;
+import com.ral.manages.entity.app.Account;
 import java.util.Map;
 
 public interface IAccountService {
 
     /*查询*/
     GeneralResponse accountPagingQuery(Map<String,Object> map);
+    Map<String,Object> accountPagingQuery1(Map<String,Object> map);
     /*新增*/
     GeneralResponse accountAdd(Account account);
     /*修改*/

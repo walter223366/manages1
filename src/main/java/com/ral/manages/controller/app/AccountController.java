@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -35,6 +37,22 @@ public class AccountController {
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
+    }
+
+    /**分页查询*/
+    @RequestMapping("/pagingQuery1")
+    public Object accountPagingQuery1(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        Map<String,Object> result = new HashMap<String,Object>();
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            result = iAccountService.accountPagingQuery1(map);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return result;
     }
 
     /**新增*/

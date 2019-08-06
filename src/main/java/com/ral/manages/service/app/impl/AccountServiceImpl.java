@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,26 @@ public class AccountServiceImpl implements IAccountService {
             accountMap.put("cancellation",cancellation_value);
         }
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(), PageBean.resultPage(page.getTotal(),accountList));
+    }
+
+    @Override
+    public Map<String,Object> accountPagingQuery1(Map<String, Object> map) {
+        Page<Map<String,Object>> pagesum = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
+        List<Map<String,Object>> accountList = iAccountMapper.selectAccountPagingQuery(map);
+        for(Map<String,Object> accountMap : accountList){
+            int source = SetUtil.toMapValueInt(accountMap,"source");
+            String source_value = (source==0?StateTable.User.SOURCE_ZERO.getName():StateTable.User.SOURCE_ONE.getName());
+            accountMap.put("source",source_value);
+            int cancellation = SetUtil.toMapValueInt(accountMap,"cancellation");
+            String cancellation_value = (cancellation==0?StateTable.User.CANCELLATION_ZERO.getName():StateTable.User.CANCELLATION_ONE.getName());
+            accountMap.put("cancellation",cancellation_value);
+        }
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code","0");
+        result.put("msg","SUCCESS");
+        result.put("count",pagesum.getTotal());
+        result.put("data",accountList);
+        return result;
     }
 
     /**新增*/

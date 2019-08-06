@@ -565,3 +565,7 @@ input::-webkit-outer-spin-button{
     width: 500px;
     height: 150px;
 }
+.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
+    top: 50%;
+    transform: translateY(-50%);
+}

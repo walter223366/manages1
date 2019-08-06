@@ -105,27 +105,9 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="add_spend" type="text" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="add_exp" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
-                <div class="layui-input-inline">
-                    <textarea id="add_info" placeholder="请输入内容" class="layui-textarea layui-input-width"></textarea>
-                </div>
-            </div>
-            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
                 <div class="layui-input-inline inputWidth">
-                    <select id="add_kName" class="layui-input">
+                    <select id="add_kongFuName" class="layui-input">
                         <option value="0">自己</option>
                         <option value="1">对方</option>
                     </select>
@@ -137,7 +119,49 @@
                     <input id="add_zeffect" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <!-- <div class="demo-transfer" id="test7"></div>-->
+
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>黄色花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_spend_yellow" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>金色花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_spend_gold" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>绿色花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_spend_green" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>蓝色花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_spend_blur" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>紫色花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_spend_purple" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_exp" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
+                <div class="layui-input-inline">
+                    <textarea id="add_info" placeholder="请输入内容" class="layui-textarea layui-input-width"></textarea>
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <button id="request_Add" type="button" class="layui-btn">修改</button>
@@ -150,6 +174,7 @@
 <script>
     $(function(){
         pagingQuery();
+        page();
     });
 
 
@@ -168,7 +193,7 @@
         $("#showInfo").empty();
         var datas = {
             name:$("#query_name").val(),
-            mpcost:Number($("#query_spend").val()),
+            //mpcost:Number($("#query_spend").val()),
             sexperience:Number($("#query_sExp").val()),
             eexperience:Number($("#query_eExp").val())
         };
@@ -252,7 +277,7 @@
 
     /*新增部分*/
     $("#bomb_Add").click(function () {
-        reset_Add();
+        //reset_Add();
         layer.open({
             type: 1,
             offset: "auto",
@@ -273,6 +298,8 @@
         reset_Add();
     });
     function reset_Add() {
+        $("#add_name").val('');
+        $("#add_kongFu")
         document.getElementById("add_name").value = '';
         document.getElementById("add_kongFu").value = '';
         document.getElementById("add_MP_cost").value = '';
