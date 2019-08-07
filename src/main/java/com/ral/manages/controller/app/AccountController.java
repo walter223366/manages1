@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,7 +22,12 @@ public class AccountController {
     @Autowired
     private IAccountService iAccountService;
 
-    /**分页查询*/
+
+    /**
+     * 分页查询
+     * @param map map
+     * @return Object
+     */
     @RequestMapping("/pagingQuery")
     public Object accountPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -39,29 +42,17 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**分页查询*/
-    @RequestMapping("/pagingQuery1")
-    public Object accountPagingQuery1(@RequestBody Map<String,Object> map){
-        LOG.info("请求参数:" + map);
-        Map<String,Object> result = new HashMap<String,Object>();
-        GeneralResponse generalResponse = new GeneralResponse();
-        try{
-            result = iAccountService.accountPagingQuery1(map);
-            LOG.info("返回值:" + generalResponse);
-        }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
-            LOG.error(generalResponse.toString());
-        }
-        return result;
-    }
-
-    /**新增*/
-    @RequestMapping("inAdd")
-    public Object accountAdd(Account account){
+    /**
+     * 编辑查询
+     * @param account account
+     * @return Object
+     */
+    @RequestMapping("/editQuery")
+    public Object accountEditQuery(Account account){
         LOG.info("请求参数:" + account);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iAccountService.accountAdd(account);
+            generalResponse = iAccountService.accountEditQuery(account);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -70,7 +61,31 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**修改*/
+
+    /**
+     * 新增
+     * @param account account
+     * @return Object
+     */
+    @RequestMapping("inAdd")
+    public Object accountAdd(Account account){
+        LOG.info("请求参数:" + account);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iAccountService.accountInsert(account);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 修改
+     * @param account account
+     * @return Object
+     */
     @RequestMapping("inUpdate")
     public Object accountUpdate(Account account){
         LOG.info("请求参数:" + account);
@@ -85,7 +100,11 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param account account
+     * @return Object
+     */
     @RequestMapping("inDelete")
     public Object accountDelete(Account account){
         LOG.info("请求参数:" + account);

@@ -25,27 +25,34 @@
         </if>
     </sql>
 
+
     <!--分页查询-->
-    <select id="selectAccountPagingQuery" parameterType="map" resultType="map">
+    <select id="accountPagingQuery" parameterType="map" resultType="map">
         SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1  <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0) ORDER BY lrrq DESC
     </select>
-    <select id="selectAccountToExist" parameterType="com.ral.manages.entity.app.Account" resultType="int">
+    <select id="accountIsExist" parameterType="com.ral.manages.entity.app.Account" resultType="int">
         SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account.account}
     </select>
+    <select id="accountEditQuery" parameterType="com.ral.manages.entity.app.Account" resultType="map">
+        SELECT  <include refid="accountResult"/>  FROM  biz_user WHERE 1=1 AND (id=#{account.id} OR account=#{account.account})
+    </select>
+
 
     <!--新增-->
-    <insert id="insertAccount" parameterType="com.ral.manages.entity.app.Account">
+    <insert id="accountInsert" parameterType="com.ral.manages.entity.app.Account">
         INSERT INTO biz_user(id,account,password,source,tellphone,lrrq,cancellation)
         VALUES (#{account.id},#{account.account},#{account.password},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation})
     </insert>
 
+
     <!--修改-->
-    <update id="updateAccount" parameterType="com.ral.manages.entity.app.Account">
+    <update id="accountUpdate" parameterType="com.ral.manages.entity.app.Account">
         UPDATE biz_user SET tellphone=#{account.tellphone},account=#{account.account},source=#{account.source} WHERE 1=1 AND id=#{account.id}
     </update>
 
+
     <!--删除-->
-    <update id="deleteAccount" parameterType="com.ral.manages.entity.app.Account">
+    <update id="accountDelete" parameterType="com.ral.manages.entity.app.Account">
         UPDATE biz_user SET cancellation=#{account.cancellation} WHERE 1=1 AND account=#{account.account}
     </update>
 

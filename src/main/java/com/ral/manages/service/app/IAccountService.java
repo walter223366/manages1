@@ -8,9 +8,9 @@ public interface IAccountService {
 
     /*查询*/
     GeneralResponse accountPagingQuery(Map<String,Object> map);
-    Map<String,Object> accountPagingQuery1(Map<String,Object> map);
+    GeneralResponse accountEditQuery(Account account);
     /*新增*/
-    GeneralResponse accountAdd(Account account);
+    GeneralResponse accountInsert(Account account);
     /*修改*/
     GeneralResponse accountUpdate(Account account);
     /*删除*/
