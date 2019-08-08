@@ -8,12 +8,13 @@ import java.util.Map;
 public interface ISchoolMapper {
 
     /*查询*/
-    List<Map<String,Object>> selectSchoolPagingQuery(Map<String,Object> map);
-    int selectSchoolToExist(@Param("school") School school);
+    List<Map<String,Object>> schoolPagingQuery(Map<String,Object> map);
+    int schoolIsExist(@Param("school") School school);
+    Map<String,Object> schoolEditQuery(@Param("school") School school);
     /*新增*/
-    void insertSchool(@Param("school") School school);
+    void schoolInsert(@Param("school") School school);
     /*修改*/
-    void updateSchool(@Param("school") School school);
+    void schoolUpdate(@Param("school") School school);
     /*删除*/
-    void deleteSchool(@Param("school") School school);
+    void schoolDelete(@Param("school") School school);
 }

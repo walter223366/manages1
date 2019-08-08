@@ -44,7 +44,7 @@ public class AccountServiceImpl implements IAccountService {
             String cancellation_value = (cancellation==0?StateTable.User.CANCELLATION_ZERO.getName():StateTable.User.CANCELLATION_ONE.getName());
             accountMap.put("cancellation",cancellation_value);
         }
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(), PageBean.resultPage(page.getTotal(),accountList));
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),accountList));
     }
 
     /**

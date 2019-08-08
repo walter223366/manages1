@@ -19,29 +19,35 @@
         </if>
     </sql>
 
+
     <!--分页查询-->
-    <select id="selectSchoolPagingQuery" parameterType="map" resultType="map">
+    <select id="schoolPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>
-    <select id="selectSchoolToExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
+    <select id="schoolIsExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
         SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}
     </select>
+    <select id="schoolEditQuery" parameterType="com.ral.manages.entity.app.School" resultType="map">
+        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND name=#{school.name}
+    </select>
+
 
     <!--新增-->
-    <insert id="insertSchool" parameterType="com.ral.manages.entity.app.School">
+    <insert id="schoolInsert" parameterType="com.ral.manages.entity.app.School">
         INSERT INTO dict_school(school_id,name,info,influence)
         VALUES(#{school.school_id},#{school.name},#{school.info},#{school.influence})
     </insert>
 
+
     <!--修改-->
-    <update id="updateSchool"  parameterType="com.ral.manages.entity.app.School">
-        UPDATE dict_school SET info=#{school.info},influence=#{school.influence}
-        WHERE 1=1 AND name=#{school.name}
+    <update id="schoolUpdate"  parameterType="com.ral.manages.entity.app.School">
+        UPDATE dict_school SET info=#{school.info},influence=#{school.influence} WHERE 1=1 AND school_id=#{school.school_id}
     </update>
 
+
     <!--删除-->
-    <update id="deleteSchool" parameterType="com.ral.manages.entity.app.School">
-        UPDATE dict_school SET cancellation=#{school.cancellation} WHERE 1=1 AND name=#{school.name}
+    <update id="schoolDelete" parameterType="com.ral.manages.entity.app.School">
+        UPDATE dict_school SET cancellation=#{school.cancellation} WHERE 1=1 AND school_id=#{school.school_id}
     </update>
 
 </mapper>

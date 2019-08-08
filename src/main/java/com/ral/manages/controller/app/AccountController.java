@@ -61,7 +61,6 @@ public class AccountController {
         return generalResponse;
     }
 
-
     /**
      * 新增
      * @param account account

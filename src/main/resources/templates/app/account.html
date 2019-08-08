@@ -228,6 +228,8 @@
                 table.on('toolbar(dataInfo)',function (obj){
                     if(obj.event === 'bombDelete'){
                         layer.msg(data.account)
+                    }else if(obj.event === 'bombAdd'){
+                        add();
                     }
                 });
             });
@@ -246,7 +248,6 @@
                     add();
                 }
             });
-
         });
     }
 
@@ -270,7 +271,7 @@
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [900+'px', 450 +'px'],
+            area: [900+'px', 400 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
@@ -353,7 +354,6 @@
         $("#add_tellPhone").val('');
         $("#add_password").val('');
         $("#add_cPassword").val('');
-        $("#add_source").val(0);
     }
 
     /*编辑*/
@@ -381,17 +381,17 @@
         });
     }
     function editOpen(obj){
-        document.getElementById("edit_id").value = obj.id;
-        document.getElementById("edit_account").value = obj.account;
-        document.getElementById("edit_tellPhone").value = obj.tellphone;
-        document.getElementById("edit_lrrq").value = obj.lrrq;
+        document.getElementById("edit_id").value = isNull(obj.id);
+        document.getElementById("edit_account").value = isNull(obj.account);
+        document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
+        document.getElementById("edit_lrrq").value = isNull(obj.lrrq);
         $("#edit_source").val(String(obj.source));
         layui.form.render("select");
         layer.open({
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [900+'px', 450 +'px'],
+            area: [900+'px', 400 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
@@ -485,6 +485,15 @@
             return true;
         }catch (e) {
             return false;
+        }
+    }
+
+    /*判断字符串*/
+    function isNull(str){
+        if(str == null || str == ""){
+            return "";
+        }else{
+            return str;
         }
     }
 

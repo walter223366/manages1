@@ -574,7 +574,7 @@ input::-webkit-outer-spin-button{
     height: 600px;
     overflow-y:scroll;
 }
-.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
+/*.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
     top: 50%;
     transform: translateY(-50%);
-}
+}*/

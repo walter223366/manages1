@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
 @RestController
@@ -23,7 +22,11 @@ public class SchoolController {
     @Autowired
     private ISchoolService iSchoolService;
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return Object
+     */
     @RequestMapping("/pagingQuery")
     public Object schoolPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -38,13 +41,17 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**新增*/
-    @RequestMapping("/inAdd")
-    public Object schoolAdd(School school){
+    /**
+     * 编辑查询
+     * @param school school
+     * @return Object
+     */
+    @RequestMapping("/editQuery")
+    public Object schoolEditQuery(School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iSchoolService.schoolAdd(school);
+            generalResponse = iSchoolService.schoolEditQuery(school);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -53,7 +60,30 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**修改*/
+    /**
+     * 新增
+     * @param school school
+     * @return Object
+     */
+    @RequestMapping("/inAdd")
+    public Object schoolAdd(School school){
+        LOG.info("请求参数:" + school);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iSchoolService.schoolInsert(school);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 修改
+     * @param school school
+     * @return Object
+     */
     @RequestMapping("/inUpdate")
     public Object schoolUpdate(School school){
         LOG.info("请求参数:" + school);
@@ -68,7 +98,11 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param school school
+     * @return Object
+     */
     @RequestMapping("/inDelete")
     public Object schoolDelete(School school){
         LOG.info("请求参数:" + school);

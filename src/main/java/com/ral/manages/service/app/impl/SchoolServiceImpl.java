@@ -25,29 +25,51 @@ public class SchoolServiceImpl implements ISchoolService {
     @Autowired
     private ISchoolMapper iSchoolMapper;
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse schoolPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> schoolList = iSchoolMapper.selectSchoolPagingQuery(map);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(), PageBean.resultPage(page.getTotal(),schoolList));
+        List<Map<String,Object>> schoolList = iSchoolMapper.schoolPagingQuery(map);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),schoolList));
     }
 
-    /**新增*/
+    /**
+     * 编辑查询
+     * @param school school
+     * @return GeneralResponse
+     */
     @Override
-    public GeneralResponse schoolAdd(School school) {
+    public GeneralResponse schoolEditQuery(School school) {
+        if(StringUtil.isNull(school.getName())){
+            return GeneralResponse.fail("门派名称为空");
+        }
+        Map<String,Object> result = iSchoolMapper.schoolEditQuery(school);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+    }
+
+    /**
+     * 新增
+     * @param school school
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse schoolInsert(School school) {
         String msg = VerificationParams.verificationSchool(school);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iSchoolMapper.selectSchoolToExist(school);
+        int count = iSchoolMapper.schoolIsExist(school);
         if(count > 0){
             return GeneralResponse.fail("新增失败，该门派名称已存在");
         }
         school.setSchool_id(StringUtil.getUUID());
         school.setCancellation(StateTable.School.CANCELLATION_ZERO.getCode());
         try{
-            iSchoolMapper.insertSchool(school);
+            iSchoolMapper.schoolInsert(school);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -55,19 +77,23 @@ public class SchoolServiceImpl implements ISchoolService {
         }
     }
 
-    /**修改*/
+    /**
+     * 修改
+     * @param  school school
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse schoolUpdate(School school) {
         String msg = VerificationParams.verificationSchool(school);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iSchoolMapper.selectSchoolToExist(school);
+        int count = iSchoolMapper.schoolIsExist(school);
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该门派名称不存在");
         }
         try{
-            iSchoolMapper.updateSchool(school);
+            iSchoolMapper.schoolUpdate(school);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e) {
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -75,20 +101,24 @@ public class SchoolServiceImpl implements ISchoolService {
         }
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param school school
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse schoolDelete(School school) {
         String msg = VerificationParams.verificationSchool(school);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iSchoolMapper.selectSchoolToExist(school);
+        int count = iSchoolMapper.schoolIsExist(school);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该门派名称不存在");
         }
         school.setCancellation(StateTable.School.CANCELLATION_ONE.getCode());
         try{
-            iSchoolMapper.deleteSchool(school);
+            iSchoolMapper.schoolDelete(school);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e) {
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
