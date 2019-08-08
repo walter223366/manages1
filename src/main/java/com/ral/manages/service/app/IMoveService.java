@@ -15,4 +15,6 @@ public interface IMoveService {
     GeneralResponse moveUpdate(Move move);
     /*删除*/
     GeneralResponse moveDelete(Move move);
+    /*添加效果下拉框*/
+    GeneralResponse moveAddEffect();
 }

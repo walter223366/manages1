@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IEffectMapper">
 
     <sql id="effectResult">
-        effect_id,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
+        effect_id,name,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
         stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,cancellation
     </sql>
 
@@ -28,6 +28,11 @@
     </select>
     <select id="effectEditQuery" parameterType="com.ral.manages.entity.app.Effect" resultType="map">
         SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
+    </select>
+
+    <!--招式管理下拉选框-->
+    <select id="effectQueryMarquee" resultType="map">
+        SELECT effect_id,name FROM dict_effect
     </select>
 
 

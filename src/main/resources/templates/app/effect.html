@@ -446,7 +446,6 @@
                 title:'效果管理',
                 even:true,
                 expandRow:true,
-                skin:'row',
                 where:params,
                 page:true,
                 limit:10,
@@ -617,7 +616,7 @@
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [900+'px', 450 +'px'],
+            area: [100+'%', 100 +'%'],
             fix: false,
             maxmin: true,
             shadeClose: true,
@@ -657,6 +656,7 @@
     }
     function editOpen(obj){
         document.getElementById("edit_effect_id").value = isNull(obj.effect_id);
+        document.getElementById("edit_name").value = isNull(obj.name);
         $("#edit_target").val(String(obj.target));
         layui.form.render("select");
         document.getElementById("edit_hp").value = isNull(obj.hp);

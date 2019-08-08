@@ -554,6 +554,9 @@ input::-webkit-outer-spin-button{
 .inputWidth{
     width: 200px;
 }
+.inputWidth1{
+    width: 300px;
+}
 .footer.copyright{
     text-align: center;
 }

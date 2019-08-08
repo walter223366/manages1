@@ -7,6 +7,7 @@ import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.commom.verification.VerificationParams;
 import com.ral.manages.entity.app.Move;
+import com.ral.manages.mapper.app.IEffectMapper;
 import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
 import com.ral.manages.service.app.IMoveService;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +29,8 @@ public class MoveServiceImpl implements IMoveService {
     private IMoveMapper iMoveMapper;
     @Autowired
     private IKongFuMapper iKongFuMapper;
+    @Autowired
+    private IEffectMapper iEffectMapper;
 
     /**
      * 分页查询
@@ -117,5 +122,17 @@ public class MoveServiceImpl implements IMoveService {
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
         }
+    }
+
+    /**
+     * 添加效果下拉框
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse moveAddEffect() {
+        List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarquee();
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("data",resultList);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
     }
 }

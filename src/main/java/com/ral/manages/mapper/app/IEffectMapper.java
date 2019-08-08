@@ -17,4 +17,6 @@ public interface IEffectMapper {
     void effectUpdate(@Param("effect") Effect effect);
     /*删除*/
     void effectDelete(@Param("effect") Effect effect);
+    /*招式管理下拉菜单*/
+    List<Map<String,Object>> effectQueryMarquee();
 }

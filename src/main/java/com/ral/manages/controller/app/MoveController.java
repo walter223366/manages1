@@ -117,4 +117,21 @@ public class MoveController {
         }
         return generalResponse;
     }
+
+    /**
+     * 添加效果下拉框
+     * @return Object
+     */
+    @RequestMapping("effectDownBox")
+    public Object dropDownBox(){
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iMoveService.moveAddEffect();
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
 }

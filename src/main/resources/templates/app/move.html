@@ -80,18 +80,6 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
-                <div class="layui-input-inline inputWidth">
-                    <select id="add_zeffect" lay-filter="Field" placeholder="选择" multiple="multiple" class="downlist">
-                        <option value='OnTop' selected>固顶</option>
-                        <option value='IsElite'>推荐</option>
-                        <option value='IsHot'>热门</option>
-                    </select>
-
-                </div>
-            </div>
-
-            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
                 <div class="layui-input-inline inputWidth">
                     <input id="add_spend" type="number" autocomplete="off" class="layui-input">
@@ -101,6 +89,18 @@
                 <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
                 <div class="layui-input-inline inputWidth">
                     <input id="add_exp" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
+                <div class="layui-input-inline inputWidth1">
+                    <select id="add_effect" xm-select="select1" xm-select-search-type="title" >
+                        <option value="1" disabled="disabled">北京</option>
+                        <option value="2" selected="selected">上海</option>
+                        <option value="3">广州</option>
+                        <option value="4" selected="selected">深圳</option>
+                        <option value="5">天津</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -142,7 +142,6 @@
                 title:'招式管理',
                 even:true,
                 expandRow:true,
-                skin:'row',
                 where:params,
                 page:true,
                 limit:10,
@@ -196,6 +195,8 @@
             table.on('toolbar(dataInfo)',function (obj){
                 if(obj.event === 'bombAdd'){
                     add();
+                }else if(obj.event === 'bombDelete'){
+
                 }
             });
         });
@@ -227,6 +228,7 @@
                 $("#addInfo").hide();
             }
         });
+        addEffect();
     }
     function addReset(){
         $("#add_name").val('');
@@ -235,6 +237,28 @@
         $("#add_zhaoshi_effect").val('');
         $("#add_zhaoshi_experience_cost").val('');
         $("#add_info").val('');
+    }
+
+    function addEffect(){
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/move/effectDownBox",
+            success: function (data) {
+                if (data.code === "0" && data.result === "SECCESS") {
+                    var rows = $.base64.atob(data.rows, "utf-8");
+                    if (isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        alert(obj.data);
+                        $.each(obj.data,function (i,n) {
+                            alert(n.name);
+                        });
+                    }
+                } else {
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
     }
 
     /*查看*/
