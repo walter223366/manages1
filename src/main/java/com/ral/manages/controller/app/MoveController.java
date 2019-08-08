@@ -23,7 +23,11 @@ public class MoveController {
     private IMoveService iMoveService;
 
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return Object
+     */
     @RequestMapping("/pagingQuery")
     public Object accountPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -38,13 +42,17 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**新增*/
-    @RequestMapping("inAdd")
-    public Object accountAdd(Move move){
+    /**
+     * 编辑查询
+     * @param move move
+     * @return Object
+     */
+    @RequestMapping("/editQuery")
+    public Object accountPagingQuery(Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iMoveService.moveAdd(move);
+            generalResponse = iMoveService.moveEditQuery(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -53,7 +61,30 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**修改*/
+    /**
+     * 新增
+     * @param move move
+     * @return Object
+     */
+    @RequestMapping("inAdd")
+    public Object accountAdd(Move move){
+        LOG.info("请求参数:" + move);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iMoveService.moveInsert(move);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 修改
+     * @param move move
+     * @return Object
+     */
     @RequestMapping("inUpdate")
     public Object accountUpdate(Move move){
         LOG.info("请求参数:" + move);
@@ -68,7 +99,11 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param move move
+     * @return Object
+     */
     @RequestMapping("inDelete")
     public Object accountDelete(Move move){
         LOG.info("请求参数:" + move);

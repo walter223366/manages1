@@ -8,12 +8,11 @@ public interface IMoveService {
 
     /*查询*/
     GeneralResponse movePagingQuery(Map<String,Object> map);
+    GeneralResponse moveEditQuery(Move move);
     /*新增*/
-    GeneralResponse moveAdd(Move move);
+    GeneralResponse moveInsert(Move move);
     /*修改*/
     GeneralResponse moveUpdate(Move move);
     /*删除*/
     GeneralResponse moveDelete(Move move);
-    /*详情*/
-    GeneralResponse moveDetails(Move move);
 }

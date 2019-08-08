@@ -26,28 +26,47 @@ public class ArticleServicelmpl implements IArticleService {
     private IArticleMapper iArticleMapper;
 
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse articlePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> articleList = iArticleMapper.selectArticlePagingQuery(map);
+        List<Map<String,Object>> articleList = iArticleMapper.articlePagingQuery(map);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),articleList));
     }
 
-    /**新增*/
+    /**
+     * 编辑查询
+     * @param article article
+     * @return GeneralResponse
+     */
     @Override
-    public GeneralResponse articleAdd(Article article) {
+    public GeneralResponse articleEditQuery(Article article) {
+        Map<String,Object> result = iArticleMapper.articleEditQuery(article);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+    }
+
+    /***
+     * 新增
+     * @param article article
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse articleInsert(Article article) {
         String msg = VerificationParams.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iArticleMapper.selectArticleToName(article);
+        int count = iArticleMapper.articleIsExist(article);
         if(count > 0){
             return GeneralResponse.fail("新增失败，该物品名称已存在");
         }
         article.setArticle_id(StringUtil.getUUID());
         try{
-            iArticleMapper.insertArticle(article);
+            iArticleMapper.articleInsert(article);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -55,19 +74,23 @@ public class ArticleServicelmpl implements IArticleService {
         }
     }
 
-    /**修改*/
+    /**
+     * 修改
+     * @param article article
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse articleUpdate(Article article) {
         String msg = VerificationParams.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iArticleMapper.selectArticleToName(article);
+        int count = iArticleMapper.articleIsExist(article);
         if(count > 0){
             return GeneralResponse.fail("修改失败，该物品名称已存在");
         }
         try{
-            iArticleMapper.insertArticle(article);
+            iArticleMapper.articleUpdate(article);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -75,16 +98,20 @@ public class ArticleServicelmpl implements IArticleService {
         }
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param article article
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse articleDelete(Article article) {
-        int count = iArticleMapper.selectArticleToExist(article);
+        int count = iArticleMapper.articleIsExist(article);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该物品不存在");
         }
         article.setCancellation(StateTable.User.CANCELLATION_ONE.getCode());
         try{
-            iArticleMapper.deleteArticle(article);
+            iArticleMapper.articleDelete(article);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);

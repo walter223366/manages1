@@ -8,15 +8,15 @@ import java.util.Map;
 public interface IKongFuMapper {
 
     /*查询*/
-    List<Map<String,Object>> selectKongFuPagingQuery(Map<String,Object> map);
-    int selectKongFuToExist(@Param("kongFu")KongFu kongFu);
-    List<Map<String,Object>> selectKongFuToNameId();
-    Map<String,Object> selectKongFuDetails(@Param("kongFu")KongFu kongFu);
-    Map<String,Object> selectKongFuName(@Param("kongFuId")String kongFuId);
+    List<Map<String,Object>> kongFuPagingQuery(Map<String,Object> map);
+    int kongFuIsExist(@Param("kongFu")KongFu kongFu);
+    List<Map<String,Object>> kongFuToNameId();
+    Map<String,Object> kongFuEditQuery(@Param("kongFu") KongFu kongFu);
+    Map<String,Object> kongFuQueryName(@Param("kongFuId") String kongFuId);
     /*新增*/
-    void insertKongFu(@Param("kongFu")KongFu kongFu);
+    void kongFuInsert(@Param("kongFu") KongFu kongFu);
     /*修改*/
-    void updateKongFu(@Param("kongFu")KongFu kongFu);
+    void kongFuUpdate(@Param("kongFu") KongFu kongFu);
     /*删除*/
-    void deleteKongFu(@Param("kongFu")KongFu kongFu);
+    void kongFuDelete(@Param("kongFu") KongFu kongFu);
 }

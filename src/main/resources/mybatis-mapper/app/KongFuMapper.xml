@@ -24,44 +24,41 @@
 
 
     <!--查询-->
-    <select id="selectKongFuPagingQuery" parameterType="map" resultType="map">
+    <select id="kongFuPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>
-    <select id="selectKongFuToExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
+    <select id="kongFuIsExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
     </select>
-    <select id="selectKongFuToNameId" parameterType="map">
+    <select id="kongFuToNameId" parameterType="map">
         SELECT kongfu_id,name FROM  dict_kongfu  
     </select>
-    <select id="selectKongFuDetails" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
+    <select id="kongFuEditQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
     </select>
-    <select id="selectKongFuName" parameterType="string" resultType="map">
+    <select id="kongFuQueryName" parameterType="string" resultType="map">
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
     </select>
 
 
-
     <!--新增-->
-    <insert id="insertKongFu" parameterType="com.ral.manages.entity.app.KongFu">
+    <insert id="kongFuInsert" parameterType="com.ral.manages.entity.app.KongFu">
         INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation)
         VALUES(#{kongFu.kongfu_id},#{kongFu.name},#{kongFu.info},#{kongFu.type},#{kongFu.experience_limit},
         #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.cancellation})
     </insert>
 
 
-
     <!--修改-->
-    <update id="updateKongFu" parameterType="com.ral.manages.entity.app.KongFu">
+    <update id="kongFuUpdate" parameterType="com.ral.manages.entity.app.KongFu">
         UPDATE dict_kongfu SET info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
         kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable}
         WHERE 1=1 AND name=#{kongFu.name}
     </update>
 
 
-
     <!--删除-->
-    <update id="deleteKongFu" parameterType="com.ral.manages.entity.app.KongFu">
+    <update id="kongFuDelete" parameterType="com.ral.manages.entity.app.KongFu">
         UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND name=#{kongFu.name}
     </update>
 

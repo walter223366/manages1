@@ -35,8 +35,19 @@ public class MoveServiceImpl implements IMoveService {
     @Override
     public GeneralResponse movePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map),PageBean.pageSize(map));
-        List<Map<String,Object>> zhaoShiList = iMoveMapper.selectMovePagingQuery(map);
+        List<Map<String,Object>> zhaoShiList = iMoveMapper.movePagingQuery(map);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),zhaoShiList));
+    }
+
+    /**
+     * 编辑查询
+     * @param move move
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse moveEditQuery(Move move) {
+        Map<String,Object> result = iMoveMapper.moveEditQuery(move);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
 
     /**
@@ -45,18 +56,18 @@ public class MoveServiceImpl implements IMoveService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse moveAdd(Move move) {
+    public GeneralResponse moveInsert(Move move) {
         String msg = VerificationParams.verificationZhaoShi(move);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iMoveMapper.selectMoveToName(move);
+        int count = iMoveMapper.moveIsExist(move);
         if(count > 0){
             return GeneralResponse.fail("新增失败，该招式名称已存在");
         }
         move.setZhaoshi_id(StringUtil.getUUID());
         try{
-            iMoveMapper.insertMove(move);
+            iMoveMapper.moveInsert(move);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -75,12 +86,12 @@ public class MoveServiceImpl implements IMoveService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iMoveMapper.selectMoveToExist(move);
+        int count = iMoveMapper.moveIsExist(move);
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该招式名称不存在");
         }
         try{
-            iMoveMapper.updateMove(move);
+            iMoveMapper.moveUpdate(move);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -95,30 +106,16 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public GeneralResponse moveDelete(Move move) {
-        int count = iMoveMapper.selectMoveToExist(move);
+        int count = iMoveMapper.moveIsExist(move);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该招式名称不存在");
         }
         try{
-            iMoveMapper.deleteMove(move);
+            iMoveMapper.moveDelete(move);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
         }
-    }
-
-    /**
-     * 详情
-     * @param move move
-     * @return GeneralResponse
-     */
-    @Override
-    public GeneralResponse moveDetails(Move move) {
-        if(StringUtil.isNull(move.getName())){
-            return GeneralResponse.fail("招式名称为空");
-        }
-
-        return null;
     }
 }

@@ -21,7 +21,11 @@ public class KongFuController {
     @Autowired
     private IKongFuService iKongFuService;
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return Object
+     */
     @PostMapping("/pagingQuery")
     public Object kongFuPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -36,7 +40,29 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**招式管理选项查询*/
+    /**
+     * 编辑查询
+     * @param kongFu kongFu
+     * @return Object
+     */
+    @PostMapping("/editQuery")
+    public Object kongFuPagingQuery(KongFu kongFu){
+        LOG.info("请求参数:" + kongFu);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuEditQuery(kongFu);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 招式管理选项查询
+     * @return Object
+     */
     @GetMapping("/kongFuQueryMove")
     public Object kongFuQueryMove(){
         GeneralResponse generalResponse = new GeneralResponse();
@@ -51,13 +77,17 @@ public class KongFuController {
     }
 
 
-    /**新增*/
+    /**
+     * 新增
+     * @param kongFu kongFu
+     * @return Object
+     */
     @PostMapping("/inAdd")
     public Object kongFuAdd(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iKongFuService.kongFuAdd(kongFu);
+            generalResponse = iKongFuService.kongFuInsert(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -66,7 +96,11 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**修改*/
+    /**
+     * 修改
+     * @param kongFu kongFu
+     * @return Object
+     */
     @PostMapping("/inUpdate")
     public Object kongFuUpdate(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
@@ -81,7 +115,11 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param kongFu kongFu
+     * @return Object
+     */
     @PostMapping("/inDelete")
     public Object kongFuDelete(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
@@ -96,7 +134,11 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**详情*/
+    /**
+     * 详情
+     * @param kongFu kongFu
+     * @return Object
+     */
     @PostMapping("inDetails")
     public Object kongFuDetails(KongFu kongFu){
         LOG.info("请求参数:" + kongFu);

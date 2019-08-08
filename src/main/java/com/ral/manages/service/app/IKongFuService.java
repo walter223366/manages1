@@ -9,9 +9,10 @@ public interface IKongFuService {
 
     /*查询*/
     GeneralResponse kongFuPagingQuery(Map<String,Object> map);
+    GeneralResponse kongFuEditQuery(KongFu kongFu);
     GeneralResponse kongFuQueryMove();
     /*新增*/
-    GeneralResponse kongFuAdd(KongFu kongFu);
+    GeneralResponse kongFuInsert(KongFu kongFu);
     /*修改*/
     GeneralResponse kongFuUpdate(KongFu kongFu);
     /*删除*/

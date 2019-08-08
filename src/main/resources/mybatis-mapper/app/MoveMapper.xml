@@ -21,39 +21,36 @@
 
 
     <!--查询-->
-    <select id="selectMovePagingQuery" parameterType="map" resultType="map">
+    <select id="movePagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>
-    <select id="selectMoveToExist" parameterType="com.ral.manages.entity.app.Move" resultType="int">
-        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
-    </select>
-    <select id="selectMoveToName" parameterType="com.ral.manages.entity.app.Move" resultType="int">
+    <select id="moveIsExist" parameterType="com.ral.manages.entity.app.Move" resultType="int">
         SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND name=#{move.name}
     </select>
-    <select id="selectMoveName" parameterType="string" resultType="map">
+    <select id="moveQueryName" parameterType="string" resultType="map">
         SELECT zhaoshi_id,name FROM dict_zhaoshi WHERE 1=1 AND kongfu_id=#{moveId}
     </select>
-
+    <select id="moveEditQuery" parameterType="com.ral.manages.entity.app.Move" resultType="map">
+        SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
+    </select>
 
 
     <!--新增-->
-    <insert id="insertMove" parameterType="com.ral.manages.entity.app.Move">
+    <insert id="moveInsert" parameterType="com.ral.manages.entity.app.Move">
         INSERT INTO dict_zhaoshi(zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost)
         VALUES(#{move.zhaoshi_id},#{move.kongfu_id},#{move.name},#{move.MP_cost},#{move.zhaoshi_effect},#{move.zhaoshi_experience_cost})
     </insert>
 
 
-
     <!--修改-->
-    <update id="updateMove" parameterType="com.ral.manages.entity.app.Move">
+    <update id="moveUpdate" parameterType="com.ral.manages.entity.app.Move">
         UPDATE dict_zhaoshi SET kongfu_id=#{move.kongfu_id},name=#{move.name},MP_cost=#{move.MP_cost},info=#{move.info},zhaoshi_effect=#{move.zhaoshi_effect},
         zhaoshi_experience_cost=#{move.zhaoshi_experience_cost} WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
     </update>
 
 
-
     <!--删除-->
-    <update id="deleteMove" parameterType="com.ral.manages.entity.app.Move">
+    <update id="moveDelete" parameterType="com.ral.manages.entity.app.Move">
         UPDATE dict_zhaoshi SET cancellation=#{move.cancellation} WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
     </update>
 

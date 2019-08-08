@@ -31,41 +31,63 @@ public class KongFuServiceImpl implements IKongFuService {
     @Autowired
     private IMoveMapper iMoveMapper;
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse kongFuPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> kongFuList = iKongFuMapper.selectKongFuPagingQuery(map);
+        List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
             kongFuMap.put("type",kongFuType(SetUtil.toMapValueInt(kongFuMap,"type")));
         }
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),kongFuList));
     }
 
-    /**招式管理选项查询*/
+    /**
+     * 编辑查询
+     * @param kongFu kongFu
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse kongFuEditQuery(KongFu kongFu) {
+        Map<String,Object> result = iKongFuMapper.kongFuEditQuery(kongFu);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+    }
+
+    /**
+     * 招式管理选项查询
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse kongFuQueryMove() {
-        List<Map<String,Object>> kongFuList = iKongFuMapper.selectKongFuToNameId();
+        List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuToNameId();
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("datas",kongFuList);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
 
-    /**新增*/
+    /**
+     * 新增
+     * @param kongFu kongFu
+     * @return GeneralResponse
+     */
     @Override
-    public GeneralResponse kongFuAdd(KongFu kongFu) {
+    public GeneralResponse kongFuInsert(KongFu kongFu) {
         String msg = VerificationParams.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iKongFuMapper.selectKongFuToExist(kongFu);
+        int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count > 0){
             return GeneralResponse.fail("新增失败，该功夫名称已存在");
         }
         kongFu.setKongfu_id(StringUtil.getUUID());
         kongFu.setCancellation(StateTable.KongFu.CANCELLATION_ZERO.getCode());
         try{
-            iKongFuMapper.insertKongFu(kongFu);
+            iKongFuMapper.kongFuInsert(kongFu);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -73,20 +95,24 @@ public class KongFuServiceImpl implements IKongFuService {
         }
     }
 
-    /**修改*/
+    /**
+     * 修改
+     * @param kongFu kongFu
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse kongFuUpdate(KongFu kongFu) {
         String msg = VerificationParams.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iKongFuMapper.selectKongFuToExist(kongFu);
+        int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该功夫名称不存在");
         }
         kongFu.setKongfu_id(StringUtil.getUUID());
         try{
-            iKongFuMapper.updateKongFu(kongFu);
+            iKongFuMapper.kongFuUpdate(kongFu);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -94,20 +120,24 @@ public class KongFuServiceImpl implements IKongFuService {
         }
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param kongFu kongFu
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse kongFuDelete(KongFu kongFu) {
         String msg = VerificationParams.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iKongFuMapper.selectKongFuToExist(kongFu);
+        int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该功夫名称不存在");
         }
         kongFu.setCancellation(StateTable.KongFu.CANCELLATION_ONE.getCode());
         try{
-            iKongFuMapper.deleteKongFu(kongFu);
+            iKongFuMapper.kongFuDelete(kongFu);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -115,13 +145,13 @@ public class KongFuServiceImpl implements IKongFuService {
         }
     }
 
-    /**详情*/
+    /***/
     @Override
     public GeneralResponse kongFuDetails(KongFu kongFu) {
         if(StringUtil.isNull(kongFu.getName())){
             return GeneralResponse.fail("功夫名称为空");
         }
-        Map<String,Object> map = iKongFuMapper.selectKongFuDetails(kongFu);
+        Map<String,Object> map = iKongFuMapper.kongFuEditQuery(kongFu);
         if(SetUtil.isMapNull(map)){
             return GeneralResponse.fail("该功夫名称不存在");
         }
@@ -134,7 +164,7 @@ public class KongFuServiceImpl implements IKongFuService {
         }else{
             String[] array = StringUtil.arrayToString(union);
             for(String id : array){
-                Map<String,Object> moveMap = iMoveMapper.selectMoveName(id);
+                Map<String,Object> moveMap = iMoveMapper.moveQueryName(id);
                 list.add(moveMap);
             }
             return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),valueMap);
