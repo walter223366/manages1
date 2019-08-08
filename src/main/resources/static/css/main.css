@@ -577,6 +577,9 @@ input::-webkit-outer-spin-button{
     height: 600px;
     overflow-y:scroll;
 }
+.search-data{
+    width: 80%;
+}
 /*.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
     top: 50%;
     transform: translateY(-50%);

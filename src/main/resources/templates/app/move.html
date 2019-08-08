@@ -62,7 +62,7 @@
     </script>
 
     <!--新增栏-->
-    <div class="x-body" id="addInfo" aria-hidden="true" hidden>
+    <div class="x-body search-data" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
@@ -94,13 +94,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
                 <div class="layui-input-inline inputWidth1">
-                    <select id="add_effect" xm-select="select1" xm-select-search-type="title" >
-                        <option value="1" disabled="disabled">北京</option>
-                        <option value="2" selected="selected">上海</option>
-                        <option value="3">广州</option>
-                        <option value="4" selected="selected">深圳</option>
-                        <option value="5">天津</option>
-                    </select>
+                    <input type="search" id="feedback" xm-select="id" xm-select-direction="auto|up|down" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -238,7 +232,6 @@
         $("#add_zhaoshi_experience_cost").val('');
         $("#add_info").val('');
     }
-
     function addEffect(){
         $.ajax({
             type: "POST",
@@ -249,9 +242,9 @@
                     var rows = $.base64.atob(data.rows, "utf-8");
                     if (isJSON(rows)) {
                         var obj = JSON.parse(rows);
-                        alert(obj.data);
                         $.each(obj.data,function (i,n) {
                             alert(n.name);
+                            var unitTypeCheckbox = $("input[id='feedback']");
                         });
                     }
                 } else {
