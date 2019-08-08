@@ -13,12 +13,16 @@
 </head>
 <body>
 <div class="x-body">
-
     <!--搜索栏-->
     <div class="layui-row">
-        <!--搜索条件-->
         <div class="search-conditional">
             <form class="layui-form-item layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label">效果名称</label>
+                    <div class="layui-input-inline inputWidth" >
+                        <input id="query_name" type="text" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">执行目标</label>
                     <div class="layui-input-inline inputWidth" >
@@ -31,63 +35,40 @@
                 </div>
             </form>
         </div>
-        <!--搜索查询-->
         <div class="search-button">
             <div class="layui-inline">
-                <button id="pagingQuery" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
+                <button onclick="pagingQuery()" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button id="cleanUp" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+                <button onclick="cleanUp()" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
 
-
-    <!--操作栏-->
-    <xblock>
-        <div class="layui-inline">
-            <button id="bomb_Delete" type="button" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
-        </div>
-        <div class="layui-inline">
-            <button id="bomb_Add" type="button" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增</button>
-        </div>
-    </xblock>
-
-
     <!--数据栏-->
-    <table class="layui-table">
-        <!--数据表头-->
-        <thead><tr>
-            <th><div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon layui-icon-ok"></i></div></th>
-            <th>ID</th>
-            <th>执行目标</th>
-            <th>攻击力</th>
-            <th>防御力</th>
-            <th>暴击力</th>
-            <th>HP影响</th>
-            <th>外伤</th>
-            <th>内伤</th>
-            <th>毒伤</th>
-            <th>击晕率</th>
-            <th>闪避率</th>
-            <th>命中率</th>
-            <th>暴击率</th>
-            <th>吸血</th>
-            <th>操作</th>
-        </thead>
-        <!--数据来源-->
-        <tbody class="table" id="showInfo"></tbody>
-    </table>
-
-
-    <!--分页栏-->
-    <div class="page" id="pageInfo"></div>
-
+    <table class="layui-table" id="dataInfo" lay-filter="dataInfo"></table>
+    <script type="text/html" id="toolbarBomb">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-danger" lay-event="bombDelete"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+            <button class="layui-btn layui-btn-normal" lay-event="bombAdd"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+        </div>
+    </script>
+    <script type="text/html" id="operational">
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="see"><i class='layui-icon layui-icon-read'></i>查看</a>
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit"><i class='layui-icon layui-icon-edit'></i>编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class='layui-icon layui-icon-delete'></i>删除</a>
+    </script>
 
     <!--新增栏-->
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
-        <form class="layui-form">
-            <div class="layui-form-item layui-inline">
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>效果名称</label>
+                <div class="layui-input-inline inputWidth" >
+                    <input id="add_name" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>执行目标</label>
                 <div class="layui-input-inline inputWidth" >
                     <select id="add_target" class="layui-input">
@@ -95,121 +76,152 @@
                         <option value="1">对方</option>
                     </select>
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>HP影响&nbsp;&nbsp; </label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_hp" type="number" autocomplete="off" class="layui-input"  placeholder="请输入HP影响值" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_mp_yellow" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_mp_gold" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_mp_green" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_mp_blue" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_mp_purple" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>攻击力&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_aggressivity" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>防御力&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_defense" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>暴击力&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_burst" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>外伤&emsp;&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_injury" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>内伤&emsp;&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_internal_injury" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>毒伤&emsp;&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_poisoning" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>击晕率&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_stun" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>闪避率&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_dodge" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>命中率&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_hit_rate" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>暴击率&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_crit_rate" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>吸血&emsp;&emsp;</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_suck_HP" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_suck_mp_yellow" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_suck_mp_gold" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_suck_mp_green" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_suck_mp_blue" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_suck_mp_purple" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label">效果说明</label>
                 <div class="layui-input-inline">
-                    <textarea id="add_info" placeholder="请输入内容" class="layui-textarea layui-input-width"></textarea>
+                    <textarea id="add_info" placeholder="请输入内容" class="layui-textarea layui-input-width1"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button id="request_Add" type="button" class="layui-btn">新增</button>
-                <button id="reset_Add" type="button" class="layui-btn layui-btn-primary">重置</button>
+                <button onclick="addRequest()" type="button" class="layui-btn">新增</button>
+                <button onclick="addReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
-
 
     <!--详情栏-->
     <div class="x-body" id="detailsInfo" aria-hidden="true" hidden>
@@ -240,250 +252,277 @@
         <tbody class="table" id="show_effectDetailsData"></tbody>
     </div>
 
-
     <!--编辑栏-->
     <div class="x-body" id="editInfo" aria-hidden="true" hidden>
-        <form class="layui-form">
+        <form class="layui-form-item layui-form">
             <div class="layui-form-item" hidden>
-                <label class="layui-form-label">效果id</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_effect_id" autocomplete="off" class="layui-input">
+                <label class="layui-form-label"><span class="x-red">*</span>效果ID</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_effect_id" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item layui-inline">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>效果名称</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_name" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>执行目标</label>
-                <div class="layui-input-inline inputwidth" >
+                <div class="layui-input-inline inputWidth" >
                     <select id="edit_target" class="layui-input">
                         <option value="0">自己</option>
                         <option value="1">对方</option>
                     </select>
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>HP影响&nbsp;&nbsp; </label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_hp" autocomplete="off" class="layui-input"  placeholder="请输入HP影响值" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_hp" type="number" autocomplete="off" class="layui-input"  placeholder="请输入HP影响值" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_mp_yellow" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_mp_yellow" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_mp_gold" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_mp_green" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_mp_blue" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_mp_purple" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_mp_gold" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_mp_green" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_mp_blue" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_mp_purple" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>攻击力&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_aggressivity" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_aggressivity" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>防御力&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_defense" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_defense" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>暴击力&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_burst" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_burst" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>外伤&emsp;&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_injury" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_injury" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>内伤&emsp;&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_internal_injury" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_internal_injury" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>毒伤&emsp;&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_poisoning" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_poisoning" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>击晕率&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_stun" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_stun" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>闪避率&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_dodge" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_dodge" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>命中率&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_hit_rate" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_hit_rate" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>暴击率&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_crit_rate" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_crit_rate" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>吸血&emsp;&emsp;</label>
-                <div class="layui-input-inline">
-                    <input type="number" id="edit_suck_HP" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-                </div>
-                <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_suck_mp_yellow" autocomplete="off" class="layui-input">
-                </div>
-                <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_suck_mp_gold" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_suck_HP" type="number" autocomplete="off" class="layui-input" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_suck_mp_yellow" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_suck_mp_gold" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_suck_mp_green" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_suck_mp_green" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_suck_mp_blue" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_suck_mp_blue" type="text" autocomplete="off" class="layui-input">
                 </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="edit_suck_mp_purple" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_suck_mp_purple" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">效果说明</label>
                 <div class="layui-input-inline" style="width: 500px;">
-                    <textarea class="layui-textarea" id="edit_info" placeholder="请输入内容"></textarea>
+                    <textarea id="edit_info" placeholder="请输入内容" class="layui-textarea layui-input-width1"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label for="add_target" class="layui-form-label"></label>
-                <button class="layui-btn" type="button" id="editEffect_but">修改</button>
-                <button class="layui-btn layui-btn-primary" type="button" id="editEffect_reset">重置</button>
+                <button onclick="editRequest()" type="button" class="layui-btn">修改</button>
+                <button onclick="editReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
-
 </div>
 <script>
+    /*查询*/
     $(function(){
         pagingQuery()
     });
-
-
-
-    /*查询部分*/
-    $("#pagingQuery").click(function () {
-        pagingQuery();
-    });
-    $("#cleanUp").click(function () {
-        pagingQuery();
-    });
     function pagingQuery(){
-        $("#showInfo").empty();
-        var datas = {
+        $("#dataInfo").empty();
+        var params = {
+            name:$("query_name").val(),
             target:Number($("#query_target").val())
         };
-        var url = "/effect/pagingQuery";
-        $.ajax({
-            type:"POST",
-            url:url,
-            data:JSON.stringify(datas),
-            dataType:"JSON",
-            contentType:"application/json",
-            success:function(data){
-                if(data.code == "0" && data.result == "SECCESS"){
-                    var rows = $.base64.atob(data.rows,"utf-8");
+        layui.use(['layer','table'],function (){
+            var layer = layui.layer,table = layui.table;
+            table.render({
+                elem:'#dataInfo',
+                url:'/effect/pagingQuery',
+                method:'POST',
+                contentType:"application/json",
+                toolbar:'#toolbarBomb',
+                id:'#dataInfo',
+                height:520,
+                title:'效果管理',
+                even:true,
+                expandRow:true,
+                skin:'row',
+                where:params,
+                page:true,
+                limit:10,
+                limits:[10, 20, 30, 40, 50],
+                parseData:function (res){
+                    var rows = $.base64.atob(res.rows,"utf-8");
                     if(isJSON(rows)){
-                        pagingPlugin(rows,datas,url);
-                    }
-                }else{
-                    layer.msg(data.msg,{icon:2});
-                }
-            }
-        });
-    }
-    function pagingPlugin(rows,datas,url){
-        obj = JSON.parse(rows);
-        layui.use('laypage', function(){
-            var laypage = layui.laypage;
-            laypage.render({
-                elem: 'pageInfo',
-                count: obj.total,
-                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
-                theme: '#15c142',
-                jump:function (obj) {
-                    $("#showInfo").empty();
-                    datas.pageNum = obj.curr;
-                    datas.pageSize = obj.limit;
-                    $.ajax({
-                        type:"POST",
-                        url:url,
-                        data:JSON.stringify(datas),
-                        dataType:"JSON",
-                        contentType:"application/json",
-                        success:function(data){
-                            if(data.code == "0" && data.result == "SECCESS"){
-                                var rows = $.base64.atob(data.rows,"utf-8");
-                                if(isJSON(rows)){
-                                    showInfo(rows);
-                                }
-                            }else{
-                                layer.msg(data.msg,{icon:2});
-                            }
+                        var obj = JSON.parse(rows);
+                        return {
+                            "code":res.code,
+                            "msg":res.msg,
+                            "count":obj.total,
+                            "data":obj.data
                         }
-                    })
+                    }
+                },
+                cols:[
+                    [
+                        {type:'checkbox',fixed:'felt'},
+                        {type:'numbers',title:'序号',align:'center',fixed:'felt'},
+                        {field:'name',title:'效果名称',sort:true},
+                        {field:'target',title:'执行目标'},
+                        {field:'Aggressivity',title:'攻击力',sort:true},
+                        {field:'Defense',title:'防御力',sort:true},
+                        {field:'burst',title:'暴击力',sort:true},
+                        {field:'hp',title:'HP影响',sort:true},
+                        {field:'injury',title:'外伤',sort:true},
+                        {field:'internal_injury',title:'内伤',sort:true},
+                        {field:'poisoning',title:'毒伤',sort:true},
+                        {field:'suck_HP',title:'吸血',sort:true},
+                        {fixed:'right',title:'操作',width:200,align:'center',toolbar:'#operational'}
+                    ]
+                ]
+            });
+            //勾选批量删除
+            table.on('checkbox(dataInfo)',function(obj){
+                var data = obj.data;
+                table.on('toolbar(dataInfo)',function (obj){
+                    if(obj.event === 'bombDelete'){
+                        layer.msg(data.name)
+                    }else if(obj.event === 'bombAdd'){
+                        add();
+                    }
+                });
+            });
+            //查看、编辑、删除
+            table.on('tool(dataInfo)',function (obj){
+                var data = obj.data;
+                if(obj.event === 'see'){
+                    see(data);
+                }else if (obj.event === 'edit'){
+                    edit(data);
+                }else if (obj.event === 'del'){
+                    del(data);
+                }
+            });
+            //新增
+            table.on('toolbar(dataInfo)',function (obj){
+                if(obj.event === 'bombAdd'){
+                    add();
                 }
             });
         });
     }
-    function showInfo(rows){
-        obj = JSON.parse(rows);
-        var data = "";
-        if(obj.total == 0){
-            data = "<tr><td colspan='16' style='text-align:center;'>未查询到数据</td></tr>";
-        }else {
-            $.each(obj.datas,function (i,n) {
-                data = data+"<tr>";
-                data = data+"<td><div class='layui-unselect layui-form-checkbox' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' lay-skin='primary' data-id='2'><i class='layui-icon layui-icon-ok'></i></div></td>";
-                data = data+"<td>"+(i+1)+"</td>";
-                data = data+"<td>"+(isNull(n.target))+"</td>";
-                data = data+"<td>"+(isNull(n.Aggressivity))+"</td>";
-                data = data+"<td>"+(isNull(n.Defense))+"</td>";
-                data = data+"<td>"+(isNull(n.hp))+"</td>";
-                data = data+"<td>"+(isNull(n.injury))+"</td>";
-                data = data+"<td>"+(isNull(n.internal_injury))+"</td>";
-                data = data+"<td>"+(isNull(n.poisoning))+"</td>";
-                data = data+"<td>"+(isNull(n.stun))+"</td>";
-                data = data+"<td>"+(isNull(n.dodge))+"</td>";
-                data = data+"<td>"+(isNull(n.hit_rate))+"</td>";
-                data = data+"<td>"+(isNull(n.crit_rate))+"</td>";
-                data = data+"<td>"+(isNull(n.burst))+"</td>";
-                data = data+"<td>"+(isNull(n.suck_HP))+"</td>";
-                data = data+"<td class='td-manage'>";
-                data = data+"<a title='详情' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm details'><i class='layui-icon layui-icon-log'></i>详情</a>";
-                data = data+"<a title='编辑' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-warm edit'><i class='layui-icon layui-icon-edit'></i>编辑</a>";
-                data = data+"<a title='删除' obj='"+$.base64.btoa(JSON.stringify(n),'utf-8')+"' href='javascript:void(0);' class='layui-btn layui-btn-sm layui-btn-danger del'><i class='layui-icon layui-icon-delete'></i>删除</a>";
-                data = data+"</td></tr>";
-            });
-        }
-        $("#showInfo").html(data);
+
+    /*清空条件*/
+    function cleanUp() {
+        $("#query_name").val('');
+        $("#query_target").val("");
+        layui.form.render("select");
+        pagingQuery();
     }
 
-
-
-    /*新增部分*/
-    $("#bomb_Add").click(function () {
-        reset_Add();
+    /*新增*/
+    function add() {
+        addReset();
         layer.open({
             type: 1,
             offset: "auto",
@@ -499,29 +538,10 @@
                 $("#addInfo").hide();
             }
         });
-    });
-    $("#request_Add").click(function () {
-        var obj = addParams();
-        $.ajax({
-            type:"POST",
-            dataType:"JSON",
-            url:"/effect/inAdd",
-            data:obj,
-            success: function (data) {
-                if (data.code == "0" && data.result == "SECCESS") {
-                    layer.msg("新增成功",{icon:1});
-                    pagingQuery();
-                }else{
-                    layer.msg(data.msg,{icon:2});
-                }
-            }
-        });
-    });
-    $("#reset_Add").click(function () {
-        reset_Add();
-    });
-    function addParams(){
-        var datas = {
+    }
+    function addRequest() {
+        var params = {
+            name:$("#add_name").val(),
             target:Number($("#add_target").val()),
             hp:Number($("#add_hp").val()),
             mp_yellow:$("#add_mp_yellow").val(),
@@ -547,10 +567,25 @@
             suck_mp_purple:$("#add_suck_mp_purple").val(),
             info:$("#add_info").val()
         };
-        return datas;
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/effect/inAdd",
+            data:params,
+            success:function (data) {
+                if (data.code === "0" && data.result === "SECCESS") {
+                    layer.msg("新增成功",{icon:1});
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
     }
-    function reset_Add() {
-        $("#add_target").val('');
+    function checkAddParams(params){
+
+    }
+    function addReset() {
         $("#add_hp").val('');
         $("#add_mp_yellow").val('');
         $("#add_mp_gold").val('');
@@ -576,12 +611,8 @@
         $("#add_info").val('');
     }
 
-
-
-    /*详情部分*/
-    $("#showInfo").on('click','.details',function () {
-        var str = $.base64.atob($(this).attr("obj"), "utf-8");
-        obj = JSON.parse(str);
+    /*查看*/
+    function see(data){
         layer.open({
             type: 1,
             offset: "auto",
@@ -598,39 +629,59 @@
                 $("#detailsInfo").hide();
             }
         });
-    });
-    
+    }
 
-
-    /*编辑部分*/
-    $("#showInfo").on('click','.edit',function () {
-        var str = $.base64.atob($(this).attr("obj"), "utf-8");
-        obj = JSON.parse(str);
-        document.getElementById("edit_effect_id").value = toNull(obj.effect_id);
-        document.getElementById("edit_target").value = toNull(obj.target);
-        document.getElementById("edit_hp").value = toNull(obj.hp);
-        document.getElementById("edit_mp_yellow").value = toNull(obj.mp_yellow);
-        document.getElementById("edit_mp_gold").value = toNull(obj.mp_gold);
-        document.getElementById("edit_mp_green").value = toNull(obj.mp_green);
-        document.getElementById("edit_mp_blue").value = toNull(obj.mp_blue);
-        document.getElementById("edit_mp_purple").value = toNull(obj.mp_purple);
-        document.getElementById("edit_aggressivity").value = toNull(obj.Aggressivity);
-        document.getElementById("edit_defense").value = toNull(obj.Defense);
-        document.getElementById("edit_burst").value = toNull(obj.burst);
-        document.getElementById("edit_injury").value = toNull(obj.injury);
-        document.getElementById("edit_internal_injury").value = toNull(obj.internal_injury);
-        document.getElementById("edit_poisoning").value = toNull(obj.poisoning);
-        document.getElementById("edit_stun").value = toNull(obj.stun);
-        document.getElementById("edit_dodge").value = toNull(obj.dodge);
-        document.getElementById("edit_hit_rate").value = toNull(obj.hit_rate);
-        document.getElementById("edit_crit_rate").value = toNull(obj.crit_rate);
-        document.getElementById("edit_suck_HP").value = toNull(obj.suck_HP);
-        document.getElementById("edit_suck_mp_yellow").value = toNull(obj.suck_mp_yellow);
-        document.getElementById("edit_suck_mp_gold").value = toNull(obj.suck_mp_gold);
-        document.getElementById("edit_suck_mp_green").value = toNull(obj.suck_mp_green);
-        document.getElementById("edit_suck_mp_blue").value = toNull(obj.suck_mp_blue);
-        document.getElementById("edit_suck_mp_purple").value = toNull(obj.suck_mp_purple);
-        document.getElementById("edit_info").value = toNull(obj.info);
+    /*编辑*/
+    function edit(data){
+        var params = {
+            effect_id:data.effect_id,
+            name:data.name
+        };
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/effect/editQuery",
+            data:params,
+            success:function (data) {
+                if(data.code === "0" && data.result === "SECCESS") {
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if(isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        editOpen(obj);
+                    }
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function editOpen(obj){
+        document.getElementById("edit_effect_id").value = isNull(obj.effect_id);
+        $("#edit_target").val(String(obj.target));
+        layui.form.render("select");
+        document.getElementById("edit_hp").value = isNull(obj.hp);
+        document.getElementById("edit_mp_yellow").value = isNull(obj.mp_yellow);
+        document.getElementById("edit_mp_gold").value = isNull(obj.mp_gold);
+        document.getElementById("edit_mp_green").value = isNull(obj.mp_green);
+        document.getElementById("edit_mp_blue").value = isNull(obj.mp_blue);
+        document.getElementById("edit_mp_purple").value = isNull(obj.mp_purple);
+        document.getElementById("edit_aggressivity").value = isNull(obj.Aggressivity);
+        document.getElementById("edit_defense").value = isNull(obj.Defense);
+        document.getElementById("edit_burst").value = isNull(obj.burst);
+        document.getElementById("edit_injury").value = isNull(obj.injury);
+        document.getElementById("edit_internal_injury").value = isNull(obj.internal_injury);
+        document.getElementById("edit_poisoning").value = isNull(obj.poisoning);
+        document.getElementById("edit_stun").value = isNull(obj.stun);
+        document.getElementById("edit_dodge").value = isNull(obj.dodge);
+        document.getElementById("edit_hit_rate").value = isNull(obj.hit_rate);
+        document.getElementById("edit_crit_rate").value = isNull(obj.crit_rate);
+        document.getElementById("edit_suck_HP").value = isNull(obj.suck_HP);
+        document.getElementById("edit_suck_mp_yellow").value = isNull(obj.suck_mp_yellow);
+        document.getElementById("edit_suck_mp_gold").value = isNull(obj.suck_mp_gold);
+        document.getElementById("edit_suck_mp_green").value = isNull(obj.suck_mp_green);
+        document.getElementById("edit_suck_mp_blue").value = isNull(obj.suck_mp_blue);
+        document.getElementById("edit_suck_mp_purple").value = isNull(obj.suck_mp_purple);
+        document.getElementById("edit_info").value = isNull(obj.info);
         layer.open({
             type: 1,
             offset: "auto",
@@ -641,86 +692,56 @@
             shadeClose: true,
             shade:0.4,
             title: "编辑",
-            content: $("#edit_effectInfo"),
+            content: $("#editInfo"),
             yes:function() {
-                $("#edit_effectInfo").hide();
+                $("#editInfo").hide();
             }
         });
-    });
-    $("#editEffect_but").click(function () {
-        obj = editObject();
+    }
+    function editRequest(){
+        var params = {
+            effect_id:$("#edit_effect_id").val(),
+            target:Number($("#edit_target").val()),
+            hp:Number($("#edit_hp").val()),
+            mp_yellow:$("#edit_mp_yellow").val(),
+            mp_gold:$("#edit_mp_gold").val(),
+            mp_green:$("#edit_mp_green").val(),
+            mp_blue:$("#edit_mp_blue").val(),
+            mp_purple:$("#edit_mp_purple").val(),
+            Aggressivity:Number($("#edit_aggressivity").val()),
+            Defense:Number($("#edit_defense").val()),
+            burst:Number($("#edit_burst").val()),
+            injury:Number($("#edit_injury").val()),
+            internal_injury:Number($("#edit_internal_injury").val()),
+            poisoning:Number($("#edit_poisoning").val()),
+            stun:Number($("#edit_stun").val()),
+            dodge:Number($("#edit_dodge").val()),
+            hit_rate:Number($("#edit_hit_rate").val()),
+            crit_rate:Number($("#edit_crit_rate").val()),
+            suck_HP:Number($("#edit_suck_HP").val()),
+            suck_mp_yellow:$("#edit_suck_mp_yellow").val(),
+            suck_mp_gold:$("#edit_suck_mp_gold").val(),
+            suck_mp_green:$("#edit_suck_mp_green").val(),
+            suck_mp_blue:$("#edit_suck_mp_blue").val(),
+            suck_mp_purple:$("#edit_suck_mp_purple").val(),
+            info:$("#edit_info").val()
+        };
         $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/effect/effectUpdate",
-            data: obj,
+            type:"POST",
+            dataType:"JSON",
+            url:"/effect/inUpdate",
+            data:params,
             success: function (data) {
-                if (data.code == "0" && data.result == "SECCESS") {
+                if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("修改成功",{icon:1});
-                    pagingQueryEffect();
+                    pagingQuery();
                 }else{
                     layer.msg(data.msg,{icon:2});
                 }
             }
         });
-    });
-    function editObject(){
-        var effect_id = $("#edit_effect_id").val();
-        var target = $("#edit_target").val();
-        var hp = $("#edit_hp").val();
-        var mp_yellow = $("#edit_mp_yellow").val();
-        var mp_gold = $("#edit_mp_gold").val();
-        var mp_green = $("#edit_mp_green").val();
-        var mp_blue = $("#edit_mp_blue").val();
-        var mp_purple = $("#edit_mp_purple").val();
-        var aggressivity = $("#edit_aggressivity").val();
-        var defense = $("#edit_defense").val();
-        var burst = $("#edit_burst").val();
-        var injury = $("#edit_injury").val();
-        var internal_injury = $("#edit_internal_injury").val();
-        var poisoning = $("#edit_poisoning").val();
-        var stun = $("#edit_stun").val();
-        var dodge = $("#edit_dodge").val();
-        var hit_rate = $("#edit_hit_rate").val();
-        var crit_rate = $("#edit_crit_rate").val();
-        var suck_HP = $("#edit_suck_HP").val();
-        var suck_mp_yellow = $("#edit_suck_mp_yellow").val();
-        var suck_mp_gold = $("#edit_suck_mp_gold").val();
-        var suck_mp_green = $("#edit_suck_mp_green").val();
-        var suck_mp_blue = $("#edit_suck_mp_blue").val();
-        var suck_mp_purple = $("#edit_suck_mp_purple").val();
-        var info = $("#edit_info").val();
-        obj = {
-            effect_id:effect_id,
-            target:Number(target),
-            hp:Number(hp),
-            mp_yellow:mp_yellow,
-            mp_gold:mp_gold,
-            mp_green:mp_green,
-            mp_blue:mp_blue,
-            mp_purple:mp_purple,
-            Aggressivity:Number(aggressivity),
-            Defense:Number(defense),
-            burst:Number(burst),
-            injury:Number(injury),
-            internal_injury:Number(internal_injury),
-            poisoning:Number(poisoning),
-            stun:Number(stun),
-            dodge:Number(dodge),
-            hit_rate:Number(hit_rate),
-            crit_rate:Number(crit_rate),
-            suck_HP:Number(suck_HP),
-            suck_mp_yellow:suck_mp_yellow,
-            suck_mp_gold:suck_mp_gold,
-            suck_mp_green:suck_mp_green,
-            suck_mp_blue:suck_mp_blue,
-            suck_mp_purple:suck_mp_purple,
-            info:info
-        };
-        return obj;
     }
-    $("#editEffect_reset").click(function () {
-        $("#edit_target").val('');
+    function editReset(){
         $("#edit_hp").val('');
         $("#edit_mp_yellow").val('');
         $("#edit_mp_gold").val('');
@@ -744,30 +765,31 @@
         $("#edit_suck_mp_blue").val('');
         $("#edit_suck_mp_purple").val('');
         $("#edit_info").val('');
-    });
+    }
 
-
-    /**删除部分*/
-    $('#show_effectData').on('click','.del',function () {
-        var str = $.base64.atob($(this).attr("obj"), "utf-8");
-        var obj = JSON.parse(str);
+    /*删除*/
+    function del(data){
+        var params = {
+            effect_id:data.effect_id,
+            name:data.name
+        };
         $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/effect/effectDelete",
-            data: {effect_id:obj.effect_id},
-            success: function (data) {
-                if(data.code == "0" && data.result == "SECCESS") {
+            type:"POST",
+            dataType:"JSON",
+            url:"/effect/inDelete",
+            data:params,
+            success:function (data) {
+                if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});
-                    pagingQueryEffect();
+                    pagingQuery();
                 }else{
                     layer.msg(data.msg,{icon:2});
                 }
             }
         });
-    });
+    }
 
-    /**判断json格式、字符串*/
+    /*判断json格式*/
     function isJSON(str){
         try{
             JSON.parse(str);
@@ -776,20 +798,15 @@
             return false;
         }
     }
+
+    /*判断字符串*/
     function isNull(str){
-        if(str == null || str == ""){
-            return "-";
+        if(str === null || str === ""){
+            return "";
         }else{
             return str;
         }
     }
-    function toNull(str){
-        if(str == null || str == ""){
-            return "";
-        }
-        return str;
-    }
-
 </script>
 </body>
 </html>

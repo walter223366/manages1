@@ -23,7 +23,11 @@ public class EffectController {
     @Autowired
     private IEffectService iEffectService;
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return Object
+     */
     @RequestMapping("/pagingQuery")
     public Object effectPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -38,13 +42,17 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**新增*/
-    @RequestMapping("/inAdd")
-    public Object effectAdd(Effect effect){
+    /**
+     * 编辑查询
+     * @param effect effect
+     * @return Object
+     */
+    @RequestMapping("/editQuery")
+    public Object effectEditQuery(Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectAdd(effect);
+            generalResponse = iEffectService.effectEditQuery(effect);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -53,7 +61,30 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**修改*/
+    /**
+     * 新增
+     * @param effect effect
+     * @return Object
+     */
+    @RequestMapping("/inAdd")
+    public Object effectAdd(Effect effect){
+        LOG.info("请求参数:" + effect);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iEffectService.effectInsert(effect);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 修改
+     * @param effect effect
+     * @return Object
+     */
     @RequestMapping("/inUpdate")
     public Object effectUpdate(Effect effect){
         LOG.info("请求参数:" + effect);
@@ -68,7 +99,11 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param effect effect
+     * @return Object
+     */
     @RequestMapping("/inDelete")
     public Object effectDelete(Effect effect){
         LOG.info("请求参数:" + effect);

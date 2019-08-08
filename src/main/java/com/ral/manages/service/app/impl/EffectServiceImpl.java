@@ -26,11 +26,15 @@ public class EffectServiceImpl implements IEffectService {
     @Autowired
     private IEffectMapper iEffectMapper;
 
-    /**分页查询*/
+    /**
+     * 分页查询
+     * @param map map
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse effectPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> effectList = iEffectMapper.selectEffectPagingQuery(map);
+        List<Map<String,Object>> effectList = iEffectMapper.effectPagingQuery(map);
         for(Map<String,Object> effectMap : effectList){
             int target = SetUtil.toMapValueInt(effectMap,"target");
             String target_value = (target==0?StateTable.Effect.TARGET_ZERO.getName():StateTable.Effect.TARGET_ONE.getName());
@@ -39,13 +43,30 @@ public class EffectServiceImpl implements IEffectService {
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),effectList));
     }
 
-    /**新增*/
+    /**
+     * 编辑查询
+     * @param effect effect
+     * @return GeneralResponse
+     */
     @Override
-    public GeneralResponse effectAdd(Effect effect) {
+    public GeneralResponse effectEditQuery(Effect effect) {
+        //TODO 校验参数
+        Map<String,Object> result = iEffectMapper.effectEditQuery(effect);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+    }
+
+    /**
+     * 新增
+     * @param effect effect
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse effectInsert(Effect effect) {
+        //TODO 校验参数
         effect.setEffect_id(StringUtil.getUUID());
         effect.setCancellation(StateTable.Effect.CANCELLATION_ZERO.getCode());
         try{
-            iEffectMapper.insertEffect(effect);
+            iEffectMapper.effectInsert(effect);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -53,19 +74,23 @@ public class EffectServiceImpl implements IEffectService {
         }
     }
 
-    /**修改*/
+    /**
+     * 修改
+     * @param effect effect
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse effectUpdate(Effect effect) {
         String msg = VerificationParams.verificationEffect(effect);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iEffectMapper.selectEffectToExist(effect);
+        int count = iEffectMapper.effectIsExist(effect);
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该效果ID不存在");
         }
         try{
-            iEffectMapper.updateEffect(effect);
+            iEffectMapper.effectUpdate(effect);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
@@ -73,21 +98,24 @@ public class EffectServiceImpl implements IEffectService {
         }
     }
 
-    /**删除*/
+    /**
+     * 删除
+     * @param effect effect
+     * @return GeneralResponse
+     */
     @Override
     public GeneralResponse effectDelete(Effect effect) {
-        int count = iEffectMapper.selectEffectToExist(effect);
+        int count = iEffectMapper.effectIsExist(effect);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该效果ID不存在");
         }
         effect.setCancellation(StateTable.Effect.CANCELLATION_ONE.getCode());
         try{
-            iEffectMapper.deleteEffect(effect);
+            iEffectMapper.effectDelete(effect);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
         }
     }
-
 }

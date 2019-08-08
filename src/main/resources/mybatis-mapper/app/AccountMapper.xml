@@ -26,7 +26,7 @@
     </sql>
 
 
-    <!--分页查询-->
+    <!--查询-->
     <select id="accountPagingQuery" parameterType="map" resultType="map">
         SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1  <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0) ORDER BY lrrq DESC
     </select>

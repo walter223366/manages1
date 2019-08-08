@@ -20,7 +20,7 @@
     </sql>
 
 
-    <!--分页查询-->
+    <!--查询-->
     <select id="schoolPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>

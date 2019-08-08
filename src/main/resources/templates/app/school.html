@@ -132,7 +132,7 @@
         pagingQuery();
     });
     function pagingQuery(){
-        $("#showInfo").empty();
+        $("#dataInfo").empty();
         var params = {
             name: $("#query_name").val(),
             sinfluence: $("#query_sinfluence").val(),
@@ -252,7 +252,7 @@
             data:params,
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
-                    layer.msg(data.msg,{icon:1});
+                    layer.msg("新增成功",{icon:1});
                     pagingQuery();
                 }else{
                     layer.msg(data.msg,{icon:2});
@@ -266,7 +266,7 @@
         $("#add_info").val('');
     }
 
-    /*详情*/
+    /*查看*/
     function see(data){
         layer.open({
             type: 1,
@@ -349,7 +349,7 @@
             data:params,
             success: function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
-                    layer.msg(data.msg,{icon:1});
+                    layer.msg("修改成功",{icon:1});
                     pagingQuery();
                 }else{
                     layer.msg(data.msg,{icon:2});
@@ -376,7 +376,7 @@
             data:params,
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS"){
-                    layer.msg(data.msg,{icon:1});
+                    layer.msg("删除成功",{icon:1});
                     pagingQuery();
                 }else{
                     layer.msg(data.msg,{icon:2});
@@ -397,7 +397,7 @@
 
     /*判断字符串*/
     function isNull(str){
-        if(str == null || str == ""){
+        if(str === null || str === ""){
             return "";
         }else{
             return str;

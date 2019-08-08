@@ -8,12 +8,13 @@ import java.util.Map;
 public interface IEffectMapper {
 
     /*查询*/
-    List<Map<String,Object>> selectEffectPagingQuery(Map<String,Object> map);
-    int selectEffectToExist(@Param("effect")Effect effect);
+    List<Map<String,Object>> effectPagingQuery(Map<String,Object> map);
+    int effectIsExist(@Param("effect") Effect effect);
+    Map<String,Object> effectEditQuery(@Param("effect") Effect effect);
     /*新增*/
-    void insertEffect(@Param("effect")Effect effect);
+    void effectInsert(@Param("effect") Effect effect);
     /*修改*/
-    void updateEffect(@Param("effect")Effect effect);
+    void effectUpdate(@Param("effect") Effect effect);
     /*删除*/
-    void deleteEffect(@Param("effect")Effect effect);
+    void effectDelete(@Param("effect") Effect effect);
 }

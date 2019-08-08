@@ -8,8 +8,9 @@ public interface IEffectService {
 
     /*查询*/
     GeneralResponse effectPagingQuery(Map<String,Object> map);
+    GeneralResponse effectEditQuery(Effect effect);
     /*新增*/
-    GeneralResponse effectAdd(Effect effect);
+    GeneralResponse effectInsert(Effect effect);
     /*修改*/
     GeneralResponse effectUpdate(Effect effect);
     /*删除*/
