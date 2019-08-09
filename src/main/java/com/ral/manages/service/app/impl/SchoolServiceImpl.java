@@ -62,9 +62,9 @@ public class SchoolServiceImpl implements ISchoolService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iSchoolMapper.schoolIsExist(school);
+        int count = iSchoolMapper.schoolIsName(school);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，该门派名称已存在");
+            return GeneralResponse.fail("新增失败，门派名称已存在");
         }
         school.setSchool_id(StringUtil.getUUID());
         school.setCancellation(StateTable.School.CANCELLATION_ZERO.getCode());
@@ -90,7 +90,7 @@ public class SchoolServiceImpl implements ISchoolService {
         }
         int count = iSchoolMapper.schoolIsExist(school);
         if(count <= 0){
-            return GeneralResponse.fail("修改失败，该门派名称不存在");
+            return GeneralResponse.fail("修改失败，该门派不存在");
         }
         try{
             iSchoolMapper.schoolUpdate(school);
@@ -114,7 +114,7 @@ public class SchoolServiceImpl implements ISchoolService {
         }
         int count = iSchoolMapper.schoolIsExist(school);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该门派名称不存在");
+            return GeneralResponse.fail("删除失败，该门派不存在");
         }
         school.setCancellation(StateTable.School.CANCELLATION_ONE.getCode());
         try{

@@ -25,7 +25,10 @@
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>
     <select id="schoolIsExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
-        SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}
+        SELECT count(1) FROM dict_school WHERE 1=1 AND school_id=#{school.school_id}
+    </select>
+    <select id="schoolIsName" parameterType="com.ral.manages.entity.app.School" resultType="int">
+         SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}
     </select>
     <select id="schoolEditQuery" parameterType="com.ral.manages.entity.app.School" resultType="map">
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND name=#{school.name}

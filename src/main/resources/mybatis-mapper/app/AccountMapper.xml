@@ -31,7 +31,10 @@
         SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1  <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0) ORDER BY lrrq DESC
     </select>
     <select id="accountIsExist" parameterType="com.ral.manages.entity.app.Account" resultType="int">
-        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account.account}
+        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND id=#{account.id}
+    </select>
+    <select id="accountIsName" parameterType="com.ral.manages.entity.app.Account" resultType="int">
+        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND name=#{account.name}
     </select>
     <select id="accountEditQuery" parameterType="com.ral.manages.entity.app.Account" resultType="map">
         SELECT  <include refid="accountResult"/>  FROM  biz_user WHERE 1=1 AND (id=#{account.id} OR account=#{account.account})

@@ -25,7 +25,10 @@
         SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>
     <select id="moveIsExist" parameterType="com.ral.manages.entity.app.Move" resultType="int">
-        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND name=#{move.name}
+        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
+    </select>
+    <select id="moveIsName" parameterType="com.ral.manages.entity.app.Move" resultType="int">
+         SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND name=#{move.name}
     </select>
     <select id="moveQueryName" parameterType="string" resultType="map">
         SELECT zhaoshi_id,name FROM dict_zhaoshi WHERE 1=1 AND kongfu_id=#{moveId}

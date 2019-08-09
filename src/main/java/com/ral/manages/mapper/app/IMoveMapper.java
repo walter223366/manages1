@@ -10,6 +10,7 @@ public interface IMoveMapper {
     /*查询*/
     List<Map<String,Object>> movePagingQuery(Map<String,Object> map);
     int moveIsExist(@Param("move") Move move);
+    int moveIsName(@Param("move") Move move);
     Map<String,Object> moveEditQuery(@Param("move") Move move);
     Map<String,Object> moveQueryName(@Param("moveId") String moveId);
     /*新增*/

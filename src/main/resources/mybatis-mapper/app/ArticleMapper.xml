@@ -22,7 +22,7 @@
     <select id="articleIsExist" parameterType="com.ral.manages.entity.app.Article" resultType="int">
         SELECT COUNT(1) FROM dict_article WHERE 1=1 AND article_id=#{article.article_id}
     </select>
-    <select id="articleQueryName" parameterType="com.ral.manages.entity.app.Article" resultType="int">
+    <select id="articleIsName" parameterType="com.ral.manages.entity.app.Article" resultType="int">
         SELECT COUNT(1) FROM dict_article WHERE 1=1 AND name=#{article.name}
     </select>
     <select id="articleEditQuery" parameterType="com.ral.manages.entity.app.Article" resultType="map">

@@ -457,6 +457,9 @@
 
     /*删除*/
     function del(data){
+        var params = {
+            account:data.account
+        };
         if(data.account===null || data.account===""){
             layer.msg("账号名称不能为空",{icon:2});
             return;
@@ -465,7 +468,7 @@
             type:"POST",
             dataType:"JSON",
             url:"/account/inDelete",
-            data:{account:data.account},
+            data:params,
             success: function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});

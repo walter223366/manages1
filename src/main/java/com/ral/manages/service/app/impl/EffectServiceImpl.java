@@ -63,6 +63,10 @@ public class EffectServiceImpl implements IEffectService {
     @Override
     public GeneralResponse effectInsert(Effect effect) {
         //TODO 校验参数
+        int count = iEffectMapper.effectIsName(effect);
+        if(count > 0){
+            return GeneralResponse.fail("新增失败，效果名称已存在");
+        }
         effect.setEffect_id(StringUtil.getUUID());
         effect.setCancellation(StateTable.Effect.CANCELLATION_ZERO.getCode());
         try{
@@ -87,7 +91,7 @@ public class EffectServiceImpl implements IEffectService {
         }
         int count = iEffectMapper.effectIsExist(effect);
         if(count <= 0){
-            return GeneralResponse.fail("修改失败，该效果ID不存在");
+            return GeneralResponse.fail("修改失败，该效果不存在");
         }
         try{
             iEffectMapper.effectUpdate(effect);
@@ -107,7 +111,7 @@ public class EffectServiceImpl implements IEffectService {
     public GeneralResponse effectDelete(Effect effect) {
         int count = iEffectMapper.effectIsExist(effect);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该效果ID不存在");
+            return GeneralResponse.fail("删除失败，该效果不存在");
         }
         effect.setCancellation(StateTable.Effect.CANCELLATION_ONE.getCode());
         try{

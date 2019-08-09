@@ -66,9 +66,9 @@ public class MoveServiceImpl implements IMoveService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iMoveMapper.moveIsExist(move);
+        int count = iMoveMapper.moveIsName(move);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，该招式名称已存在");
+            return GeneralResponse.fail("新增失败，招式名称已存在");
         }
         move.setZhaoshi_id(StringUtil.getUUID());
         try{
@@ -93,7 +93,7 @@ public class MoveServiceImpl implements IMoveService {
         }
         int count = iMoveMapper.moveIsExist(move);
         if(count <= 0){
-            return GeneralResponse.fail("修改失败，该招式名称不存在");
+            return GeneralResponse.fail("修改失败，该招式不存在");
         }
         try{
             iMoveMapper.moveUpdate(move);
@@ -113,7 +113,7 @@ public class MoveServiceImpl implements IMoveService {
     public GeneralResponse moveDelete(Move move) {
         int count = iMoveMapper.moveIsExist(move);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该招式名称不存在");
+            return GeneralResponse.fail("删除失败，该招式不存在");
         }
         try{
             iMoveMapper.moveDelete(move);

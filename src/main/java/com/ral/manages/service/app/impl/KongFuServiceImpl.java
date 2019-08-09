@@ -80,9 +80,9 @@ public class KongFuServiceImpl implements IKongFuService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iKongFuMapper.kongFuIsExist(kongFu);
+        int count = iKongFuMapper.kongFuIsName(kongFu);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，该功夫名称已存在");
+            return GeneralResponse.fail("新增失败，功夫名称已存在");
         }
         kongFu.setKongfu_id(StringUtil.getUUID());
         kongFu.setCancellation(StateTable.KongFu.CANCELLATION_ZERO.getCode());
@@ -108,7 +108,7 @@ public class KongFuServiceImpl implements IKongFuService {
         }
         int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count <= 0){
-            return GeneralResponse.fail("修改失败，该功夫名称不存在");
+            return GeneralResponse.fail("修改失败，该功夫不存在");
         }
         kongFu.setKongfu_id(StringUtil.getUUID());
         try{
@@ -133,7 +133,7 @@ public class KongFuServiceImpl implements IKongFuService {
         }
         int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该功夫名称不存在");
+            return GeneralResponse.fail("删除失败，该功夫不存在");
         }
         kongFu.setCancellation(StateTable.KongFu.CANCELLATION_ONE.getCode());
         try{

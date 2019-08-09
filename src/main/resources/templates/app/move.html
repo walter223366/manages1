@@ -274,7 +274,23 @@
 
     /*删除*/
     function del(data) {
-
+        var params = {
+            zhaoshi_id:data.zhaoshi_id
+        };
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/move/inDelete",
+            data:params,
+            success: function (data) {
+                if(data.code === "0" && data.result === "SECCESS") {
+                    layer.msg("删除成功",{icon:1});
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
     }
 
 

@@ -26,6 +26,9 @@
     <select id="effectIsExist" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
         SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
     </select>
+    <select id="effectIsName" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
+        SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND name=#{effect.name}
+    </select>
     <select id="effectEditQuery" parameterType="com.ral.manages.entity.app.Effect" resultType="map">
         SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
     </select>

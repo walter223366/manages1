@@ -10,7 +10,7 @@ public interface IArticleMapper {
     /*查询*/
     List<Map<String,Object>> articlePagingQuery(Map<String,Object> map);
     int articleIsExist(@Param("article") Article article);
-    int articleQueryName(@Param("article") Article article);
+    int articleIsName(@Param("article") Article article);
     Map<String,Object> articleEditQuery(@Param("article") Article article);
     /*新增*/
     void articleInsert(@Param("article") Article article);

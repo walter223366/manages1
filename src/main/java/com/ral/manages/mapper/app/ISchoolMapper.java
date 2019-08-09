@@ -10,6 +10,7 @@ public interface ISchoolMapper {
     /*查询*/
     List<Map<String,Object>> schoolPagingQuery(Map<String,Object> map);
     int schoolIsExist(@Param("school") School school);
+    int schoolIsName(@Param("school") School school);
     Map<String,Object> schoolEditQuery(@Param("school") School school);
     /*新增*/
     void schoolInsert(@Param("school") School school);

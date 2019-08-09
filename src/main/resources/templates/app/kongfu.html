@@ -269,7 +269,23 @@
 
     /*删除*/
     function del(data) {
-
+        var params = {
+            kongfu_id:data.kongfu_id
+        };
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/kongFu/inDelete",
+            data:params,
+            success: function (data) {
+                if(data.code === "0" && data.result === "SECCESS") {
+                    layer.msg("删除成功",{icon:1});
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
     }
 
     /*判断json格式*/

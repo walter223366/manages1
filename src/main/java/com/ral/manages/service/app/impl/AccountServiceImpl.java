@@ -72,9 +72,9 @@ public class AccountServiceImpl implements IAccountService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iAccountMapper.accountIsExist(account);
+        int count = iAccountMapper.accountIsName(account);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，该账号已存在");
+            return GeneralResponse.fail("新增失败，账号名称已存在");
         }
         account.setCancellation(StateTable.User.CANCELLATION_ZERO.getCode());
         account.setLrrq(TimeUtil.currentTime());

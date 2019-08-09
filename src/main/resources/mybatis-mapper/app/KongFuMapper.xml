@@ -28,6 +28,9 @@
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
     </select>
     <select id="kongFuIsExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
+        SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
+    </select>
+    <select id="kongFuIsName" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
     </select>
     <select id="kongFuToNameId" parameterType="map">

@@ -10,6 +10,7 @@ public interface IEffectMapper {
     /*查询*/
     List<Map<String,Object>> effectPagingQuery(Map<String,Object> map);
     int effectIsExist(@Param("effect") Effect effect);
+    int effectIsName(@Param("effect") Effect effect);
     Map<String,Object> effectEditQuery(@Param("effect") Effect effect);
     /*新增*/
     void effectInsert(@Param("effect") Effect effect);

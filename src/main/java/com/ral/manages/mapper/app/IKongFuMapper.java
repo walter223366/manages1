@@ -10,6 +10,7 @@ public interface IKongFuMapper {
     /*查询*/
     List<Map<String,Object>> kongFuPagingQuery(Map<String,Object> map);
     int kongFuIsExist(@Param("kongFu")KongFu kongFu);
+    int kongFuIsName(@Param("kongFu")KongFu kongFu);
     List<Map<String,Object>> kongFuToNameId();
     Map<String,Object> kongFuEditQuery(@Param("kongFu") KongFu kongFu);
     Map<String,Object> kongFuQueryName(@Param("kongFuId") String kongFuId);

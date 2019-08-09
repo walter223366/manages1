@@ -60,9 +60,9 @@ public class ArticleServicelmpl implements IArticleService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iArticleMapper.articleIsExist(article);
+        int count = iArticleMapper.articleIsName(article);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，该物品名称已存在");
+            return GeneralResponse.fail("新增失败，物品名称已存在");
         }
         article.setArticle_id(StringUtil.getUUID());
         try{
@@ -87,7 +87,7 @@ public class ArticleServicelmpl implements IArticleService {
         }
         int count = iArticleMapper.articleIsExist(article);
         if(count > 0){
-            return GeneralResponse.fail("修改失败，该物品名称已存在");
+            return GeneralResponse.fail("修改失败，该物品已存在");
         }
         try{
             iArticleMapper.articleUpdate(article);
