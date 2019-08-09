@@ -16,4 +16,5 @@ public interface IArticleService {
     GeneralResponse articleUpdate(Article article);
     /*删除*/
     GeneralResponse articleDelete(Article article);
+    GeneralResponse articleBatchDelete(Map<String,Object> map);
 }

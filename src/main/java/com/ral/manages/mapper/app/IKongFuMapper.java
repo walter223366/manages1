@@ -20,4 +20,5 @@ public interface IKongFuMapper {
     void kongFuUpdate(@Param("kongFu") KongFu kongFu);
     /*删除*/
     void kongFuDelete(@Param("kongFu") KongFu kongFu);
+    void kongFuBatchDelete(Map<String,Object> map);
 }

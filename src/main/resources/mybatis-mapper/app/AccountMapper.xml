@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IAccountMapper">
 
     <sql id="accountResult">
-        id,account,password,source,tellphone,DATE_FORMAT(lrrq,'%Y-%m-%d %H:%i:%s') as lrrq,cancellation
+        id,account,source,tellphone,DATE_FORMAT(lrrq,'%Y-%m-%d %H:%i:%s') as lrrq,cancellation,deleteStatus
     </sql>
     <sql id="conditionalCheck">
         <if test="account != null and account != ''">
@@ -28,7 +28,7 @@
 
     <!--查询-->
     <select id="accountPagingQuery" parameterType="map" resultType="map">
-        SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1  <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0) ORDER BY lrrq DESC
+        SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1  <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0) ORDER BY lrrq DESC
     </select>
     <select id="accountIsExist" parameterType="com.ral.manages.entity.app.Account" resultType="int">
         SELECT COUNT(1) FROM biz_user WHERE 1=1 AND id=#{account.id}
@@ -43,8 +43,8 @@
 
     <!--新增-->
     <insert id="accountInsert" parameterType="com.ral.manages.entity.app.Account">
-        INSERT INTO biz_user(id,account,password,source,tellphone,lrrq,cancellation)
-        VALUES (#{account.id},#{account.account},#{account.password},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation})
+        INSERT INTO biz_user(id,account,password,source,tellphone,lrrq,cancellation,deleteStatus)
+        VALUES (#{account.id},#{account.account},#{account.password},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation},#{account.deleteStatus})
     </insert>
 
 
@@ -56,7 +56,10 @@
 
     <!--删除-->
     <update id="accountDelete" parameterType="com.ral.manages.entity.app.Account">
-        UPDATE biz_user SET cancellation=#{account.cancellation} WHERE 1=1 AND id=#{account.id}
+        UPDATE biz_user SET deleteStatus=#{account.deleteStatus} WHERE 1=1 AND id=#{account.id}
+    </update>
+    <update id="accountBatchDelete" parameterType="map">
+        UPDATE biz_user SET deleteStatus=#{deleteStatus} WHERE 1=1 AND id=#{id}
     </update>
 
 </mapper>

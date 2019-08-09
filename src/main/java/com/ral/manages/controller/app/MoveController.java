@@ -29,7 +29,7 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("/pagingQuery")
-    public Object accountPagingQuery(@RequestBody Map<String,Object> map){
+    public Object movePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -48,7 +48,7 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("/editQuery")
-    public Object accountPagingQuery(Move move){
+    public Object moveEditQuery(Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -67,7 +67,7 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("inAdd")
-    public Object accountAdd(Move move){
+    public Object moveInsert(Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -86,7 +86,7 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("inUpdate")
-    public Object accountUpdate(Move move){
+    public Object moveUpdate(Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -105,11 +105,30 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("inDelete")
-    public Object accountDelete(Move move){
+    public Object moveDelete(Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
             generalResponse = iMoveService.moveDelete(move);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 批量删除
+     * @param map map
+     * @return Object
+     */
+    @RequestMapping("inBatchDelete")
+    public Object moveBatchDelete(Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iMoveService.moveBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

@@ -66,7 +66,7 @@ public class SchoolController {
      * @return Object
      */
     @RequestMapping("/inAdd")
-    public Object schoolAdd(School school){
+    public Object schoolInsert(School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -109,6 +109,25 @@ public class SchoolController {
         GeneralResponse generalResponse = new GeneralResponse();
         try{
             generalResponse = iSchoolService.schoolDelete(school);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 批量删除
+     * @param map map
+     * @return Object
+     */
+    @RequestMapping("/inBatchDelete")
+    public Object schoolBatchDelete(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iSchoolService.schoolBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

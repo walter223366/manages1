@@ -22,5 +22,5 @@ public class Account implements Serializable {
     private long tellphone;//电话
     private String lrrq;//创建日期
     private int cancellation;//注销标志(0或null正常，1注销)
-
+    private int deleteStatus;//删除状态，0或null正常，1已删除
 }

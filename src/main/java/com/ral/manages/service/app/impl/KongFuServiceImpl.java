@@ -11,8 +11,10 @@ import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
 import com.ral.manages.service.app.IKongFuService;
 import com.ral.manages.commom.page.PageBean;
+import com.ral.manages.util.Base64Util;
 import com.ral.manages.util.SetUtil;
 import com.ral.manages.util.StringUtil;
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +87,7 @@ public class KongFuServiceImpl implements IKongFuService {
             return GeneralResponse.fail("新增失败，功夫名称已存在");
         }
         kongFu.setKongfu_id(StringUtil.getUUID());
-        kongFu.setCancellation(StateTable.KongFu.CANCELLATION_ZERO.getCode());
+        kongFu.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
         try{
             iKongFuMapper.kongFuInsert(kongFu);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
@@ -135,9 +137,39 @@ public class KongFuServiceImpl implements IKongFuService {
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该功夫不存在");
         }
-        kongFu.setCancellation(StateTable.KongFu.CANCELLATION_ONE.getCode());
+        kongFu.setDeleteStatus(StateTable.Del.DELETE_ONE.getCode());
         try{
             iKongFuMapper.kongFuDelete(kongFu);
+            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+        }catch (Exception e){
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param map map
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse kongFuBatchDelete(Map<String,Object> map) {
+        List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
+        String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
+        try{
+            resluList = JSONArray.fromObject(data);
+        }catch (Exception e){
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail("传入data参数JSON格式错误");
+        }
+        if(SetUtil.isListNull(resluList)){
+            return GeneralResponse.fail("传入data参数为空");
+        }
+        try{
+            for(Map<String,Object> upMap : resluList){
+                upMap.put("deleteStatus",StateTable.Del.DELETE_ONE.getCode());
+                iKongFuMapper.kongFuBatchDelete(upMap);
+            }
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);

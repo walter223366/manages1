@@ -18,5 +18,6 @@ public interface IArticleMapper {
     void articleUpdate(@Param("article") Article article);
     /*删除*/
     void articleDelete(@Param("article") Article article);
+    void articleBatchDelete(Map<String,Object> map);
 
 }

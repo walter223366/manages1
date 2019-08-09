@@ -18,4 +18,5 @@ public interface ISchoolMapper {
     void schoolUpdate(@Param("school") School school);
     /*删除*/
     void schoolDelete(@Param("school") School school);
+    void schoolBatchDelete(Map<String,Object> map);
 }

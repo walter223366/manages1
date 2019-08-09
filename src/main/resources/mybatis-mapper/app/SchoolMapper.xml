@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.ISchoolMapper">
 
     <sql id="schoolResult">
-        school_id,name,info,influence,cancellation
+        school_id,name,info,influence,deleteStatus
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -22,7 +22,7 @@
 
     <!--查询-->
     <select id="schoolPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
+        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="schoolIsExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
         SELECT count(1) FROM dict_school WHERE 1=1 AND school_id=#{school.school_id}
@@ -37,8 +37,8 @@
 
     <!--新增-->
     <insert id="schoolInsert" parameterType="com.ral.manages.entity.app.School">
-        INSERT INTO dict_school(school_id,name,info,influence)
-        VALUES(#{school.school_id},#{school.name},#{school.info},#{school.influence})
+        INSERT INTO dict_school(school_id,name,info,influence,deleteStatus)
+        VALUES(#{school.school_id},#{school.name},#{school.info},#{school.influence},#{school.deleteStatus})
     </insert>
 
 
@@ -50,7 +50,10 @@
 
     <!--删除-->
     <update id="schoolDelete" parameterType="com.ral.manages.entity.app.School">
-        UPDATE dict_school SET cancellation=#{school.cancellation} WHERE 1=1 AND school_id=#{school.school_id}
+        UPDATE dict_school SET deleteStatus=#{school.deleteStatus} WHERE 1=1 AND school_id=#{school.school_id}
+    </update>
+    <update id="schoolBatchDelete" parameterType="map">
+        UPDATE dict_school SET deleteStatus=#{deleteStatus} WHERE 1=1 AND school_id=#{school_id}
     </update>
 
 </mapper>

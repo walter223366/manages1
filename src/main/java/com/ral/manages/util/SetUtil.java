@@ -12,6 +12,13 @@ public class SetUtil {
         }
     }
 
+    public static boolean isListNull(List<Map<String,Object>> list){
+        if(null == list || list.size() <=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     /**
      * List集合，字符串value为null转为""

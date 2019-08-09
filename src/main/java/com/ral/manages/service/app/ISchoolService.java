@@ -15,4 +15,5 @@ public interface ISchoolService {
     GeneralResponse schoolUpdate(School school);
     /*删除*/
     GeneralResponse schoolDelete(School school);
+    GeneralResponse schoolBatchDelete(Map<String,Object> map);
 }

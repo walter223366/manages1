@@ -8,6 +8,24 @@ package com.ral.manages.commom.emun;
  */
 public interface StateTable {
 
+    /*删除状态*/
+    enum Del{
+        DELETE_ZERO("正常",0),
+        DELETE_ONE("已删除",1);
+        private String name;
+        private int code;
+        private Del(String name,int code){
+            this.name = name;
+            this.code = code;
+        }
+        public String getName() {
+            return name;
+        }
+        public int getCode() {
+            return code;
+        }
+    }
+
     /*账号管理状态表*/
     enum User{
         /*来源*/
@@ -34,22 +52,8 @@ public interface StateTable {
 
     /*门派管理状态表*/
     enum School{
-        /*注销状态*/
-        CANCELLATION_ZERO("正常",0),
-        CANCELLATION_ONE("注销",1);
 
-        private String name;
-        private int code;
-        private School(String name,int code){
-            this.name = name;
-            this.code = code;
-        }
-        public String getName() {
-            return name;
-        }
-        public int getCode() {
-            return code;
-        }
+
     }
 
     /*武学管理状态表*/
@@ -66,11 +70,7 @@ public interface StateTable {
 
         /*启动状态*/
         ENABLE_ZERO("未启动",0),
-        ENABLE_ONE("已启动",1),
-
-        /*注销状态*/
-        CANCELLATION_ZERO("正常",0),
-        CANCELLATION_ONE("注销",1);
+        ENABLE_ONE("已启动",1);
 
         private String name;
         private int code;
@@ -90,11 +90,7 @@ public interface StateTable {
     enum Effect{
         /*执行目标*/
         TARGET_ZERO("自己",0),
-        TARGET_ONE("对方",1),
-
-        /*注销状态*/
-        CANCELLATION_ZERO("正常",0),
-        CANCELLATION_ONE("注销",1);
+        TARGET_ONE("对方",1);
 
         private String name;
         private int code;
@@ -110,6 +106,5 @@ public interface StateTable {
         }
 
     }
-
 
 }

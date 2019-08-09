@@ -2,8 +2,10 @@ package com.ral.manages.controller.app;
 
 import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.entity.app.Effect;
-import com.ral.manages.service.app.IEffectService;
+import com.ral.manages.entity.app.Account;
+import com.ral.manages.entity.app.Article;
+import com.ral.manages.service.app.IAccountService;
+import com.ral.manages.service.app.IArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,13 @@ import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/effect")
-public class EffectController {
+@RequestMapping("/article")
+public class ArticleController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EffectController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ArticleController.class);
     @Autowired
-    private IEffectService iEffectService;
+    private IArticleService iArticleService;
+
 
     /**
      * 分页查询
@@ -29,11 +32,11 @@ public class EffectController {
      * @return Object
      */
     @RequestMapping("/pagingQuery")
-    public Object effectPagingQuery(@RequestBody Map<String,Object> map){
+    public Object articlePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectPagingQuery(map);
+            generalResponse = iArticleService.articlePagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -44,15 +47,15 @@ public class EffectController {
 
     /**
      * 编辑查询
-     * @param effect effect
+     * @param article article
      * @return Object
      */
     @RequestMapping("/editQuery")
-    public Object effectEditQuery(Effect effect){
-        LOG.info("请求参数:" + effect);
+    public Object articleEditQuery(Article article){
+        LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectEditQuery(effect);
+            generalResponse = iArticleService.articleEditQuery(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -63,15 +66,15 @@ public class EffectController {
 
     /**
      * 新增
-     * @param effect effect
+     * @param article article
      * @return Object
      */
-    @RequestMapping("/inAdd")
-    public Object effectInsert(Effect effect){
-        LOG.info("请求参数:" + effect);
+    @RequestMapping("inAdd")
+    public Object articleInsert(Article article){
+        LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectInsert(effect);
+            generalResponse = iArticleService.articleInsert(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -82,15 +85,15 @@ public class EffectController {
 
     /**
      * 修改
-     * @param effect effect
+     * @param article article
      * @return Object
      */
-    @RequestMapping("/inUpdate")
-    public Object effectUpdate(Effect effect){
-        LOG.info("请求参数:" + effect);
+    @RequestMapping("inUpdate")
+    public Object articleUpdate(Article article){
+        LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectUpdate(effect);
+            generalResponse = iArticleService.articleUpdate(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -101,15 +104,15 @@ public class EffectController {
 
     /**
      * 删除
-     * @param effect effect
+     * @param article article
      * @return Object
      */
-    @RequestMapping("/inDelete")
-    public Object effectDelete(Effect effect){
-        LOG.info("请求参数:" + effect);
+    @RequestMapping("inDelete")
+    public Object accountDelete(Article article){
+        LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectDelete(effect);
+            generalResponse = iArticleService.articleDelete(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -123,12 +126,12 @@ public class EffectController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/inBatchDelete")
-    public Object effectBatchDelete(@RequestBody Map<String,Object> map){
+    @RequestMapping("inBatchDelete")
+    public Object accountBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iEffectService.effectBatchDelete(map);
+            generalResponse = iArticleService.articleBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

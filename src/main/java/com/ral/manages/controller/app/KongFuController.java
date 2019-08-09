@@ -135,6 +135,25 @@ public class KongFuController {
     }
 
     /**
+     * 批量删除
+     * @param map map
+     * @return Object
+     */
+    @PostMapping("/inBatchDelete")
+    public Object kongFuBatchDelete(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuBatchDelete(map);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
      * 详情
      * @param kongFu kongFu
      * @return Object

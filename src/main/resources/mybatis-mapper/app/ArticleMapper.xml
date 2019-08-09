@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IArticleMapper">
 
     <sql id="articleResult">
-        article_id,img,name,cancellation
+        article_id,img,name,deleteStatus
     </sql>
 
     <sql id="conditionalCheck">
@@ -17,7 +17,7 @@
 
     <!--查询-->
     <select id="articlePagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0)
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="articleIsExist" parameterType="com.ral.manages.entity.app.Article" resultType="int">
         SELECT COUNT(1) FROM dict_article WHERE 1=1 AND article_id=#{article.article_id}
@@ -32,7 +32,7 @@
 
     <!--新增-->
     <insert id="articleInsert" parameterType="com.ral.manages.entity.app.Article">
-        INSERT INTO dict_article(article_id,img,name)VALUES (#{article.article_id},#{article.img},#{article.name})
+        INSERT INTO dict_article(article_id,img,name,deleteStatus)VALUES (#{article.article_id},#{article.img},#{article.name},#{article.deleteStatus})
     </insert>
 
 
@@ -44,7 +44,10 @@
 
     <!--删除-->
     <update id="articleDelete" parameterType="com.ral.manages.entity.app.Article">
-        UPDATE dict_article SET cancellation=#{article.cancellation} WHERE 1=1 AND article_id=#{article.article_id}
+        UPDATE dict_article SET deleteStatus=#{article.deleteStatus} WHERE 1=1 AND article_id=#{article.article_id}
+    </update>
+    <update id="articleBatchDelete" parameterType="map">
+        UPDATE dict_article SET deleteStatus=#{deleteStatus} WHERE 1=1 AND article_id=#{article_id}
     </update>
 
 </mapper>

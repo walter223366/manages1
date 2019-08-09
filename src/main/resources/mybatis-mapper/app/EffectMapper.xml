@@ -6,7 +6,7 @@
 
     <sql id="effectResult">
         effect_id,name,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
-        stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,cancellation
+        stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,deleteStatus
     </sql>
 
     <sql id="conditionalCheck">
@@ -21,7 +21,7 @@
 
     <!--查询-->
     <select id="effectPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 <include refid="conditionalCheck"/>  AND (cancellation IS NULL OR cancellation=0)
+        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="effectIsExist" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
         SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
@@ -42,12 +42,12 @@
     <!--新增-->
     <insert id="effectInsert" parameterType="com.ral.manages.entity.app.Effect">
         INSERT INTO dict_effect(effect_id,name,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
-        stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,cancellation)
+        stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,deleteStatus)
         VALUES (
         #{effect.effect_id},#{effect.name},#{effect.info},#{effect.target},#{effect.Aggressivity},#{effect.Defense},#{effect.hp},#{effect.mp_yellow},#{effect.mp_gold},#{effect.mp_green},
         #{effect.mp_blue},#{effect.mp_purple},#{effect.injury},#{effect.internal_injury},#{effect.poisoning},#{effect.stun},#{effect.dodge},#{effect.hit_rate},
         #{effect.crit_rate},#{effect.burst},#{effect.suck_HP},#{effect.suck_mp_yellow},#{effect.suck_mp_gold},#{effect.suck_mp_green},
-        #{effect.suck_mp_blue},#{effect.suck_mp_purple},#{effect.cancellation}
+        #{effect.suck_mp_blue},#{effect.suck_mp_purple},#{effect.deleteStatus}
         )
     </insert>
 
@@ -65,7 +65,10 @@
 
     <!--删除-->
     <update id="effectDelete" parameterType="com.ral.manages.entity.app.Effect">
-        UPDATE dict_effect SET cancellation=#{effect.cancellation} WHERE 1=1 AND effect_id=#{effect.effect_id}
+        UPDATE dict_effect SET deleteStatus=#{effect.deleteStatus} WHERE 1=1 AND effect_id=#{effect.effect_id}
+    </update>
+    <update id="effectBatchDelete" parameterType="map">
+        UPDATE dict_effect SET deleteStatus=#{deleteStatus} WHERE 1=1 AND effect_id=#{effect_id}
     </update>
 
 </mapper>

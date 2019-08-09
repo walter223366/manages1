@@ -19,4 +19,5 @@ public interface IMoveMapper {
     void moveUpdate(@Param("move") Move move);
     /*删除*/
     void moveDelete(@Param("move") Move move);
+    void moveBatchDelete(Map<String,Object> map);
 }

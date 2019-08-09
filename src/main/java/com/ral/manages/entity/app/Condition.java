@@ -17,6 +17,6 @@ public class Condition implements Serializable {
     private String name;//物品名称
     private String info;//物品说明
     private String condition_buff;//状态buff，格式：10,20,33。buff_id被逗号隔开
-    private int cancellation;//删除状态，0或null正常，1已删除
+    private int deleteStatus;//删除状态，0或null正常，1已删除
 
 }

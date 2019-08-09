@@ -10,11 +10,16 @@ import com.ral.manages.commom.verification.VerificationParams;
 import com.ral.manages.mapper.app.ISchoolMapper;
 import com.ral.manages.service.app.ISchoolService;
 import com.ral.manages.commom.page.PageBean;
+import com.ral.manages.util.Base64Util;
+import com.ral.manages.util.SetUtil;
 import com.ral.manages.util.StringUtil;
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +72,7 @@ public class SchoolServiceImpl implements ISchoolService {
             return GeneralResponse.fail("新增失败，门派名称已存在");
         }
         school.setSchool_id(StringUtil.getUUID());
-        school.setCancellation(StateTable.School.CANCELLATION_ZERO.getCode());
+        school.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
         try{
             iSchoolMapper.schoolInsert(school);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
@@ -120,11 +125,41 @@ public class SchoolServiceImpl implements ISchoolService {
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该门派不存在");
         }
-        school.setCancellation(StateTable.School.CANCELLATION_ONE.getCode());
+        school.setDeleteStatus(StateTable.Del.DELETE_ONE.getCode());
         try{
             iSchoolMapper.schoolDelete(school);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e) {
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param map map
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse schoolBatchDelete(Map<String,Object> map) {
+        List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
+        String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
+        try{
+            resluList = JSONArray.fromObject(data);
+        }catch (Exception e){
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail("传入data参数JSON格式错误");
+        }
+        if(SetUtil.isListNull(resluList)){
+            return GeneralResponse.fail("传入data参数为空");
+        }
+        try{
+            for(Map<String,Object> upMap : resluList){
+                upMap.put("deleteStatus",StateTable.Del.DELETE_ONE.getCode());
+                iSchoolMapper.schoolBatchDelete(upMap);
+            }
+            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+        }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
         }

@@ -15,4 +15,5 @@ public interface IEffectService {
     GeneralResponse effectUpdate(Effect effect);
     /*删除*/
     GeneralResponse effectDelete(Effect effect);
+    GeneralResponse effectBatchDelete(Map<String,Object> map);
 }

@@ -18,4 +18,5 @@ public interface IAccountMapper {
     void accountUpdate(@Param("account") Account account);
     /*删除*/
     void accountDelete(@Param("account") Account account);
+    void accountBatchDelete(Map<String,Object> map);
 }

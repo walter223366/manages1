@@ -67,7 +67,7 @@ public class AccountController {
      * @return Object
      */
     @RequestMapping("inAdd")
-    public Object accountAdd(Account account){
+    public Object accountInsert(Account account){
         LOG.info("请求参数:" + account);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -110,6 +110,25 @@ public class AccountController {
         GeneralResponse generalResponse = new GeneralResponse();
         try{
             generalResponse = iAccountService.accountDelete(account);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 批量删除
+     * @param map map
+     * @return Object
+     */
+    @RequestMapping("inBatchDelete")
+    public Object accountBatchDelete(@RequestBody Map<String,Object> map){
+        LOG.info("请求参数:" + map);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iAccountService.accountBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

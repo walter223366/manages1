@@ -17,6 +17,7 @@ public interface IKongFuService {
     GeneralResponse kongFuUpdate(KongFu kongFu);
     /*删除*/
     GeneralResponse kongFuDelete(KongFu kongFu);
+    GeneralResponse kongFuBatchDelete(Map<String,Object> map);
     /*详情*/
     GeneralResponse kongFuDetails(KongFu kongFu);
 }

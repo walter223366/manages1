@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IKongFuMapper">
 
     <sql id="kongFuResult">
-        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -25,7 +25,7 @@
 
     <!--查询-->
     <select id="kongFuPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="kongFuIsExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
@@ -46,9 +46,9 @@
 
     <!--新增-->
     <insert id="kongFuInsert" parameterType="com.ral.manages.entity.app.KongFu">
-        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,cancellation)
+        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus)
         VALUES(#{kongFu.kongfu_id},#{kongFu.name},#{kongFu.info},#{kongFu.type},#{kongFu.experience_limit},
-        #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.cancellation})
+        #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.deleteStatus})
     </insert>
 
 
@@ -62,7 +62,10 @@
 
     <!--删除-->
     <update id="kongFuDelete" parameterType="com.ral.manages.entity.app.KongFu">
-        UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
+        UPDATE dict_kongfu SET deleteStatus=#{kongFu.deleteStatus} WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
+    </update>
+    <update id="kongFuBatchDelete" parameterType="map">
+        UPDATE dict_kongfu SET deleteStatus=#{deleteStatus} WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </update>
 
 </mapper>

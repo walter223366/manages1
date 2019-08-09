@@ -10,12 +10,16 @@ import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.mapper.app.IEffectMapper;
 import com.ral.manages.service.app.IEffectService;
 import com.ral.manages.commom.page.PageBean;
+import com.ral.manages.util.Base64Util;
 import com.ral.manages.util.SetUtil;
 import com.ral.manages.util.StringUtil;
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +72,7 @@ public class EffectServiceImpl implements IEffectService {
             return GeneralResponse.fail("新增失败，效果名称已存在");
         }
         effect.setEffect_id(StringUtil.getUUID());
-        effect.setCancellation(StateTable.Effect.CANCELLATION_ZERO.getCode());
+        effect.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
         try{
             iEffectMapper.effectInsert(effect);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
@@ -117,9 +121,39 @@ public class EffectServiceImpl implements IEffectService {
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该效果不存在");
         }
-        effect.setCancellation(StateTable.Effect.CANCELLATION_ONE.getCode());
+        effect.setDeleteStatus(StateTable.Del.DELETE_ONE.getCode());
         try{
             iEffectMapper.effectDelete(effect);
+            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+        }catch (Exception e){
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param map
+     * @return
+     */
+    @Override
+    public GeneralResponse effectBatchDelete(Map<String,Object> map) {
+        List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
+        String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
+        try{
+            resluList = JSONArray.fromObject(data);
+        }catch (Exception e){
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail("传入data参数JSON格式错误");
+        }
+        if(SetUtil.isListNull(resluList)){
+            return GeneralResponse.fail("传入data参数为空");
+        }
+        try{
+            for(Map<String,Object> upMap : resluList){
+                upMap.put("deleteStatus",StateTable.Del.DELETE_ONE.getCode());
+                iEffectMapper.effectBatchDelete(upMap);
+            }
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
         }catch (Exception e){
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);

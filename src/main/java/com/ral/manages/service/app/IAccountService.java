@@ -15,5 +15,6 @@ public interface IAccountService {
     GeneralResponse accountUpdate(Account account);
     /*删除*/
     GeneralResponse accountDelete(Account account);
+    GeneralResponse accountBatchDelete(Map<String,Object> map);
 
 }
