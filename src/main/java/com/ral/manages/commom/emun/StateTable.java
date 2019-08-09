@@ -1,7 +1,5 @@
 package com.ral.manages.commom.emun;
 
-import lombok.Data;
-
 /**
  *   <p>功能描述: 状态表</p>
  *   <p>创建时间: 2019-07-18 </p>
