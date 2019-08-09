@@ -542,6 +542,9 @@ input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button{
     -webkit-appearance: none;
 }
+input[disabled="true"]{
+    background-color: #eaeaea;
+}
 
 .layui-input:focus{border-color:#1E9FFF!important}
 .search-conditional,.search-button{float: left}

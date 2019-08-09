@@ -430,8 +430,8 @@
     function pagingQuery(){
         $("#dataInfo").empty();
         var params = {
-            name:$("query_name").val(),
-            target:Number($("#query_target").val())
+            name:$("#query_name").val(),
+            target:$("#query_target").val()
         };
         layui.use(['layer','table'],function (){
             var layer = layui.layer,table = layui.table;
@@ -468,13 +468,13 @@
                         {type:'numbers',title:'序号',align:'center',fixed:'felt'},
                         {field:'name',title:'效果名称',sort:true},
                         {field:'target',title:'执行目标'},
-                        {field:'Aggressivity',title:'攻击力',sort:true},
-                        {field:'Defense',title:'防御力',sort:true},
-                        {field:'burst',title:'暴击力',sort:true},
+                        {field:'Aggressivity',title:'攻击力'},
+                        {field:'Defense',title:'防御力'},
+                        {field:'burst',title:'暴击力'},
                         {field:'hp',title:'HP影响',sort:true},
-                        {field:'injury',title:'外伤',sort:true},
-                        {field:'internal_injury',title:'内伤',sort:true},
-                        {field:'poisoning',title:'毒伤',sort:true},
+                        {field:'injury',title:'外伤'},
+                        {field:'internal_injury',title:'内伤'},
+                        {field:'poisoning',title:'毒伤'},
                         {field:'suck_HP',title:'吸血',sort:true},
                         {fixed:'right',title:'操作',width:300,align:'center',toolbar:'#operational'}
                     ]
@@ -585,6 +585,7 @@
 
     }
     function addReset() {
+        $("#add_name").val('');
         $("#add_hp").val('');
         $("#add_mp_yellow").val('');
         $("#add_mp_gold").val('');
@@ -701,6 +702,7 @@
     function editRequest(){
         var params = {
             effect_id:$("#edit_effect_id").val(),
+            name:$("#edit_name").val(),
             target:Number($("#edit_target").val()),
             hp:Number($("#edit_hp").val()),
             mp_yellow:$("#edit_mp_yellow").val(),

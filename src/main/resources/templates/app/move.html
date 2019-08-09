@@ -93,8 +93,16 @@
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
-                <div class="layui-input-inline inputWidth1">
-                    <input type="search" id="feedback" xm-select="id" xm-select-direction="auto|up|down" autocomplete="off" class="layui-input">
+                <div class="layui-unselect layui-form-select downpanel cs inputWidth">
+                    <div class="layui-select-title">
+                        <input type="text" placeholder="请选择效果名称" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd><input type="checkbox" name="brand" title="IPoneX" value="1" lay-skin="primary" ></dd>
+                        <dd><input type="checkbox" name="brand" title="OPPO" value="2"  lay-skin="primary" ></dd>
+                        <dd><input type="checkbox" name="brand" title="VIVO" value="3"  lay-skin="primary" ></dd>
+                        <dd><input type="checkbox" name="brand" title="HUAWEI" value="4"  lay-skin="primary" ></dd>
+                    </dl>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -155,7 +163,7 @@
                 cols:[
                     [
                         {type:'checkbox',fixed:'felt'},
-                        {type:'numbers',title:'序号',align:'center',fixed:'felt'},
+                        {type:'numbers',title:'序号',align:'center',fixed:'felt',width:150},
                         {field:'name',title:'招式名称',sort:true},
                         {field:'MP_cost',title:'内力花费'},
                         {field:'zhaoshi_experience_cost',title:'武学经验',sort:true},

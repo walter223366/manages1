@@ -170,7 +170,7 @@
                 cols:[
                     [
                         {type:'checkbox',fixed:'felt'},
-                        {type:'numbers',title:'序号',align:'center',fixed:'felt'},
+                        {type:'numbers',title:'序号',align:'center',fixed:'felt',width:150},
                         {field:'name',title:'门派名称',sort:true},
                         {field:'influence',title:'影响力',sort:true},
                         {fixed:'right',title:'操作',width:300,align:'center',toolbar:'#operational'}
@@ -218,6 +218,7 @@
 
     /*新增*/
     function add(){
+        addReset();
         layer.open({
             type: 1,
             offset: "auto",

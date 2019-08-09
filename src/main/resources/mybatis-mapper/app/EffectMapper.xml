@@ -11,7 +11,7 @@
 
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
-            AND name=#{name}
+            AND name like '%${name}%'
         </if>
         <if test="target != null and target != ''">
             AND target=#{target}
@@ -38,10 +38,10 @@
 
     <!--新增-->
     <insert id="effectInsert" parameterType="com.ral.manages.entity.app.Effect">
-        INSERT INTO dict_effect(effect_id,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
+        INSERT INTO dict_effect(effect_id,name,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
         stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,cancellation)
         VALUES (
-        #{effect.effect_id},#{effect.info},#{effect.target},#{effect.Aggressivity},#{effect.Defense},#{effect.hp},#{effect.mp_yellow},#{effect.mp_gold},#{effect.mp_green},
+        #{effect.effect_id},#{effect.name},#{effect.info},#{effect.target},#{effect.Aggressivity},#{effect.Defense},#{effect.hp},#{effect.mp_yellow},#{effect.mp_gold},#{effect.mp_green},
         #{effect.mp_blue},#{effect.mp_purple},#{effect.injury},#{effect.internal_injury},#{effect.poisoning},#{effect.stun},#{effect.dodge},#{effect.hit_rate},
         #{effect.crit_rate},#{effect.burst},#{effect.suck_HP},#{effect.suck_mp_yellow},#{effect.suck_mp_gold},#{effect.suck_mp_green},
         #{effect.suck_mp_blue},#{effect.suck_mp_purple},#{effect.cancellation}
@@ -51,7 +51,7 @@
 
     <!--修改-->
     <update id="effectUpdate" parameterType="com.ral.manages.entity.app.Effect">
-        UPDATE dict_effect SET info=#{effect.info},target=#{effect.target},Aggressivity=#{effect.Aggressivity},Defense=#{effect.Defense},hp=#{effect.hp},
+        UPDATE dict_effect SET name=#{effect.name},info=#{effect.info},target=#{effect.target},Aggressivity=#{effect.Aggressivity},Defense=#{effect.Defense},hp=#{effect.hp},
         mp_yellow=#{effect.mp_yellow},mp_gold=#{effect.mp_gold},mp_green=#{effect.mp_green},mp_blue=#{effect.mp_blue},mp_purple=#{effect.mp_purple},
         injury=#{effect.injury},internal_injury=#{effect.internal_injury},poisoning=#{effect.poisoning},stun=#{effect.stun},dodge=#{effect.dodge},
         hit_rate=#{effect.hit_rate},crit_rate=#{effect.crit_rate},burst=#{effect.burst},suck_HP=#{effect.suck_HP},suck_mp_yellow=#{effect.suck_mp_yellow},

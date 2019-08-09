@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>人物管理</title>
+    <title>招式管理</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
@@ -11,124 +12,75 @@
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 <body>
-<!--搜索栏-->
-<div class="layui-row">
-    <!--搜索条件-->
-    <div class="search-conditional">
-        <form class="layui-form-item layui-form">
-            <div class="layui-inline">
-                <label class="layui-form-label">账号名称</label>
-                <div class="layui-input-inline inputWidth" >
-                    <input id="query_account" name="qAccount" type="text" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-        </form>
-    </div>
-    <!--搜索查询-->
-    <div class="search-button">
-        <div class="layui-inline">
-            <button id="pagingQuery" type="button" class="layui-btn" data-type="reload"><i class="layui-icon layui-icon-search"></i>查询</button>
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">多选下拉框</label>
+        <div class="layui-input-block" id="test" lay-filter="test">
+
         </div>
     </div>
-</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">单选下拉框</label>
+        <div class="layui-input-block" id="test1" lay-filter="test1">
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
 
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">查看</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        </div>
     </div>
-</script>
-
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit"><i class='layui-icon layui-icon-edit'></i>编辑</a>
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class='layui-icon layui-icon-delete'></i>删除</a>
-</script>
-
-<div class="page" id="pageInfo"></div>
-
+</form>
 
 <script>
 
+    layui.config({
+        base: '@{/js/selectPlus.js}'
+    }).extend({
+        test: 'selectPlus'
+    }).use(['selectPlus', 'jquery'], function () {
+        var $ = layui.$,
+            selectPlus = layui.selectPlus;
 
-    var init;
-    var layer,layuiTable;
-    $(function () {
-        var name = $("#query_account").val();
-        layui.use(['layer','table'],function () {
-            layuiTable = layui.table;
-            layer = layui.layer;
-            init = layuiTable.render({
-                elem:'#demo',
-                url:'/account/pagingQuery',
-                method:'post',
-                contentType:"application/json",
-                toolbar:'default',
-                height:520,
-                title:'账号管理表',
-                even: true,
-                expandRow:true,
-                skin: 'row',
-                id:'#pagingQuery',
-                where:{account:name},
-                page: {
-                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
-                    curr:1,
-                    limit: 10,
-                    limits: [10, 20, 30, 40, 50],
-                    groups: 5
-                },
-                parseData:function (res) {
-                    var rows = $.base64.atob(res.rows,"utf-8");
-                    obj = JSON.parse(rows);
-                    return {
-                        "code":res.code,
-                        "msg":res.msg,
-                        "count":obj.total,
-                        "data":obj.datas
-                    }
-                },
-                cols:[
-                    [
-                        {type:'checkbox'},
-                        {type:'numbers',title:'序号',align:'center'},
-                        {field:'account',title: '账号',sort: true},
-                        {field:'tellphone',title: '手机号码', sort: true},
-                        {field:'source',title: '来源'},
-                        {field:'lrrq',title: '创建时间', sort: true},
-                        {field:'cancellation',title: '注销状态'},
-                        {fixed:'right', width: 200, align:'center', toolbar: '#barDemo'}
-                    ]
-                ]
-            });
-            var $ = layui.$,active = {
-                reload:function () {
 
-                    layuiTable.reload('pagingQuery',{
-                        page:{
-                            curr:1
-                        },
-                        where:{
-                            key: {
-                                account: name
-                            }
-                        }
-                    },'data');
-                }
-            };
-            $('#pagingQuery .layui-btn').on('click', function(){
-                var type = $(this).data('type');
-                active[type] ? active[type].call(this) : '';
-            });
-
+        // 单选
+        var a = selectPlus.render({
+            el: '#test1',
+            url: "data.json",
+            parseData: function (res) {
+                return res.data;
+            },
+            type: "radio",
+            valueName: "text",
+            label: ["name", "id"],
+            values: 'hello layui'
         });
-    });
 
-
-
+        // 多选
+        selectPlus.render({
+            el: '#test',
+            data: [{
+                "name": "vue",
+                "id": 1,
+                "text": "hello vue"
+            }, {
+                "name": "layui",
+                "id": 2,
+                "text": "hello layui"
+            }, {
+                "name": "react",
+                "id": 3,
+                "text": "hello react"
+            }, {
+                "name": "bootstrap",
+                "id": 4,
+                "text": "hello bootstrap"
+            }, {
+                "name": "element",
+                "id": 5,
+                "text": "hello element"
+            }],
+            valueName: "name",
+            values: ['bootstrap', 'element'],
+            valueSeparator: " --- "
+        });
+    })
 </script>
 </body>
 </html>
-
