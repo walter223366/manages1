@@ -506,6 +506,8 @@
             table.on('toolbar(dataInfo)',function (obj){
                 if(obj.event === 'bombAdd'){
                     add();
+                }else if(obj.event === 'bombDelete'){
+                    layer.msg("请选择一项进行删除");
                 }
             });
         });

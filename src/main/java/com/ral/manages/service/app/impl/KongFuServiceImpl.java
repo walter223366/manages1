@@ -131,10 +131,6 @@ public class KongFuServiceImpl implements IKongFuService {
      */
     @Override
     public GeneralResponse kongFuDelete(KongFu kongFu) {
-        String msg = VerificationParams.verificationKongFu(kongFu);
-        if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
-        }
         int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该功夫不存在");

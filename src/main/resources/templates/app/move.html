@@ -113,8 +113,66 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button onclick="addRequest()" type="button" class="layui-btn">修改</button>
+                <button onclick="addRequest()" type="button" class="layui-btn">新增</button>
                 <button onclick="addReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <!--编辑-->
+    <div class="x-body search-data" id="editInfo" aria-hidden="true" hidden>
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
+                <div class="layui-input-inline inputWidth" >
+                    <input id="edit_name" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <select id="edit_kongFuName" class="layui-input">
+                        <option value="0">自己</option>
+                        <option value="1">对方</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_spend" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式经验值</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_exp" type="number" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
+                <div class="layui-unselect layui-form-select downpanel cs inputWidth">
+                    <div class="layui-select-title">
+                        <input type="text" placeholder="请选择效果名称" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd><input type="checkbox" name="brand" title="IPoneX" value="1" lay-skin="primary" ></dd>
+                        <dd><input type="checkbox" name="brand" title="OPPO" value="2"  lay-skin="primary" ></dd>
+                        <dd><input type="checkbox" name="brand" title="VIVO" value="3"  lay-skin="primary" ></dd>
+                        <dd><input type="checkbox" name="brand" title="HUAWEI" value="4"  lay-skin="primary" ></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
+                <div class="layui-input-inline">
+                    <textarea id="edit_info" placeholder="请输入内容" class="layui-textarea layui-input-width1"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button onclick="editRequest()" type="button" class="layui-btn">修改</button>
+                <button onclick="editReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
@@ -198,7 +256,7 @@
                 if(obj.event === 'bombAdd'){
                     add();
                 }else if(obj.event === 'bombDelete'){
-
+                    layer.msg("请选择一项进行删除");
                 }
             });
         });
@@ -269,7 +327,49 @@
 
     /*编辑*/
     function edit(data) {
-
+        var params = {
+            zhaoshi_id:data.zhaoshi_id
+        };
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/move/editQuery",
+            data:params,
+            success:function (data) {
+                if(data.code === "0" && data.result === "SECCESS") {
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if(isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        editOpen(obj);
+                    }
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function editOpen(obj) {
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [100+'%', 100 +'%'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade:0.4,
+            title: "修改",
+            content: $("#editInfo"),
+            yes:function() {
+                $("#editInfo").hide();
+            }
+        });
+    }
+    function editRequest() {
+        
+    }
+    function editReset() {
+        
     }
 
     /*删除*/
