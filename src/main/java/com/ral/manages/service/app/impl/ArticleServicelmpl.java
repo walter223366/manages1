@@ -89,6 +89,10 @@ public class ArticleServicelmpl implements IArticleService {
         if(count > 0){
             return GeneralResponse.fail("修改失败，该物品已存在");
         }
+        int num = iArticleMapper.articleIsName(article);
+        if(num > 0){
+            return GeneralResponse.fail("修改失败，物品名称已存在");
+        }
         try{
             iArticleMapper.articleUpdate(article);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());

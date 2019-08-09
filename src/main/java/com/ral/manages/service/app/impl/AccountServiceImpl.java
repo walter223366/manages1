@@ -103,6 +103,10 @@ public class AccountServiceImpl implements IAccountService {
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该账号不存在");
         }
+        int num = iAccountMapper.accountIsName(account);
+        if(num > 0){
+            return GeneralResponse.fail("修改失败，账号已存在");
+        }
         try{
             iAccountMapper.accountUpdate(account);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());

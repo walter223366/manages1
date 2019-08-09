@@ -93,6 +93,10 @@ public class EffectServiceImpl implements IEffectService {
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该效果不存在");
         }
+        int num = iEffectMapper.effectIsName(effect);
+        if(num > 0){
+            return GeneralResponse.fail("修改失败，效果名称已存在");
+        }
         try{
             iEffectMapper.effectUpdate(effect);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());

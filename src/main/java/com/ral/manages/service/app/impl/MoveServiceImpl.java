@@ -95,6 +95,10 @@ public class MoveServiceImpl implements IMoveService {
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该招式不存在");
         }
+        int num = iMoveMapper.moveIsName(move);
+        if(num > 0){
+            return GeneralResponse.fail("修改失败，招式名称已存在");
+        }
         try{
             iMoveMapper.moveUpdate(move);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());

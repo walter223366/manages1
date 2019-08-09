@@ -92,6 +92,10 @@ public class SchoolServiceImpl implements ISchoolService {
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该门派不存在");
         }
+        int num = iSchoolMapper.schoolIsName(school);
+        if(num > 0){
+            return GeneralResponse.fail("修改失败，门派名称已存在");
+        }
         try{
             iSchoolMapper.schoolUpdate(school);
             return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());

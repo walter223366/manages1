@@ -56,13 +56,13 @@
     <update id="kongFuUpdate" parameterType="com.ral.manages.entity.app.KongFu">
         UPDATE dict_kongfu SET info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
         kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable}
-        WHERE 1=1 AND name=#{kongFu.name}
+        WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </update>
 
 
     <!--删除-->
     <update id="kongFuDelete" parameterType="com.ral.manages.entity.app.KongFu">
-        UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND name=#{kongFu.name}
+        UPDATE dict_kongfu SET cancellation=#{kongFu.cancellation} WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </update>
 
 </mapper>

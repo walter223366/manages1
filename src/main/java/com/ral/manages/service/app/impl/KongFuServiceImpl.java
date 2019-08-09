@@ -110,6 +110,10 @@ public class KongFuServiceImpl implements IKongFuService {
         if(count <= 0){
             return GeneralResponse.fail("修改失败，该功夫不存在");
         }
+        int num = iKongFuMapper.kongFuIsName(kongFu);
+        if(num > 0){
+            return GeneralResponse.fail("修改失败，功夫名称已存在");
+        }
         kongFu.setKongfu_id(StringUtil.getUUID());
         try{
             iKongFuMapper.kongFuUpdate(kongFu);

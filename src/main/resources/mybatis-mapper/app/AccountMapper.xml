@@ -56,7 +56,7 @@
 
     <!--删除-->
     <update id="accountDelete" parameterType="com.ral.manages.entity.app.Account">
-        UPDATE biz_user SET cancellation=#{account.cancellation} WHERE 1=1 AND account=#{account.account}
+        UPDATE biz_user SET cancellation=#{account.cancellation} WHERE 1=1 AND id=#{account.id}
     </update>
 
 </mapper>
