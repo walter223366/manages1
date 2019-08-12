@@ -71,18 +71,44 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫名称&emsp;</label>
-                <div class="layui-input-inline inputWidth">
-                    <select id="add_kongFuName" class="layui-input">
-                        <option value="0">自己</option>
-                        <option value="1">对方</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
                 <div class="layui-input-inline inputWidth">
-                    <input id="add_spend" type="number" autocomplete="off" class="layui-input">
+                    <!--<input id="add_spend" type="text" autocomplete="off" class="layui-input">-->
+                    <button id="add_spend" onclick="spend()" type="button" class="layui-btn layui-btn-primary">点击填写</button>
+                    <div class="x-body search-data" id="spendInfo" aria-hidden="true" hidden>
+                        <form class="layui-form-item layui-form">
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span class="x-red">*</span>黄色花费&emsp;</label>
+                                <div class="layui-input-inline inputWidth" >
+                                    <input id="spend_yellow" type="text" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span class="x-red">*</span>金色花费&emsp;</label>
+                                <div class="layui-input-inline inputWidth" >
+                                    <input id="spend_gold" type="text" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span class="x-red">*</span>绿色花费&emsp;</label>
+                                <div class="layui-input-inline inputWidth" >
+                                    <input id="spend_green" type="text" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span class="x-red">*</span>蓝色花费&emsp;</label>
+                                <div class="layui-input-inline inputWidth" >
+                                    <input id="spend_blue" type="text" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span class="x-red">*</span>紫色花费&emsp;</label>
+                                <div class="layui-input-inline inputWidth" >
+                                    <input id="spend_purple" type="text" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="layui-inline">
@@ -92,15 +118,15 @@
                 </div>
             </div>
             <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>功夫选项&emsp;</label>
+                <div class="layui-input-inline inputWidth1">
+                    <select id="add_kongFuId" xm-select="select1" name="kongFuId[]"></select>
+                </div>
+            </div>
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
-                <div class="layui-input-inline inputWidth">
-                    <select name="city" xm-select="select1">
-                        <option value="1" disabled="disabled">北京</option>
-                        <option value="2" selected="selected">上海</option>
-                        <option value="3">广州</option>
-                        <option value="4" selected="selected">深圳</option>
-                        <option value="5">天津</option>
-                    </select>
+                <div class="layui-input-inline inputWidth1">
+                    <select id="add_effectId" xm-select="select2" name="effectId[]"></select>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -305,6 +331,8 @@
     /*新增*/
     function add(){
         addReset();
+        addKongFu();
+        addEffect();
         layer.open({
             type: 1,
             offset: "auto",
@@ -320,7 +348,89 @@
                 $("#addInfo").hide();
             }
         });
-        addEffect();
+    }
+    function addKongFu(){
+        document.getElementById("add_kongFuId").options.length = 0;
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/move/kongFuDownBox",
+            success: function (data) {
+                if (data.code === "0" && data.result === "SECCESS") {
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if (isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        $.each(obj.data,function (i,n) {
+                            $("#add_kongFuId").append("<option value='"+n.kongfu_id+"'>"+n.name+"</option>");
+                        });
+                        layui.formSelects.config('select1',{direction:'down'});
+                    }
+                } else {
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function addEffect(){
+        document.getElementById("add_effectId").options.length = 0;
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/move/effectDownBox",
+            success: function (data) {
+                if (data.code === "0" && data.result === "SECCESS") {
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if (isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        $.each(obj.data,function (i,n) {
+                            $("#add_effectId").append("<option value='"+n.effect_id+"'>"+n.name+"</option>");
+                        });
+                        layui.formSelects.config('select2',{direction:'down'});
+                    }
+                } else {
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function addRequest() {
+        /*var kongFuId = new Array();
+        var kongFu = new Array();
+        kongFuId = $("#add_kongFuId option:selected");
+        for(var i=0; i<kongFuId.length; i++){
+            kongFu.push(kongFuId[i].value);
+        }
+        var effectId = new Array();
+        var effect = new Array();
+        effectId = $("#add_effectId option:selected");
+        for(var i=0; i<effectId.length; i++){
+            effect.push(effectId[i].value);
+        }*/
+        var params = {
+            name:$("#add_name").val(),
+            kongfu_id:$("#add_kongFuId option:selected").val(),
+            zhaoshi_effect:$("#add_effectId option:selected").val(),
+            MP_cost:$("#add_spend").val(),
+            zhaoshi_experience_cost:Number($("#add_exp").val()),
+            info:$("#add_info").val()
+        };
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/move/inAdd",
+            data:params,
+            success: function (data) {
+                if (data.code === "0" && data.result === "SECCESS") {
+                    layer.msg("新增成功",{icon:1});
+                    pagingQuery();
+                } else {
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function spend() {
+        $("#spendInfo").show();
     }
     function addReset(){
         $("#add_name").val('');
@@ -329,27 +439,6 @@
         $("#add_zhaoshi_effect").val('');
         $("#add_zhaoshi_experience_cost").val('');
         $("#add_info").val('');
-    }
-    function addEffect(){
-        $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/move/effectDownBox",
-            success: function (data) {
-                if (data.code === "0" && data.result === "SECCESS") {
-                    var rows = $.base64.atob(data.rows, "utf-8");
-                    if (isJSON(rows)) {
-                        var obj = JSON.parse(rows);
-                        $.each(obj.data,function (i,n) {
-                            alert(n.name);
-                            var unitTypeCheckbox = $("input[id='feedback']");
-                        });
-                    }
-                } else {
-                    layer.msg(data.msg,{icon:2});
-                }
-            }
-        });
     }
 
     /*查看*/

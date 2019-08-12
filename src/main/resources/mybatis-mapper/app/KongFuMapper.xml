@@ -43,6 +43,11 @@
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
     </select>
 
+    <!--招式管理下拉菜单-->
+    <select id="kongFuQueryMarquee" resultType="map">
+        SELECT  kongfu_id,name FROM dict_kongfu
+    </select>
+
 
     <!--新增-->
     <insert id="kongFuInsert" parameterType="com.ral.manages.entity.app.KongFu">

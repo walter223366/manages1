@@ -44,15 +44,18 @@ public class VerificationParams {
     }
 
     /**招式管理参数校验*/
-    public static String verificationZhaoShi(Move zhaoShi){
-        if(StringUtil.isNull(zhaoShi.getName())){
+    public static String verificationZhaoShi(Move move){
+        if(StringUtil.isNull(move.getName())){
             return "招式名称不能为空";
         }
-        if(StringUtil.isNull(zhaoShi.getMP_cost())){
+        if(StringUtil.isNull(move.getMP_cost())){
             return "内力花费不能为空";
         }
-        if(StringUtil.isNull(zhaoShi.getKongfu_id())){
+        if(StringUtil.isNull(move.getKongfu_id())){
             return "武学选项不能为空";
+        }
+        if(StringUtil.isNull(move.getZhaoshi_effect())){
+            return "效果选项不能为空";
         }
         return null;
     }

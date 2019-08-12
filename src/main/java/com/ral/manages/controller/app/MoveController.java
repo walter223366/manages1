@@ -142,10 +142,27 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("effectDownBox")
-    public Object dropDownBox(){
+    public Object effectDownBox(){
         GeneralResponse generalResponse = new GeneralResponse();
         try{
             generalResponse = iMoveService.moveAddEffect();
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 添加功夫下拉框
+     * @return Object
+     */
+    @RequestMapping("kongFuDownBox")
+    public Object kongFuDownBox(){
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iMoveService.moveAddKongFu();
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

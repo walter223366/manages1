@@ -41,7 +41,7 @@
     <!--新增-->
     <insert id="moveInsert" parameterType="com.ral.manages.entity.app.Move">
         INSERT INTO dict_zhaoshi(zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_experience_cost,deleteStatus)
-        VALUES(#{move.zhaoshi_id},#{move.kongfu_id},#{move.name},#{move.MP_cost},#{move.zhaoshi_effect},#{move.zhaoshi_experience_cost},#{move.deleteStatus})
+        VALUES(#{move.zhaoshi_id},#{move.kongfu_id},#{move.name},#{move.MP_cost},#{move.info},#{move.zhaoshi_effect},#{move.zhaoshi_experience_cost},#{move.deleteStatus})
     </insert>
 
 

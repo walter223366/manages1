@@ -21,4 +21,6 @@ public interface IKongFuMapper {
     /*删除*/
     void kongFuDelete(@Param("kongFu") KongFu kongFu);
     void kongFuBatchDelete(Map<String,Object> map);
+    /*招式管理下拉菜单*/
+    List<Map<String,Object>> kongFuQueryMarquee();
 }

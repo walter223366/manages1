@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,6 +171,18 @@ public class MoveServiceImpl implements IMoveService {
     @Override
     public GeneralResponse moveAddEffect() {
         List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarquee();
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("data",resultList);
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
+    }
+
+    /**
+     * 添加功夫下拉框
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse moveAddKongFu() {
+        List<Map<String,Object>> resultList = iKongFuMapper.kongFuQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
