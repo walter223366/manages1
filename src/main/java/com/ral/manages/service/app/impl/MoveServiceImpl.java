@@ -187,4 +187,72 @@ public class MoveServiceImpl implements IMoveService {
         resultMap.put("data",resultList);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
     }
+
+    /**
+     * 查看详情
+     * @param move move
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse moveSee(Move move) {
+        if(StringUtil.isNull(move.getZhaoshi_id())){
+            return GeneralResponse.fail("传入招式ID为空");
+        }
+        Map<String,Object> resultMap = iMoveMapper.moveEditQuery(move);
+        String kongFuId = SetUtil.toMapValueString(resultMap,"kongfu_id");
+        if(StringUtil.isNull(kongFuId)){
+            resultMap.put("kongFuName","");
+        }else{
+            resultMap.put("kongFuName",seeKongFuName(kongFuId));
+        }
+        String effectId = SetUtil.toMapValueString(resultMap,"zhaoshi_effect");
+        if(StringUtil.isNull(effectId)){
+            resultMap.put("effectName","");
+        }else{
+            resultMap.put("effectName",seeEffectName(effectId));
+        }
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
+    }
+
+    /**
+     * 获取功夫名称
+     * @param str str
+     * @return  List<String>
+     */
+    private List<String> seeKongFuName(String str){
+        String[] values = str.split(",");
+        List<String> list = new ArrayList<String>();
+        for(String value : values){
+            list.add(value);
+        }
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("kIds",list);
+        List<Map<String,Object>> resultList = iKongFuMapper.kongFuQueryMarqueeName(result);
+        List<String> nameList = new ArrayList<String>();
+        for(Map<String,Object> map : resultList){
+            nameList.add(SetUtil.toMapValueString(map,"name"));
+        }
+        return nameList;
+    }
+
+    /**
+     * 获取效果名称
+     * @param str str
+     * @return  List<String>
+     */
+    private List<String> seeEffectName(String str){
+        String[] values = str.split(",");
+        List<String> list = new ArrayList<String>();
+        for(String value : values){
+            list.add(value);
+        }
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("eIds",list);
+        List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarqueeName(result);
+        List<String> nameList = new ArrayList<String>();
+        for(Map<String,Object> map : resultList){
+            nameList.add(SetUtil.toMapValueString(map,"name"));
+        }
+        return nameList;
+    }
 }

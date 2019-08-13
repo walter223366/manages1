@@ -12,6 +12,11 @@
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
 </head>
 <body>
+<style>
+    .see-input{background-color:transparent;border:0;width:600px;}
+    .x-font{font-size:14px;font-weight:600;}
+    .see-textarea{width:800px;height:600px;}
+</style>
 <div class="x-body">
     <!--搜索栏-->
     <div class="layui-row">
@@ -73,7 +78,7 @@
                 <label class="layui-form-label">影响力值</label>
                 <div class="layui-input-inline">
                     <input id="add_influence" type="number" value="0" autocomplete="off" class="layui-input">
-                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">该项不填则默认影响力值为0</span></div>
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">影响力值不填则默认为0</span></div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">门派说明</label>
@@ -120,6 +125,30 @@
                 <label class="layui-form-label"></label>
                 <button onclick="editRequest()" type="button" class="layui-btn">修改</button>
                 <button onclick="editReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <!--查看栏-->
+    <div class="x-body" id="seeInfo" aria-hidden="true" hidden>
+        <form class="layui-form-item layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-font">门派名称：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_name" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-font">影响力值：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_influence" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-font">门派说明：</span></label>
+                <div class="layui-input-inline">
+                    <textarea id="see_info" class="layui-textarea see-textarea see-input"></textarea>
+                </div>
             </div>
         </form>
     </div>
@@ -256,7 +285,7 @@
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [900+'px', 450 +'px'],
+            area: [1000+'px', 500 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
@@ -301,21 +330,25 @@
 
     /*查看*/
     function see(data){
+        document.getElementById("see_name").value = isNull(data.name);
+        document.getElementById("see_influence").value = isNull(data.influence);
+        document.getElementById("see_info").value = isNull(data.info);
         layer.open({
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [1000+'px', 520 +'px'],
+            area: [1000+'px', 500 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
             btn: ['明白了'],
             shade:0.4,
-            title: '详情',
-            content: '<div style="padding:30px;line-height:22px;text-align:center;">' +
-                '<p style="font-size:24px">'+data.name+'</p><br>'+
-                '<p style="font-size:20px">影响力分值：'+data.influence+'</p><br>'+
-                '<p style="font-size:14px;text-indent:2em;">'+(data.info==null?"未查询到门派说明":data.info)+'</p><br></div>'
+            title: "查看详情",
+            content: $("#seeInfo"),
+            yes:function() {
+                $("#seeInfo").hide();
+                layer.closeAll();
+            }
         });
     }
 
@@ -352,7 +385,7 @@
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [900+'px', 450 +'px'],
+            area: [1000+'px', 500 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,

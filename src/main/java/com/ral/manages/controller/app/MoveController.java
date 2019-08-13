@@ -124,7 +124,7 @@ public class MoveController {
      * @return Object
      */
     @RequestMapping("inBatchDelete")
-    public Object moveBatchDelete(Map<String,Object> map){
+    public Object moveBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -163,6 +163,25 @@ public class MoveController {
         GeneralResponse generalResponse = new GeneralResponse();
         try{
             generalResponse = iMoveService.moveAddKongFu();
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 查看详情
+     * @param move move
+     * @return Object
+     */
+    @RequestMapping("inSee")
+    public Object moveSee(Move move){
+        LOG.info("请求参数:" + move);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iMoveService.moveSee(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

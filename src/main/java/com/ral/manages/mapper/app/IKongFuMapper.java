@@ -23,4 +23,5 @@ public interface IKongFuMapper {
     void kongFuBatchDelete(Map<String,Object> map);
     /*招式管理下拉菜单*/
     List<Map<String,Object>> kongFuQueryMarquee();
+    List<Map<String,Object>> kongFuQueryMarqueeName(Map<String,Object> map);
 }

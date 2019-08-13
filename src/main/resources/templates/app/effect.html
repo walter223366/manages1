@@ -221,11 +221,6 @@
         </form>
     </div>
 
-    <!--详情栏-->
-    <div class="x-body" id="detailsInfo" aria-hidden="true" hidden>
-
-    </div>
-
     <!--编辑栏-->
     <div class="x-body" id="editInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
@@ -395,6 +390,11 @@
             </div>
         </form>
     </div>
+
+    <!--查看栏-->
+    <div class="x-body" id="seeInfo" aria-hidden="true" hidden>
+
+    </div>
 </div>
 <script>
     /*查询*/
@@ -535,7 +535,7 @@
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [100+'%', 100 +'%'],
+            area: [1050+'px', 500 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,
@@ -632,7 +632,7 @@
             shadeClose: true,
             btn: ['明白了'],
             shade:0.4,
-            title: '详情',
+            title: '查看详情',
             content: $("#detailsInfo"),
             yes:function() {
                 $("#detailsInfo").hide();

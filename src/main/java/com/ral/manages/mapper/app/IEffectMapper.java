@@ -21,4 +21,5 @@ public interface IEffectMapper {
     void effectBatchDelete(Map<String,Object> map);
     /*招式管理下拉菜单*/
     List<Map<String,Object>> effectQueryMarquee();
+    List<Map<String,Object>> effectQueryMarqueeName(Map<String,Object> map);
 }

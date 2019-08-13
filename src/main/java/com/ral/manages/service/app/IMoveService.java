@@ -20,5 +20,6 @@ public interface IMoveService {
     GeneralResponse moveAddEffect();
     /*添加功夫下拉框*/
     GeneralResponse moveAddKongFu();
-
+    /*查看*/
+    GeneralResponse moveSee(Move move);
 }

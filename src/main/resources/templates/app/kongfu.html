@@ -75,8 +75,8 @@
 
     <!--新增栏-->
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
-        <form class="layui-form">
-            <div class="layui-form-item">
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
                 <div class="layui-input-inline">
                     <input id="add_name" type="text" autocomplete="off" class="layui-input">
@@ -96,6 +96,18 @@
                         <option value="7">异功</option>
                     </select>
                 </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
+                <div class="layui-input-inline">
+                    <input id="add_exper" type="number" value="100" autocomplete="off" class="layui-input">
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">可学经验不填则默认为100</span></div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>造&emsp;&emsp;诣</label>
+                <div class="layui-input-inline">
+                    <input id="add_attainments" type="number" autocomplete="off" class="layui-input" placeholder='格式：[{"10":"1"},...]'>
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">说明：前面的值是武学经验，后面的值是提升的造诣值（根据武功分类提升对应的造诣）</span></div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">功夫说明</label>
@@ -247,7 +259,7 @@
             type: 1,
             offset: "auto",
             id: 'layerDemo'+'auto',
-            area: [900+'px', 450 +'px'],
+            area: [1000+'px', 500 +'px'],
             fix: false,
             maxmin: true,
             shadeClose: true,

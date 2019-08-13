@@ -37,6 +37,12 @@
     <select id="effectQueryMarquee" resultType="map">
         SELECT effect_id,name FROM dict_effect
     </select>
+    <select id="effectQueryMarqueeName" parameterType="map" resultType="map">
+        SELECT name FROM dict_effect WHERE 1=1 AND effect_id IN
+        <foreach item="item" index="index" collection="eIds" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
 
     <!--新增-->
