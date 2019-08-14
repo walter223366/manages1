@@ -25,18 +25,22 @@
         SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="moveIsExist" parameterType="com.ral.manages.entity.app.Move" resultType="int">
-        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
-    </select>
-    <select id="moveIsName" parameterType="com.ral.manages.entity.app.Move" resultType="int">
-         SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND name=#{move.name}
+        SELECT COUNT(1) FROM dict_zhaoshi WHERE 1=1 AND name=#{move.name}
     </select>
     <select id="moveQueryName" parameterType="string" resultType="map">
         SELECT zhaoshi_id,name FROM dict_zhaoshi WHERE 1=1 AND kongfu_id=#{moveId}
     </select>
     <select id="moveEditQuery" parameterType="com.ral.manages.entity.app.Move" resultType="map">
+        SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 AND name=#{move.name}
+    </select>
+    <select id="moveIdQuery" parameterType="com.ral.manages.entity.app.Move" resultType="map">
         SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
     </select>
 
+    <!--武学管理下拉框-->
+    <select id="moveQueryMarquee" resultType="map">
+        SELECT zhaoshi_id,name FROM dict_zhaoshi
+    </select>
 
     <!--新增-->
     <insert id="moveInsert" parameterType="com.ral.manages.entity.app.Move">
@@ -54,10 +58,9 @@
 
     <!--删除-->
     <update id="moveDelete" parameterType="com.ral.manages.entity.app.Move">
-        UPDATE dict_zhaoshi SET deleteStatus=#{move.deleteStatus} WHERE 1=1 AND zhaoshi_id=#{move.zhaoshi_id}
+        UPDATE dict_zhaoshi SET deleteStatus=#{move.deleteStatus} WHERE 1=1 AND name=#{move.name}
     </update>
     <update id="moveBatchDelete" parameterType="map">
-        UPDATE dict_zhaoshi SET deleteStatus=#{deleteStatus} WHERE 1=1 AND zhaoshi_id=#{zhaoshi_id}
+        UPDATE dict_zhaoshi SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
-
 </mapper>

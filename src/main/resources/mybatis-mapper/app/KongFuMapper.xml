@@ -37,7 +37,7 @@
         SELECT kongfu_id,name FROM  dict_kongfu  
     </select>
     <select id="kongFuEditQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </select>
     <select id="kongFuQueryName" parameterType="string" resultType="map">
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}

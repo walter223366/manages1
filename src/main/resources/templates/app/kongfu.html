@@ -78,13 +78,13 @@
         <form class="layui-form-item layui-form">
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline inputWidth">
                     <input id="add_name" type="text" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫类型</label>
-                <div class="layui-input-inline inputwidth" >
+                <div class="layui-input-inline inputWidth" >
                     <select id="add_type" class="layui-input">
                         <option value="0">内功</option>
                         <option value="1">轻功</option>
@@ -99,15 +99,24 @@
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
-                <div class="layui-input-inline">
-                    <input id="add_exper" type="number" value="100" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_exp" type="number" value="100" autocomplete="off" class="layui-input">
                 </div><div class="layui-form-mid layui-word-aux"><span class="x-red">可学经验不填则默认为100</span></div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>造&emsp;&emsp;诣</label>
-                <div class="layui-input-inline">
-                    <input id="add_attainments" type="number" autocomplete="off" class="layui-input" placeholder='格式：[{"10":"1"},...]'>
+                <div class="layui-input-inline inputWidth">
+                    <input id="add_attainments" type="text" autocomplete="off" class="layui-input" placeholder='格式：[{"10":"1"},...]'>
                 </div><div class="layui-form-mid layui-word-aux"><span class="x-red">说明：前面的值是武学经验，后面的值是提升的造诣值（根据武功分类提升对应的造诣）</span></div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
+                <div class="layui-input-inline inputWidth">
+                    <select id="add_enable" class="layui-input">
+                        <option value="0">未启用</option>
+                        <option value="1">启用</option>
+                    </select>
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">功夫说明</label>
@@ -119,6 +128,71 @@
                 <label class="layui-form-label"></label>
                 <button onclick="addRequest()" type="button" class="layui-btn">新增</button>
                 <button onclick="addReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
+
+    <!--编辑栏-->
+    <div class="x-body" id="editInfo" aria-hidden="true" hidden>
+        <form class="layui-form-item layui-form">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label"><span class="x-red">*</span>功夫id</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_id" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_name" type="text" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>功夫类型</label>
+                <div class="layui-input-inline inputWidth" >
+                    <select id="edit_type" class="layui-input">
+                        <option value="0">内功</option>
+                        <option value="1">轻功</option>
+                        <option value="2">拳脚</option>
+                        <option value="3">剑术</option>
+                        <option value="4">刀斧</option>
+                        <option value="5">枪棍</option>
+                        <option value="6">暗器</option>
+                        <option value="7">异功</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_exp" type="number" value="100" autocomplete="off" class="layui-input">
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">可学经验不填则默认为100</span></div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>造&emsp;&emsp;诣</label>
+                <div class="layui-input-inline inputWidth">
+                    <input id="edit_attainments" type="text" autocomplete="off" class="layui-input" placeholder='格式：[{"10":"1"},...]'>
+                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">说明：前面的值是武学经验，后面的值是提升的造诣值（根据武功分类提升对应的造诣）</span></div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
+                <div class="layui-input-inline inputWidth">
+                    <select id="edit_enable" class="layui-input">
+                        <option value="0">未启用</option>
+                        <option value="1">启用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功夫说明</label>
+                <div class="layui-input-inline">
+                    <textarea  id="edit_info" placeholder="请输入内容" class="layui-textarea layui-input-width"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button onclick="editRequest()" type="button" class="layui-btn">修改</button>
+                <button onclick="editReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
     </div>
@@ -275,11 +349,17 @@
         var params = {
             name:$("#add_name").val(),
             type:Number($("#add_type").val()),
-            info:$("#add_info").val()
+            info:$("#add_info").val(),
+            experience_limit:Number($("#add_exp").val()),
+            kongfu_attainments:$("#add_attainments").val(),
+            enable:$("#add_enable").val()
         };
         if(params.name===null || params.name===""){
             layer.msg("功夫名称不能为空",{icon:2});
             return;
+        }
+        if(params.type===null || params.type===""){
+            layer.msg("功夫类型不能为空",{icon:2});
         }
         $.ajax({
             type:"POST",
@@ -299,6 +379,8 @@
     function addReset() {
         $("#add_name").val('');
         $("#add_info").val('');
+        $("#add_exp").val(100);
+        $("#add_attainments").val('');
     }
 
     /*查看*/
@@ -308,7 +390,90 @@
 
     /*编辑*/
     function edit(data) {
-
+        var params = {
+            kongfu_id:data.kongfu_id,
+            name:data.name
+        };
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/kongFu/editQuery",
+            data:params,
+            success:function (data) {
+                if(data.code === "0" && data.result === "SECCESS") {
+                    var rows = $.base64.atob(data.rows,"utf-8");
+                    if(isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        editOpen(obj);
+                    }
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function editOpen(obj){
+        document.getElementById("edit_id").value = isNull(obj.kongfu_id);
+        document.getElementById("edit_name").value = isNull(obj.name);
+        $("#edit_type").val(String(obj.type));
+        document.getElementById("edit_exp").value = isNull(obj.experience_limit);
+        document.getElementById("edit_attainments").value = isNull(obj.kongfu_attainments);
+        $("#edit_enable").val(String(obj.enable));
+        document.getElementById("edit_info").value = isNull(obj.info);
+        layui.form.render("select");
+        layer.open({
+            type: 1,
+            offset: "auto",
+            id: 'layerDemo'+'auto',
+            area: [1000+'px', 500 +'px'],
+            fix: false,
+            maxmin: true,
+            shadeClose: true,
+            shade: 0.4,
+            title: "编辑",
+            content: $("#editInfo"),
+            yes:function() {
+                $("#editInfo").hide();
+            }
+        });
+    }
+    function editRequest() {
+        var params = {
+            kongfu_id:$("#edit_id").val(),
+            name:$("#edit_name").val(),
+            info:$("#edit_info").val(),
+            type:Number($("#edit_type").val()),
+            experience_limit:Number($("#edit_exp").val()),
+            kongfu_attainments:$("#edit_attainments").val(),
+            enable:Number($("#edit_enable").val())
+        };
+        if(params.name===null || params.name===""){
+            layer.msg("功夫名称不能为空",{icon:2});
+            return;
+        }
+        if(params.type===null || params.type===""){
+            layer.msg("功夫类型不能为空",{icon:2});
+        }
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            url:"/kongFu/inUpdate",
+            data:params,
+            success:function (data) {
+                if (data.code === "0" && data.result === "SECCESS") {
+                    layer.msg("修改成功",{icon:1});
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            }
+        });
+    }
+    function editReset() {
+        $("#edit_name").val('');
+        $("#edit_exp").val('');
+        $("#edit_attainments").val('');
+        $("#edit_info").val('');
     }
 
     /*删除*/

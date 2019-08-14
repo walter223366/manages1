@@ -10,8 +10,8 @@ public interface IAccountMapper {
     /*查询*/
     List<Map<String,Object>> accountPagingQuery(Map<String,Object> map);
     int accountIsExist(@Param("account") Account account);
-    int accountIsName(@Param("account") Account account);
     Map<String,Object> accountEditQuery(@Param("account") Account account);
+    Map<String,Object> accountIdQuery(@Param("account") Account account);
     /*新增*/
     void accountInsert(@Param("account") Account account);
     /*修改*/

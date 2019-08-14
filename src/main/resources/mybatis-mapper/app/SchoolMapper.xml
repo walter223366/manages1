@@ -25,15 +25,14 @@
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="schoolIsExist" parameterType="com.ral.manages.entity.app.School" resultType="int">
-        SELECT count(1) FROM dict_school WHERE 1=1 AND school_id=#{school.school_id}
-    </select>
-    <select id="schoolIsName" parameterType="com.ral.manages.entity.app.School" resultType="int">
-         SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}
+        SELECT count(1) FROM dict_school WHERE 1=1 AND name=#{school.name}
     </select>
     <select id="schoolEditQuery" parameterType="com.ral.manages.entity.app.School" resultType="map">
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND name=#{school.name}
     </select>
-
+    <select id="schoolIdQuery" parameterType="com.ral.manages.entity.app.School" resultType="map">
+        SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND school_id=#{school.school_id}
+    </select>
 
     <!--新增-->
     <insert id="schoolInsert" parameterType="com.ral.manages.entity.app.School">
@@ -44,16 +43,15 @@
 
     <!--修改-->
     <update id="schoolUpdate"  parameterType="com.ral.manages.entity.app.School">
-        UPDATE dict_school SET info=#{school.info},influence=#{school.influence} WHERE 1=1 AND school_id=#{school.school_id}
+        UPDATE dict_school SET name=#{school.name},info=#{school.info},influence=#{school.influence} WHERE 1=1 AND school_id=#{school.school_id}
     </update>
 
 
     <!--删除-->
     <update id="schoolDelete" parameterType="com.ral.manages.entity.app.School">
-        UPDATE dict_school SET deleteStatus=#{school.deleteStatus} WHERE 1=1 AND school_id=#{school.school_id}
+        UPDATE dict_school SET deleteStatus=#{school.deleteStatus} WHERE 1=1 AND name=#{school.name}
     </update>
     <update id="schoolBatchDelete" parameterType="map">
-        UPDATE dict_school SET deleteStatus=#{deleteStatus} WHERE 1=1 AND school_id=#{school_id}
+        UPDATE dict_school SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
-
 </mapper>

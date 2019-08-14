@@ -253,6 +253,7 @@
                         {type:'checkbox',fixed:'felt'},
                         {type:'numbers',title:'序号',align:'center',fixed:'felt',width:150},
                         {field:'name',title:'招式名称',sort:true},
+                        {field:'kongFuName',title:'武学类型'},
                         {field:'MP_cost',title:'内力花费'},
                         {field:'zhaoshi_experience_cost',title:'武学经验',sort:true},
                         {fixed:'right',title:'操作',width:300,align:'center',toolbar:'#operational'}
@@ -434,11 +435,9 @@
         for(var i=0; i<b.length; i++){
             if(b[i].selected){
                 values.push(b[i].value);
-                alert(values);
             }
         }
         values.join(",");
-        alert(values);
         /*var ids = new Array();
         ids = $("#add_kongFu").find("option:selected").attr("value");
         alert(ids);
@@ -485,7 +484,7 @@
     /*查看*/
     function see(data) {
         var params = {
-            zhaoshi_id:data.zhaoshi_id
+            name:data.name
         };
         $.ajax({
             type:"POST",
@@ -534,7 +533,7 @@
     /*编辑*/
     function edit(data) {
         var params = {
-            zhaoshi_id:data.zhaoshi_id
+            name:data.name
         };
         $.ajax({
             type:"POST",
@@ -661,7 +660,7 @@
     /*删除*/
     function del(data) {
         var params = {
-            zhaoshi_id:data.zhaoshi_id
+            name:data.name
         };
         $.ajax({
             type:"POST",

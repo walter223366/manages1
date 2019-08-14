@@ -49,8 +49,9 @@ public class SchoolServiceImpl implements ISchoolService {
      */
     @Override
     public GeneralResponse schoolEditQuery(School school) {
-        if(StringUtil.isNull(school.getName())){
-            return GeneralResponse.fail("门派名称为空");
+        String msg = VerificationParams.verificationSchool(school);
+        if(!StringUtil.isNull(msg)){
+            return GeneralResponse.fail(msg);
         }
         Map<String,Object> result = iSchoolMapper.schoolEditQuery(school);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
@@ -67,7 +68,7 @@ public class SchoolServiceImpl implements ISchoolService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iSchoolMapper.schoolIsName(school);
+        int count = iSchoolMapper.schoolIsExist(school);
         if(count > 0){
             return GeneralResponse.fail("新增失败，门派名称已存在");
         }
@@ -89,17 +90,23 @@ public class SchoolServiceImpl implements ISchoolService {
      */
     @Override
     public GeneralResponse schoolUpdate(School school) {
+        if(StringUtil.isNull(school.getSchool_id())){
+            return GeneralResponse.fail("传入门派ID为空");
+        }
         String msg = VerificationParams.verificationSchool(school);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iSchoolMapper.schoolIsExist(school);
-        if(count <= 0){
+        Map<String,Object> map = iSchoolMapper.schoolIdQuery(school);
+        if(SetUtil.isMapNull(map)){
             return GeneralResponse.fail("修改失败，该门派不存在");
         }
-        int num = iSchoolMapper.schoolIsName(school);
-        if(num > 0){
-            return GeneralResponse.fail("修改失败，门派名称已存在");
+        String name = SetUtil.toMapValueString(map,"name");
+        if(!name.equals(school.getName())){
+            int count = iSchoolMapper.schoolIsExist(school);
+            if(count > 0){
+                return GeneralResponse.fail("修改失败，门派名称已存在");
+            }
         }
         try{
             iSchoolMapper.schoolUpdate(school);

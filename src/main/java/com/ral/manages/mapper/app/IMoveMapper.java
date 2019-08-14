@@ -10,9 +10,9 @@ public interface IMoveMapper {
     /*查询*/
     List<Map<String,Object>> movePagingQuery(Map<String,Object> map);
     int moveIsExist(@Param("move") Move move);
-    int moveIsName(@Param("move") Move move);
     Map<String,Object> moveEditQuery(@Param("move") Move move);
     Map<String,Object> moveQueryName(@Param("moveId") String moveId);
+    Map<String,Object> moveIdQuery(@Param("move") Move move);
     /*新增*/
     void moveInsert(@Param("move") Move move);
     /*修改*/
@@ -20,4 +20,6 @@ public interface IMoveMapper {
     /*删除*/
     void moveDelete(@Param("move") Move move);
     void moveBatchDelete(Map<String,Object> map);
+    /*武学管理下拉框*/
+    List<Map<String,Object>> moveQueryMarquee();
 }

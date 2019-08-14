@@ -26,7 +26,7 @@
         SELECT COUNT(1) FROM dict_article WHERE 1=1 AND name=#{article.name}
     </select>
     <select id="articleEditQuery" parameterType="com.ral.manages.entity.app.Article" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 name=#{article.name}
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 article_id=#{article.article_id}
     </select>
 
 

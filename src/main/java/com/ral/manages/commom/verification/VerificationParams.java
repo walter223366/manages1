@@ -14,7 +14,10 @@ public class VerificationParams {
     /**账号管理参数校验*/
     public static String verificationAccount(Account account){
         if(StringUtil.isNull(account.getAccount())){
-            return "账号名称不能为空";
+            return "传入账号名称为空";
+        }
+        if(account.getSource()!=0 && account.getSource()!=1){
+            return "传入账号来源标志错误";
         }
         return null;
     }
@@ -22,10 +25,11 @@ public class VerificationParams {
     /**门派管理参数校验*/
     public static String verificationSchool(School school){
         if(StringUtil.isNull(school.getName())){
-            return "门派名称不能为空";
+            return "传入门派名称不能为空";
         }
         return null;
     }
+
 
     /**武学管理参数校验*/
     public static String verificationKongFu(KongFu kongFu){
@@ -44,7 +48,7 @@ public class VerificationParams {
     }
 
     /**招式管理参数校验*/
-    public static String verificationZhaoShi(Move move){
+    public static String verificationMove(Move move){
         if(StringUtil.isNull(move.getName())){
             return "招式名称不能为空";
         }

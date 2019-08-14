@@ -15,14 +15,11 @@ import com.ral.manages.util.SetUtil;
 import com.ral.manages.util.StringUtil;
 import com.ral.manages.util.TimeUtil;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,13 +52,13 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 编辑查询
-     * @param account id or account
+     * @param account account
      * @return GeneralResponse
      */
     @Override
     public GeneralResponse accountEditQuery(Account account) {
-        if(StringUtil.isNull(account.getAccount()) || StringUtil.isNull(account.getId())){
-            return GeneralResponse.fail("账号名称或账号ID为空");
+        if(StringUtil.isNull(account.getAccount())){
+            return GeneralResponse.fail("传入账号名称为空");
         }
         Map<String,Object> result = iAccountMapper.accountEditQuery(account);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
@@ -78,7 +75,7 @@ public class AccountServiceImpl implements IAccountService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iAccountMapper.accountIsName(account);
+        int count = iAccountMapper.accountIsExist(account);
         if(count > 0){
             return GeneralResponse.fail("新增失败，账号名称已存在");
         }
@@ -102,17 +99,23 @@ public class AccountServiceImpl implements IAccountService {
      */
     @Override
     public GeneralResponse accountUpdate(Account account) {
+        if(StringUtil.isNull(account.getId())){
+            return GeneralResponse.fail("传入账号ID为空");
+        }
         String msg = VerificationParams.verificationAccount(account);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iAccountMapper.accountIsExist(account);
-        if(count <= 0){
+        Map<String,Object> map = iAccountMapper.accountIdQuery(account);
+        if(SetUtil.isMapNull(map)){
             return GeneralResponse.fail("修改失败，该账号不存在");
         }
-        int num = iAccountMapper.accountIsName(account);
-        if(num > 0){
-            return GeneralResponse.fail("修改失败，账号已存在");
+        String name = SetUtil.toMapValueString(map,"account");
+        if(!name.equals(account.getAccount())){
+            int count = iAccountMapper.accountIsExist(account);
+            if(count > 0){
+                return GeneralResponse.fail("修改失败，账号名称已存在");
+            }
         }
         try{
             iAccountMapper.accountUpdate(account);
@@ -130,6 +133,9 @@ public class AccountServiceImpl implements IAccountService {
      */
     @Override
     public GeneralResponse accountDelete(Account account) {
+        if(StringUtil.isNull(account.getAccount())){
+            return GeneralResponse.fail("传入账号名称为空");
+        }
         int count = iAccountMapper.accountIsExist(account);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该账号不存在");

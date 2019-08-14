@@ -387,7 +387,6 @@
     /*编辑*/
     function edit(data){
         var params = {
-            id:data.id,
             account:data.account
         };
         $.ajax({
@@ -487,8 +486,7 @@
     /*删除*/
     function del(data){
         var params = {
-            id:data.id,
-            name:data.name
+            account:data.account
         };
         $.ajax({
             type:"POST",

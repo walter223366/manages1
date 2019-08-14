@@ -44,8 +44,16 @@ public class MoveServiceImpl implements IMoveService {
     @Override
     public GeneralResponse movePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map),PageBean.pageSize(map));
-        List<Map<String,Object>> zhaoShiList = iMoveMapper.movePagingQuery(map);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),zhaoShiList));
+        List<Map<String,Object>> moveList = iMoveMapper.movePagingQuery(map);
+        for(Map<String,Object> moveMap : moveList){
+            String kongFuId = SetUtil.toMapValueString(moveMap,"kongfu_id");
+            if(StringUtil.isNull(kongFuId)){
+                moveMap.put("kongFuName","");
+            }else{
+                moveMap.put("kongFuName",seeKongFuName(kongFuId));
+            }
+        }
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),moveList));
     }
 
     /**
@@ -55,6 +63,9 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public GeneralResponse moveEditQuery(Move move) {
+        if(StringUtil.isNull(move.getName())){
+            return GeneralResponse.fail("传入招式名称为空");
+        }
         Map<String,Object> result = iMoveMapper.moveEditQuery(move);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
@@ -66,11 +77,11 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public GeneralResponse moveInsert(Move move) {
-        String msg = VerificationParams.verificationZhaoShi(move);
+        String msg = VerificationParams.verificationMove(move);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iMoveMapper.moveIsName(move);
+        int count = iMoveMapper.moveIsExist(move);
         if(count > 0){
             return GeneralResponse.fail("新增失败，招式名称已存在");
         }
@@ -92,17 +103,23 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public GeneralResponse moveUpdate(Move move) {
-        String msg = VerificationParams.verificationZhaoShi(move);
+        if(StringUtil.isNull(move.getZhaoshi_id())){
+            return GeneralResponse.fail("传入招式ID为空");
+        }
+        String msg = VerificationParams.verificationMove(move);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iMoveMapper.moveIsExist(move);
-        if(count <= 0){
+        Map<String,Object> map = iMoveMapper.moveIdQuery(move);
+        if(SetUtil.isMapNull(map)){
             return GeneralResponse.fail("修改失败，该招式不存在");
         }
-        int num = iMoveMapper.moveIsName(move);
-        if(num > 0){
-            return GeneralResponse.fail("修改失败，招式名称已存在");
+        String name = SetUtil.toMapValueString(map,"name");
+        if(!name.equals(move.getName())){
+            int count = iMoveMapper.moveIsExist(move);
+            if(count > 0){
+                return GeneralResponse.fail("修改失败，招式名称已存在");
+            }
         }
         try{
             iMoveMapper.moveUpdate(move);
@@ -120,6 +137,9 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public GeneralResponse moveDelete(Move move) {
+        if(StringUtil.isNull(move.getName())){
+            return GeneralResponse.fail("传入招式名称为空");
+        }
         int count = iMoveMapper.moveIsExist(move);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该招式不存在");
@@ -195,8 +215,8 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public GeneralResponse moveSee(Move move) {
-        if(StringUtil.isNull(move.getZhaoshi_id())){
-            return GeneralResponse.fail("传入招式ID为空");
+        if(StringUtil.isNull(move.getName())){
+            return GeneralResponse.fail("传入招式名称为空");
         }
         Map<String,Object> resultMap = iMoveMapper.moveEditQuery(move);
         String kongFuId = SetUtil.toMapValueString(resultMap,"kongfu_id");

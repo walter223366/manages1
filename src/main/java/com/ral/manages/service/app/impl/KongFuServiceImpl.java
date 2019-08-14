@@ -44,6 +44,8 @@ public class KongFuServiceImpl implements IKongFuService {
         List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
             kongFuMap.put("type",kongFuType(SetUtil.toMapValueInt(kongFuMap,"type")));
+            int enableValue = SetUtil.toMapValueInt(kongFuMap,"enable");
+            kongFuMap.put("enable",(enableValue==1?"已启用":"未启用"));
         }
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),kongFuList));
     }

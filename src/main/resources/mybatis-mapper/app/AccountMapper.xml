@@ -28,16 +28,16 @@
 
     <!--查询-->
     <select id="accountPagingQuery" parameterType="map" resultType="map">
-        SELECT  <include refid="accountResult"/>  FROM biz_user WHERE 1=1  <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0) ORDER BY lrrq DESC
+        SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0) ORDER BY lrrq DESC
     </select>
     <select id="accountIsExist" parameterType="com.ral.manages.entity.app.Account" resultType="int">
-        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND id=#{account.id}
-    </select>
-    <select id="accountIsName" parameterType="com.ral.manages.entity.app.Account" resultType="int">
-        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND name=#{account.name}
+        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account.account}
     </select>
     <select id="accountEditQuery" parameterType="com.ral.manages.entity.app.Account" resultType="map">
-        SELECT  <include refid="accountResult"/>  FROM  biz_user WHERE 1=1 AND (id=#{account.id} OR account=#{account.account})
+        SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND account=#{account.account}
+    </select>
+    <select id="accountIdQuery" parameterType="com.ral.manages.entity.app.Account" resultType="map">
+        SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND id=#{account.id}
     </select>
 
 
@@ -56,10 +56,9 @@
 
     <!--删除-->
     <update id="accountDelete" parameterType="com.ral.manages.entity.app.Account">
-        UPDATE biz_user SET deleteStatus=#{account.deleteStatus} WHERE 1=1 AND id=#{account.id}
+        UPDATE biz_user SET deleteStatus=#{account.deleteStatus} WHERE 1=1 AND account=#{account.account}
     </update>
     <update id="accountBatchDelete" parameterType="map">
-        UPDATE biz_user SET deleteStatus=#{deleteStatus} WHERE 1=1 AND id=#{id}
+        UPDATE biz_user SET deleteStatus=#{deleteStatus} WHERE 1=1 AND account=#{account}
     </update>
-
 </mapper>
