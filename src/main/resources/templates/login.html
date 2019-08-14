@@ -10,12 +10,12 @@
     <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
 
-<body style="width:100%;height:auto;background-size:100%;">
+<body>
 
 <div class="layui-container" style="height:100%">
 
     <fieldset class="layui-elem-field layui-field-title" style="margin-top:6%">
-        <legend style="margin-left:40%"><span style="font-weight:bold;font-size:22px;">Management System</span></legend>
+        <legend style="margin-left:40%"><span style="font-weight:bold;font-size:22px;">后台登陆</span></legend>
     </fieldset>
 
     <div class="layui-row">
@@ -24,28 +24,17 @@
         </div>
         <div class="layui-col-xs6">
             <div class="grid-demo">
-                <form class="layui-form" action="">
+                <form class="layui-form">
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名</label>
                         <div class="layui-input-inline">
-                            <input id="username" name="username" autocomplete="off" class="layui-input" type="text"/>
+                            <input id="username" type="text" autocomplete="off" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">密&emsp;码</label>
                         <div class="layui-input-inline">
-                            <input id="password" name="password" autocomplete="off" class="layui-input" type="password"/>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">验证码</label>
-                            <div class="layui-input-inline" style="width:100px;">
-                                <input id="code" name="code" autocomplete="off" class="layui-input" type="text"/>
-                            </div>
-                            <div class="layui-input-inline" style="width:120px;">
-                                <canvas id="canvas" width="120" height="38"></canvas>
-                            </div>
+                            <input id="password" type="password" autocomplete="off" class="layui-input"/>
                         </div>
                     </div>
                     <div class="layui-form-item" style="margin-top:-20px;">
@@ -56,8 +45,8 @@
                     </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn layui-btn-primary" type="reset">重置</button>
                             <button class="layui-btn">登录</button>
+                            <button class="layui-btn layui-btn-primary" type="reset">注册</button>
                         </div>
                     </div>
                 </form>
