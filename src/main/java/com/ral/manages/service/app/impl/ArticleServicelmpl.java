@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +49,9 @@ public class ArticleServicelmpl implements IArticleService {
      */
     @Override
     public GeneralResponse articleEditQuery(Article article) {
+        if(StringUtil.isNull(article.getName())){
+            return GeneralResponse.fail("传入物品名称为空");
+        }
         Map<String,Object> result = iArticleMapper.articleEditQuery(article);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
@@ -65,7 +67,7 @@ public class ArticleServicelmpl implements IArticleService {
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iArticleMapper.articleIsName(article);
+        int count = iArticleMapper.articleIsExist(article);
         if(count > 0){
             return GeneralResponse.fail("新增失败，物品名称已存在");
         }
@@ -87,17 +89,23 @@ public class ArticleServicelmpl implements IArticleService {
      */
     @Override
     public GeneralResponse articleUpdate(Article article) {
+        if(StringUtil.isNull(article.getArticle_id())){
+            return GeneralResponse.fail("传入物品ID为空");
+        }
         String msg = VerificationParams.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iArticleMapper.articleIsExist(article);
-        if(count > 0){
-            return GeneralResponse.fail("修改失败，该物品已存在");
+        Map<String,Object> map = iArticleMapper.articleIdQuery(article);
+        if(SetUtil.isMapNull(map)){
+            return GeneralResponse.fail("修改失败，该物品不存在");
         }
-        int num = iArticleMapper.articleIsName(article);
-        if(num > 0){
-            return GeneralResponse.fail("修改失败，物品名称已存在");
+        String name = SetUtil.toMapValueString(map,"name");
+        if(!name.equals(article.getName())){
+            int count = iArticleMapper.articleIsExist(article);
+            if(count > 0){
+                return GeneralResponse.fail("修改失败，门派名称已存在");
+            }
         }
         try{
             iArticleMapper.articleUpdate(article);
@@ -115,6 +123,9 @@ public class ArticleServicelmpl implements IArticleService {
      */
     @Override
     public GeneralResponse articleDelete(Article article) {
+        if(StringUtil.isNull(article.getName())){
+            return GeneralResponse.fail("传入物品名称为空");
+        }
         int count = iArticleMapper.articleIsExist(article);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该物品不存在");

@@ -16,5 +16,6 @@ public class Article implements Serializable {
     private String article_id;//物品id
     private String img;//物品图标
     private String name;//物品名称
+    private String info;//物品说明
     private int deleteStatus;//删除状态，0或null正常，1已删除
 }

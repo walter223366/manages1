@@ -5,12 +5,12 @@
 <mapper namespace="com.ral.manages.mapper.app.IArticleMapper">
 
     <sql id="articleResult">
-        article_id,img,name,deleteStatus
+        article_id,img,name,info,deleteStatus
     </sql>
 
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
-            AND name=#{name}
+            AND name like '%${name}%'
         </if>
     </sql>
 
@@ -20,34 +20,33 @@
         SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="articleIsExist" parameterType="com.ral.manages.entity.app.Article" resultType="int">
-        SELECT COUNT(1) FROM dict_article WHERE 1=1 AND article_id=#{article.article_id}
-    </select>
-    <select id="articleIsName" parameterType="com.ral.manages.entity.app.Article" resultType="int">
         SELECT COUNT(1) FROM dict_article WHERE 1=1 AND name=#{article.name}
     </select>
     <select id="articleEditQuery" parameterType="com.ral.manages.entity.app.Article" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 article_id=#{article.article_id}
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 AND name=#{article.name}
+    </select>
+    <select id="articleIdQuery" parameterType="com.ral.manages.entity.app.Article" resultType="map">
+        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 AND article_id=#{article.article_id}
     </select>
 
 
     <!--新增-->
     <insert id="articleInsert" parameterType="com.ral.manages.entity.app.Article">
-        INSERT INTO dict_article(article_id,img,name,deleteStatus)VALUES (#{article.article_id},#{article.img},#{article.name},#{article.deleteStatus})
+        INSERT INTO dict_article(article_id,img,name,info,deleteStatus)VALUES (#{article.article_id},#{article.img},#{article.name},#{article.info},#{article.deleteStatus})
     </insert>
 
 
     <!--修改-->
     <update id="articleUpdate" parameterType="com.ral.manages.entity.app.Article">
-        UPDATE dict_article SET img=#{article.img},name=#{article.name} WHERE 1=1 AND article_id=#{article.article_id}
+        UPDATE dict_article SET img=#{article.img},name=#{article.name},info=#{article.info} WHERE 1=1 AND article_id=#{article.article_id}
     </update>
 
 
     <!--删除-->
     <update id="articleDelete" parameterType="com.ral.manages.entity.app.Article">
-        UPDATE dict_article SET deleteStatus=#{article.deleteStatus} WHERE 1=1 AND article_id=#{article.article_id}
+        UPDATE dict_article SET deleteStatus=#{article.deleteStatus} WHERE 1=1 AND name=#{article.name}
     </update>
     <update id="articleBatchDelete" parameterType="map">
-        UPDATE dict_article SET deleteStatus=#{deleteStatus} WHERE 1=1 AND article_id=#{article_id}
+        UPDATE dict_article SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
-
 </mapper>
