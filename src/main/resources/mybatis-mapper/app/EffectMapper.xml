@@ -24,16 +24,14 @@
         SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="effectIsExist" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
-        SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
-    </select>
-    <select id="effectIsName" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
         SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND name=#{effect.name}
     </select>
     <select id="effectEditQuery" parameterType="com.ral.manages.entity.app.Effect" resultType="map">
+        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND name=#{effect.name}
+    </select>
+    <select id="effectIdQuery" parameterType="com.ral.manages.entity.app.Effect" resultType="map">
         SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
     </select>
-
-    <!--招式管理下拉选框-->
     <select id="effectQueryMarquee" resultType="map">
         SELECT effect_id,name FROM dict_effect
     </select>
@@ -71,10 +69,9 @@
 
     <!--删除-->
     <update id="effectDelete" parameterType="com.ral.manages.entity.app.Effect">
-        UPDATE dict_effect SET deleteStatus=#{effect.deleteStatus} WHERE 1=1 AND effect_id=#{effect.effect_id}
+        UPDATE dict_effect SET deleteStatus=#{effect.deleteStatus} WHERE 1=1 AND name=#{effect.name}
     </update>
     <update id="effectBatchDelete" parameterType="map">
-        UPDATE dict_effect SET deleteStatus=#{deleteStatus} WHERE 1=1 AND effect_id=#{effect_id}
+        UPDATE dict_effect SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
-
 </mapper>

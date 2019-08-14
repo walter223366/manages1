@@ -152,23 +152,4 @@ public class KongFuController {
         }
         return generalResponse;
     }
-
-    /**
-     * 详情
-     * @param kongFu kongFu
-     * @return Object
-     */
-    @PostMapping("inDetails")
-    public Object kongFuDetails(KongFu kongFu){
-        LOG.info("请求参数:" + kongFu);
-        GeneralResponse generalResponse = new GeneralResponse();
-        try{
-            generalResponse = iKongFuService.kongFuDetails(kongFu);
-            LOG.info("返回值:" + generalResponse);
-        }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
-            LOG.error(generalResponse.toString());
-        }
-        return generalResponse;
-    }
 }

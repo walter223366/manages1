@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,9 @@ public class EffectServiceImpl implements IEffectService {
      */
     @Override
     public GeneralResponse effectEditQuery(Effect effect) {
-        //TODO 校验参数
+        if(StringUtil.isNull(effect.getName())){
+            return GeneralResponse.fail("传入效果名称错误");
+        }
         Map<String,Object> result = iEffectMapper.effectEditQuery(effect);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
@@ -66,8 +67,11 @@ public class EffectServiceImpl implements IEffectService {
      */
     @Override
     public GeneralResponse effectInsert(Effect effect) {
-        //TODO 校验参数
-        int count = iEffectMapper.effectIsName(effect);
+        String msg = VerificationParams.verificationEffect(effect);
+        if(!StringUtil.isNull(msg)){
+            return GeneralResponse.fail(msg);
+        }
+        int count = iEffectMapper.effectIsExist(effect);
         if(count > 0){
             return GeneralResponse.fail("新增失败，效果名称已存在");
         }
@@ -89,17 +93,23 @@ public class EffectServiceImpl implements IEffectService {
      */
     @Override
     public GeneralResponse effectUpdate(Effect effect) {
+        if(StringUtil.isNull(effect.getEffect_id())){
+            return GeneralResponse.fail("传入效果ID为空");
+        }
         String msg = VerificationParams.verificationEffect(effect);
         if(!StringUtil.isNull(msg)){
             return GeneralResponse.fail(msg);
         }
-        int count = iEffectMapper.effectIsExist(effect);
-        if(count <= 0){
+        Map<String,Object> map = iEffectMapper.effectIdQuery(effect);
+        if(SetUtil.isMapNull(map)){
             return GeneralResponse.fail("修改失败，该效果不存在");
         }
-        int num = iEffectMapper.effectIsName(effect);
-        if(num > 0){
-            return GeneralResponse.fail("修改失败，效果名称已存在");
+        String name = SetUtil.toMapValueString(map,"name");
+        if(!name.equals(effect.getName())){
+            int count = iEffectMapper.effectIsExist(effect);
+            if(count > 0){
+                return GeneralResponse.fail("修改失败，效果名称已存在");
+            }
         }
         try{
             iEffectMapper.effectUpdate(effect);
@@ -117,6 +127,9 @@ public class EffectServiceImpl implements IEffectService {
      */
     @Override
     public GeneralResponse effectDelete(Effect effect) {
+        if(StringUtil.isNull(effect.getName())){
+            return GeneralResponse.fail("传入效果名称为空");
+        }
         int count = iEffectMapper.effectIsExist(effect);
         if(count <= 0){
             return GeneralResponse.fail("删除失败，该效果不存在");

@@ -28,22 +28,20 @@
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="kongFuIsExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
-        SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
-    </select>
-    <select id="kongFuIsName" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    </select>
+    <select id="kongFuEditQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    </select>
+    <select id="kongFuIdQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </select>
     <select id="kongFuToNameId" parameterType="map">
         SELECT kongfu_id,name FROM  dict_kongfu  
     </select>
-    <select id="kongFuEditQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
-    </select>
     <select id="kongFuQueryName" parameterType="string" resultType="map">
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
     </select>
-
-    <!--招式管理下拉菜单-->
     <select id="kongFuQueryMarquee" resultType="map">
         SELECT  kongfu_id,name FROM dict_kongfu
     </select>
@@ -65,7 +63,7 @@
 
     <!--修改-->
     <update id="kongFuUpdate" parameterType="com.ral.manages.entity.app.KongFu">
-        UPDATE dict_kongfu SET info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
+        UPDATE dict_kongfu SET  name=#{kongFu.name},info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
         kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable}
         WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </update>
@@ -73,10 +71,9 @@
 
     <!--删除-->
     <update id="kongFuDelete" parameterType="com.ral.manages.entity.app.KongFu">
-        UPDATE dict_kongfu SET deleteStatus=#{kongFu.deleteStatus} WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
+        UPDATE dict_kongfu SET deleteStatus=#{kongFu.deleteStatus} WHERE 1=1 AND  name=#{kongFu.name}
     </update>
     <update id="kongFuBatchDelete" parameterType="map">
-        UPDATE dict_kongfu SET deleteStatus=#{deleteStatus} WHERE 1=1 AND kongfu_id=#{kongfu_id}
+        UPDATE dict_kongfu SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
-
 </mapper>

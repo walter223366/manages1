@@ -537,6 +537,7 @@ table th, table td {
 /*去掉input框number类型的箭头符号*/
 input[type="number"]{
     -moz-appearance: textfield;
+    /*onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"*/
 }
 input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button{

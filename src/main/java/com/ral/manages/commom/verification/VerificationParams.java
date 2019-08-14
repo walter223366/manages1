@@ -22,10 +22,11 @@ public class VerificationParams {
         return null;
     }
 
+
     /**门派管理参数校验*/
     public static String verificationSchool(School school){
         if(StringUtil.isNull(school.getName())){
-            return "传入门派名称不能为空";
+            return "传入门派名称为空";
         }
         return null;
     }
@@ -33,44 +34,53 @@ public class VerificationParams {
 
     /**武学管理参数校验*/
     public static String verificationKongFu(KongFu kongFu){
-        if(StringUtil.isNull(kongFu.getName()) || StringUtil.isNull(Integer.toString(kongFu.getType()))){
-            return "功夫名称或功夫类型不能为空";
+        if(StringUtil.isNull(kongFu.getName())){
+            return "传入功夫名称为空";
+        }
+        if(StringUtil.isNull(Integer.toString(kongFu.getType()))){
+            return "传入功夫类型为空";
         }
         return null;
     }
 
+
     /**效果管理参数校验*/
     public static String verificationEffect(Effect effect){
-        if(StringUtil.isNull(Integer.toString(effect.getTarget()))){
-            return "效果执行目标不能为空";
+        if(StringUtil.isNull(effect.getName())){
+            return "传入效果名称为空";
+        }
+        if(effect.getTarget()!=0 && effect.getTarget()!=1){
+            return "传入效果执行目标错误";
         }
         return null;
     }
+
 
     /**招式管理参数校验*/
     public static String verificationMove(Move move){
         if(StringUtil.isNull(move.getName())){
-            return "招式名称不能为空";
+            return "传入招式名称为空";
         }
         if(StringUtil.isNull(move.getMP_cost())){
-            return "内力花费不能为空";
+            return "传入内力花费为空";
         }
         if(StringUtil.isNull(move.getKongfu_id())){
-            return "武学选项不能为空";
+            return "传入武学选项为空";
         }
         if(StringUtil.isNull(move.getZhaoshi_effect())){
-            return "效果选项不能为空";
+            return "传入效果选项为空";
         }
         return null;
     }
 
+
     /**物品管理参数校验*/
     public static String verificationArticle(Article article){
         if(StringUtil.isNull(article.getName())){
-            return "物品名称不能为空";
+            return "传入物品名称为空";
         }
         if(StringUtil.isNull(article.getImg())){
-            return "物品图片不能为空";
+            return "传入物品图片为空";
         }
        return null;
     }
