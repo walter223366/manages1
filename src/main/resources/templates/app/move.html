@@ -602,13 +602,16 @@
         });
     }
     function editRequest() {
+        var formSelects = layui.formSelects;
+        var kongfu_id = formSelects.value('select_editKongFu', 'valStr');
+        var zhaoshi_effect = formSelects.value('select_editEffect', 'valStr');
         var params = {
             zhaoshi_id:$("#edit_id").val(),
-            kongfu_id:$("#edit_kongFu").val(),
+            kongfu_id:kongfu_id,
             name:$("#edit_name").val(),
             MP_cost:$("#edit_spend").val(),
             info:$("#edit_info").val(),
-            zhaoshi_effect:$("#edit_effect").val(),
+            zhaoshi_effect:zhaoshi_effect,
             zhaoshi_experience_cost:Number($("#edit_exp").val())
         };
         $.ajax({
