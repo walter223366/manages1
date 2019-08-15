@@ -4,38 +4,5 @@
 
 <mapper namespace="com.ral.manages.mapper.user.IUserMapper">
 
-    <sql id="userResult">
-        id,account,password,source,tellphone,lrrq,cancellation
-    </sql>
-
-    <!--用户查询-->
-    <select id="selectUserInfo" parameterType="com.ral.manages.entity.user.User" resultType="com.ral.manages.entity.user.User">
-        SELECT <include refid="userResult" /> FROM biz_user WHERE account=#{user.account} AND pass=#{user.password} AND cancellation=#{user.cancellation}
-    </select>
-    <select id="selectUserExist" parameterType="com.ral.manages.entity.user.User" resultType="int">
-        SELECT COUNT(1) FROM biz_user WHERE account=#{user.account}
-    </select>
-    <select id="selectUserExistToAccount" parameterType="com.ral.manages.entity.user.User" resultType="com.ral.manages.entity.user.User">
-        SELECT <include refid="userResult" /> FROM biz_user WHERE account=#{user.account}
-    </select>
-
-
-    <!--用户新增-->
-    <insert id="insertUserInfo" parameterType="com.ral.manages.entity.user.User">
-        INSERT INTO biz_user(id,account,pass,source,tellphone,cancellation)
-        VALUES (#{user.id},#{user.account},#{user.pass},#{user.source},#{user.tellphone},#{user.cancellation})
-    </insert>
-
-
-    <!--用户修改-->
-    <update id="updateUserInfo" parameterType="com.ral.manages.entity.user.User">
-        UPDATE biz_user SET pass=#{user.pass},tellphone=#{user.tellphone} WHERE account=#{user.account}
-    </update>
-
-
-    <!--用户注销-->
-    <update id="updateUserInfoToCancellation"  parameterType="com.ral.manages.entity.user.User">
-        UPDATE biz_user SET cancellation=#{user.cancellation} WHERE account=#{user.account}
-    </update>
 
 </mapper>

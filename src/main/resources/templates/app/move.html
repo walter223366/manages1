@@ -400,61 +400,32 @@
             }
         });
     }
-    function checkAddParams(params) {
-        if(params.name===null || params.name===""){
-            layer.msg("招式名称不能为空",{icon:2});
-            return false;
-        }
-        if(params.kongfu_id===null || params.kongfu_id===""){
-            layer.msg("功夫选项不能为空",{icon:2});
-            return false;
-        }
-        if(params.MP_cost===null || params.MP_cost===""){
-            layer.msg("招式内力花费不能为空",{icon:2});
-            return false;
-        }
-        if(params.zhaoshi_effect===null || params.zhaoshi_effect===""){
-            layer.msg("效果选项不能为空",{icon:2});
-            return false;
-        }
-        return true;
-    }
-    function kongFu(ids) {
-        var result = new Array();
-        $("[id='" + ids + "']:checkbox").each(function() {
-            if ($(this).is(":checked")) {
-                result.push($(this).attr("value"));
-            }
-        });
-        return result.join(",");
-    }
     function addRequest() {
-        var a = document.getElementById("add_kongFu");
-        var b = a.options;
-        var values = new Array();
-        for(var i=0; i<b.length; i++){
-            if(b[i].selected){
-                values.push(b[i].value);
-            }
-        }
-        values.join(",");
-        /*var ids = new Array();
-        ids = $("#add_kongFu").find("option:selected").attr("value");
-        alert(ids);
-        obj = kongFu(ids);
-        alert(obj);*/
-
-        effectId = $("#add_effectId option:selected");
-
+        var formSelects = layui.formSelects;
+        var kongfu_id = formSelects.value('select_addKongFu', 'valStr');
+        var zhaoshi_effect = formSelects.value('select_addEffect', 'valStr');
         var params = {
             name:$("#add_name").val(),
-            kongfu_id:$("#add_kongFu option:selected").val(),
-            zhaoshi_effect:$("#add_effect option:selected").val(),
+            kongfu_id:kongfu_id,
+            zhaoshi_effect:zhaoshi_effect,
             MP_cost:$("#add_spend").val(),
             zhaoshi_experience_cost:Number($("#add_exp").val()),
             info:$("#add_info").val()
         };
-        if(checkAddParams(params) === false){
+        if(params.name===null || params.name===""){
+            layer.msg("招式名称不能为空",{icon:2});
+            return;
+        }
+        if(params.kongfu_id===null || params.kongfu_id===""){
+            layer.msg("功夫选项不能为空",{icon:2});
+            return;
+        }
+        if(params.MP_cost===null || params.MP_cost===""){
+            layer.msg("招式内力花费不能为空",{icon:2});
+            return;
+        }
+        if(params.zhaoshi_effect===null || params.zhaoshi_effect===""){
+            layer.msg("效果选项不能为空",{icon:2});
             return;
         }
         $.ajax({
@@ -479,6 +450,9 @@
         $("#add_zhaoshi_effect").val('');
         $("#add_zhaoshi_experience_cost").val('');
         $("#add_info").val('');
+        var formSelects = layui.formSelects;
+        formSelects.btns('select_addKongFu','remove');
+        formSelects.btns('select_addEffect','remove');
     }
 
     /*查看*/
@@ -561,10 +535,12 @@
         document.getElementById("edit_spend").value = isNull(obj.MP_cost);
         document.getElementById("edit_exp").value = isNull(obj.zhaoshi_experience_cost);
         document.getElementById("edit_info").value = isNull(obj.info);
-        $("#edit_kongFu").val(obj.kongfu_id);
-        layui.form.render("select");
+        /*var formSelects = layui.formSelects;
+        formSelects.value('select_editKongFu','');
+        formSelects.value('select_editEffect',obj.zhaoshi_effect);*/
+        /*$("#edit_kongFu").val(obj.kongfu_id);
         $("#edit_effect").val(obj.zhaoshi_effect);
-        layui.form.render("select");
+        layui.form.render("select");*/
         layer.open({
             type: 1,
             offset: "auto",
