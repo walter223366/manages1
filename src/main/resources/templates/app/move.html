@@ -359,8 +359,8 @@
     function addKongFu(){
         document.getElementById("add_kongFu").options.length = 0;
         $.ajax({
-            type: "POST",
-            dataType: "GET",
+            type: "GET",
+            dataType: "JSON",
             contentType:"application/json",
             url: "/manages/move/kongFuDownBox",
             success: function (data) {
