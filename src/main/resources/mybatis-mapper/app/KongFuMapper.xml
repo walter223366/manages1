@@ -5,7 +5,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IKongFuMapper">
 
     <sql id="kongFuResult">
-        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -36,9 +36,6 @@
     <select id="kongFuIdQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </select>
-    <select id="kongFuToNameId" parameterType="map">
-        SELECT kongfu_id,name FROM  dict_kongfu  
-    </select>
     <select id="kongFuQueryName" parameterType="string" resultType="map">
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
     </select>
@@ -55,16 +52,16 @@
 
     <!--新增-->
     <insert id="kongFuInsert" parameterType="com.ral.manages.entity.app.KongFu">
-        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus)
+        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi)
         VALUES(#{kongFu.kongfu_id},#{kongFu.name},#{kongFu.info},#{kongFu.type},#{kongFu.experience_limit},
-        #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.deleteStatus})
+        #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.deleteStatus},#{kongFu.kongfu_zhaoshi})
     </insert>
 
 
     <!--修改-->
     <update id="kongFuUpdate" parameterType="com.ral.manages.entity.app.KongFu">
         UPDATE dict_kongfu SET  name=#{kongFu.name},info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
-        kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable}
+        kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable},kongfu_zhaoshi=#{kongFu.kongfu_zhaoshi}
         WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
     </update>
 

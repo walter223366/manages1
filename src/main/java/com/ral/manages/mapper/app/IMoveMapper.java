@@ -14,7 +14,7 @@ public interface IMoveMapper {
     Map<String,Object> moveIdQuery(@Param("move") Move move);
     List<Map<String,Object>> moveQueryMarquee();
     Map<String,Object> moveQueryName(@Param("moveId") String moveId);
-
+    List<Map<String,Object>> moveQueryMarqueeName(Map<String,Object> map);
     /*新增*/
     void moveInsert(@Param("move") Move move);
     /*修改*/

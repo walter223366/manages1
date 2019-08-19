@@ -136,7 +136,7 @@ public class MoveController {
     }
 
     /**
-     * 添加效果下拉框
+     * 效果下拉框
      * @return Object
      */
     @GetMapping("effectDownBox")
@@ -153,7 +153,7 @@ public class MoveController {
     }
 
     /**
-     * 添加功夫下拉框
+     * 功夫下拉框
      * @return Object
      */
     @GetMapping("kongFuDownBox")

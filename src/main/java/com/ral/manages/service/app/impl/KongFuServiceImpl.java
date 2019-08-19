@@ -66,14 +66,14 @@ public class KongFuServiceImpl implements IKongFuService {
     }
 
     /**
-     * 招式管理选项查询
+     * 招式下拉框
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuQueryMove() {
-        List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuToNameId();
+    public GeneralResponse kongFuAddMove() {
+        List<Map<String,Object>> kongFuList = iMoveMapper.moveQueryMarquee();
         Map<String,Object> result = new HashMap<String,Object>();
-        result.put("datas",kongFuList);
+        result.put("data",kongFuList);
         return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
     }
 
@@ -189,6 +189,47 @@ public class KongFuServiceImpl implements IKongFuService {
             LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
         }
+    }
+
+    /**
+     * 查看详情
+     * @param kongFu
+     * @return
+     */
+    @Override
+    public GeneralResponse kongFuSee(KongFu kongFu) {
+        if(StringUtil.isNull(kongFu.getName())){
+            return GeneralResponse.fail("传入功夫名称为空");
+        }
+        Map<String,Object> resultMap = iKongFuMapper.kongFuEditQuery(kongFu);
+        String moveId = SetUtil.toMapValueString(resultMap,"kongfu_zhaoshi");
+        if(StringUtil.isNull(moveId)){
+            resultMap.put("moveName","");
+        }else{
+            resultMap.put("moveName",seeMoveName(moveId));
+        }
+        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
+    }
+
+    /**
+     * 获取招式名称
+     * @param str str
+     * @return  List<String>
+     */
+    private List<String> seeMoveName(String str){
+        String[] values = str.split(",");
+        List<String> list = new ArrayList<String>();
+        for(String value : values){
+            list.add(value);
+        }
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("mIds",list);
+        List<Map<String,Object>> resultList = iMoveMapper.moveQueryMarqueeName(result);
+        List<String> nameList = new ArrayList<String>();
+        for(Map<String,Object> map : resultList){
+            nameList.add(SetUtil.toMapValueString(map,"name"));
+        }
+        return nameList;
     }
 
     /**处理功夫类型*/

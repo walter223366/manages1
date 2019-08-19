@@ -185,7 +185,7 @@ public class MoveServiceImpl implements IMoveService {
     }
 
     /**
-     * 添加效果下拉框
+     * 效果下拉框
      * @return GeneralResponse
      */
     @Override
@@ -197,7 +197,7 @@ public class MoveServiceImpl implements IMoveService {
     }
 
     /**
-     * 添加功夫下拉框
+     * 功夫下拉框
      * @return GeneralResponse
      */
     @Override

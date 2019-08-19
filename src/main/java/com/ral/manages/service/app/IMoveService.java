@@ -16,9 +16,9 @@ public interface IMoveService {
     /*删除*/
     GeneralResponse moveDelete(Move move);
     GeneralResponse moveBatchDelete(Map<String,Object> map);
-    /*添加效果下拉框*/
+    /*效果下拉框*/
     GeneralResponse moveAddEffect();
-    /*添加功夫下拉框*/
+    /*功夫下拉框*/
     GeneralResponse moveAddKongFu();
     /*查看*/
     GeneralResponse moveSee(Move move);

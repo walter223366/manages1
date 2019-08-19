@@ -39,7 +39,12 @@
     <select id="moveQueryName" parameterType="string" resultType="map">
         SELECT zhaoshi_id,name FROM dict_zhaoshi WHERE 1=1 AND kongfu_id=#{moveId}
     </select>
-
+    <select id="moveQueryMarqueeName" parameterType="map" resultType="map">
+        SELECT name FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id IN
+        <foreach item="item" index="index" collection="mIds" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 
     <!--新增-->
     <insert id="moveInsert" parameterType="com.ral.manages.entity.app.Move">

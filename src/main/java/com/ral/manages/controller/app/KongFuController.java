@@ -59,14 +59,14 @@ public class KongFuController {
     }
 
     /**
-     * 招式管理选项查询
+     * 招式下拉框
      * @return Object
      */
-    @GetMapping("kongFuQueryMove")
-    public Object kongFuQueryMove(){
+    @GetMapping("moveDownBox")
+    public Object kongFuAddMove(){
         GeneralResponse generalResponse = new GeneralResponse();
         try{
-            generalResponse = iKongFuService.kongFuQueryMove();
+            generalResponse = iKongFuService.kongFuAddMove();
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
@@ -144,6 +144,25 @@ public class KongFuController {
         GeneralResponse generalResponse = new GeneralResponse();
         try{
             generalResponse = iKongFuService.kongFuBatchDelete(map);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
+
+    /**
+     * 查看详情
+     * @param kongFu kongFu
+     * @return Object
+     */
+    @PostMapping("inSee")
+    public Object kongFuSee(@RequestBody KongFu kongFu){
+        LOG.info("请求参数:" + kongFu);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iKongFuService.kongFuSee(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
             generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());

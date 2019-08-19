@@ -12,7 +12,6 @@ public interface IKongFuMapper {
     int kongFuIsExist(@Param("kongFu")KongFu kongFu);
     Map<String,Object> kongFuEditQuery(@Param("kongFu") KongFu kongFu);
     Map<String,Object> kongFuIdQuery(@Param("kongFu") KongFu kongFu);
-    List<Map<String,Object>> kongFuToNameId();
     Map<String,Object> kongFuQueryName(@Param("kongFuId") String kongFuId);
     List<Map<String,Object>> kongFuQueryMarquee();
     List<Map<String,Object>> kongFuQueryMarqueeName(Map<String,Object> map);
