@@ -14,7 +14,7 @@ import java.util.Map;
 public class GeneralResponse<T> implements Serializable {
 
     private static final long serialVersionUID = -8959290016963913460L;
-    private final static String SECCESS = "SECCESS";
+    private final static String SUCCESS = "SUCCESS";
     private final static String ERROR = "ERROR";
     private final static String ROWS = "";
 
@@ -44,12 +44,12 @@ public class GeneralResponse<T> implements Serializable {
     public static GeneralResponse success(String msg, Map<String,Object> rows) {
         JSONObject json = JSONObject.fromObject(rows);
         String base64 = Base64Util.Base64Encode(json.toString());
-        return new GeneralResponse(ResponseStateCode.SUCCESS.getCode(),SECCESS,msg,base64);
+        return new GeneralResponse(ResponseStateCode.SUCCESS.getCode(),SUCCESS,msg,base64);
     }
 
     /*操作成功，无数据*/
     public static GeneralResponse successNotdatas(String msg) {
-        return new GeneralResponse(ResponseStateCode.SUCCESS.getCode(),SECCESS, msg,ROWS);
+        return new GeneralResponse(ResponseStateCode.SUCCESS.getCode(),SUCCESS, msg,ROWS);
     }
 
     /*操作失败*/

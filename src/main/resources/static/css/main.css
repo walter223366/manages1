@@ -584,7 +584,9 @@ input[disabled="true"]{
 .search-data{
     width: 70%;
 }
-
+.see-input{background-color:transparent;border:0;width:600px;}
+.x-font{font-size:14px;font-weight:600;}
+.see-textarea{width:800px;height:300px;}
 
 /*.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
     top: 50%;

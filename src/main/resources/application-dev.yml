@@ -11,10 +11,8 @@ spring:
     view:
       suffix: .html
       prefix: /
-  devtools:
-    restart:
-      trigger-file: trigger.txt
-  resources: ["/templates/","/resources/","/static/","/public/"]
+  resources:
+    static-locations: classpath:/templates,classpath:/resources,classpath:/static/,classpath:/public/
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -43,6 +41,9 @@ spring:
     suffix: .html
     mode: HTML
     cache: false
+  devtools:
+    restart:
+      trigger-file: trigger.txt
 #  security:
 #    user:
 #      name: user
@@ -52,8 +53,9 @@ spring:
 mybatis:
   mapper-locations: classpath:/mybatis-mapper/*/*Mapper.xml
   type-aliases-package: com.ral.manages.entity
-  #configuration:
-    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration:
+    call-setters-on-nulls: true
+  #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #分页插件配置
 pagehelper:
   helper-dialect: mysql

@@ -186,7 +186,7 @@ function x_admin_close(){
     parent.layer.close(index);
 }
 
-/**判断json格式、字符串*/
+/*判断json格式*/
 function isJSON(str){
     try{
         JSON.parse(str);
@@ -195,17 +195,89 @@ function isJSON(str){
         return false;
     }
 }
+
+/*判断字符串*/
 function isNull(str){
-    if(str == null || str == ""){
-        return "-";
+    if(str === null || str === ""){
+        return "";
     }else{
         return str;
     }
 }
-function toNull(str){
-    if(str == null || str == ""){
-        return "";
-    }
-    return str;
+
+
+var code="0";
+var result="SUCCESS";
+var charset="utf-8";
+
+function postRequest(url,params,callback){
+    $.ajax({
+        type:"POST",
+        dataType:"JSON",
+        contentType:"application/json",
+        url:url,
+        data:JSON.stringify(params),
+        success:function (data) {
+            if (typeof callback === "function") {
+                callback(data);
+            }
+        }
+    });
 }
+function getRequest(url,callback){
+    $.ajax({
+        type:"GET",
+        dataType:"JSON",
+        contentType:"application/json",
+        url:url,
+        success:function (data) {
+            if (typeof callback === "function") {
+                callback(data);
+            }
+        }
+    });
+}
+
+/*弹出层*/
+function layerOpen(title,content,width,height) {
+    layer.open({
+        type: 1,
+        offset: "auto",
+        id: 'layerDemo'+'auto',
+        area: [width+'px',height+'px'],
+        fix: false,
+        maxmin: true,
+        shadeClose: true,
+        shade: 0.4,
+        title: title,
+        content: content,
+        yes:function(){
+            content.hide();
+        }
+    });
+}
+
+/*查看弹出层*/
+function layerSeeOpen(title,content,width,height) {
+    layer.open({
+        type: 1,
+        offset: "auto",
+        id: 'layerDemo'+'auto',
+        area: [width+'px',height +'px'],
+        fix: false,
+        maxmin: true,
+        shadeClose: true,
+        btn: ['明白了'],
+        shade:0.4,
+        title: title,
+        content: content,
+        yes:function() {
+            content.hide();
+            layer.closeAll();
+        }
+    });
+}
+
+
+
 
