@@ -84,21 +84,15 @@
                 </div><div class="layui-form-mid layui-word-aux"><span class="x-red">请填写6到12位账号名</span></div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+                <label class="layui-form-label">手机号码</label>
                 <div class="layui-input-inline">
                     <input id="add_tellPhone" type="number" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>密&emsp;&emsp;码</label>
+                <label class="layui-form-label">密&emsp;&emsp;码</label>
                 <div class="layui-input-inline">
                     <input id="add_password" type="password" autocomplete="off" class="layui-input">
-                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">请填写6到12位密码</span></div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>确认密码</label>
-                <div class="layui-input-inline">
-                    <input id="add_cPassword" type="password" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -134,7 +128,7 @@
                 </div><div class="layui-form-mid layui-word-aux"><span class="x-red">请填写6到12位账号名</span></div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+                <label class="layui-form-label">手机号码</label>
                 <div class="layui-input-inline">
                     <input id="edit_tellPhone" type="number" autocomplete="off" class="layui-input">
                 </div>
@@ -179,7 +173,7 @@
             var layer = layui.layer,table = layui.table;
             table.render({
                 elem:'#dataInfo',
-                url:'/account/pagingQuery',
+                url:'/manages/account/pagingQuery',
                 method:'POST',
                 contentType:"application/json",
                 toolbar:'#toolbarBomb',
@@ -274,7 +268,7 @@
                 $.ajax({
                     type:"POST",
                     dataType:"JSON",
-                    url:"/account/inBatchDelete",
+                    url:"/manages/account/inBatchDelete",
                     contentType:"application/json",
                     data:JSON.stringify(params),
                     success:function (data) {
@@ -311,46 +305,6 @@
             }
         });
     }
-    function checkAddParams(params,cPassword){
-        if(params.account===null || params.account===""){
-            layer.msg("账号名称不能为空",{icon:2});
-            return false;
-        }else{
-            if(params.account.length<6 || params.account.length>12){
-                layer.msg("账号名称规定6-12个字符",{icon:2});
-                return false;
-            }
-        }
-        if(params.tellphone===null || params.tellphone===""){
-            layer.msg("手机号码不能为空",{icon:2});
-            return false;
-        }else{
-            var ver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
-            if(!ver.test(params.tellphone)){
-                layer.msg("手机号码格式不合法",{icon:2});
-                return false;
-            }
-        }
-        if(params.password===null || params.password===""){
-            layer.msg("密码不能为空",{icon:2});
-            return false;
-        }else{
-            if(params.password.length<6 || params.password.length>12){
-                layer.msg("密码规定6-12个字符",{icon:2});
-                return false;
-            }
-        }
-        if(cPassword===null || cPassword===""){
-            layer.msg("确认密码不能为空",{icon:2});
-            return false;
-        }else{
-            if(params.password !== cPassword){
-                layer.msg("两次密码不一致",{icon:2});
-                return false;
-            }
-        }
-        return true;
-    }
     function addRequest(){
         var params = {
             account:$("#add_account").val(),
@@ -358,15 +312,21 @@
             password:$("#add_password").val(),
             source:Number($("#add_source").val())
         };
-        var cPassword = $("#add_cPassword").val();
-        if(checkAddParams(params,cPassword) === false){
+        if(params.account===null || params.account===""){
+            layer.msg("账号名称不能为空",{icon:2});
             return;
+        }else{
+            if(params.account.length<6 || params.account.length>12){
+                layer.msg("账号名称规定6-12个字符",{icon:2});
+                return;
+            }
         }
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/account/inAdd",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/account/inAdd",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("新增成功",{icon:1});
@@ -392,8 +352,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/account/editQuery",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/account/editQuery",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -430,28 +391,6 @@
             }
         });
     }
-    function checkEditParams(params){
-        if(params.account===null || params.account===""){
-            layer.msg("账号名称不能为空",{icon:2});
-            return false;
-        }else{
-            if(params.account.length<6 || params.account.length>12){
-                layer.msg("账号名称规定6-12个字符",{icon:2});
-                return false;
-            }
-        }
-        if(params.tellphone===null || params.tellphone===""){
-            layer.msg("手机号码不能为空",{icon:2});
-            return false;
-        }else{
-            var ver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
-            if(!ver.test(params.tellphone)){
-                layer.msg("手机号码格式不合法",{icon:2});
-                return false;
-            }
-        }
-        return true;
-    }
     function editRequest(){
         var params = {
             id:$("#edit_id").val(),
@@ -460,14 +399,28 @@
             lrrq:$("#edit_lrrq").val(),
             source:Number($("#edit_source").val())
         };
-        if(checkEditParams(params) === false){
-            return;
+        if(params.account===null || params.account===""){
+            layer.msg("账号名称不能为空",{icon:2});
+            return ;
+        }else{
+            if(params.account.length<6 || params.account.length>12){
+                layer.msg("账号名称规定6-12个字符",{icon:2});
+                return ;
+            }
         }
+        /*if(params.tellphone!==""){
+            var ver = new RegExp("^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$");
+            if(!ver.test(params.tellphone)){
+                layer.msg("手机号码格式不合法",{icon:2});
+                return ;
+            }
+        }*/
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/account/inUpdate",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/account/inUpdate",
+            data:JSON.stringify(params),
             success:function(data){
                 if(data.code === "0" && data.result === "SECCESS"){
                     layer.msg("修改成功",{icon:1});
@@ -491,8 +444,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/account/inDelete",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/account/inDelete",
+            data:JSON.stringify(params),
             success: function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});

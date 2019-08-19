@@ -260,7 +260,7 @@
             var layer = layui.layer,table = layui.table;
             table.render({
                 elem:'#dataInfo',
-                url:'/kongFu/pagingQuery',
+                url:'/manages/kongFu/pagingQuery',
                 method:'POST',
                 contentType:"application/json",
                 toolbar:'#toolbarBomb',
@@ -411,8 +411,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/kongFu/inAdd",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/kongFu/inAdd",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("新增成功",{icon:1});
@@ -465,8 +466,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/kongFu/editQuery",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/kongFu/editQuery",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -525,8 +527,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/kongFu/inUpdate",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/kongFu/inUpdate",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("修改成功",{icon:1});
@@ -552,8 +555,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/kongFu/inDelete",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/kongFu/inDelete",
+            data:JSON.stringify(params),
             success: function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});

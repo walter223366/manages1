@@ -156,7 +156,7 @@
             var layer = layui.layer,table = layui.table;
             table.render({
                 elem:'#dataInfo',
-                url:'/article/pagingQuery',
+                url:'/manages/article/pagingQuery',
                 method:'POST',
                 contentType:"application/json",
                 toolbar:'#toolbarBomb',
@@ -245,7 +245,7 @@
                 $.ajax({
                     type:"POST",
                     dataType:"JSON",
-                    url:"/article/inBatchDelete",
+                    url:"/manages/article/inBatchDelete",
                     contentType:"application/json",
                     data:JSON.stringify(params),
                     success:function (data) {
@@ -298,8 +298,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/article/inAdd",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/article/inAdd",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("新增成功",{icon:1});
@@ -348,8 +349,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/article/editQuery",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/article/editQuery",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -401,8 +403,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/article/inUpdate",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/article/inUpdate",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("修改成功",{icon:1});
@@ -427,8 +430,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/article/inDelete",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/article/inDelete",
+            data:JSON.stringify(params),
             success: function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});

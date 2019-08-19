@@ -567,7 +567,7 @@
             var layer = layui.layer,table = layui.table;
             table.render({
                 elem:'#dataInfo',
-                url:'/effect/pagingQuery',
+                url:'/manages/effect/pagingQuery',
                 method:'POST',
                 contentType:"application/json",
                 toolbar:'#toolbarBomb',
@@ -666,7 +666,8 @@
                 $.ajax({
                     type:"POST",
                     dataType:"JSON",
-                    url:"/effect/inBatchDelete",
+                    contentType:"application/json",
+                    url:"/manages/effect/inBatchDelete",
                     contentType:"application/json",
                     data:JSON.stringify(params),
                     success:function (data) {
@@ -742,8 +743,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/effect/inAdd",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/effect/inAdd",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("新增成功",{icon:1});
@@ -835,8 +837,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/effect/editQuery",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/effect/editQuery",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -926,8 +929,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/effect/inUpdate",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/effect/inUpdate",
+            data:JSON.stringify(params),
             success: function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("修改成功",{icon:1});
@@ -972,8 +976,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/effect/inDelete",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/effect/inDelete",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});

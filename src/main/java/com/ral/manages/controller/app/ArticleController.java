@@ -2,23 +2,21 @@ package com.ral.manages.controller.app;
 
 import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.entity.app.Account;
 import com.ral.manages.entity.app.Article;
-import com.ral.manages.service.app.IAccountService;
 import com.ral.manages.service.app.IArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/article")
+@RequestMapping("/article/")
 public class ArticleController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ArticleController.class);
@@ -31,7 +29,7 @@ public class ArticleController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/pagingQuery")
+    @PostMapping("pagingQuery")
     public Object articlePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -50,8 +48,8 @@ public class ArticleController {
      * @param article article
      * @return Object
      */
-    @RequestMapping("/editQuery")
-    public Object articleEditQuery(Article article){
+    @PostMapping("editQuery")
+    public Object articleEditQuery(@RequestBody Article article){
         LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -69,8 +67,8 @@ public class ArticleController {
      * @param article article
      * @return Object
      */
-    @RequestMapping("inAdd")
-    public Object articleInsert(Article article){
+    @PostMapping("inAdd")
+    public Object articleInsert(@RequestBody Article article){
         LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -88,8 +86,8 @@ public class ArticleController {
      * @param article article
      * @return Object
      */
-    @RequestMapping("inUpdate")
-    public Object articleUpdate(Article article){
+    @PostMapping("inUpdate")
+    public Object articleUpdate(@RequestBody Article article){
         LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -107,8 +105,8 @@ public class ArticleController {
      * @param article article
      * @return Object
      */
-    @RequestMapping("inDelete")
-    public Object accountDelete(Article article){
+    @PostMapping("inDelete")
+    public Object accountDelete(@RequestBody Article article){
         LOG.info("请求参数:" + article);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -126,7 +124,7 @@ public class ArticleController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("inBatchDelete")
+    @PostMapping("inBatchDelete")
     public Object accountBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();

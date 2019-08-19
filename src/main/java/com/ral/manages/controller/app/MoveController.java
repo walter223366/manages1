@@ -8,14 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/move")
+@RequestMapping("/move/")
 public class MoveController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MoveController.class);
@@ -28,7 +26,7 @@ public class MoveController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/pagingQuery")
+    @PostMapping("pagingQuery")
     public Object movePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -47,8 +45,8 @@ public class MoveController {
      * @param move move
      * @return Object
      */
-    @RequestMapping("/editQuery")
-    public Object moveEditQuery(Move move){
+    @PostMapping("editQuery")
+    public Object moveEditQuery(@RequestBody Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -66,8 +64,8 @@ public class MoveController {
      * @param move move
      * @return Object
      */
-    @RequestMapping("inAdd")
-    public Object moveInsert(Move move){
+    @PostMapping("inAdd")
+    public Object moveInsert(@RequestBody Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -85,8 +83,8 @@ public class MoveController {
      * @param move move
      * @return Object
      */
-    @RequestMapping("inUpdate")
-    public Object moveUpdate(Move move){
+    @PostMapping("inUpdate")
+    public Object moveUpdate(@RequestBody Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -104,8 +102,8 @@ public class MoveController {
      * @param move move
      * @return Object
      */
-    @RequestMapping("inDelete")
-    public Object moveDelete(Move move){
+    @PostMapping("inDelete")
+    public Object moveDelete(@RequestBody Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -123,7 +121,7 @@ public class MoveController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("inBatchDelete")
+    @PostMapping("inBatchDelete")
     public Object moveBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -141,7 +139,7 @@ public class MoveController {
      * 添加效果下拉框
      * @return Object
      */
-    @RequestMapping("effectDownBox")
+    @GetMapping("effectDownBox")
     public Object effectDownBox(){
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -158,7 +156,7 @@ public class MoveController {
      * 添加功夫下拉框
      * @return Object
      */
-    @RequestMapping("kongFuDownBox")
+    @GetMapping("kongFuDownBox")
     public Object kongFuDownBox(){
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -176,8 +174,8 @@ public class MoveController {
      * @param move move
      * @return Object
      */
-    @RequestMapping("inSee")
-    public Object moveSee(Move move){
+    @PostMapping("inSee")
+    public Object moveSee(@RequestBody Move move){
         LOG.info("请求参数:" + move);
         GeneralResponse generalResponse = new GeneralResponse();
         try{

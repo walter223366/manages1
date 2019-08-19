@@ -3,7 +3,7 @@
 server:
   port: 8888
   servlet:
-    #context-path: /manages
+    context-path: /manages
 #spring配置
 spring:
   mvc:
@@ -52,6 +52,8 @@ spring:
 mybatis:
   mapper-locations: classpath:/mybatis-mapper/*/*Mapper.xml
   type-aliases-package: com.ral.manages.entity
+  #configuration:
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #分页插件配置
 pagehelper:
   helper-dialect: mysql

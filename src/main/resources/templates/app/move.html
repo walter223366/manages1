@@ -224,7 +224,7 @@
             var layer = layui.layer,table = layui.table;
             table.render({
                 elem:'#dataInfo',
-                url:'/move/pagingQuery',
+                url:'/manages/move/pagingQuery',
                 method:'POST',
                 contentType:"application/json",
                 toolbar:'#toolbarBomb',
@@ -317,7 +317,7 @@
                 $.ajax({
                     type:"POST",
                     dataType:"JSON",
-                    url:"/move/inBatchDelete",
+                    url:"/manages/move/inBatchDelete",
                     contentType:"application/json",
                     data:JSON.stringify(params),
                     success:function (data) {
@@ -360,8 +360,9 @@
         document.getElementById("add_kongFu").options.length = 0;
         $.ajax({
             type: "POST",
-            dataType: "JSON",
-            url: "/move/kongFuDownBox",
+            dataType: "GET",
+            contentType:"application/json",
+            url: "/manages/move/kongFuDownBox",
             success: function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -381,9 +382,10 @@
     function addEffect(){
         document.getElementById("add_effect").options.length = 0;
         $.ajax({
-            type: "POST",
+            type: "GET",
             dataType: "JSON",
-            url: "/move/effectDownBox",
+            contentType:"application/json",
+            url: "/manages/move/effectDownBox",
             success: function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -431,8 +433,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/move/inAdd",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/move/inAdd",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("新增成功",{icon:1});
@@ -463,8 +466,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/move/inSee",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/move/inSee",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -512,8 +516,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/move/editQuery",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/move/editQuery",
+            data:JSON.stringify(params),
             success:function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -560,9 +565,10 @@
     function editKongFu(){
         document.getElementById("edit_kongFu").options.length = 0;
         $.ajax({
-            type: "POST",
+            type: "GET",
             dataType: "JSON",
-            url: "/move/kongFuDownBox",
+            contentType:"application/json",
+            url: "/manages/move/kongFuDownBox",
             success: function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -582,9 +588,10 @@
     function editEffect(){
         document.getElementById("edit_effect").options.length = 0;
         $.ajax({
-            type: "POST",
+            type: "GET",
             dataType: "JSON",
-            url: "/move/effectDownBox",
+            contentType:"application/json",
+            url: "/manages/move/effectDownBox",
             success: function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     var rows = $.base64.atob(data.rows,"utf-8");
@@ -617,8 +624,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/move/inUpdate",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/move/inUpdate",
+            data:JSON.stringify(params),
             success:function (data) {
                 if (data.code === "0" && data.result === "SECCESS") {
                     layer.msg("修改成功",{icon:1});
@@ -644,8 +652,9 @@
         $.ajax({
             type:"POST",
             dataType:"JSON",
-            url:"/move/inDelete",
-            data:params,
+            contentType:"application/json",
+            url:"/manages/move/inDelete",
+            data:JSON.stringify(params),
             success: function (data) {
                 if(data.code === "0" && data.result === "SECCESS") {
                     layer.msg("删除成功",{icon:1});

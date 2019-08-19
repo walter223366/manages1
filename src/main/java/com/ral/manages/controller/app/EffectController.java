@@ -8,15 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/effect")
+@RequestMapping("/effect/")
 public class EffectController {
 
     private static final Logger LOG = LoggerFactory.getLogger(EffectController.class);
@@ -28,7 +28,7 @@ public class EffectController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/pagingQuery")
+    @PostMapping("pagingQuery")
     public Object effectPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -47,8 +47,8 @@ public class EffectController {
      * @param effect effect
      * @return Object
      */
-    @RequestMapping("/editQuery")
-    public Object effectEditQuery(Effect effect){
+    @PostMapping("editQuery")
+    public Object effectEditQuery(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -66,8 +66,8 @@ public class EffectController {
      * @param effect effect
      * @return Object
      */
-    @RequestMapping("/inAdd")
-    public Object effectInsert(Effect effect){
+    @PostMapping("inAdd")
+    public Object effectInsert(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -85,8 +85,8 @@ public class EffectController {
      * @param effect effect
      * @return Object
      */
-    @RequestMapping("/inUpdate")
-    public Object effectUpdate(Effect effect){
+    @PostMapping("inUpdate")
+    public Object effectUpdate(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -104,8 +104,8 @@ public class EffectController {
      * @param effect effect
      * @return Object
      */
-    @RequestMapping("/inDelete")
-    public Object effectDelete(Effect effect){
+    @PostMapping("inDelete")
+    public Object effectDelete(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -123,7 +123,7 @@ public class EffectController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/inBatchDelete")
+    @PostMapping("inBatchDelete")
     public Object effectBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();

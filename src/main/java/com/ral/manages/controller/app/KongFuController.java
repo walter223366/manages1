@@ -9,12 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/kongFu")
+@RequestMapping("/kongFu/")
 public class KongFuController {
 
     private static final Logger LOG = LoggerFactory.getLogger(KongFuController.class);
@@ -26,7 +25,7 @@ public class KongFuController {
      * @param map map
      * @return Object
      */
-    @PostMapping("/pagingQuery")
+    @PostMapping("pagingQuery")
     public Object kongFuPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -45,8 +44,8 @@ public class KongFuController {
      * @param kongFu kongFu
      * @return Object
      */
-    @PostMapping("/editQuery")
-    public Object kongFuPagingQuery(KongFu kongFu){
+    @PostMapping("editQuery")
+    public Object kongFuPagingQuery(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -63,7 +62,7 @@ public class KongFuController {
      * 招式管理选项查询
      * @return Object
      */
-    @GetMapping("/kongFuQueryMove")
+    @GetMapping("kongFuQueryMove")
     public Object kongFuQueryMove(){
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -82,8 +81,8 @@ public class KongFuController {
      * @param kongFu kongFu
      * @return Object
      */
-    @PostMapping("/inAdd")
-    public Object kongFuAdd(KongFu kongFu){
+    @PostMapping("inAdd")
+    public Object kongFuAdd(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -101,8 +100,8 @@ public class KongFuController {
      * @param kongFu kongFu
      * @return Object
      */
-    @PostMapping("/inUpdate")
-    public Object kongFuUpdate(KongFu kongFu){
+    @PostMapping("inUpdate")
+    public Object kongFuUpdate(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -120,8 +119,8 @@ public class KongFuController {
      * @param kongFu kongFu
      * @return Object
      */
-    @PostMapping("/inDelete")
-    public Object kongFuDelete(KongFu kongFu){
+    @PostMapping("inDelete")
+    public Object kongFuDelete(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -139,7 +138,7 @@ public class KongFuController {
      * @param map map
      * @return Object
      */
-    @PostMapping("/inBatchDelete")
+    @PostMapping("inBatchDelete")
     public Object kongFuBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();

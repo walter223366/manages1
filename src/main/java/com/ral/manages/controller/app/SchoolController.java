@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/school")
+@RequestMapping("/school/")
 public class SchoolController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SchoolController.class);
@@ -27,7 +28,7 @@ public class SchoolController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/pagingQuery")
+    @PostMapping("pagingQuery")
     public Object schoolPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
@@ -46,8 +47,8 @@ public class SchoolController {
      * @param school school
      * @return Object
      */
-    @RequestMapping("/editQuery")
-    public Object schoolEditQuery(School school){
+    @PostMapping("editQuery")
+    public Object schoolEditQuery(@RequestBody School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -65,8 +66,8 @@ public class SchoolController {
      * @param school school
      * @return Object
      */
-    @RequestMapping("/inAdd")
-    public Object schoolInsert(School school){
+    @PostMapping("inAdd")
+    public Object schoolInsert(@RequestBody School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -84,8 +85,8 @@ public class SchoolController {
      * @param school school
      * @return Object
      */
-    @RequestMapping("/inUpdate")
-    public Object schoolUpdate(School school){
+    @PostMapping("inUpdate")
+    public Object schoolUpdate(@RequestBody School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -103,8 +104,8 @@ public class SchoolController {
      * @param school school
      * @return Object
      */
-    @RequestMapping("/inDelete")
-    public Object schoolDelete(School school){
+    @PostMapping("inDelete")
+    public Object schoolDelete(@RequestBody School school){
         LOG.info("请求参数:" + school);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -122,7 +123,7 @@ public class SchoolController {
      * @param map map
      * @return Object
      */
-    @RequestMapping("/inBatchDelete")
+    @PostMapping("inBatchDelete")
     public Object schoolBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
         GeneralResponse generalResponse = new GeneralResponse();
