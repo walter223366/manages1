@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ public class UserController {
      * @return Object
      */
     @RequestMapping("/landing")
-    public Object landingInfo(User user){
+    public Object landingInfo(@RequestBody User user){
         LOG.info("请求参数:" + user);
         GeneralResponse generalResponse = new GeneralResponse();
         try{
@@ -37,6 +38,5 @@ public class UserController {
         }
         return generalResponse;
     }
-
 }
 
