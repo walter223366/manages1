@@ -139,7 +139,7 @@ function batchDel(checkStatus){
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen("新增",content,1000,500);
+    layerOpen("新增",content,1050,500);
 }
 //新增-请求
 function addRequest() {

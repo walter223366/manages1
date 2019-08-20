@@ -184,7 +184,7 @@ function edit(data){
                 document.getElementById("edit_school_id").value = isNull(obj.school_id);
                 document.getElementById("edit_name").value = isNull(obj.name);
                 document.getElementById("edit_influence").value = isNull(obj.influence);
-                document.getElementById("edit_info").value = isNull(toNull(obj.info));
+                document.getElementById("edit_info").value = isNull(obj.info);
                 var content = $("#editInfo");
                 layerOpen("编辑",content,1000,500);
             }
