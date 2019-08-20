@@ -2,8 +2,7 @@
 #tomcat配置
 server:
   port: 8888
-  servlet:
-    context-path: /manages
+
 #spring配置
 spring:
   mvc:

@@ -205,11 +205,6 @@ function isNull(str){
     }
 }
 
-
-var code="0";
-var result="SUCCESS";
-var charset="utf-8";
-
 function postRequest(url,params,callback){
     $.ajax({
         type:"POST",
