@@ -1,10 +1,10 @@
 charset="utf-8";
-var pagingQueryUrl="/article/pagingQuery";//分页查询
-var batchDelUrl="/article/inBatchDelete";//批量删除
-var addUrl="/article/inAdd";//新增
-var editQueryUrl="/article/editQuery";//编辑查询
-var editUrl="/article/inUpdate";//修改
-var delUrl="/article/inDelete";//删除
+var pagingQueryUrl="/manages/article/pagingQuery";//分页查询
+var batchDelUrl="/manages/article/inBatchDelete";//批量删除
+var addUrl="/manages/article/inAdd";//新增
+var editQueryUrl="/manages/article/editQuery";//编辑查询
+var editUrl="/manages/article/inUpdate";//修改
+var delUrl="/manages/article/inDelete";//删除
 
 /**查询部分*/
 $(function(){

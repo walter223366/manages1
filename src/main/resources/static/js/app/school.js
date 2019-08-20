@@ -1,10 +1,10 @@
 charset="utf-8";
-var pagingQueryUrl="/school/pagingQuery";//分页查询
-var batchDelUrl="/school/inBatchDelete";//批量删除
-var addUrl="/school/inAdd";//新增
-var editQueryUrl="/school/editQuery";//编辑查询
-var editUrl="/school/inUpdate";//修改
-var delUrl="/school/inDelete";//删除
+var pagingQueryUrl="/manages/school/pagingQuery";//分页查询
+var batchDelUrl="/manages/school/inBatchDelete";//批量删除
+var addUrl="/manages/school/inAdd";//新增
+var editQueryUrl="/manages/school/editQuery";//编辑查询
+var editUrl="/manages/school/inUpdate";//修改
+var delUrl="/manages/school/inDelete";//删除
 
 
 /**查询部分*/

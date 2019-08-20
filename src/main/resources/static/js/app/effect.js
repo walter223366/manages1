@@ -1,10 +1,10 @@
 charset="utf-8";
-var pagingQueryUrl="/effect/pagingQuery";//分页查询
-var batchDelUrl="/effect/inBatchDelete";//批量删除
-var addUrl="/effect/inAdd";//新增
-var editQueryUrl="/effect/editQuery";//编辑查询
-var editUrl="/effect/inUpdate";//修改
-var delUrl="/effect/inDelete";//删除
+var pagingQueryUrl="/manages/effect/pagingQuery";//分页查询
+var batchDelUrl="/manages/effect/inBatchDelete";//批量删除
+var addUrl="/manages/effect/inAdd";//新增
+var editQueryUrl="/manages/effect/editQuery";//编辑查询
+var editUrl="/manages/effect/inUpdate";//修改
+var delUrl="/manages/effect/inDelete";//删除
 
 
 

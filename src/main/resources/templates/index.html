@@ -63,7 +63,7 @@
         var landingUrl="/user/landing";
         postRequest(landingUrl,params,function (data){
             if (data.code === "0" && data.result === "SUCCESS") {
-                window.location.href="/system/main";
+                window.location.href="/manages/system/main";
             }else{
                 layer.msg(data.msg,{icon:2});
             }

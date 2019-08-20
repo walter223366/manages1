@@ -1,12 +1,12 @@
 charset="utf-8";
-var pagingQueryUrl="/kongFu/pagingQuery";//分页查询
-var batchDelUrl="/kongFu/inBatchDelete";//批量删除
-var moveUrl="/kongFu/moveDownBox";//招式下拉框查询
-var addUrl="/kongFu/inAdd";//新增
-var seeUrl="/kongFu/inSee";//查看
-var editQueryUrl="/kongFu/editQuery";//编辑查询
-var editUrl="/kongFu/inUpdate";//修改
-var delUrl="/kongFu/inDelete";//删除
+var pagingQueryUrl="/manages/kongFu/pagingQuery";//分页查询
+var batchDelUrl="/manages/kongFu/inBatchDelete";//批量删除
+var moveUrl="/manages/kongFu/moveDownBox";//招式下拉框查询
+var addUrl="/manages/kongFu/inAdd";//新增
+var seeUrl="/manages/kongFu/inSee";//查看
+var editQueryUrl="/manages/kongFu/editQuery";//编辑查询
+var editUrl="/manages/kongFu/inUpdate";//修改
+var delUrl="/manages/kongFu/inDelete";//删除
 
 //layer多选框组件
 var formSelects=layui.formSelects;

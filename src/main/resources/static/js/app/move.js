@@ -1,13 +1,13 @@
 charset="utf-8";
-var pagingQueryUrl="/move/pagingQuery";//分页查询
-var batchDelUrl="/move/inBatchDelete";//批量删除
-var kongFuBoxUrl="/move/kongFuDownBox";//功夫下拉框
-var effectBoxUrl="/move/effectDownBox";//效果下拉框
-var addUrl="/move/inAdd";//新增
-var seeUrl="/move/inSee";//查看
-var editQueryUrl="/move/editQuery";//编辑查询
-var editUrl="/move/inUpdate";//修改
-var delUrl="/move/inDelete";//删除
+var pagingQueryUrl="/manages/move/pagingQuery";//分页查询
+var batchDelUrl="/manages/move/inBatchDelete";//批量删除
+var kongFuBoxUrl="/manages/move/kongFuDownBox";//功夫下拉框
+var effectBoxUrl="/manages/move/effectDownBox";//效果下拉框
+var addUrl="/manages/move/inAdd";//新增
+var seeUrl="/manages/move/inSee";//查看
+var editQueryUrl="/manages/move/editQuery";//编辑查询
+var editUrl="/manages/move/inUpdate";//修改
+var delUrl="/manages/move/inDelete";//删除
 
 //layer下拉框组件
 var formSelects = layui.formSelects;

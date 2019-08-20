@@ -1,10 +1,10 @@
 charset="utf-8";
-var pagingQueryUrl="/account/pagingQuery";//分页查询
-var batchDelUrl="/account/inBatchDelete";//批量删除
-var addUrl="/account/inAdd";//新增
-var editQueryUrl ="/account/editQuery";//编辑查询
-var editUrl="/account/inUpdate";//修改
-var delUrl="/account/inDelete";//删除
+var pagingQueryUrl="/manages/account/pagingQuery";//分页查询
+var batchDelUrl="/manages/account/inBatchDelete";//批量删除
+var addUrl="/manages/account/inAdd";//新增
+var editQueryUrl ="/manages/account/editQuery";//编辑查询
+var editUrl="/manages/account/inUpdate";//修改
+var delUrl="/manages/account/inDelete";//删除
 
 
 /**查询部分*/
