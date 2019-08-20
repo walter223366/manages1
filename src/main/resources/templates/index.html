@@ -47,27 +47,25 @@
 </div>
 <script>
     function landing() {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        if(username===null || username===""){
+        var params={
+            username:$("#username").val(),
+            password:$("#password").val()
+        };
+
+        if(params.username===null || params.username===""){
             layer.msg("用户名为空",{icon:2});
             return;
         }
-        if(password===null || password===""){
+        if(params.password===null || params.password===""){
             layer.msg("密码为空",{icon:2});
             return;
         }
-        $.ajax({
-            type:"POST",
-            dataType:"JSON",
-            url:"/user/landing",
-            data:{username:username,password:password},
-            success:function (data) {
-                if (data.code === "0" && data.result === "SECCESS") {
-                    window.location.href="/system/main";
-                }else{
-                    layer.msg(data.msg,{icon:2});
-                }
+        var landingUrl="/user/landing";
+        postRequest(landingUrl,params,function (data){
+            if (data.code === "0" && data.result === "SUCCESS") {
+                window.location.href="/system/main";
+            }else{
+                layer.msg(data.msg,{icon:2});
             }
         });
     }
