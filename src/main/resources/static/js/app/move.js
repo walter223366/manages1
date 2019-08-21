@@ -142,7 +142,7 @@ function add(){
     var content = $("#addInfo");
     layerOpen("新增",content,1000,500);
 }
-//新增-功夫下拉框
+//新增-功夫下拉框（单选框）
 function addKongFu(){
     document.getElementById("add_kongFu").options.length = 0;
     getRequest(kongFuBoxUrl,function (data){
@@ -153,7 +153,8 @@ function addKongFu(){
                 $.each(obj.data,function (i,n) {
                     $("#add_kongFu").append("<option value='"+n.kongfu_id+"'>"+n.name+"</option>");
                 });
-                layui.formSelects.config('select_addKongFu',{direction:'down'});
+                layui.form.render("select");
+                //layui.formSelects.config('select_addKongFu',{direction:'down'});
             }
         } else {
             layer.msg(data.msg,{icon:2});
@@ -181,11 +182,11 @@ function addEffect(){
 //新增-请求
 function addRequest() {
     var formSelects = layui.formSelects;
-    var kongfu_id = formSelects.value('select_addKongFu', 'valStr');
+    //var kongfu_id = formSelects.value('select_addKongFu', 'valStr');
     var zhaoshi_effect = formSelects.value('select_addEffect', 'valStr');
     var params = {
         name:$("#add_name").val(),
-        kongfu_id:kongfu_id,
+        kongfu_id:$("#add_kongFu").val(),
         zhaoshi_effect:zhaoshi_effect,
         MP_cost:$("#add_spend").val(),
         zhaoshi_experience_cost:Number($("#add_exp").val()),
@@ -272,6 +273,8 @@ function edit(data) {
                 document.getElementById("edit_spend").value = isNull(obj.MP_cost);
                 document.getElementById("edit_exp").value = isNull(obj.zhaoshi_experience_cost);
                 document.getElementById("edit_info").value = isNull(obj.info);
+                $("#edit_kongFu").val(String(obj.kongfu_id));
+                layui.form.render("select");
                 var content = $("#editInfo");
                 layerOpen("修改",content,1000,500);
             }
@@ -280,7 +283,7 @@ function edit(data) {
         }
     });
 }
-//编辑-功夫下拉框
+//编辑-功夫下拉框（单选框）
 function editKongFu(){
     document.getElementById("edit_kongFu").options.length = 0;
     getRequest(kongFuBoxUrl,function (data){
@@ -291,7 +294,8 @@ function editKongFu(){
                 $.each(obj.data,function (i,n) {
                     $("#edit_kongFu").append("<option value='"+n.kongfu_id+"'>"+n.name+"</option>");
                 });
-                layui.formSelects.config('select_editKongFu',{direction:'down'});
+                layui.form.render("select");
+                //layui.formSelects.config('select_editKongFu',{direction:'down'});
             }
         } else {
             layer.msg(data.msg,{icon:2});
@@ -318,11 +322,11 @@ function editEffect(){
 }
 //编辑-请求
 function editRequest() {
-    var kongfu_id = formSelects.value('select_editKongFu', 'valStr');
+    //var kongfu_id = formSelects.value('select_editKongFu', 'valStr');
     var zhaoshi_effect = formSelects.value('select_editEffect', 'valStr');
     var params = {
         zhaoshi_id:$("#edit_id").val(),
-        kongfu_id:kongfu_id,
+        kongfu_id:$("#edit_kongFu").val(),
         name:$("#edit_name").val(),
         MP_cost:$("#edit_spend").val(),
         info:$("#edit_info").val(),
