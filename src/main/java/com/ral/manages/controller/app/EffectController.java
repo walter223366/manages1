@@ -23,11 +23,7 @@ public class EffectController {
     @Autowired
     private IEffectService iEffectService;
 
-    /**
-     * 分页查询
-     * @param map map
-     * @return Object
-     */
+    //分页查询
     @PostMapping("pagingQuery")
     public Object effectPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -42,11 +38,7 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**
-     * 编辑查询
-     * @param effect effect
-     * @return Object
-     */
+    //编辑查询
     @PostMapping("editQuery")
     public Object effectEditQuery(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
@@ -61,11 +53,7 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**
-     * 新增
-     * @param effect effect
-     * @return Object
-     */
+    //新增
     @PostMapping("inAdd")
     public Object effectInsert(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
@@ -80,11 +68,7 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**
-     * 修改
-     * @param effect effect
-     * @return Object
-     */
+    //修改
     @PostMapping("inUpdate")
     public Object effectUpdate(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
@@ -99,11 +83,7 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**
-     * 删除
-     * @param effect effect
-     * @return Object
-     */
+    //删除
     @PostMapping("inDelete")
     public Object effectDelete(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
@@ -118,11 +98,7 @@ public class EffectController {
         return generalResponse;
     }
 
-    /**
-     * 批量删除
-     * @param map map
-     * @return Object
-     */
+    //批量删除
     @PostMapping("inBatchDelete")
     public Object effectBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);

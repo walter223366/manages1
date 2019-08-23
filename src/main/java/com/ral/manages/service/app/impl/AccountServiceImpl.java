@@ -6,7 +6,7 @@ import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.entity.app.Account;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.commom.verification.VerificationParams;
+import com.ral.manages.commom.verifi.VerificationParams;
 import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.service.app.IAccountService;
 import com.ral.manages.commom.page.PageBean;
@@ -32,6 +32,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 分页查询
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -52,6 +53,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 编辑查询
+     *
      * @param account account
      * @return GeneralResponse
      */
@@ -66,6 +68,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 新增
+     *
      * @param account account
      * @return GeneralResponse
      */
@@ -94,6 +97,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 修改
+     *
      * @param account account
      * @return GeneralResponse
      */
@@ -128,6 +132,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 删除
+     *
      * @param account account
      * @return GeneralResponse
      */
@@ -152,6 +157,7 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 批量删除
+     *
      * @param map map
      * @return GeneralResponse
      */

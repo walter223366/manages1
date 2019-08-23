@@ -5,6 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
+/**
+ *   <p>功能描述：分页插件配置类</p>
+ *   <p>创建时间：2019-07-18 </p>
+ *
+ *   @author Double
+ */
 @Configuration
 public class PageHelperConfig {
 

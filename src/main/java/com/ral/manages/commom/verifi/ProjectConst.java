@@ -1,7 +1,8 @@
-package com.ral.manages.commom.verification;
+package com.ral.manages.commom.verifi;
 
 public class ProjectConst {
 
+    //项目路径
     public final static String MANAGESURL = "http://www.aiurorigin.com/manages/";
 
     //TOKEN自定义令牌

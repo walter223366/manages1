@@ -6,7 +6,7 @@ import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.commom.verification.VerificationParams;
+import com.ral.manages.commom.verifi.VerificationParams;
 import com.ral.manages.entity.app.Move;
 import com.ral.manages.mapper.app.IEffectMapper;
 import com.ral.manages.mapper.app.IKongFuMapper;
@@ -38,6 +38,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 分页查询
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -58,6 +59,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 编辑查询
+     *
      * @param move move
      * @return GeneralResponse
      */
@@ -72,6 +74,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 新增
+     *
      * @param move move
      * @return GeneralResponse
      */
@@ -98,6 +101,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 修改
+     *
      * @param move move
      * @return GeneralResponse
      */
@@ -132,6 +136,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 删除
+     *
      * @param move move
      * @return GeneralResponse
      */
@@ -156,6 +161,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 批量删除
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -186,6 +192,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 效果下拉框
+     *
      * @return GeneralResponse
      */
     @Override
@@ -198,6 +205,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 功夫下拉框
+     *
      * @return GeneralResponse
      */
     @Override
@@ -210,6 +218,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 查看详情
+     *
      * @param move move
      * @return GeneralResponse
      */
@@ -236,6 +245,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 获取功夫名称
+     *
      * @param str str
      * @return  List<String>
      */
@@ -257,6 +267,7 @@ public class MoveServiceImpl implements IMoveService {
 
     /**
      * 获取效果名称
+     *
      * @param str str
      * @return  List<String>
      */

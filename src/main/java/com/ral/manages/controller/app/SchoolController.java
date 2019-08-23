@@ -23,11 +23,7 @@ public class SchoolController {
     @Autowired
     private ISchoolService iSchoolService;
 
-    /**
-     * 分页查询
-     * @param map map
-     * @return Object
-     */
+    //分页查询
     @PostMapping("pagingQuery")
     public Object schoolPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -42,11 +38,7 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**
-     * 编辑查询
-     * @param school school
-     * @return Object
-     */
+    //编辑查询
     @PostMapping("editQuery")
     public Object schoolEditQuery(@RequestBody School school){
         LOG.info("请求参数:" + school);
@@ -61,11 +53,7 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**
-     * 新增
-     * @param school school
-     * @return Object
-     */
+    //新增
     @PostMapping("inAdd")
     public Object schoolInsert(@RequestBody School school){
         LOG.info("请求参数:" + school);
@@ -80,11 +68,7 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**
-     * 修改
-     * @param school school
-     * @return Object
-     */
+    //修改
     @PostMapping("inUpdate")
     public Object schoolUpdate(@RequestBody School school){
         LOG.info("请求参数:" + school);
@@ -99,11 +83,7 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**
-     * 删除
-     * @param school school
-     * @return Object
-     */
+    //删除
     @PostMapping("inDelete")
     public Object schoolDelete(@RequestBody School school){
         LOG.info("请求参数:" + school);
@@ -118,11 +98,7 @@ public class SchoolController {
         return generalResponse;
     }
 
-    /**
-     * 批量删除
-     * @param map map
-     * @return Object
-     */
+    //批量删除
     @PostMapping("inBatchDelete")
     public Object schoolBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);

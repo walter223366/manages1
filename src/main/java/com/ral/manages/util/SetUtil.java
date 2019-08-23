@@ -20,9 +20,7 @@ public class SetUtil {
         }
     }
 
-    /**
-     * List集合，字符串value为null转为""
-     */
+    //List集合，字符串value为null转为""
     public static List<Map<String,Object>> clearValueNullToList(List<Map<String,Object>> list){
         if(null == list || list.size() <= 0){
             return null;
@@ -43,6 +41,7 @@ public class SetUtil {
         return list;
     }
 
+    //map集合，字符串value为null转为""
     public static Map<String,Object> clearValueNullToMap(Map<String,Object> map){
         if(null == map || map.size() <= 0){
             return null;
@@ -62,12 +61,7 @@ public class SetUtil {
     }
 
 
-    /**
-     * 获取map集合value
-     * @param map
-     * @param key
-     * @return String
-     */
+    //获取map集合value（String）
     public static String toMapValueString(Map<String,Object> map,String key){
         String value = "";
         if (null == map) {
@@ -82,12 +76,7 @@ public class SetUtil {
         return value;
     }
 
-    /**
-     * 获取map集合value
-     * @param map
-     * @param key
-     * @return int
-     */
+    //获取map集合value（int）
     public static int toMapValueInt(Map<String,Object> map,String key){
         int value = 0;
         if (null == map) {

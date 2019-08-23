@@ -6,7 +6,7 @@ import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.commom.page.PageBean;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.commom.verification.VerificationParams;
+import com.ral.manages.commom.verifi.VerificationParams;
 import com.ral.manages.entity.app.Article;
 import com.ral.manages.mapper.app.IArticleMapper;
 import com.ral.manages.service.app.IArticleService;
@@ -32,6 +32,7 @@ public class ArticleServicelmpl implements IArticleService {
 
     /**
      * 分页查询
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -44,6 +45,7 @@ public class ArticleServicelmpl implements IArticleService {
 
     /**
      * 编辑查询
+     *
      * @param article article
      * @return GeneralResponse
      */
@@ -58,6 +60,7 @@ public class ArticleServicelmpl implements IArticleService {
 
     /***
      * 新增
+     *
      * @param article article
      * @return GeneralResponse
      */
@@ -84,6 +87,7 @@ public class ArticleServicelmpl implements IArticleService {
 
     /**
      * 修改
+     *
      * @param article article
      * @return GeneralResponse
      */
@@ -118,6 +122,7 @@ public class ArticleServicelmpl implements IArticleService {
 
     /**
      * 删除
+     *
      * @param article article
      * @return GeneralResponse
      */
@@ -142,6 +147,7 @@ public class ArticleServicelmpl implements IArticleService {
 
     /**
      * 批量删除
+     *
      * @param map map
      * @return GeneralResponse
      */

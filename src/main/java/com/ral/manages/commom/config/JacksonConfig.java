@@ -13,7 +13,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.io.IOException;
 
 @Configuration
-public class JsonObjectMapper extends ObjectMapper{
+public class JacksonConfig extends ObjectMapper{
 
     private static final long serialVersionUID = 2477914477980216162L;
 

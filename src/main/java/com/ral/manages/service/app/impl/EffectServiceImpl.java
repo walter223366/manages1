@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.emun.StateTable;
-import com.ral.manages.commom.verification.VerificationParams;
+import com.ral.manages.commom.verifi.VerificationParams;
 import com.ral.manages.entity.app.Effect;
 import com.ral.manages.commom.response.GeneralResponse;
 import com.ral.manages.mapper.app.IEffectMapper;
@@ -31,6 +31,7 @@ public class EffectServiceImpl implements IEffectService {
 
     /**
      * 分页查询
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -48,6 +49,7 @@ public class EffectServiceImpl implements IEffectService {
 
     /**
      * 编辑查询
+     *
      * @param effect effect
      * @return GeneralResponse
      */
@@ -62,6 +64,7 @@ public class EffectServiceImpl implements IEffectService {
 
     /**
      * 新增
+     *
      * @param effect effect
      * @return GeneralResponse
      */
@@ -88,6 +91,7 @@ public class EffectServiceImpl implements IEffectService {
 
     /**
      * 修改
+     *
      * @param effect effect
      * @return GeneralResponse
      */
@@ -122,6 +126,7 @@ public class EffectServiceImpl implements IEffectService {
 
     /**
      * 删除
+     *
      * @param effect effect
      * @return GeneralResponse
      */
@@ -146,8 +151,9 @@ public class EffectServiceImpl implements IEffectService {
 
     /**
      * 批量删除
-     * @param map
-     * @return
+     *
+     * @param map map
+     * @return GeneralResponse
      */
     @Override
     public GeneralResponse effectBatchDelete(Map<String,Object> map) {

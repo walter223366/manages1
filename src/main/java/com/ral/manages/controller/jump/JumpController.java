@@ -3,11 +3,10 @@ package com.ral.manages.controller.jump;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *   <p>功能描述：页面跳转</p>
- *   <p>创建时间: 2019-07-18 </p>
+ *   <p>创建时间：2019-07-18 </p>
  *
  *   @author Double
  */

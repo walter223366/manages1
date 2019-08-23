@@ -1,6 +1,6 @@
 package com.ral.manages.controller.user;
 
-import com.ral.manages.commom.verification.ProjectConst;
+import com.ral.manages.commom.verifi.ProjectConst;
 import com.ral.manages.util.HttpClient;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+/**
+ *   <p>功能描述：微信授权</p>
+ *   <p>创建时间: 2019-08-23 </p>
+ *
+ *   @author Double
+ */
 @Controller
 public class WinXinUserController {
 

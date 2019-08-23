@@ -6,7 +6,7 @@ import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.entity.app.KongFu;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.commom.verification.VerificationParams;
+import com.ral.manages.commom.verifi.VerificationParams;
 import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
 import com.ral.manages.service.app.IKongFuService;
@@ -35,6 +35,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 分页查询
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -53,6 +54,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 编辑查询
+     *
      * @param kongFu kongFu
      * @return GeneralResponse
      */
@@ -67,6 +69,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 招式下拉框
+     *
      * @return GeneralResponse
      */
     @Override
@@ -79,6 +82,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 新增
+     *
      * @param kongFu kongFu
      * @return GeneralResponse
      */
@@ -105,6 +109,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 修改
+     *
      * @param kongFu kongFu
      * @return GeneralResponse
      */
@@ -139,6 +144,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 删除
+     *
      * @param kongFu kongFu
      * @return GeneralResponse
      */
@@ -163,6 +169,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 批量删除
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -193,8 +200,9 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 查看详情
-     * @param kongFu
-     * @return
+     *
+     * @param kongFu kongFu
+     * @return GeneralResponse
      */
     @Override
     public GeneralResponse kongFuSee(KongFu kongFu) {
@@ -213,6 +221,7 @@ public class KongFuServiceImpl implements IKongFuService {
 
     /**
      * 获取招式名称
+     *
      * @param str str
      * @return  List<String>
      */
@@ -232,7 +241,12 @@ public class KongFuServiceImpl implements IKongFuService {
         return nameList;
     }
 
-    /**处理功夫类型*/
+    /**
+     * 处理功夫类型
+     *
+     * @param type type
+     * @return String
+     */
     private String kongFuType(int type){
         switch (type){
             case 0:return StateTable.KongFu.TYPE_ZERO.getName();

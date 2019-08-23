@@ -20,11 +20,7 @@ public class KongFuController {
     @Autowired
     private IKongFuService iKongFuService;
 
-    /**
-     * 分页查询
-     * @param map map
-     * @return Object
-     */
+    //分页查询
     @PostMapping("pagingQuery")
     public Object kongFuPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -39,11 +35,7 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**
-     * 编辑查询
-     * @param kongFu kongFu
-     * @return Object
-     */
+    //编辑查询
     @PostMapping("editQuery")
     public Object kongFuPagingQuery(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
@@ -58,10 +50,7 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**
-     * 招式下拉框
-     * @return Object
-     */
+    //招式下拉框
     @GetMapping("moveDownBox")
     public Object kongFuAddMove(){
         GeneralResponse generalResponse = new GeneralResponse();
@@ -76,11 +65,7 @@ public class KongFuController {
     }
 
 
-    /**
-     * 新增
-     * @param kongFu kongFu
-     * @return Object
-     */
+    //新增
     @PostMapping("inAdd")
     public Object kongFuAdd(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
@@ -95,11 +80,7 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**
-     * 修改
-     * @param kongFu kongFu
-     * @return Object
-     */
+    //修改
     @PostMapping("inUpdate")
     public Object kongFuUpdate(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
@@ -114,11 +95,7 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**
-     * 删除
-     * @param kongFu kongFu
-     * @return Object
-     */
+    //删除
     @PostMapping("inDelete")
     public Object kongFuDelete(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
@@ -133,11 +110,7 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**
-     * 批量删除
-     * @param map map
-     * @return Object
-     */
+    //批量删除
     @PostMapping("inBatchDelete")
     public Object kongFuBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -152,11 +125,7 @@ public class KongFuController {
         return generalResponse;
     }
 
-    /**
-     * 查看详情
-     * @param kongFu kongFu
-     * @return Object
-     */
+    //查看详情
     @PostMapping("inSee")
     public Object kongFuSee(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);

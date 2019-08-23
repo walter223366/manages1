@@ -21,11 +21,7 @@ public class MoveController {
     private IMoveService iMoveService;
 
 
-    /**
-     * 分页查询
-     * @param map map
-     * @return Object
-     */
+    //分页查询
     @PostMapping("pagingQuery")
     public Object movePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -40,11 +36,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 编辑查询
-     * @param move move
-     * @return Object
-     */
+    //编辑查询
     @PostMapping("editQuery")
     public Object moveEditQuery(@RequestBody Move move){
         LOG.info("请求参数:" + move);
@@ -59,11 +51,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 新增
-     * @param move move
-     * @return Object
-     */
+    //新增
     @PostMapping("inAdd")
     public Object moveInsert(@RequestBody Move move){
         LOG.info("请求参数:" + move);
@@ -78,11 +66,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 修改
-     * @param move move
-     * @return Object
-     */
+    //修改
     @PostMapping("inUpdate")
     public Object moveUpdate(@RequestBody Move move){
         LOG.info("请求参数:" + move);
@@ -97,11 +81,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 删除
-     * @param move move
-     * @return Object
-     */
+    //删除
     @PostMapping("inDelete")
     public Object moveDelete(@RequestBody Move move){
         LOG.info("请求参数:" + move);
@@ -116,11 +96,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 批量删除
-     * @param map map
-     * @return Object
-     */
+    //批量删除
     @PostMapping("inBatchDelete")
     public Object moveBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -135,10 +111,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 效果下拉框
-     * @return Object
-     */
+    //效果下拉框
     @GetMapping("effectDownBox")
     public Object effectDownBox(){
         GeneralResponse generalResponse = new GeneralResponse();
@@ -152,10 +125,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 功夫下拉框
-     * @return Object
-     */
+    //功夫下拉框
     @GetMapping("kongFuDownBox")
     public Object kongFuDownBox(){
         GeneralResponse generalResponse = new GeneralResponse();
@@ -169,11 +139,7 @@ public class MoveController {
         return generalResponse;
     }
 
-    /**
-     * 查看详情
-     * @param move move
-     * @return Object
-     */
+    //查看详情
     @PostMapping("inSee")
     public Object moveSee(@RequestBody Move move){
         LOG.info("请求参数:" + move);

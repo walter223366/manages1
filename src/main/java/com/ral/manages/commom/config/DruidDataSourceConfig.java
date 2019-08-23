@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  *   <p>功能描述：druid数据源配置</p>
- *   <p>创建时间: 2019-07-18 </p>
+ *   <p>创建时间：2019-07-18 </p>
  *
  *   @author Double
  */
@@ -26,6 +26,7 @@ public class DruidDataSourceConfig {
 
     /**
      * 配置监控服务器
+     *
      * @return 返回监控注册的servlet对象
      */
     @Bean
@@ -39,6 +40,7 @@ public class DruidDataSourceConfig {
 
     /**
      * 配置过滤器
+     *
      * @return 返回过滤器配置对象
      */
     @Bean

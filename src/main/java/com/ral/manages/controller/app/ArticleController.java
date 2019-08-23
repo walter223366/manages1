@@ -23,12 +23,7 @@ public class ArticleController {
     @Autowired
     private IArticleService iArticleService;
 
-
-    /**
-     * 分页查询
-     * @param map map
-     * @return Object
-     */
+    //分页查询
     @PostMapping("pagingQuery")
     public Object articlePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -43,11 +38,7 @@ public class ArticleController {
         return generalResponse;
     }
 
-    /**
-     * 编辑查询
-     * @param article article
-     * @return Object
-     */
+    //编辑查询
     @PostMapping("editQuery")
     public Object articleEditQuery(@RequestBody Article article){
         LOG.info("请求参数:" + article);
@@ -62,11 +53,7 @@ public class ArticleController {
         return generalResponse;
     }
 
-    /**
-     * 新增
-     * @param article article
-     * @return Object
-     */
+    //新增
     @PostMapping("inAdd")
     public Object articleInsert(@RequestBody Article article){
         LOG.info("请求参数:" + article);
@@ -81,11 +68,7 @@ public class ArticleController {
         return generalResponse;
     }
 
-    /**
-     * 修改
-     * @param article article
-     * @return Object
-     */
+    //修改
     @PostMapping("inUpdate")
     public Object articleUpdate(@RequestBody Article article){
         LOG.info("请求参数:" + article);
@@ -100,11 +83,7 @@ public class ArticleController {
         return generalResponse;
     }
 
-    /**
-     * 删除
-     * @param article article
-     * @return Object
-     */
+    //删除
     @PostMapping("inDelete")
     public Object accountDelete(@RequestBody Article article){
         LOG.info("请求参数:" + article);
@@ -119,11 +98,7 @@ public class ArticleController {
         return generalResponse;
     }
 
-    /**
-     * 批量删除
-     * @param map map
-     * @return Object
-     */
+    //批量删除
     @PostMapping("inBatchDelete")
     public Object accountBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @RestController
@@ -22,11 +21,7 @@ public class AccountController {
     private IAccountService iAccountService;
 
 
-    /**
-     * 分页查询
-     * @param map map
-     * @return Object
-     */
+    //分页查询
     @PostMapping("pagingQuery")
     public Object accountPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
@@ -41,11 +36,7 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**
-     * 编辑查询
-     * @param account account
-     * @return Object
-     */
+    //编辑查询
     @PostMapping("editQuery")
     public Object accountEditQuery(@RequestBody Account account){
         LOG.info("请求参数:" + account);
@@ -60,11 +51,7 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**
-     * 新增
-     * @param account account
-     * @return Object
-     */
+    //新增
     @PostMapping("inAdd")
     public Object accountInsert(@RequestBody Account account){
         LOG.info("请求参数:" + account);
@@ -79,11 +66,7 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**
-     * 修改
-     * @param account account
-     * @return Object
-     */
+    //修改
     @PostMapping("inUpdate")
     public Object accountUpdate(@RequestBody Account account){
         LOG.info("请求参数:" + account);
@@ -98,11 +81,7 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**
-     * 删除
-     * @param account account
-     * @return Object
-     */
+    //删除
     @PostMapping("inDelete")
     public Object accountDelete(@RequestBody Account account){
         LOG.info("请求参数:" + account);
@@ -117,11 +96,7 @@ public class AccountController {
         return generalResponse;
     }
 
-    /**
-     * 批量删除
-     * @param map map
-     * @return Object
-     */
+    //批量删除
     @PostMapping("inBatchDelete")
     public Object accountBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);

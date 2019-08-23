@@ -6,7 +6,7 @@ import com.ral.manages.commom.emun.ResponseStateCode;
 import com.ral.manages.commom.emun.StateTable;
 import com.ral.manages.entity.app.School;
 import com.ral.manages.commom.response.GeneralResponse;
-import com.ral.manages.commom.verification.VerificationParams;
+import com.ral.manages.commom.verifi.VerificationParams;
 import com.ral.manages.mapper.app.ISchoolMapper;
 import com.ral.manages.service.app.ISchoolService;
 import com.ral.manages.commom.page.PageBean;
@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     /**
      * 分页查询
+     *
      * @param map map
      * @return GeneralResponse
      */
@@ -44,6 +44,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     /**
      * 编辑查询
+     *
      * @param school school
      * @return GeneralResponse
      */
@@ -59,6 +60,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     /**
      * 新增
+     *
      * @param school school
      * @return GeneralResponse
      */
@@ -85,6 +87,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     /**
      * 修改
+     *
      * @param  school school
      * @return GeneralResponse
      */
@@ -119,6 +122,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     /**
      * 删除
+     *
      * @param school school
      * @return GeneralResponse
      */
@@ -144,6 +148,7 @@ public class SchoolServiceImpl implements ISchoolService {
 
     /**
      * 批量删除
+     *
      * @param map map
      * @return GeneralResponse
      */
