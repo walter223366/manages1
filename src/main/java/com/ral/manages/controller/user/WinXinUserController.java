@@ -5,10 +5,7 @@ import com.ral.manages.util.HttpClient;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,14 +18,14 @@ import java.net.URLEncoder;
  *
  *   @author Double
  */
-@Controller
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
 public class WinXinUserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(WinXinUserController.class);
 
     //微信网页授权（静默授权）
-    @RequestMapping(value = "/silentRedirect",method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("/silentRedirect")
     public void silentRedirect(HttpServletRequest request, HttpServletResponse response){
         String method = "getOpenId";
         String scope = ProjectConst.SNSAPI_BASE;
@@ -36,8 +33,7 @@ public class WinXinUserController {
     }
 
     //微信网页授权（用户授权）
-    @RequestMapping(value = "/userRedirect",method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("/userRedirect")
     public void userRedirect(HttpServletRequest request, HttpServletResponse response){
         String method = "userInfo";
         String scope = ProjectConst.SNSAPI_USERINFO;
@@ -46,8 +42,7 @@ public class WinXinUserController {
 
 
     //直接获取用户OpenId
-    @RequestMapping(value = "getOpenId",method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("getOpenId")
     public Object getOpenId(HttpServletRequest request,HttpServletResponse response){
         JSONObject result = new JSONObject();
         String code = request.getParameter("code");
@@ -57,8 +52,7 @@ public class WinXinUserController {
 
 
     //获取微信用户信息(用户授权)
-    @RequestMapping(value = "/userInfo",method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("userInfo")
     public Object getAuthUserInfo(HttpServletRequest request,HttpServletResponse response){
         JSONObject result = new JSONObject();
         String code = request.getParameter("code");

@@ -78,7 +78,12 @@ public class HttpClient {
         String result = null;
         try {
             httpGet.setConfig(requestConfig);
-            httpGet.addHeader("ContentType","application/json");
+            //httpGet.setHeader("ContentType","application/json");
+            httpGet.setHeader("Access-Control-Allow-Origin","*");
+            httpGet.setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE");
+            httpGet.setHeader("Access-Control-Allow-Headers","application/json");
+            httpGet.setHeader("Access-Control-Max-Age","3600");
+            httpGet.setHeader("Access-Control-Allow-Credentials", "true");
             response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             logger.debug(response.getStatusLine().getStatusCode());
@@ -96,5 +101,35 @@ public class HttpClient {
             }
         }
         return result;
+    }
+
+    public static void doRedirect(String url){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpResponse response = null;
+        try {
+            httpGet.setConfig(requestConfig);
+            //httpGet.setHeader("ContentType","application/json");
+            httpGet.setHeader("Access-Control-Allow-Origin","*");
+            httpGet.setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE");
+            httpGet.setHeader("Access-Control-Allow-Headers","application/json");
+            httpGet.setHeader("Access-Control-Max-Age","3600");
+            httpGet.setHeader("Access-Control-Allow-Credentials", "true");
+            response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            logger.debug(response.getStatusLine().getStatusCode());
+            response.getStatusLine().getStatusCode();
+        } catch (IOException e) {
+            logger.debug(e.getMessage(),e);
+            throw new RuntimeException(e.getMessage(),e);
+        }finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    logger.debug(e.getMessage(),e);
+                }
+            }
+        }
     }
 }
