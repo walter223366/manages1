@@ -3,8 +3,8 @@ package com.ral.manages.commom.verifi;
 public class ProjectConst {
 
     //项目路径
-    //public final static String MANAGESURL = "http://www.aiurorigin.com/manages/";
-    public final static String MANAGESURL = "http://192.168.0.232:8081/manages/";
+    public final static String MANAGESURL = "http://www.aiurorigin.com/manages/";
+    //public final static String MANAGESURL = "http://192.168.0.232:8081/manages/";
 
     //TOKEN自定义令牌
     public final static String TOKEN = "aiurorigin";
@@ -17,7 +17,7 @@ public class ProjectConst {
     public final static String SNSAPI_USERINFO = "snsapi_userinfo";
 
     //获取code地址
-    public final static String GET_CODE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+    public final static String GET_CODE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE&connect_redirect=1#wechat_redirect";
     //获取access_token地址 获取OpenId
     public final static String GET_ACCESSTOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     //检验token是否有效地址

@@ -185,4 +185,33 @@ public class AccountServiceImpl implements IAccountService {
             return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
         }
     }
+
+    /**
+     * 登陆、注册
+     *
+     * @param account account
+     * @return GeneralResponse
+     */
+    @Override
+    public GeneralResponse accountSignUp(Account account) {
+        String msg = VerificationParams.verificationAccount(account);
+        if(!StringUtil.isNull(msg)){
+            return GeneralResponse.fail(msg);
+        }
+        int count = iAccountMapper.accountIsExist(account);
+        if(count > 0){
+            return GeneralResponse.successNotdatas("登陆成功");
+        }
+        account.setCancellation(StateTable.User.CANCELLATION_ZERO.getCode());
+        account.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
+        account.setLrrq(TimeUtil.currentTime());
+        account.setId(StringUtil.getUUID());
+        try{
+            iAccountMapper.accountInsert(account);
+            return GeneralResponse.successNotdatas("注册成功");
+        }catch (Exception e){
+            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
+            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+        }
+    }
 }

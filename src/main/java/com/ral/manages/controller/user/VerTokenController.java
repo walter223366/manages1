@@ -1,4 +1,4 @@
-package com.ral.manages.controller.jump;
+package com.ral.manages.controller.user;
 
 import com.ral.manages.commom.exception.AesException;
 import com.ral.manages.util.SHA1Util;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class VerTokenController {
@@ -18,13 +20,18 @@ public class VerTokenController {
     //微信基础配置校验服务器
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ResponseBody
-    public Object verToken(HttpServletRequest request){
+    public Object verToken(HttpServletRequest request, HttpServletResponse response){
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
         String echostr = request.getParameter("echostr");
         if(StringUtil.isNull(signature) || StringUtil.isNull(timestamp) || StringUtil.isNull(nonce) || StringUtil.isNull(echostr)){
-            return "start task.......";
+            try {
+                response.sendRedirect("/manages/system/login");
+            } catch (IOException e) { ;
+                LOG.info(e.getMessage(), e);
+            }
+            return null;
         }else {
             System.out.println("signature：" + signature + "，echostr：" + echostr);
             String token = "aiurorigin";

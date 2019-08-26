@@ -110,4 +110,19 @@ public class AccountController {
         }
         return generalResponse;
     }
+
+    //用户登录、注册
+    @PostMapping("accountSignUp")
+    public Object accountSignUp(@RequestBody Account account){
+        LOG.info("请求参数:" + account);
+        GeneralResponse generalResponse = new GeneralResponse();
+        try{
+            generalResponse = iAccountService.accountSignUp(account);
+            LOG.info("返回值:" + generalResponse);
+        }catch (Exception e){
+            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            LOG.error(generalResponse.toString());
+        }
+        return generalResponse;
+    }
 }

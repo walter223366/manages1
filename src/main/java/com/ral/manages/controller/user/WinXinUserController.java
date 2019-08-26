@@ -18,7 +18,6 @@ import java.net.URLEncoder;
  *
  *   @author Double
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class WinXinUserController {
 

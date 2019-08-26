@@ -16,5 +16,7 @@ public interface IAccountService {
     /*删除*/
     GeneralResponse accountDelete(Account account);
     GeneralResponse accountBatchDelete(Map<String,Object> map);
+    //登陆或注册
+    GeneralResponse accountSignUp(Account account);
 
 }

@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  *   @author Double
  */
 @Configuration
-public class DruidDataSourceConfig {
+public class DruidSourceConfig {
 
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
@@ -48,6 +48,7 @@ public class DruidDataSourceConfig {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,");
+        filterRegistrationBean.setOrder(0);
         return filterRegistrationBean;
     }
 }
