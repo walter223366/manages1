@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <button onclick="silentRedirect()">silentRedirect跨域请求</button>
+    <button onclick="staticRedirect()">staticRedirect跨域请求</button>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/axios.min.js"></script>
+<script>
+   $(function(){
+        var userData = null;
+        userData = JSON.parse(localStorage.getItem('user'));
+        if (userData) {
+            return userData;
+        } else {
+            var getQueryString = function (name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            };
+            var code = getQueryString('code');
+            if (code) {
+                axios.get("http://www.aiurorigin.com/manages/authorization", {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+                        'Access-Control-Allow-Headers': '*'
+                    },
+                    params: {code: code}
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        userData = response;
+                    })
+                    .catch(function (error) {
+                        alert(error);
+                    });
+            } else {
+                alert('请从微信公众号打开');
+            }
+            localStorage.setItem('user', JSON.stringify(userData));
+            return userData;
+        }
+    });
+
+   //测试
+   function silentRedirect() {
+       axios.get("http://www.aiurorigin.com/manages/silentRedirect", {
+           headers: {
+               'Access-Control-Allow-Origin': '*',
+               'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+               'Access-Control-Allow-Headers': 'Content-Type'
+           },
+           data: {}
+       })
+           .then(function (response) {
+               console.log("123");
+               alert(response);
+           })
+           .catch(function (error) {
+               alert(error);
+           });
+   }
+   //测试
+   function staticRedirect() {
+       axios.get("http://www.aiurorigin.com/manages/staticRedirect", {
+           headers: {
+               'Access-Control-Allow-Origin': '*',
+               'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+               'Access-Control-Allow-Headers': 'Content-Type'
+           },
+           data: {}
+       })
+           .then(function (response) {
+               console.log("123");
+               alert(response);
+           })
+           .catch(function (error) {
+               alert(error);
+           });
+   }
+</script>
+</body>
+</html>

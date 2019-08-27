@@ -4,7 +4,6 @@ public class ProjectConst {
 
     //项目路径
     public final static String MANAGESURL = "http://www.aiurorigin.com/manages/";
-    //public final static String MANAGESURL = "http://192.168.0.232:8081/manages/";
 
     //TOKEN自定义令牌
     public final static String TOKEN = "aiurorigin";

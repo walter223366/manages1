@@ -1,7 +1,8 @@
 package com.ral.manages.controller.user;
 
 import com.ral.manages.commom.verifi.ProjectConst;
-import com.ral.manages.util.HttpClient;
+import com.ral.manages.util.HttpSendUtil;
+import com.ral.manages.util.ToolsUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,14 @@ import java.net.URLEncoder;
 public class WinXinUserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(WinXinUserController.class);
+
+    //微信网页授权（静默授权）静态页面index.html请求返回  跨域
+    @GetMapping("/staticRedirect")
+    public void staticRedirect(HttpServletRequest request, HttpServletResponse response){
+        String method = "index.html";
+        String scope = ProjectConst.SNSAPI_BASE;
+        getAuthRedirect(request,response,method,scope);
+    }
 
     //微信网页授权（静默授权）
     @GetMapping("/silentRedirect")
@@ -62,7 +71,7 @@ public class WinXinUserController {
         url = url.replace("ACCESS_TOKEN",token);
         url = url.replace("OPENID",openId);
         try{
-            String str = HttpClient.doGet(url);
+            String str = ToolsUtil.getRequest(url);
             result = JSONObject.fromObject(str);
         }catch (Exception e){
             LOG.debug("获取OpenId失败："+e.getMessage());
@@ -104,7 +113,7 @@ public class WinXinUserController {
         tokenUrl = tokenUrl.replace("SECRET",secret);
         tokenUrl = tokenUrl.replace("CODE",code);
         try{
-            String str = HttpClient.doGet(tokenUrl);
+            String str = ToolsUtil.getRequest(tokenUrl);
             result = JSONObject.fromObject(str);
         }catch (Exception e){
             LOG.debug("获取OpenId失败："+e.getMessage());
@@ -124,7 +133,7 @@ public class WinXinUserController {
         url = url.replace("OPENID",openId);
         url = url.replace("REFRESH_TOKEN",refreshToken);
         try{
-            String str = HttpClient.doGet(url);
+            String str = ToolsUtil.getRequest(url);
             result = JSONObject.fromObject(str);
         }catch (Exception e){
             LOG.debug("校验token失败："+e.getMessage());
@@ -141,7 +150,7 @@ public class WinXinUserController {
         url = url.replace("ACCESS_TOKEN",token);
         url = url.replace("OPENID",openId);
         try{
-            String str = HttpClient.doGet(url);
+            String str = ToolsUtil.getRequest(url);
             result = JSONObject.fromObject(str);
         }catch (Exception e){
             LOG.debug("校验token失败："+e.getMessage());

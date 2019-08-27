@@ -3,6 +3,7 @@ package com.ral.manages.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,10 +15,10 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
-public class HttpClient {
+public class HttpSendUtil {
 
     private static final String charset = "UTF-8";//字符编码集
-    private static final Log logger = LogFactory.getLog(HttpClient.class);
+    private static final Log logger = LogFactory.getLog(HttpSendUtil.class);
     private static PoolingHttpClientConnectionManager connMgr;
     private static RequestConfig requestConfig;
     private static final int MAX_TIMEOUT = 8000;//设置超时时间
@@ -72,35 +73,27 @@ public class HttpClient {
     }
 
     public static String doGet(String url){
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = null;
         HttpGet httpGet = new HttpGet(url);
-        CloseableHttpResponse response = null;
-        String result = null;
+        String respContent = "";
         try {
-            httpGet.setConfig(requestConfig);
-            //httpGet.setHeader("ContentType","application/json");
-            httpGet.setHeader("Access-Control-Allow-Origin","*");
-            httpGet.setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE");
-            httpGet.setHeader("Access-Control-Allow-Headers","application/json");
-            httpGet.setHeader("Access-Control-Max-Age","3600");
-            httpGet.setHeader("Access-Control-Allow-Credentials", "true");
-            response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            logger.debug(response.getStatusLine().getStatusCode());
-            result = EntityUtils.toString(entity,charset);
-        } catch (IOException e) {
+            httpClient = new SSLClient();
+            HttpResponse response = httpClient.execute(httpGet);
+            if(response.getStatusLine().getStatusCode() == 200){
+                respContent = EntityUtils.toString(response.getEntity());//获得返回的结果
+                return respContent;
+            }
+        } catch (Exception e) {
             logger.debug(e.getMessage(),e);
             throw new RuntimeException(e.getMessage(),e);
         }finally {
-            if (response != null) {
-                try {
-                    EntityUtils.consume(response.getEntity());
-                } catch (IOException e) {
-                    logger.debug(e.getMessage(),e);
-                }
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                logger.debug(e.getMessage(),e);
             }
         }
-        return result;
+        return respContent;
     }
 
     public static void doRedirect(String url){
