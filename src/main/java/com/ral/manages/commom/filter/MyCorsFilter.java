@@ -1,3 +1,4 @@
+/*
 package com.ral.manages.commom.filter;
 
 import javax.servlet.*;
@@ -13,7 +14,6 @@ public class MyCorsFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest,ServletResponse servletResponse,FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin","*");
         response.setHeader("Access-Control-Allow-Methods","*");
         response.setHeader("Access-Control-Allow-Headers","*");
@@ -27,3 +27,4 @@ public class MyCorsFilter implements Filter {
         System.out.println("CorsFilter销毁中");
     }
 }
+*/

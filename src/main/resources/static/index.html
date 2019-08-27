@@ -5,8 +5,9 @@
     <title></title>
 </head>
 <body>
-    <button onclick="silentRedirect()">silentRedirect跨域请求</button>
+    <!--<button onclick="silentRedirect()">silentRedirect跨域请求</button>
     <button onclick="staticRedirect()">staticRedirect跨域请求</button>
+    <div id="dataInfo"></div>
     <script src="js/jquery.min.js"></script>
     <script src="js/axios.min.js"></script>
 <script>
@@ -23,26 +24,28 @@
                 return null;
             };
             var code = getQueryString('code');
+            alert("code:"+code);
             if (code) {
                 axios.get("http://www.aiurorigin.com/manages/authorization", {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-                        'Access-Control-Allow-Headers': '*'
+                        'Access-Control-Allow-Headers': 'Content-Type'
                     },
                     params: {code: code}
                 })
                     .then(function (response) {
-                        console.log(response);
+                        alert("跨域调成功："+response);
                         userData = response;
                     })
                     .catch(function (error) {
-                        alert(error);
+                        alert("跨域调失败"+error);
                     });
             } else {
                 alert('请从微信公众号打开');
             }
             localStorage.setItem('user', JSON.stringify(userData));
+            $("#dataInfo").append("<p>"+userData+"</p>");
             return userData;
         }
     });
@@ -56,14 +59,12 @@
                'Access-Control-Allow-Headers': 'Content-Type'
            },
            data: {}
-       })
-           .then(function (response) {
-               console.log("123");
-               alert(response);
-           })
-           .catch(function (error) {
-               alert(error);
-           });
+       }).then(function (response) {
+           alert("跨域调成功");
+           alert(response);
+       }).catch(function (error) {
+           alert("跨域调失败");
+       });
    }
    //测试
    function staticRedirect() {
@@ -74,15 +75,13 @@
                'Access-Control-Allow-Headers': 'Content-Type'
            },
            data: {}
-       })
-           .then(function (response) {
-               console.log("123");
-               alert(response);
-           })
-           .catch(function (error) {
-               alert(error);
-           });
+       }).then(function (response) {
+           alert("跨域调成功");
+           alert(response);
+       }).catch(function (error) {
+           alert("跨域调失败");
+       });
    }
-</script>
+</script>-->
 </body>
 </html>

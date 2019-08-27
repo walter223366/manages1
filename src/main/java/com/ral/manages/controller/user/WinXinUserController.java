@@ -1,7 +1,6 @@
 package com.ral.manages.controller.user;
 
 import com.ral.manages.commom.verifi.ProjectConst;
-import com.ral.manages.util.HttpSendUtil;
 import com.ral.manages.util.ToolsUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;

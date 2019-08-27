@@ -73,27 +73,28 @@ public class HttpSendUtil {
     }
 
     public static String doGet(String url){
-        CloseableHttpClient httpClient = null;
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String httpStr = null;
         HttpGet httpGet = new HttpGet(url);
-        String respContent = "";
+        CloseableHttpResponse response = null;
         try {
-            httpClient = new SSLClient();
-            HttpResponse response = httpClient.execute(httpGet);
-            if(response.getStatusLine().getStatusCode() == 200){
-                respContent = EntityUtils.toString(response.getEntity());//获得返回的结果
-                return respContent;
-            }
-        } catch (Exception e) {
+            httpGet.setConfig(requestConfig);
+            response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, "UTF-8");
+            return httpStr;
+        } catch (IOException e) {
             logger.debug(e.getMessage(),e);
-            throw new RuntimeException(e.getMessage(),e);
-        }finally {
-            try {
-                httpClient.close();
-            } catch (IOException e) {
-                logger.debug(e.getMessage(),e);
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException ie) {
+                    throw new RuntimeException(ie.getMessage(),ie);
+                }
             }
         }
-        return respContent;
     }
 
     public static void doRedirect(String url){
@@ -102,12 +103,7 @@ public class HttpSendUtil {
         CloseableHttpResponse response = null;
         try {
             httpGet.setConfig(requestConfig);
-            //httpGet.setHeader("ContentType","application/json");
-            httpGet.setHeader("Access-Control-Allow-Origin","*");
-            httpGet.setHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE");
-            httpGet.setHeader("Access-Control-Allow-Headers","application/json");
-            httpGet.setHeader("Access-Control-Max-Age","3600");
-            httpGet.setHeader("Access-Control-Allow-Credentials", "true");
+            httpGet.setHeader("ContentType","application/json");
             response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             logger.debug(response.getStatusLine().getStatusCode());
