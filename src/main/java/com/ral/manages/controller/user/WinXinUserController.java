@@ -1,8 +1,10 @@
 package com.ral.manages.controller.user;
 
 import com.ral.manages.commom.verifi.ProjectConst;
+import com.ral.manages.util.StringUtil;
 import com.ral.manages.util.ToolsUtil;
 import net.sf.json.JSONObject;
+import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ public class WinXinUserController {
         getAuthRedirect(request,response,method,scope);
     }
 
+
     //微信网页授权（静默授权）
     @GetMapping("/silentRedirect")
     public void silentRedirect(HttpServletRequest request, HttpServletResponse response){
@@ -38,6 +41,7 @@ public class WinXinUserController {
         String scope = ProjectConst.SNSAPI_BASE;
         getAuthRedirect(request,response,method,scope);
     }
+
 
     //微信网页授权（用户授权）
     @GetMapping("/userRedirect")
@@ -48,22 +52,29 @@ public class WinXinUserController {
     }
 
 
-    //直接获取用户OpenId
-    @GetMapping("getOpenId")
-    public Object getOpenId(HttpServletRequest request,HttpServletResponse response){
+    //微信回调直接获取用户OpenId
+    @RequestMapping(value = "getOpenId",method = {RequestMethod.POST,RequestMethod.GET})
+    public String getDirectOpenId(@RequestParam("code")String code){
+        if(StringUtil.isNull(code)){
+            return "{}";
+        }
+        BasicHeader basicHeader = new BasicHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+        //String openidUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
+        //response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
-        String code = request.getParameter("code");
-        result = getOpenId(request,response,code);
-        return result;
+        //String code = request.getParameter("code");
+        result = getOpenId(code);
+        return result.optString("openid");
     }
 
 
-    //获取微信用户信息(用户授权)
-    @GetMapping("userInfo")
+    //微信回调用户授权获取用户OpenId
+    @CrossOrigin(origins="*",maxAge = 3600)
+    @RequestMapping("userInfo")
     public Object getAuthUserInfo(HttpServletRequest request,HttpServletResponse response){
         JSONObject result = new JSONObject();
         String code = request.getParameter("code");
-        JSONObject json = getOpenId(request,response,code);
+        JSONObject json = getOpenId(code);
         String openId = json.optString("openid");
         String token = json.optString("access_token");
         String url = ProjectConst.GET_USERINFO_URL;
@@ -92,7 +103,7 @@ public class WinXinUserController {
         }
         codeUrl = codeUrl.replace("REDIRECT_URI",url);
         codeUrl = codeUrl.replace("SCOPE",scope);
-        String state = "state";//重定向后会带上的参数
+        String state = "123";//重定向后会带上的参数
         codeUrl = codeUrl.replace("STATE",state);
         try {
             response.sendRedirect(codeUrl);
@@ -102,7 +113,7 @@ public class WinXinUserController {
     }
 
     //获取OpenId
-    private JSONObject getOpenId(HttpServletRequest request, HttpServletResponse response, String code){
+    private JSONObject getOpenId(String code){
         JSONObject result = new JSONObject();
         //封装获取OpenId的微信API
         String tokenUrl = ProjectConst.GET_ACCESSTOKEN_URL;
@@ -119,7 +130,6 @@ public class WinXinUserController {
         }
         String openId = result.optString("openid");
         LOG.info("获取openId："+openId);
-        request.getSession().setAttribute("openId", openId);
         return result;
     }
 

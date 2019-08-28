@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-    <!--<button onclick="silentRedirect()">silentRedirect跨域请求</button>
+    <button onclick="silentRedirect()">silentRedirect跨域请求</button>
     <button onclick="staticRedirect()">staticRedirect跨域请求</button>
     <div id="dataInfo"></div>
     <script src="js/jquery.min.js"></script>
@@ -26,62 +26,54 @@
             var code = getQueryString('code');
             alert("code:"+code);
             if (code) {
-                axios.get("http://www.aiurorigin.com/manages/authorization", {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-                        'Access-Control-Allow-Headers': 'Content-Type'
+                $.ajax({
+                    type: "GET",
+                    url: "/manages/authorization",
+                    data: {code: code},
+                    async: false,
+                    success: function(data) {
+                        console.log(data);
+                        alert(data);
+                        userData = data;
                     },
-                    params: {code: code}
-                })
-                    .then(function (response) {
-                        alert("跨域调成功："+response);
-                        userData = response;
-                    })
-                    .catch(function (error) {
-                        alert("跨域调失败"+error);
-                    });
+                    error: function() {
+                        alert('网络错误');
+                    }
+                });
             } else {
                 alert('请从微信公众号打开');
             }
             localStorage.setItem('user', JSON.stringify(userData));
-            $("#dataInfo").append("<p>"+userData+"</p>");
             return userData;
         }
     });
 
    //测试
    function silentRedirect() {
-       axios.get("http://www.aiurorigin.com/manages/silentRedirect", {
-           headers: {
-               'Access-Control-Allow-Origin': '*',
-               'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-               'Access-Control-Allow-Headers': 'Content-Type'
+       $.ajax({
+           type:"GET",
+           url:"/manages/silentRedirect",
+           dataType:"JSON",
+           contentType:"application/json",
+           success:function (data) {
+               alert("跨域调成功");
+               $("#dataInfo").append("<p>"+data+"</p>");
            },
-           data: {}
-       }).then(function (response) {
-           alert("跨域调成功");
-           alert(response);
-       }).catch(function (error) {
-           alert("跨域调失败");
+           error:function () {
+               alert("跨域调失败");
+           }
        });
    }
    //测试
    function staticRedirect() {
-       axios.get("http://www.aiurorigin.com/manages/staticRedirect", {
-           headers: {
-               'Access-Control-Allow-Origin': '*',
-               'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-               'Access-Control-Allow-Headers': 'Content-Type'
-           },
-           data: {}
-       }).then(function (response) {
+       axios.get("/manages/staticRedirect"
+       ).then(function (response) {
            alert("跨域调成功");
-           alert(response);
-       }).catch(function (error) {
+           $("#dataInfo").append("<p>"+response+"</p>");
+       }).catch(function () {
            alert("跨域调失败");
        });
    }
-</script>-->
+</script>
 </body>
 </html>

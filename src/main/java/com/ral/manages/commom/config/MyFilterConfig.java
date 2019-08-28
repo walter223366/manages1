@@ -1,4 +1,3 @@
-/*
 package com.ral.manages.commom.config;
 
 import com.ral.manages.commom.filter.MyCorsFilter;
@@ -20,4 +19,3 @@ public class MyFilterConfig{
     }
 
 }
-*/
