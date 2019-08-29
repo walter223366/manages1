@@ -1,6 +1,6 @@
 package com.ral.manages.service.user;
 
-import com.ral.manages.commom.response.GeneralResponse;
+import com.ral.manages.comms.response.GeneralResponse;
 import com.ral.manages.entity.user.User;
 
 public interface IUserService {

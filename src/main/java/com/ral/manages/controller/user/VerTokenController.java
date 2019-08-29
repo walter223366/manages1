@@ -1,8 +1,8 @@
 package com.ral.manages.controller.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ral.manages.commom.exception.AesException;
-import com.ral.manages.commom.verifi.ProjectConst;
+import com.ral.manages.comms.exception.AesException;
+import com.ral.manages.comms.verifi.ProjectConst;
 import com.ral.manages.entity.user.UserInfo;
 import com.ral.manages.entity.user.WeixinBackInfo;
 import com.ral.manages.util.SHA1Util;

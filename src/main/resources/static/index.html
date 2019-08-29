@@ -6,7 +6,7 @@
 </head>
 <body>
     <button onclick="silentRedirect()">silentRedirect跨域请求</button>
-    <button onclick="staticRedirect()">staticRedirect跨域请求</button>
+    <button onclick="staticRedirect1()">staticRedirect跨域请求</button>
     <div id="dataInfo"></div>
     <script src="js/jquery.min.js"></script>
     <script src="js/axios.min.js"></script>
@@ -28,8 +28,8 @@
             if (code) {
                 $.ajax({
                     type: "GET",
-                    url: "/manages/authorization",
-                    data: {code: code},
+                    url: "http://192.168.0.232:8081/manages/auth/permissionOut",
+                    data: {code: code,invoke:"userInfo"},
                     async: false,
                     success: function(data) {
                         console.log(data);
@@ -72,6 +72,23 @@
            $("#dataInfo").append("<p>"+response+"</p>");
        }).catch(function () {
            alert("跨域调失败");
+       });
+   }
+
+
+   function staticRedirect1() {
+       $.ajax({
+           type:"GET",
+           url:"http://127.0.0.1:8081/manages/auth/permissionIn",
+           dataType:"json",
+           data:{"invoke":"userInfo"},
+           success:function (data) {
+               alert("跨域调成功"+data);
+               $("#dataInfo").append("<p>"+data+"</p>");
+           },
+           error:function () {
+               alert("跨域调失败");
+           }
        });
    }
 </script>

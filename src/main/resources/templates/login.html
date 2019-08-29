@@ -60,10 +60,10 @@
             layer.msg("密码为空",{icon:2});
             return;
         }
-        var landingUrl="/manages/user/landing";
+        var landingUrl="/manages/user/landing.do";
         postRequest(landingUrl,params,function (data){
             if (data.code === "0" && data.result === "SUCCESS") {
-                window.location.href="/manages/system/main";
+                window.location.href="/manages/system/main.do";
             }else{
                 layer.msg(data.msg,{icon:2});
             }

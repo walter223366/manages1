@@ -1,18 +1,22 @@
 package com.ral.manages.controller.user;
 
-import com.ral.manages.commom.verifi.ProjectConst;
+import com.ral.manages.comms.verifi.ProjectConst;
+import com.ral.manages.mapper.sys.SysConfigurers;
+import com.ral.manages.util.HttpsClientUtils;
 import com.ral.manages.util.StringUtil;
 import com.ral.manages.util.ToolsUtil;
 import net.sf.json.JSONObject;
-import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *   <p>功能描述：微信授权</p>
@@ -24,6 +28,8 @@ import java.net.URLEncoder;
 public class WinXinUserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(WinXinUserController.class);
+    @Autowired
+    private SysConfigurers sys;
 
     //微信网页授权（静默授权）静态页面index.html请求返回  跨域
     @GetMapping("/staticRedirect")
@@ -54,17 +60,17 @@ public class WinXinUserController {
 
     //微信回调直接获取用户OpenId
     @RequestMapping(value = "getOpenId",method = {RequestMethod.POST,RequestMethod.GET})
-    public String getDirectOpenId(@RequestParam("code")String code){
+    public Object getDirectOpenId(@RequestParam("code")String code){
         if(StringUtil.isNull(code)){
             return "{}";
         }
-        BasicHeader basicHeader = new BasicHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+        //BasicHeader basicHeader = new BasicHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
         //String openidUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
         //response.setContentType("text/html;charset=UTF-8");
         JSONObject result = new JSONObject();
         //String code = request.getParameter("code");
         result = getOpenId(code);
-        return result.optString("openid");
+        return result;
     }
 
 
@@ -114,6 +120,27 @@ public class WinXinUserController {
 
     //获取OpenId
     private JSONObject getOpenId(String code){
+        JSONObject result = new JSONObject();
+        //封装获取OpenId的微信API
+        String tokenUrl = sys.getWeChat_accessToken();
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("appid",sys.getWeChat_appId());
+        map.put("secret",sys.getWeChat_appSecret());
+        map.put("code",code);
+        map.put("grant_type",sys.getWeChat_grantType());
+        try{
+            String str = HttpsClientUtils.doPostMap(tokenUrl,map,sys.getCharsetName());
+            result = JSONObject.fromObject(str);
+        }catch (Exception e){
+            LOG.debug("获取OpenId失败："+e.getMessage());
+        }
+        String openId = result.optString("openid");
+        LOG.info("获取openId："+openId);
+        return result;
+    }
+
+    //获取OpenId
+    private JSONObject getOpenId1(String code){
         JSONObject result = new JSONObject();
         //封装获取OpenId的微信API
         String tokenUrl = ProjectConst.GET_ACCESSTOKEN_URL;

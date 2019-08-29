@@ -1,4 +1,4 @@
-package com.ral.manages.commom.page;
+package com.ral.manages.comms.page;
 
 import com.ral.manages.util.SetUtil;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.ral.manages.commom.verifi;
+package com.ral.manages.comms.verifi;
 
 public class ProjectConst {
 

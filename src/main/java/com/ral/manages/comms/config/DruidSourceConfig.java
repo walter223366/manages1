@@ -1,4 +1,4 @@
-package com.ral.manages.commom.config;
+package com.ral.manages.comms.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *   <p>功能描述：druid数据源配置</p>
- *   <p>创建时间：2019-07-18 </p>
+ *   druid数据源配置
  *
  *   @author Double
+ *   @since  2019-07-18
  */
 @Configuration
 public class DruidSourceConfig {
@@ -24,31 +24,23 @@ public class DruidSourceConfig {
         return new DruidDataSource();
     }
 
-    /**
-     * 配置监控服务器
-     *
-     * @return 返回监控注册的servlet对象
-     */
-    @Bean
-    public ServletRegistrationBean servletRegistrationBean(){
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
+    //Druid监控配置
+    @Bean("doDruidRegistration")
+    public ServletRegistrationBean<StatViewServlet> servletRegistrationBean(){
+        StatViewServlet statViewServlet = new StatViewServlet();
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>(statViewServlet,"/druid/*");
         servletRegistrationBean.addInitParameter("loginUsername","druid");
         servletRegistrationBean.addInitParameter("loginPassword","123456");
         servletRegistrationBean.addInitParameter("resetEnable","false");
         return servletRegistrationBean;
     }
 
-    /**
-     * 配置过滤器
-     *
-     * @return 返回过滤器配置对象
-     */
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean(){
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+    //Druid过滤器配置
+    @Bean("doDruidFilter")
+    public FilterRegistrationBean<WebStatFilter> filterRegistrationBean(){
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<>(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,");
-        filterRegistrationBean.setOrder(0);
         return filterRegistrationBean;
     }
 }

@@ -1,6 +1,6 @@
 package com.ral.manages.util;
 
-import com.ral.manages.commom.exception.AesException;
+import com.ral.manages.comms.exception.AesException;
 import java.security.MessageDigest;
 import java.util.Arrays;
 

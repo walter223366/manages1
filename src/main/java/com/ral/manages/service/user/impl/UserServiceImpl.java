@@ -1,7 +1,7 @@
 package com.ral.manages.service.user.impl;
 
-import com.ral.manages.commom.emun.ResponseStateCode;
-import com.ral.manages.commom.response.GeneralResponse;
+import com.ral.manages.comms.emun.ResponseStateCode;
+import com.ral.manages.comms.response.GeneralResponse;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.service.user.IUserService;
 import com.ral.manages.util.StringUtil;

@@ -1,4 +1,4 @@
-package com.ral.manages.commom.exception;
+package com.ral.manages.comms.exception;
 
 public class AesException extends Exception {
     private static final long serialVersionUID = -4752920545292272500L;

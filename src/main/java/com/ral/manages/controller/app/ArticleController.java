@@ -1,7 +1,7 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.commom.emun.ResponseStateCode;
-import com.ral.manages.commom.response.GeneralResponse;
+import com.ral.manages.comms.emun.ResponseStateCode;
+import com.ral.manages.comms.response.GeneralResponse;
 import com.ral.manages.entity.app.Article;
 import com.ral.manages.service.app.IArticleService;
 import org.slf4j.Logger;

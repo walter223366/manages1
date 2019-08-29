@@ -1,4 +1,4 @@
-package com.ral.manages.commom.emun;
+package com.ral.manages.comms.emun;
 
 /**
  *   <p>功能描述: 状态表</p>

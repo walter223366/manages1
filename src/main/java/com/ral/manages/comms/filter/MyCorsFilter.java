@@ -1,4 +1,4 @@
-package com.ral.manages.commom.filter;
+package com.ral.manages.comms.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

@@ -1,6 +1,6 @@
-package com.ral.manages.commom.response;
+package com.ral.manages.comms.response;
 
-import com.ral.manages.commom.emun.ResponseStateCode;
+import com.ral.manages.comms.emun.ResponseStateCode;
 import com.ral.manages.util.Base64Util;
 import lombok.Data;
 import net.sf.json.JSONObject;

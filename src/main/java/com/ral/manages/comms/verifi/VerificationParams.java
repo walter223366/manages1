@@ -1,4 +1,4 @@
-package com.ral.manages.commom.verifi;
+package com.ral.manages.comms.verifi;
 
 import com.ral.manages.entity.app.*;
 import com.ral.manages.util.StringUtil;
