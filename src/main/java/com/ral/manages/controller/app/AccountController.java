@@ -1,8 +1,8 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
+import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.entity.app.Account;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.service.app.IAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,27 +25,27 @@ public class AccountController {
     @PostMapping("pagingQuery")
     public Object accountPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result result = new Result();
         try{
-            generalResponse = iAccountService.accountPagingQuery(map);
-            LOG.info("返回值:" + generalResponse);
+            iAccountService.accountPagingQuery(map);
+
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
-            LOG.error(generalResponse.toString());
+            result = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+
         }
-        return generalResponse;
+        return result;
     }
 
     //编辑查询
     @PostMapping("editQuery")
     public Object accountEditQuery(@RequestBody Account account){
         LOG.info("请求参数:" + account);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iAccountService.accountEditQuery(account);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -55,12 +55,12 @@ public class AccountController {
     @PostMapping("inAdd")
     public Object accountInsert(@RequestBody Account account){
         LOG.info("请求参数:" + account);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iAccountService.accountInsert(account);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -70,12 +70,12 @@ public class AccountController {
     @PostMapping("inUpdate")
     public Object accountUpdate(@RequestBody Account account){
         LOG.info("请求参数:" + account);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iAccountService.accountUpdate(account);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -85,12 +85,12 @@ public class AccountController {
     @PostMapping("inDelete")
     public Object accountDelete(@RequestBody Account account){
         LOG.info("请求参数:" + account);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iAccountService.accountDelete(account);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -100,12 +100,12 @@ public class AccountController {
     @PostMapping("inBatchDelete")
     public Object accountBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iAccountService.accountBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -115,12 +115,12 @@ public class AccountController {
     @PostMapping("accountSignUp")
     public Object accountSignUp(@RequestBody Account account){
         LOG.info("请求参数:" + account);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iAccountService.accountSignUp(account);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

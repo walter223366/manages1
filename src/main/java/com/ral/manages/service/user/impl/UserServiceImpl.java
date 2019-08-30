@@ -1,7 +1,7 @@
 package com.ral.manages.service.user.impl;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.service.user.IUserService;
 import com.ral.manages.util.StringUtil;
@@ -22,14 +22,14 @@ public class UserServiceImpl implements IUserService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse landingInfo(User user) {
+    public Result landingInfo(User user) {
         if(StringUtil.isNull(user.getUsername()) || StringUtil.isNull(user.getPassword())){
-            return GeneralResponse.fail("传入用户名或密码为空");
+            return Result.fail("传入用户名或密码为空");
         }
         if(USERNAME.equals(user.getUsername()) && PASSWORD.equals(user.getPassword())){
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }else{
-            return GeneralResponse.fail("用户名或密码错误");
+            return Result.fail("用户名或密码错误");
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
+import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.entity.app.School;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.service.app.ISchoolService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +27,12 @@ public class SchoolController {
     @PostMapping("pagingQuery")
     public Object schoolPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iSchoolService.schoolPagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -42,12 +42,12 @@ public class SchoolController {
     @PostMapping("editQuery")
     public Object schoolEditQuery(@RequestBody School school){
         LOG.info("请求参数:" + school);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iSchoolService.schoolEditQuery(school);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -57,12 +57,12 @@ public class SchoolController {
     @PostMapping("inAdd")
     public Object schoolInsert(@RequestBody School school){
         LOG.info("请求参数:" + school);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iSchoolService.schoolInsert(school);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -72,12 +72,12 @@ public class SchoolController {
     @PostMapping("inUpdate")
     public Object schoolUpdate(@RequestBody School school){
         LOG.info("请求参数:" + school);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iSchoolService.schoolUpdate(school);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -87,12 +87,12 @@ public class SchoolController {
     @PostMapping("inDelete")
     public Object schoolDelete(@RequestBody School school){
         LOG.info("请求参数:" + school);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iSchoolService.schoolDelete(school);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -102,12 +102,12 @@ public class SchoolController {
     @PostMapping("inBatchDelete")
     public Object schoolBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iSchoolService.schoolBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

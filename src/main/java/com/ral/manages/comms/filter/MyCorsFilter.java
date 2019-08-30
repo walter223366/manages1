@@ -15,16 +15,16 @@ public class MyCorsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest,ServletResponse servletResponse,FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+       /* HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding(chartName);
-        /*response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Origin","*");
         response.setHeader("Access-Control-Allow-Methods","*");
         response.setHeader("Access-Control-Allow-Headers","*");
         response.setHeader("Access-Control-Max-Age","3600");
-        response.setHeader("Access-Control-Allow-Credentials","true");*/
-        chain.doFilter(servletRequest,servletResponse);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        chain.doFilter(servletRequest,servletResponse);*/
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.ral.manages.service.app.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.emun.StateTable;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.entity.app.Account;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.comms.verifi.VerificationParams;
 import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.service.app.IAccountService;
@@ -37,18 +37,18 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountPagingQuery(Map<String,Object> map) {
+    public Result accountPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> accountList = iAccountMapper.accountPagingQuery(map);
         for(Map<String,Object> accountMap : accountList){
             int source = SetUtil.toMapValueInt(accountMap,"source");
-            String source_value = (source==0?StateTable.User.SOURCE_ZERO.getName():StateTable.User.SOURCE_ONE.getName());
+            String source_value = (source==0? TableCode.User.SOURCE_ZERO.getName(): TableCode.User.SOURCE_ONE.getName());
             accountMap.put("source",source_value);
             int cancellation = SetUtil.toMapValueInt(accountMap,"cancellation");
-            String cancellation_value = (cancellation==0?StateTable.User.CANCELLATION_ZERO.getName():StateTable.User.CANCELLATION_ONE.getName());
+            String cancellation_value = (cancellation==0? TableCode.User.CANCELLATION_ZERO.getName(): TableCode.User.CANCELLATION_ONE.getName());
             accountMap.put("cancellation",cancellation_value);
         }
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),accountList));
+        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),accountList));
     }
 
     /**
@@ -58,12 +58,12 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountEditQuery(Account account) {
+    public Result accountEditQuery(Account account) {
         if(StringUtil.isNull(account.getAccount())){
-            return GeneralResponse.fail("传入账号名称为空");
+            return Result.fail("传入账号名称为空");
         }
         Map<String,Object> result = iAccountMapper.accountEditQuery(account);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getMsg(),result);
     }
 
     /**
@@ -73,25 +73,25 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountInsert(Account account) {
+    public Result accountInsert(Account account) {
         String msg = VerificationParams.verificationAccount(account);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         int count = iAccountMapper.accountIsExist(account);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，账号名称已存在");
+            return Result.fail("新增失败，账号名称已存在");
         }
-        account.setCancellation(StateTable.User.CANCELLATION_ZERO.getCode());
-        account.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
+        account.setCancellation(TableCode.User.CANCELLATION_ZERO.getCode());
+        account.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         account.setLrrq(TimeUtil.currentTime());
         account.setId(StringUtil.getUUID());
         try{
             iAccountMapper.accountInsert(account);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -102,31 +102,31 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountUpdate(Account account) {
+    public Result accountUpdate(Account account) {
         if(StringUtil.isNull(account.getId())){
-            return GeneralResponse.fail("传入账号ID为空");
+            return Result.fail("传入账号ID为空");
         }
         String msg = VerificationParams.verificationAccount(account);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         Map<String,Object> map = iAccountMapper.accountIdQuery(account);
         if(SetUtil.isMapNull(map)){
-            return GeneralResponse.fail("修改失败，该账号不存在");
+            return Result.fail("修改失败，该账号不存在");
         }
         String name = SetUtil.toMapValueString(map,"account");
         if(!name.equals(account.getAccount())){
             int count = iAccountMapper.accountIsExist(account);
             if(count > 0){
-                return GeneralResponse.fail("修改失败，账号名称已存在");
+                return Result.fail("修改失败，账号名称已存在");
             }
         }
         try{
             iAccountMapper.accountUpdate(account);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -137,21 +137,21 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountDelete(Account account) {
+    public Result accountDelete(Account account) {
         if(StringUtil.isNull(account.getAccount())){
-            return GeneralResponse.fail("传入账号名称为空");
+            return Result.fail("传入账号名称为空");
         }
         int count = iAccountMapper.accountIsExist(account);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该账号不存在");
+            return Result.fail("删除失败，该账号不存在");
         }
-        account.setDeleteStatus(StateTable.Del.DELETE_ONE.getCode());
+        account.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iAccountMapper.accountDelete(account);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -162,27 +162,27 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountBatchDelete(Map<String,Object> map) {
+    public Result accountBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
         String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail("传入data参数JSON格式错误");
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
-            return GeneralResponse.fail("传入data参数为空");
+            return Result.fail("传入data参数为空");
         }
         try{
             for(Map<String,Object> upMap : resluList){
-                upMap.put("deleteStatus",StateTable.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iAccountMapper.accountBatchDelete(upMap);
             }
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -193,25 +193,25 @@ public class AccountServiceImpl implements IAccountService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse accountSignUp(Account account) {
+    public Result accountSignUp(Account account) {
         String msg = VerificationParams.verificationAccount(account);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         int count = iAccountMapper.accountIsExist(account);
         if(count > 0){
-            return GeneralResponse.successNotdatas("登陆成功");
+            return Result.successNotdatas("登陆成功");
         }
-        account.setCancellation(StateTable.User.CANCELLATION_ZERO.getCode());
-        account.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
+        account.setCancellation(TableCode.User.CANCELLATION_ZERO.getCode());
+        account.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         account.setLrrq(TimeUtil.currentTime());
         account.setId(StringUtil.getUUID());
         try{
             iAccountMapper.accountInsert(account);
-            return GeneralResponse.successNotdatas("注册成功");
+            return Result.successNotdatas("注册成功");
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 }

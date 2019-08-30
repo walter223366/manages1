@@ -1,7 +1,7 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.app.Effect;
 import com.ral.manages.service.app.IEffectService;
 import org.slf4j.Logger;
@@ -27,12 +27,12 @@ public class EffectController {
     @PostMapping("pagingQuery")
     public Object effectPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iEffectService.effectPagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -42,12 +42,12 @@ public class EffectController {
     @PostMapping("editQuery")
     public Object effectEditQuery(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iEffectService.effectEditQuery(effect);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -57,12 +57,12 @@ public class EffectController {
     @PostMapping("inAdd")
     public Object effectInsert(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iEffectService.effectInsert(effect);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -72,12 +72,12 @@ public class EffectController {
     @PostMapping("inUpdate")
     public Object effectUpdate(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iEffectService.effectUpdate(effect);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -87,12 +87,12 @@ public class EffectController {
     @PostMapping("inDelete")
     public Object effectDelete(@RequestBody Effect effect){
         LOG.info("请求参数:" + effect);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iEffectService.effectDelete(effect);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -102,12 +102,12 @@ public class EffectController {
     @PostMapping("inBatchDelete")
     public Object effectBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iEffectService.effectBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

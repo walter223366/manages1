@@ -16,21 +16,21 @@ public class AuthServiceImpl implements IAuthService, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     @Override
-    public String permissionIn(Map<String,Object> map) {
+    public Object permissionIn(Map<String,Object> map) {
         String invoke = MapUtil.getString(map,"invoke");
         WeChatBasis authServer = (WeChatBasis) applicationContext.getBean(invoke);
         if (null == authServer) {
-            throw new BizException("参数非法");
+            throw new BizException("调用参数非法");
         }
         return authServer.inWeChat(map);
     }
 
     @Override
-    public String permissionOut(Map<String,Object> map) {
+    public Object permissionOut(Map<String,Object> map) {
         String invoke = MapUtil.getString(map,"invoke");
         WeChatBasis authServer = (WeChatBasis) applicationContext.getBean(invoke);
         if (null == authServer) {
-            throw new BizException("参数非法");
+            throw new BizException("调用参数非法");
         }
         return authServer.outWeChat(map);
     }

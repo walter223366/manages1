@@ -6,15 +6,15 @@ package com.ral.manages.comms.emun;
  *
  *   @author Double
  */
-public enum ResponseStateCode {
+public enum ResultCode {
 
     SUCCESS("0", "操作成功"),
-    FAIL("1","操作失败"),
-    ERROR("999", "系统错误");
+    FAIL("1","ERROR"),
+    ERROR("999", "ERROR");
 
     private String code;
     private String msg;
-    private ResponseStateCode(String code, String msg) {
+    private ResultCode(String code, String msg) {
         this.msg = msg;
         this.code = code;
     }

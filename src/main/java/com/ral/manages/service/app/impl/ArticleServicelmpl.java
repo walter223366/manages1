@@ -2,10 +2,10 @@ package com.ral.manages.service.app.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.emun.StateTable;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.page.PageBean;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.comms.verifi.VerificationParams;
 import com.ral.manages.entity.app.Article;
 import com.ral.manages.mapper.app.IArticleMapper;
@@ -37,10 +37,10 @@ public class ArticleServicelmpl implements IArticleService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse articlePagingQuery(Map<String,Object> map) {
+    public Result articlePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> articleList = iArticleMapper.articlePagingQuery(map);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),articleList));
+        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),articleList));
     }
 
     /**
@@ -50,12 +50,12 @@ public class ArticleServicelmpl implements IArticleService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse articleEditQuery(Article article) {
+    public Result articleEditQuery(Article article) {
         if(StringUtil.isNull(article.getName())){
-            return GeneralResponse.fail("传入物品名称为空");
+            return Result.fail("传入物品名称为空");
         }
         Map<String,Object> result = iArticleMapper.articleEditQuery(article);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getMsg(),result);
     }
 
     /***
@@ -65,23 +65,23 @@ public class ArticleServicelmpl implements IArticleService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse articleInsert(Article article) {
+    public Result articleInsert(Article article) {
         String msg = VerificationParams.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         int count = iArticleMapper.articleIsExist(article);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，物品名称已存在");
+            return Result.fail("新增失败，物品名称已存在");
         }
         article.setArticle_id(StringUtil.getUUID());
-        article.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
+        article.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         try{
             iArticleMapper.articleInsert(article);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -92,31 +92,31 @@ public class ArticleServicelmpl implements IArticleService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse articleUpdate(Article article) {
+    public Result articleUpdate(Article article) {
         if(StringUtil.isNull(article.getArticle_id())){
-            return GeneralResponse.fail("传入物品ID为空");
+            return Result.fail("传入物品ID为空");
         }
         String msg = VerificationParams.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         Map<String,Object> map = iArticleMapper.articleIdQuery(article);
         if(SetUtil.isMapNull(map)){
-            return GeneralResponse.fail("修改失败，该物品不存在");
+            return Result.fail("修改失败，该物品不存在");
         }
         String name = SetUtil.toMapValueString(map,"name");
         if(!name.equals(article.getName())){
             int count = iArticleMapper.articleIsExist(article);
             if(count > 0){
-                return GeneralResponse.fail("修改失败，门派名称已存在");
+                return Result.fail("修改失败，门派名称已存在");
             }
         }
         try{
             iArticleMapper.articleUpdate(article);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -127,21 +127,21 @@ public class ArticleServicelmpl implements IArticleService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse articleDelete(Article article) {
+    public Result articleDelete(Article article) {
         if(StringUtil.isNull(article.getName())){
-            return GeneralResponse.fail("传入物品名称为空");
+            return Result.fail("传入物品名称为空");
         }
         int count = iArticleMapper.articleIsExist(article);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该物品不存在");
+            return Result.fail("删除失败，该物品不存在");
         }
-        article.setDeleteStatus(StateTable.Del.DELETE_ONE.getCode());
+        article.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iArticleMapper.articleDelete(article);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -152,27 +152,27 @@ public class ArticleServicelmpl implements IArticleService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse articleBatchDelete(Map<String, Object> map) {
+    public Result articleBatchDelete(Map<String, Object> map) {
         List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
         String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail("传入data参数JSON格式错误");
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
-            return GeneralResponse.fail("传入data参数为空");
+            return Result.fail("传入data参数为空");
         }
         try{
             for(Map<String,Object> upMap : resluList){
-                upMap.put("deleteStatus",StateTable.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iArticleMapper.articleBatchDelete(upMap);
             }
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 }

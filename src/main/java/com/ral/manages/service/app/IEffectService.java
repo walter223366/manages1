@@ -1,19 +1,19 @@
 package com.ral.manages.service.app;
 
 import com.ral.manages.entity.app.Effect;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import java.util.Map;
 
 public interface IEffectService {
 
     /*查询*/
-    GeneralResponse effectPagingQuery(Map<String,Object> map);
-    GeneralResponse effectEditQuery(Effect effect);
+    Result effectPagingQuery(Map<String,Object> map);
+    Result effectEditQuery(Effect effect);
     /*新增*/
-    GeneralResponse effectInsert(Effect effect);
+    Result effectInsert(Effect effect);
     /*修改*/
-    GeneralResponse effectUpdate(Effect effect);
+    Result effectUpdate(Effect effect);
     /*删除*/
-    GeneralResponse effectDelete(Effect effect);
-    GeneralResponse effectBatchDelete(Map<String,Object> map);
+    Result effectDelete(Effect effect);
+    Result effectBatchDelete(Map<String,Object> map);
 }

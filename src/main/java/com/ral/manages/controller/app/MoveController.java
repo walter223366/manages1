@@ -1,7 +1,7 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.app.Move;
 import com.ral.manages.service.app.IMoveService;
 import org.slf4j.Logger;
@@ -25,12 +25,12 @@ public class MoveController {
     @PostMapping("pagingQuery")
     public Object movePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.movePagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -40,12 +40,12 @@ public class MoveController {
     @PostMapping("editQuery")
     public Object moveEditQuery(@RequestBody Move move){
         LOG.info("请求参数:" + move);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveEditQuery(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -55,12 +55,12 @@ public class MoveController {
     @PostMapping("inAdd")
     public Object moveInsert(@RequestBody Move move){
         LOG.info("请求参数:" + move);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveInsert(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -70,12 +70,12 @@ public class MoveController {
     @PostMapping("inUpdate")
     public Object moveUpdate(@RequestBody Move move){
         LOG.info("请求参数:" + move);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveUpdate(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -85,12 +85,12 @@ public class MoveController {
     @PostMapping("inDelete")
     public Object moveDelete(@RequestBody Move move){
         LOG.info("请求参数:" + move);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveDelete(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -100,12 +100,12 @@ public class MoveController {
     @PostMapping("inBatchDelete")
     public Object moveBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -114,12 +114,12 @@ public class MoveController {
     //效果下拉框
     @GetMapping("effectDownBox")
     public Object effectDownBox(){
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveAddEffect();
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -128,12 +128,12 @@ public class MoveController {
     //功夫下拉框
     @GetMapping("kongFuDownBox")
     public Object kongFuDownBox(){
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveAddKongFu();
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -143,12 +143,12 @@ public class MoveController {
     @PostMapping("inSee")
     public Object moveSee(@RequestBody Move move){
         LOG.info("请求参数:" + move);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iMoveService.moveSee(move);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

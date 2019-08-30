@@ -6,7 +6,7 @@ package com.ral.manages.comms.emun;
  *
  *   @author Double
  */
-public interface StateTable {
+public interface TableCode {
 
     /*删除状态*/
     enum Del{

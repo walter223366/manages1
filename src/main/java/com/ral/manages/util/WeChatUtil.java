@@ -1,6 +1,6 @@
 package com.ral.manages.util;
 
-import com.ral.manages.mapper.sys.SysConfigurers;
+import com.ral.manages.entity.SysConfigurers;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +31,15 @@ public class WeChatUtil {
         map.put("appid",sys.getWeChat_appId());
         map.put("secret",sys.getWeChat_appSecret());
         map.put("code",code);
-        map.put("grant_type",sys.getWeChat_grantType());
+        map.put("grant_type",sys.getWeChat_grantCode());
         String str = HttpsClientUtils.doPostMap(url,map,sys.getCharsetName());
         JSONObject result = JSONObject.fromObject(str);
         return result;
+    }
+
+    //获取access_token地址
+    public static String getAccess_token(){
+        String url = sys.getWehChat_getAccessToken();
+        return url;
     }
 }

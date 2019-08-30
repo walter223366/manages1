@@ -2,28 +2,28 @@ package com.ral.manages.service.wx.impl;
 
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.SysConfigurers;
-import com.ral.manages.service.wx.WeChatBasis;
+import com.ral.manages.service.wx.IWeCatAuthService;
+import com.ral.manages.util.HttpsClientUtils;
 import com.ral.manages.util.MapUtil;
 import com.ral.manages.util.StringUtil;
-import com.ral.manages.util.WeChatUtil;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
-@Service("userInfo")
-public class WxUserInfoServiceImpl implements WeChatBasis {
+@Service
+public class WeCatAuthServiceImpl implements IWeCatAuthService {
 
-    private static final Logger logger = Logger.getLogger(WxUserInfoServiceImpl.class);
-
+    private static final Logger log = Logger.getLogger(WeCatAuthServiceImpl.class);
     @Autowired
     private SysConfigurers sys;
 
     @Override
-    public Object inWeChat(Map<String,Object> map) {
+    public String getCode(Map<String,Object> map) {
         String redirectUrl = sys.getWeb_url();
         String url = "";
         try {
@@ -36,23 +36,27 @@ public class WxUserInfoServiceImpl implements WeChatBasis {
                     .concat("&state="+sys.getWeChat_state())
                     .concat("&connect_redirect=1#wechat_redirect");
         } catch (UnsupportedEncodingException e) {
-            logger.error("重定向URL编码失败："+e.getMessage());
+            log.error("重定向URL编码失败："+e.getMessage());
         }
-        logger.info("重定向URL:"+url);
+        log.info("重定向URL:"+url);
         return url;
     }
 
     @Override
-    public Object outWeChat(Map<String,Object> map) {
+    public JSONObject getOpenid(Map<String,Object> map){
         String code = MapUtil.getString(map,"code");
         if(StringUtil.isNull(code)){
             throw new BizException("传入code为空");
         }
-        JSONObject result = WeChatUtil.getOpenIdUrl(code);
-        String openId = result.optString("openid");
-        if(StringUtil.isNull(openId)){
-            throw new BizException("获取OpenId为空");
-        }
+        String url = sys.getWeChat_accessToken();
+        Map<String,String> paramsMap = new HashMap<String,String>();
+        paramsMap.put("appid",sys.getWeChat_appId());
+        paramsMap.put("secret",sys.getWeChat_appSecret());
+        paramsMap.put("code",code);
+        paramsMap.put("grant_type",sys.getWeChat_grantCode());
+        String str = HttpsClientUtils.doPostMap(url,paramsMap,sys.getCharsetName());
+        JSONObject result = JSONObject.fromObject(str);
+        log.info("获取WeCatInfo："+result);
         return result;
     }
 }

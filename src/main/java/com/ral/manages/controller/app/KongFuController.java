@@ -1,8 +1,8 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
+import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.entity.app.KongFu;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.service.app.IKongFuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,12 @@ public class KongFuController {
     @PostMapping("pagingQuery")
     public Object kongFuPagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuPagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -39,12 +39,12 @@ public class KongFuController {
     @PostMapping("editQuery")
     public Object kongFuPagingQuery(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuEditQuery(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -53,12 +53,12 @@ public class KongFuController {
     //招式下拉框
     @GetMapping("moveDownBox")
     public Object kongFuAddMove(){
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuAddMove();
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -69,12 +69,12 @@ public class KongFuController {
     @PostMapping("inAdd")
     public Object kongFuAdd(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuInsert(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -84,12 +84,12 @@ public class KongFuController {
     @PostMapping("inUpdate")
     public Object kongFuUpdate(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuUpdate(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -99,12 +99,12 @@ public class KongFuController {
     @PostMapping("inDelete")
     public Object kongFuDelete(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuDelete(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -114,12 +114,12 @@ public class KongFuController {
     @PostMapping("inBatchDelete")
     public Object kongFuBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -129,12 +129,12 @@ public class KongFuController {
     @PostMapping("inSee")
     public Object kongFuSee(@RequestBody KongFu kongFu){
         LOG.info("请求参数:" + kongFu);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iKongFuService.kongFuSee(kongFu);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

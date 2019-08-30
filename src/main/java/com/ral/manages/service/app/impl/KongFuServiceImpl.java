@@ -2,10 +2,10 @@ package com.ral.manages.service.app.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.emun.StateTable;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.entity.app.KongFu;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.comms.verifi.VerificationParams;
 import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
@@ -40,16 +40,16 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuPagingQuery(Map<String,Object> map) {
+    public Result kongFuPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
             kongFuMap.put("type",kongFuType(SetUtil.toMapValueInt(kongFuMap,"type")));
             int enable = SetUtil.toMapValueInt(kongFuMap,"enable");
-            String enableValue = (enable==StateTable.KongFu.ENABLE_ONE.getCode()?StateTable.KongFu.ENABLE_ONE.getName():StateTable.KongFu.ENABLE_ZERO.getName());
+            String enableValue = (enable== TableCode.KongFu.ENABLE_ONE.getCode()? TableCode.KongFu.ENABLE_ONE.getName(): TableCode.KongFu.ENABLE_ZERO.getName());
             kongFuMap.put("enable",enableValue);
         }
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),kongFuList));
+        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),kongFuList));
     }
 
     /**
@@ -59,12 +59,12 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuEditQuery(KongFu kongFu) {
+    public Result kongFuEditQuery(KongFu kongFu) {
         if(StringUtil.isNull(kongFu.getName())){
-            return GeneralResponse.fail("传入功夫名称为空");
+            return Result.fail("传入功夫名称为空");
         }
         Map<String,Object> result = iKongFuMapper.kongFuEditQuery(kongFu);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getMsg(),result);
     }
 
     /**
@@ -73,11 +73,11 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuAddMove() {
+    public Result kongFuAddMove() {
         List<Map<String,Object>> kongFuList = iMoveMapper.moveQueryMarquee();
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("data",kongFuList);
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getMsg(),result);
     }
 
     /**
@@ -87,23 +87,23 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuInsert(KongFu kongFu) {
+    public Result kongFuInsert(KongFu kongFu) {
         String msg = VerificationParams.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count > 0){
-            return GeneralResponse.fail("新增失败，功夫名称已存在");
+            return Result.fail("新增失败，功夫名称已存在");
         }
         kongFu.setKongfu_id(StringUtil.getUUID());
-        kongFu.setDeleteStatus(StateTable.Del.DELETE_ZERO.getCode());
+        kongFu.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         try{
             iKongFuMapper.kongFuInsert(kongFu);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -114,31 +114,31 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuUpdate(KongFu kongFu) {
+    public Result kongFuUpdate(KongFu kongFu) {
         if(StringUtil.isNull(kongFu.getKongfu_id())){
-            return GeneralResponse.fail("传入功夫ID为空");
+            return Result.fail("传入功夫ID为空");
         }
         String msg = VerificationParams.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
-            return GeneralResponse.fail(msg);
+            return Result.fail(msg);
         }
         Map<String,Object> map = iKongFuMapper.kongFuIdQuery(kongFu);
         if(SetUtil.isMapNull(map)){
-            return GeneralResponse.fail("修改失败，该功夫不存在");
+            return Result.fail("修改失败，该功夫不存在");
         }
         String name = SetUtil.toMapValueString(map,"name");
         if(!name.equals(kongFu.getName())){
             int count = iKongFuMapper.kongFuIsExist(kongFu);
             if(count > 0){
-                return GeneralResponse.fail("修改失败，功夫名称已存在");
+                return Result.fail("修改失败，功夫名称已存在");
             }
         }
         try{
             iKongFuMapper.kongFuUpdate(kongFu);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -149,21 +149,21 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuDelete(KongFu kongFu) {
+    public Result kongFuDelete(KongFu kongFu) {
         if(StringUtil.isNull(kongFu.getName())){
-            return GeneralResponse.fail("传入功夫名称为空");
+            return Result.fail("传入功夫名称为空");
         }
         int count = iKongFuMapper.kongFuIsExist(kongFu);
         if(count <= 0){
-            return GeneralResponse.fail("删除失败，该功夫不存在");
+            return Result.fail("删除失败，该功夫不存在");
         }
-        kongFu.setDeleteStatus(StateTable.Del.DELETE_ONE.getCode());
+        kongFu.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iKongFuMapper.kongFuDelete(kongFu);
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -174,27 +174,27 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuBatchDelete(Map<String,Object> map) {
+    public Result kongFuBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
         String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail("传入data参数JSON格式错误");
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
-            return GeneralResponse.fail("传入data参数为空");
+            return Result.fail("传入data参数为空");
         }
         try{
             for(Map<String,Object> upMap : resluList){
-                upMap.put("deleteStatus",StateTable.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iKongFuMapper.kongFuBatchDelete(upMap);
             }
-            return GeneralResponse.successNotdatas(ResponseStateCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
         }catch (Exception e){
-            LOG.debug(ResponseStateCode.FAIL.getMsg()+e.getMessage(),e);
-            return GeneralResponse.fail(ResponseStateCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
         }
     }
 
@@ -205,9 +205,9 @@ public class KongFuServiceImpl implements IKongFuService {
      * @return GeneralResponse
      */
     @Override
-    public GeneralResponse kongFuSee(KongFu kongFu) {
+    public Result kongFuSee(KongFu kongFu) {
         if(StringUtil.isNull(kongFu.getName())){
-            return GeneralResponse.fail("传入功夫名称为空");
+            return Result.fail("传入功夫名称为空");
         }
         Map<String,Object> resultMap = iKongFuMapper.kongFuEditQuery(kongFu);
         String moveId = SetUtil.toMapValueString(resultMap,"kongfu_zhaoshi");
@@ -216,7 +216,7 @@ public class KongFuServiceImpl implements IKongFuService {
         }else{
             resultMap.put("moveName",seeMoveName(moveId));
         }
-        return GeneralResponse.success(ResponseStateCode.SUCCESS.getMsg(),resultMap);
+        return Result.success(ResultCode.SUCCESS.getMsg(),resultMap);
     }
 
     /**
@@ -249,14 +249,14 @@ public class KongFuServiceImpl implements IKongFuService {
      */
     private String kongFuType(int type){
         switch (type){
-            case 0:return StateTable.KongFu.TYPE_ZERO.getName();
-            case 1:return StateTable.KongFu.TYPE_ONE.getName();
-            case 2:return StateTable.KongFu.TYPE_TWO.getName();
-            case 3:return StateTable.KongFu.TYPE_THREE.getName();
-            case 4:return StateTable.KongFu.TYPE_FOUR.getName();
-            case 5:return StateTable.KongFu.TYPE_FIVES.getName();
-            case 6:return StateTable.KongFu.TYPE_SIX.getName();
-            case 7:return StateTable.KongFu.TYPE_SEVEN.getName();
+            case 0:return TableCode.KongFu.TYPE_ZERO.getName();
+            case 1:return TableCode.KongFu.TYPE_ONE.getName();
+            case 2:return TableCode.KongFu.TYPE_TWO.getName();
+            case 3:return TableCode.KongFu.TYPE_THREE.getName();
+            case 4:return TableCode.KongFu.TYPE_FOUR.getName();
+            case 5:return TableCode.KongFu.TYPE_FIVES.getName();
+            case 6:return TableCode.KongFu.TYPE_SIX.getName();
+            case 7:return TableCode.KongFu.TYPE_SEVEN.getName();
             default:return "其他";
         }
     }

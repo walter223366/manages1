@@ -1,22 +1,22 @@
 package com.ral.manages.service.app;
 
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.app.Account;
 import java.util.Map;
 
 public interface IAccountService {
 
     /*查询*/
-    GeneralResponse accountPagingQuery(Map<String,Object> map);
-    GeneralResponse accountEditQuery(Account account);
+    Result accountPagingQuery(Map<String,Object> map);
+    Result accountEditQuery(Account account);
     /*新增*/
-    GeneralResponse accountInsert(Account account);
+    Result accountInsert(Account account);
     /*修改*/
-    GeneralResponse accountUpdate(Account account);
+    Result accountUpdate(Account account);
     /*删除*/
-    GeneralResponse accountDelete(Account account);
-    GeneralResponse accountBatchDelete(Map<String,Object> map);
+    Result accountDelete(Account account);
+    Result accountBatchDelete(Map<String,Object> map);
     //登陆或注册
-    GeneralResponse accountSignUp(Account account);
+    Result accountSignUp(Account account);
 
 }

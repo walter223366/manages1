@@ -1,7 +1,7 @@
 package com.ral.manages.controller.app;
 
-import com.ral.manages.comms.emun.ResponseStateCode;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.comms.emun.ResultCode;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.app.Article;
 import com.ral.manages.service.app.IArticleService;
 import org.slf4j.Logger;
@@ -27,12 +27,12 @@ public class ArticleController {
     @PostMapping("pagingQuery")
     public Object articlePagingQuery(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iArticleService.articlePagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -42,12 +42,12 @@ public class ArticleController {
     @PostMapping("editQuery")
     public Object articleEditQuery(@RequestBody Article article){
         LOG.info("请求参数:" + article);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iArticleService.articleEditQuery(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -57,12 +57,12 @@ public class ArticleController {
     @PostMapping("inAdd")
     public Object articleInsert(@RequestBody Article article){
         LOG.info("请求参数:" + article);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iArticleService.articleInsert(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -72,12 +72,12 @@ public class ArticleController {
     @PostMapping("inUpdate")
     public Object articleUpdate(@RequestBody Article article){
         LOG.info("请求参数:" + article);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iArticleService.articleUpdate(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -87,12 +87,12 @@ public class ArticleController {
     @PostMapping("inDelete")
     public Object accountDelete(@RequestBody Article article){
         LOG.info("请求参数:" + article);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iArticleService.articleDelete(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -102,12 +102,12 @@ public class ArticleController {
     @PostMapping("inBatchDelete")
     public Object accountBatchDelete(@RequestBody Map<String,Object> map){
         LOG.info("请求参数:" + map);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iArticleService.articleBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error(ResponseStateCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

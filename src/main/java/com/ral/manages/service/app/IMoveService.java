@@ -1,25 +1,25 @@
 package com.ral.manages.service.app;
 
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.app.Move;
 import java.util.Map;
 
 public interface IMoveService {
 
     /*查询*/
-    GeneralResponse movePagingQuery(Map<String,Object> map);
-    GeneralResponse moveEditQuery(Move move);
+    Result movePagingQuery(Map<String,Object> map);
+    Result moveEditQuery(Move move);
     /*新增*/
-    GeneralResponse moveInsert(Move move);
+    Result moveInsert(Move move);
     /*修改*/
-    GeneralResponse moveUpdate(Move move);
+    Result moveUpdate(Move move);
     /*删除*/
-    GeneralResponse moveDelete(Move move);
-    GeneralResponse moveBatchDelete(Map<String,Object> map);
+    Result moveDelete(Move move);
+    Result moveBatchDelete(Map<String,Object> map);
     /*效果下拉框*/
-    GeneralResponse moveAddEffect();
+    Result moveAddEffect();
     /*功夫下拉框*/
-    GeneralResponse moveAddKongFu();
+    Result moveAddKongFu();
     /*查看*/
-    GeneralResponse moveSee(Move move);
+    Result moveSee(Move move);
 }

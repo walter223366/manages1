@@ -1,6 +1,6 @@
 package com.ral.manages.controller.user;
 
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import com.ral.manages.entity.user.User;
 import com.ral.manages.service.user.IUserService;
 import org.slf4j.Logger;
@@ -28,12 +28,12 @@ public class UserController {
     @RequestMapping("/landing")
     public Object landingInfo(@RequestBody User user){
         LOG.info("请求参数:" + user);
-        GeneralResponse generalResponse = new GeneralResponse();
+        Result generalResponse = new Result();
         try{
             generalResponse = iUserService.landingInfo(user);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = GeneralResponse.error("系统错误"+e.getMessage());
+            generalResponse = Result.error("系统错误"+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

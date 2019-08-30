@@ -1,19 +1,19 @@
 package com.ral.manages.service.app;
 
 import com.ral.manages.entity.app.School;
-import com.ral.manages.comms.response.GeneralResponse;
+import com.ral.manages.entity.Result;
 import java.util.Map;
 
 public interface ISchoolService {
 
     /*查询*/
-    GeneralResponse schoolPagingQuery(Map<String,Object> map);
-    GeneralResponse schoolEditQuery(School school);
+    Result schoolPagingQuery(Map<String,Object> map);
+    Result schoolEditQuery(School school);
     /*新增*/
-    GeneralResponse schoolInsert(School school);
+    Result schoolInsert(School school);
     /*修改*/
-    GeneralResponse schoolUpdate(School school);
+    Result schoolUpdate(School school);
     /*删除*/
-    GeneralResponse schoolDelete(School school);
-    GeneralResponse schoolBatchDelete(Map<String,Object> map);
+    Result schoolDelete(School school);
+    Result schoolBatchDelete(Map<String,Object> map);
 }
