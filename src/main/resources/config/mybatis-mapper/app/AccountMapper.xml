@@ -30,35 +30,32 @@
     <select id="accountPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0) ORDER BY lrrq DESC
     </select>
-    <select id="accountIsExist" parameterType="com.ral.manages.entity.app.Account" resultType="int">
-        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account.account}
+    <select id="accountIsExist" parameterType="map" resultType="int">
+        SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account}
     </select>
-    <select id="accountEditQuery" parameterType="com.ral.manages.entity.app.Account" resultType="map">
-        SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND account=#{account.account}
+    <select id="accountEditQuery" parameterType="map" resultType="map">
+        SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND account=#{account}
     </select>
-    <select id="accountIdQuery" parameterType="com.ral.manages.entity.app.Account" resultType="map">
-        SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND id=#{account.id}
+    <select id="accountIdQuery" parameterType="map" resultType="map">
+        SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND id=#{id}
     </select>
 
 
     <!--新增-->
-    <insert id="accountInsert" parameterType="com.ral.manages.entity.app.Account">
+    <insert id="accountInsert" parameterType="map">
         INSERT INTO biz_user(id,account,password,source,tellphone,lrrq,cancellation,deleteStatus)
-        VALUES (#{account.id},#{account.account},#{account.password},#{account.source},#{account.tellphone},#{account.lrrq},#{account.cancellation},#{account.deleteStatus})
+        VALUES (#{id},#{account},#{password},#{source},#{tellphone},#{lrrq},#{cancellation},#{deleteStatus})
     </insert>
 
 
     <!--修改-->
-    <update id="accountUpdate" parameterType="com.ral.manages.entity.app.Account">
-        UPDATE biz_user SET tellphone=#{account.tellphone},account=#{account.account},source=#{account.source} WHERE 1=1 AND id=#{account.id}
+    <update id="accountUpdate" parameterType="map">
+        UPDATE biz_user SET tellphone=#{tellphone},account=#{account},source=#{source} WHERE 1=1 AND id=#{id}
     </update>
 
 
     <!--删除-->
-    <update id="accountDelete" parameterType="com.ral.manages.entity.app.Account">
-        UPDATE biz_user SET deleteStatus=#{account.deleteStatus} WHERE 1=1 AND account=#{account.account}
-    </update>
-    <update id="accountBatchDelete" parameterType="map">
+    <update id="accountDelete" parameterType="map">
         UPDATE biz_user SET deleteStatus=#{deleteStatus} WHERE 1=1 AND account=#{account}
     </update>
 </mapper>

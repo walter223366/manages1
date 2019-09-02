@@ -13,6 +13,10 @@ public class SysConfigurers{
 
     private String manages_url;//项目路径
     private String web_url;//web项目地址
+    private String error_url;//错误页面
+    private String weChat_callBack;
+    private String weChat_callBackId;//回调地址(直接获取openid)
+    private String weChat_callBackUser;//回调地址(授权获取用户信息)
     private String charsetName;//字符编码集
     private String weChat_token;//微信token
     private String weChat_appId;//微信app_Id
@@ -22,7 +26,6 @@ public class SysConfigurers{
     private String weChat_state;//微信state
     private String weChat_grantCode;//微信grant_type
     private String weChat_grantClient;
-    private String weChat_callBackUrl;//回调地址
     private String weChat_authorize;//获取code路径
     private String weChat_accessToken;//获取access_token、OpenId
     private String weChat_auth;//检验access_token是否有效地址

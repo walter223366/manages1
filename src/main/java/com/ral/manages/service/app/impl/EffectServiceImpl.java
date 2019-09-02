@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.emun.TableCode;
-import com.ral.manages.comms.verifi.VerificationParams;
+import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.entity.app.Effect;
 import com.ral.manages.entity.Result;
 import com.ral.manages.mapper.app.IEffectMapper;
@@ -44,7 +44,7 @@ public class EffectServiceImpl implements IEffectService {
             String target_value = (target==0? TableCode.Effect.TARGET_ZERO.getName(): TableCode.Effect.TARGET_ONE.getName());
             effectMap.put("target",target_value);
         }
-        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),effectList));
+        return Result.success(ResultCode.SUCCESS.getResult(),PageBean.resultPage(page.getTotal(),effectList));
     }
 
     /**
@@ -59,7 +59,7 @@ public class EffectServiceImpl implements IEffectService {
             return Result.fail("传入效果名称错误");
         }
         Map<String,Object> result = iEffectMapper.effectEditQuery(effect);
-        return Result.success(ResultCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getResult(),result);
     }
 
     /**
@@ -70,7 +70,7 @@ public class EffectServiceImpl implements IEffectService {
      */
     @Override
     public Result effectInsert(Effect effect) {
-        String msg = VerificationParams.verificationEffect(effect);
+        String msg = VerificationUtil.verificationEffect(effect);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -82,10 +82,10 @@ public class EffectServiceImpl implements IEffectService {
         effect.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         try{
             iEffectMapper.effectInsert(effect);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ public class EffectServiceImpl implements IEffectService {
         if(StringUtil.isNull(effect.getEffect_id())){
             return Result.fail("传入效果ID为空");
         }
-        String msg = VerificationParams.verificationEffect(effect);
+        String msg = VerificationUtil.verificationEffect(effect);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -117,10 +117,10 @@ public class EffectServiceImpl implements IEffectService {
         }
         try{
             iEffectMapper.effectUpdate(effect);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -142,10 +142,10 @@ public class EffectServiceImpl implements IEffectService {
         effect.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iEffectMapper.effectDelete(effect);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -162,7 +162,7 @@ public class EffectServiceImpl implements IEffectService {
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
             return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
@@ -173,10 +173,10 @@ public class EffectServiceImpl implements IEffectService {
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iEffectMapper.effectBatchDelete(upMap);
             }
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 }

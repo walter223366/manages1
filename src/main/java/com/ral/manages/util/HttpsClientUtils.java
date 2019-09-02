@@ -6,6 +6,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
@@ -62,6 +63,26 @@ public class HttpsClientUtils {
             uefEntity.setContentType("application/json");
             httpPost.setEntity(uefEntity);
             HttpResponse response = httpClient.execute(httpPost);
+            if(response != null){
+                HttpEntity resEntity = response.getEntity();
+                if(resEntity != null){
+                    result = EntityUtils.toString(resEntity,charset);
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String doGet(String url,String charset){
+        HttpClient httpClient = null;
+        HttpGet httpGet = null;
+        String result = null;
+        try{
+            httpClient = new SSLClient();
+            httpGet = new HttpGet(url);
+            HttpResponse response = httpClient.execute(httpGet);
             if(response != null){
                 HttpEntity resEntity = response.getEntity();
                 if(resEntity != null){

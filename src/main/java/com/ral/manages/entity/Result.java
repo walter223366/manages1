@@ -34,7 +34,7 @@ public class Result<T> extends HashMap<String,Object> {
         super();
         this.put("code", ResultCode.SUCCESS.getCode());
         this.put("result", SUCCESS);
-        this.put("msg", ResultCode.SUCCESS.getMsg());
+        this.put("msg", ResultCode.SUCCESS.getResult());
         this.put("rows",ROWS);
     }
 

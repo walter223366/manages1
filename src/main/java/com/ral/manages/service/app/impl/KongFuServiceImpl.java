@@ -6,7 +6,7 @@ import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.entity.app.KongFu;
 import com.ral.manages.entity.Result;
-import com.ral.manages.comms.verifi.VerificationParams;
+import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
 import com.ral.manages.service.app.IKongFuService;
@@ -49,7 +49,7 @@ public class KongFuServiceImpl implements IKongFuService {
             String enableValue = (enable== TableCode.KongFu.ENABLE_ONE.getCode()? TableCode.KongFu.ENABLE_ONE.getName(): TableCode.KongFu.ENABLE_ZERO.getName());
             kongFuMap.put("enable",enableValue);
         }
-        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),kongFuList));
+        return Result.success(ResultCode.SUCCESS.getResult(),PageBean.resultPage(page.getTotal(),kongFuList));
     }
 
     /**
@@ -64,7 +64,7 @@ public class KongFuServiceImpl implements IKongFuService {
             return Result.fail("传入功夫名称为空");
         }
         Map<String,Object> result = iKongFuMapper.kongFuEditQuery(kongFu);
-        return Result.success(ResultCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getResult(),result);
     }
 
     /**
@@ -77,7 +77,7 @@ public class KongFuServiceImpl implements IKongFuService {
         List<Map<String,Object>> kongFuList = iMoveMapper.moveQueryMarquee();
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("data",kongFuList);
-        return Result.success(ResultCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getResult(),result);
     }
 
     /**
@@ -88,7 +88,7 @@ public class KongFuServiceImpl implements IKongFuService {
      */
     @Override
     public Result kongFuInsert(KongFu kongFu) {
-        String msg = VerificationParams.verificationKongFu(kongFu);
+        String msg = VerificationUtil.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -100,10 +100,10 @@ public class KongFuServiceImpl implements IKongFuService {
         kongFu.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         try{
             iKongFuMapper.kongFuInsert(kongFu);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ public class KongFuServiceImpl implements IKongFuService {
         if(StringUtil.isNull(kongFu.getKongfu_id())){
             return Result.fail("传入功夫ID为空");
         }
-        String msg = VerificationParams.verificationKongFu(kongFu);
+        String msg = VerificationUtil.verificationKongFu(kongFu);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -135,10 +135,10 @@ public class KongFuServiceImpl implements IKongFuService {
         }
         try{
             iKongFuMapper.kongFuUpdate(kongFu);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -160,10 +160,10 @@ public class KongFuServiceImpl implements IKongFuService {
         kongFu.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iKongFuMapper.kongFuDelete(kongFu);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -180,7 +180,7 @@ public class KongFuServiceImpl implements IKongFuService {
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
             return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
@@ -191,10 +191,10 @@ public class KongFuServiceImpl implements IKongFuService {
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iKongFuMapper.kongFuBatchDelete(upMap);
             }
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -216,7 +216,7 @@ public class KongFuServiceImpl implements IKongFuService {
         }else{
             resultMap.put("moveName",seeMoveName(moveId));
         }
-        return Result.success(ResultCode.SUCCESS.getMsg(),resultMap);
+        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
     }
 
     /**

@@ -6,7 +6,7 @@ import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.page.PageBean;
 import com.ral.manages.entity.Result;
-import com.ral.manages.comms.verifi.VerificationParams;
+import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.entity.app.Article;
 import com.ral.manages.mapper.app.IArticleMapper;
 import com.ral.manages.service.app.IArticleService;
@@ -40,7 +40,7 @@ public class ArticleServicelmpl implements IArticleService {
     public Result articlePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> articleList = iArticleMapper.articlePagingQuery(map);
-        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),articleList));
+        return Result.success(ResultCode.SUCCESS.getResult(),PageBean.resultPage(page.getTotal(),articleList));
     }
 
     /**
@@ -55,7 +55,7 @@ public class ArticleServicelmpl implements IArticleService {
             return Result.fail("传入物品名称为空");
         }
         Map<String,Object> result = iArticleMapper.articleEditQuery(article);
-        return Result.success(ResultCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getResult(),result);
     }
 
     /***
@@ -66,7 +66,7 @@ public class ArticleServicelmpl implements IArticleService {
      */
     @Override
     public Result articleInsert(Article article) {
-        String msg = VerificationParams.verificationArticle(article);
+        String msg = VerificationUtil.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -78,10 +78,10 @@ public class ArticleServicelmpl implements IArticleService {
         article.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         try{
             iArticleMapper.articleInsert(article);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ public class ArticleServicelmpl implements IArticleService {
         if(StringUtil.isNull(article.getArticle_id())){
             return Result.fail("传入物品ID为空");
         }
-        String msg = VerificationParams.verificationArticle(article);
+        String msg = VerificationUtil.verificationArticle(article);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -113,10 +113,10 @@ public class ArticleServicelmpl implements IArticleService {
         }
         try{
             iArticleMapper.articleUpdate(article);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -138,10 +138,10 @@ public class ArticleServicelmpl implements IArticleService {
         article.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iArticleMapper.articleDelete(article);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ public class ArticleServicelmpl implements IArticleService {
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
             return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
@@ -169,10 +169,10 @@ public class ArticleServicelmpl implements IArticleService {
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iArticleMapper.articleBatchDelete(upMap);
             }
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 }

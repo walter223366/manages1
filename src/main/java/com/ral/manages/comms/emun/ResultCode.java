@@ -13,17 +13,17 @@ public enum ResultCode {
     ERROR("999", "ERROR");
 
     private String code;
-    private String msg;
-    private ResultCode(String code, String msg) {
-        this.msg = msg;
+    private String result;
+    private ResultCode(String code, String result) {
+        this.result = result;
         this.code = code;
     }
 
     public String getCode(){
         return code;
     }
-    public String getMsg(){
-        return msg;
+    public String getResult(){
+        return result;
     }
 
 }

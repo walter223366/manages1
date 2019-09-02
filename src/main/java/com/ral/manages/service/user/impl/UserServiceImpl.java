@@ -27,7 +27,7 @@ public class UserServiceImpl implements IUserService {
             return Result.fail("传入用户名或密码为空");
         }
         if(USERNAME.equals(user.getUsername()) && PASSWORD.equals(user.getPassword())){
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }else{
             return Result.fail("用户名或密码错误");
         }

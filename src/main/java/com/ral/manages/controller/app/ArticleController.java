@@ -32,7 +32,7 @@ public class ArticleController {
             generalResponse = iArticleService.articlePagingQuery(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getResult()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -47,7 +47,7 @@ public class ArticleController {
             generalResponse = iArticleService.articleEditQuery(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getResult()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -62,7 +62,7 @@ public class ArticleController {
             generalResponse = iArticleService.articleInsert(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getResult()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -77,7 +77,7 @@ public class ArticleController {
             generalResponse = iArticleService.articleUpdate(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getResult()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -92,7 +92,7 @@ public class ArticleController {
             generalResponse = iArticleService.articleDelete(article);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getResult()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;
@@ -107,7 +107,7 @@ public class ArticleController {
             generalResponse = iArticleService.articleBatchDelete(map);
             LOG.info("返回值:" + generalResponse);
         }catch (Exception e){
-            generalResponse = Result.error(ResultCode.ERROR.getMsg()+e.getMessage());
+            generalResponse = Result.error(ResultCode.ERROR.getResult()+e.getMessage());
             LOG.error(generalResponse.toString());
         }
         return generalResponse;

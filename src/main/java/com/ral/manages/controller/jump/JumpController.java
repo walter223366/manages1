@@ -17,8 +17,8 @@ public class JumpController {
     @RequestMapping(value="/{name}")
     public String user(@PathVariable String name){ return name; }
 
-    @RequestMapping("/404")
-    public String jumpError(){ return "error/404.html"; }
+    @RequestMapping("/rError")
+    public String jumpError(){ return "error/rError.html"; }
 
     @RequestMapping("/account")
     public String jumpAccount(){ return "app/account.html"; }

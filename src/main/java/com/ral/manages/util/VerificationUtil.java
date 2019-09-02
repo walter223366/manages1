@@ -1,7 +1,11 @@
-package com.ral.manages.comms.verifi;
+package com.ral.manages.util;
 
+import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.app.*;
+import com.ral.manages.util.MapUtil;
 import com.ral.manages.util.StringUtil;
+
+import java.util.Map;
 
 /**
  *   <p>功能描述：参数校验类</p>
@@ -9,17 +13,18 @@ import com.ral.manages.util.StringUtil;
  *
  *   @author Double
  */
-public class VerificationParams {
+public class VerificationUtil {
 
     /**账号管理参数校验*/
-    public static String verificationAccount(Account account){
-        if(StringUtil.isNull(account.getAccount())){
-            return "传入账号名称为空";
+    public static void verificationAccount(Map<String,Object> map){
+        String account = MapUtil.getString(map,"account");
+        String source = MapUtil.getString(map,"source");
+        if(StringUtil.isNull(account)){
+            throw new BizException("传入账号名称为空") ;
         }
-        if(account.getSource()!=0 && account.getSource()!=1){
-            return "传入账号来源标志错误";
+        if(!source.equals("0") && !source.equals("1")){
+            throw new BizException("传入账号来源标志错误");
         }
-        return null;
     }
 
 

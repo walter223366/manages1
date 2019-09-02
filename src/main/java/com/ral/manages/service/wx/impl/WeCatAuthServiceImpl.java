@@ -22,28 +22,46 @@ public class WeCatAuthServiceImpl implements IWeCatAuthService {
     @Autowired
     private SysConfigurers sys;
 
+    /**
+     * 获取code地址
+     * @param map map
+     * @return String
+     */
     @Override
     public String getCode(Map<String,Object> map) {
-        String redirectUrl = sys.getWeb_url();
+        String type = MapUtil.getString(map,"type");
+        String redirectUrl;
+        String scope;
+        if(type.equals("userInfo")){
+            redirectUrl = sys.getWeChat_callBackUser();
+            scope = sys.getWeChat_scopeUserInfo();
+        }else{
+            redirectUrl = sys.getWeChat_callBackId();
+            scope = sys.getWeChat_scopeBase();
+        }
         String url = "";
         try {
             redirectUrl = URLEncoder.encode(redirectUrl,sys.getCharsetName());
-            String scope = sys.getWeChat_scopeBase();
             url = sys.getWeChat_authorize();
             url = url.concat("?appid="+sys.getWeChat_appId())
                     .concat("&redirect_uri="+redirectUrl)
                     .concat("&response_type=code&scope="+scope)
                     .concat("&state="+sys.getWeChat_state())
-                    .concat("&connect_redirect=1#wechat_redirect");
+                    .concat("#wechat_redirect");
         } catch (UnsupportedEncodingException e) {
             log.error("重定向URL编码失败："+e.getMessage());
         }
-        log.info("重定向URL:"+url);
+        log.info("微信重定向URL:"+url);
         return url;
     }
 
+    /**
+     * 获取OpenId
+     * @param map map
+     * @return JSONObject
+     */
     @Override
-    public JSONObject getOpenid(Map<String,Object> map){
+    public JSONObject getOpenId(Map<String,Object> map){
         String code = MapUtil.getString(map,"code");
         if(StringUtil.isNull(code)){
             throw new BizException("传入code为空");
@@ -54,9 +72,44 @@ public class WeCatAuthServiceImpl implements IWeCatAuthService {
         paramsMap.put("secret",sys.getWeChat_appSecret());
         paramsMap.put("code",code);
         paramsMap.put("grant_type",sys.getWeChat_grantCode());
-        String str = HttpsClientUtils.doPostMap(url,paramsMap,sys.getCharsetName());
-        JSONObject result = JSONObject.fromObject(str);
-        log.info("获取WeCatInfo："+result);
+        JSONObject result = new JSONObject();
+        try{
+            String str = HttpsClientUtils.doPostMap(url,paramsMap,sys.getCharsetName());
+            result = JSONObject.fromObject(str);
+        }catch (Exception e){
+            throw new BizException("获取微信OpenId失败："+e.getMessage());
+        }
+        String openId = result.optString("openid");
+        if(StringUtil.isNull(openId)){
+            throw new BizException("获取OpenId失败");
+        }
+        log.info("获取微信OpenId："+result);
         return result;
     }
+
+    /**
+     * 获取微信信息
+     * @param map map
+     * @return JSONObject
+     */
+    @Override
+    public JSONObject getUserInfo(Map<String,Object> map,JSONObject json) {
+        String code = MapUtil.getString(map,"code");
+        if(StringUtil.isNull(code)){
+            throw new BizException("传入code为空");
+        }
+        String url = sys.getWehChat_userInfo();
+        url = url.concat("?access_token="+json.optString("access_token"))
+                .concat("&openid="+json.optString("openid"))
+                .concat("&lang=zh_CN");
+        JSONObject result = new JSONObject();
+        try{
+            String str = HttpsClientUtils.doGet(url,sys.getCharsetName());
+            result = JSONObject.fromObject(str);
+        }catch (Exception e){
+            throw new BizException("获取微信OpenId失败："+e.getMessage());
+        }
+        return result;
+    }
+
 }

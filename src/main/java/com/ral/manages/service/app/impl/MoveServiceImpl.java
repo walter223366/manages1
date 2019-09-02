@@ -6,7 +6,7 @@ import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.page.PageBean;
 import com.ral.manages.entity.Result;
-import com.ral.manages.comms.verifi.VerificationParams;
+import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.entity.app.Move;
 import com.ral.manages.mapper.app.IEffectMapper;
 import com.ral.manages.mapper.app.IKongFuMapper;
@@ -54,7 +54,7 @@ public class MoveServiceImpl implements IMoveService {
                 moveMap.put("kongFuName",seeKongFuName(kongFuId));
             }
         }
-        return Result.success(ResultCode.SUCCESS.getMsg(),PageBean.resultPage(page.getTotal(),moveList));
+        return Result.success(ResultCode.SUCCESS.getResult(),PageBean.resultPage(page.getTotal(),moveList));
     }
 
     /**
@@ -69,7 +69,7 @@ public class MoveServiceImpl implements IMoveService {
             return Result.fail("传入招式名称为空");
         }
         Map<String,Object> result = iMoveMapper.moveEditQuery(move);
-        return Result.success(ResultCode.SUCCESS.getMsg(),result);
+        return Result.success(ResultCode.SUCCESS.getResult(),result);
     }
 
     /**
@@ -80,7 +80,7 @@ public class MoveServiceImpl implements IMoveService {
      */
     @Override
     public Result moveInsert(Move move) {
-        String msg = VerificationParams.verificationMove(move);
+        String msg = VerificationUtil.verificationMove(move);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -92,10 +92,10 @@ public class MoveServiceImpl implements IMoveService {
         move.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
         try{
             iMoveMapper.moveInsert(move);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -110,7 +110,7 @@ public class MoveServiceImpl implements IMoveService {
         if(StringUtil.isNull(move.getZhaoshi_id())){
             return Result.fail("传入招式ID为空");
         }
-        String msg = VerificationParams.verificationMove(move);
+        String msg = VerificationUtil.verificationMove(move);
         if(!StringUtil.isNull(msg)){
             return Result.fail(msg);
         }
@@ -127,10 +127,10 @@ public class MoveServiceImpl implements IMoveService {
         }
         try{
             iMoveMapper.moveUpdate(move);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -152,10 +152,10 @@ public class MoveServiceImpl implements IMoveService {
         move.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
         try{
             iMoveMapper.moveDelete(move);
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -172,7 +172,7 @@ public class MoveServiceImpl implements IMoveService {
         try{
             resluList = JSONArray.fromObject(data);
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
             return Result.fail("传入data参数JSON格式错误");
         }
         if(SetUtil.isListNull(resluList)){
@@ -183,10 +183,10 @@ public class MoveServiceImpl implements IMoveService {
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iMoveMapper.moveBatchDelete(upMap);
             }
-            return Result.successNotdatas(ResultCode.SUCCESS.getMsg());
+            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getMsg()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getMsg()+e.getMessage());
+            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
+            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
         }
     }
 
@@ -200,7 +200,7 @@ public class MoveServiceImpl implements IMoveService {
         List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
-        return Result.success(ResultCode.SUCCESS.getMsg(),resultMap);
+        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
     }
 
     /**
@@ -213,7 +213,7 @@ public class MoveServiceImpl implements IMoveService {
         List<Map<String,Object>> resultList = iKongFuMapper.kongFuQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
-        return Result.success(ResultCode.SUCCESS.getMsg(),resultMap);
+        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
     }
 
     /**
@@ -240,7 +240,7 @@ public class MoveServiceImpl implements IMoveService {
         }else{
             resultMap.put("effectName",seeEffectName(effectId));
         }
-        return Result.success(ResultCode.SUCCESS.getMsg(),resultMap);
+        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
     }
 
     /**

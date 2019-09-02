@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/auth")
+
 public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);

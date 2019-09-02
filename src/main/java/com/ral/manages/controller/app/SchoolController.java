@@ -1,3 +1,4 @@
+/*
 package com.ral.manages.controller.app;
 
 import com.ral.manages.comms.emun.ResultCode;
@@ -113,3 +114,4 @@ public class SchoolController {
         return generalResponse;
     }
 }
+*/
