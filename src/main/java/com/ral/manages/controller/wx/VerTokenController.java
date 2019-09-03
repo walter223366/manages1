@@ -10,6 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ *   微信基础配置
+ *
+ *   @author Double
+ *   @since  2019-07-18
+ */
 @RestController
 public class VerTokenController {
     private static final Logger LOG = LoggerFactory.getLogger(VerTokenController.class);

@@ -27,14 +27,14 @@
     <select id="kongFuPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
-    <select id="kongFuIsExist" parameterType="com.ral.manages.entity.app.KongFu" resultType="int">
-        SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    <select id="kongFuIsExist" parameterType="map" resultType="int">
+        SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{name}
     </select>
-    <select id="kongFuEditQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND name=#{kongFu.name}
+    <select id="kongFuEditQuery" parameterType="map" resultType="map">
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND name=#{name}
     </select>
-    <select id="kongFuIdQuery" parameterType="com.ral.manages.entity.app.KongFu" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
+    <select id="kongFuIdQuery" parameterType="map" resultType="map">
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </select>
     <select id="kongFuQueryName" parameterType="string" resultType="map">
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
@@ -51,26 +51,23 @@
 
 
     <!--新增-->
-    <insert id="kongFuInsert" parameterType="com.ral.manages.entity.app.KongFu">
+    <insert id="kongFuInsert" parameterType="map">
         INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi)
-        VALUES(#{kongFu.kongfu_id},#{kongFu.name},#{kongFu.info},#{kongFu.type},#{kongFu.experience_limit},
-        #{kongFu.kongfu_attainments},#{kongFu.enable},#{kongFu.deleteStatus},#{kongFu.kongfu_zhaoshi})
+        VALUES(#{kongfu_id},#{name},#{info},#{type},#{experience_limit},#{kongfu_attainments},#{enable},#{deleteStatus},#{kongfu_zhaoshi})
     </insert>
 
 
     <!--修改-->
-    <update id="kongFuUpdate" parameterType="com.ral.manages.entity.app.KongFu">
-        UPDATE dict_kongfu SET  name=#{kongFu.name},info=#{kongFu.info},type=#{kongFu.type},experience_limit=#{kongFu.experience_limit},
-        kongfu_attainments=#{kongFu.kongfu_attainments},enable=#{kongFu.enable},kongfu_zhaoshi=#{kongFu.kongfu_zhaoshi}
-        WHERE 1=1 AND kongfu_id=#{kongFu.kongfu_id}
+    <update id="kongFuUpdate" parameterType="map">
+        UPDATE dict_kongfu SET  name=#{name},info=#{info},type=#{type},experience_limit=#{experience_limit},
+        kongfu_attainments=#{kongfu_attainments},enable=#{enable},kongfu_zhaoshi=#{kongfu_zhaoshi}
+        WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </update>
 
 
     <!--删除-->
-    <update id="kongFuDelete" parameterType="com.ral.manages.entity.app.KongFu">
-        UPDATE dict_kongfu SET deleteStatus=#{kongFu.deleteStatus} WHERE 1=1 AND  name=#{kongFu.name}
+    <update id="kongFuDelete" parameterType="map">
+        UPDATE dict_kongfu SET deleteStatus=#{deleteStatus} WHERE 1=1 AND  name=#{name}
     </update>
-    <update id="kongFuBatchDelete" parameterType="map">
-        UPDATE dict_kongfu SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
-    </update>
+
 </mapper>

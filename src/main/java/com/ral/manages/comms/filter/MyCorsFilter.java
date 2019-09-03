@@ -5,6 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ *   配置跨域过滤器
+ *
+ *   @author Double
+ *   @since  2019-07-18
+ */
 public class MyCorsFilter implements Filter {
 
     private static final String chartName = "UTF-8";

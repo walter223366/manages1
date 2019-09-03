@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *   <p>功能描述：页面跳转</p>
- *   <p>创建时间：2019-07-18 </p>
+ *   页面跳转
  *
  *   @author Double
+ *   @since  2019-07-18
  */
 @Controller
 @RequestMapping("/system")

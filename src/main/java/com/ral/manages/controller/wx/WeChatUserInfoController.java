@@ -14,10 +14,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- *   <p>功能描述：微信授权</p>
- *   <p>创建时间: 2019-08-23 </p>
+ *   微信授权
  *
  *   @author Double
+ *   @since  2019-07-18
  */
 @RestController
 @RequestMapping("/weChat/")

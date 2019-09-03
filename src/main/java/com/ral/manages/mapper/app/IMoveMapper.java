@@ -1,6 +1,5 @@
 package com.ral.manages.mapper.app;
 
-import com.ral.manages.entity.app.Move;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
@@ -9,17 +8,16 @@ public interface IMoveMapper {
 
     /*查询*/
     List<Map<String,Object>> movePagingQuery(Map<String,Object> map);
-    int moveIsExist(@Param("move") Move move);
-    Map<String,Object> moveEditQuery(@Param("move") Move move);
-    Map<String,Object> moveIdQuery(@Param("move") Move move);
+    int moveIsExist(Map<String,Object> map);
+    Map<String,Object> moveEditQuery(Map<String,Object> map);
+    Map<String,Object> moveIdQuery(Map<String,Object> map);
     List<Map<String,Object>> moveQueryMarquee();
     Map<String,Object> moveQueryName(@Param("moveId") String moveId);
     List<Map<String,Object>> moveQueryMarqueeName(Map<String,Object> map);
     /*新增*/
-    void moveInsert(@Param("move") Move move);
+    void moveInsert(Map<String,Object> map);
     /*修改*/
-    void moveUpdate(@Param("move") Move move);
+    void moveUpdate(Map<String,Object> map);
     /*删除*/
-    void moveDelete(@Param("move") Move move);
-    void moveBatchDelete(Map<String,Object> map);
+    void moveDelete(Map<String,Object> map);
 }

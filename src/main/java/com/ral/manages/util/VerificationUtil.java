@@ -1,10 +1,6 @@
 package com.ral.manages.util;
 
 import com.ral.manages.comms.exception.BizException;
-import com.ral.manages.entity.app.*;
-import com.ral.manages.util.MapUtil;
-import com.ral.manages.util.StringUtil;
-
 import java.util.Map;
 
 /**
@@ -29,64 +25,70 @@ public class VerificationUtil {
 
 
     /**门派管理参数校验*/
-    public static String verificationSchool(School school){
-        if(StringUtil.isNull(school.getName())){
-            return "传入门派名称为空";
+    public static void verificationSchool(Map<String,Object> map){
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+           throw new BizException("传入门派名称为空");
         }
-        return null;
     }
 
 
     /**武学管理参数校验*/
-    public static String verificationKongFu(KongFu kongFu){
-        if(StringUtil.isNull(kongFu.getName())){
-            return "传入功夫名称为空";
+    public static void verificationKongFu(Map<String,Object> map){
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入功夫名称为空");
         }
-        if(StringUtil.isNull(Integer.toString(kongFu.getType()))){
-            return "传入功夫类型为空";
+        String type = MapUtil.getString(map,"type");
+        if(StringUtil.isNull(type)){
+            throw new BizException("传入功夫类型为空");
         }
-        return null;
     }
 
 
     /**效果管理参数校验*/
-    public static String verificationEffect(Effect effect){
-        if(StringUtil.isNull(effect.getName())){
-            return "传入效果名称为空";
+    public static void verificationEffect(Map<String,Object> map){
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入效果名称为空");
         }
-        if(effect.getTarget()!=0 && effect.getTarget()!=1){
-            return "传入效果执行目标错误";
+        String target = MapUtil.getString(map,"target");
+        if(!target.equals("0") && !target.equals("1")){
+            throw new BizException("传入效果执行目标错误");
         }
-        return null;
     }
 
 
     /**招式管理参数校验*/
-    public static String verificationMove(Move move){
-        if(StringUtil.isNull(move.getName())){
-            return "传入招式名称为空";
+    public static void verificationMove(Map<String,Object> map){
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入招式名称为空");
         }
-        if(StringUtil.isNull(move.getMP_cost())){
-            return "传入内力花费为空";
+        String cost = MapUtil.getString(map,"MP_cost");
+        if(StringUtil.isNull(cost)){
+            throw new BizException("传入内力花费为空");
         }
-        if(StringUtil.isNull(move.getKongfu_id())){
-            return "传入武学选项为空";
+        String kongfu_id = MapUtil.getString(map,"kongfu_id");
+        if(StringUtil.isNull(kongfu_id)){
+            throw new BizException("传入武学选项为空");
         }
-        if(StringUtil.isNull(move.getZhaoshi_effect())){
-            return "传入效果选项为空";
+        String zhaoshi_effect = MapUtil.getString(map,"zhaoshi_effect");
+        if(StringUtil.isNull(zhaoshi_effect)){
+            throw new BizException("传入效果选项为空");
         }
-        return null;
     }
 
 
     /**物品管理参数校验*/
-    public static String verificationArticle(Article article){
-        if(StringUtil.isNull(article.getName())){
-            return "传入物品名称为空";
+    public static void verificationArticle(Map<String,Object> map){
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入物品名称为空");
         }
-        if(StringUtil.isNull(article.getImg())){
-            return "传入物品图片为空";
+        String img = MapUtil.getString(map,"img");
+        if(StringUtil.isNull(img)){
+            throw new BizException("传入物品图片为空");
         }
-       return null;
     }
 }

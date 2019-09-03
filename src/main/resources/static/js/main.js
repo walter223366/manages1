@@ -204,14 +204,31 @@ function isNull(str){
         return str;
     }
 }
+pQuery="pagingQuery";
+eQuery="editQuery";
+increase="insert";
+renew="update";
+strike="delete";
+bStrike="batchDelete";
+signUp="signUp";
+seeDetails="seeDetails";
+kMoveBox="kMoveBox";
+mKongFuBox="mKongFuBox";
+mEffectBox="mEffectBox";
+url = "/manages/sysAuth/server";
 
-function postRequest(url,params,callback){
+function postRequest(params,manages,method,callback){
+    var obj = {
+        manages:manages,
+        method:method,
+        params:$.base64.btoa(JSON.stringify(params),charset)
+    };
     $.ajax({
         type:"POST",
         dataType:"JSON",
         contentType:"application/json",
         url:url,
-        data:JSON.stringify(params),
+        data:JSON.stringify(obj),
         success:function (data) {
             if (typeof callback === "function") {
                 callback(data);
@@ -219,7 +236,13 @@ function postRequest(url,params,callback){
         }
     });
 }
-function getRequest(url,callback){
+function getRequest(url,manages,method,callback){
+    var params = {};
+    var obj = {
+        manages:manages,
+        method:method,
+        params:$.base64.btoa(JSON.stringify(params),charset)
+    };
     $.ajax({
         type:"GET",
         dataType:"JSON",

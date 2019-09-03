@@ -1,12 +1,5 @@
 charset="utf-8";
-var pagingQueryUrl="/manages/effect/pagingQuery";//分页查询
-var batchDelUrl="/manages/effect/inBatchDelete";//批量删除
-var addUrl="/manages/effect/inAdd";//新增
-var editQueryUrl="/manages/effect/editQuery";//编辑查询
-var editUrl="/manages/effect/inUpdate";//修改
-var delUrl="/manages/effect/inDelete";//删除
-
-
+manages="effect";
 
 /**查询部分*/
 $(function(){
@@ -18,11 +11,16 @@ function pagingQuery(){
         name:$("#query_name").val(),
         target:$("#query_target").val()
     };
+    var obj = {
+        manages:manages,
+        method:pQuery,
+        params:$.base64.btoa(JSON.stringify(params),charset)
+    };
     layui.use(['layer','table'],function (){
         var layer = layui.layer,table = layui.table;
         table.render({
             elem:'#dataInfo',
-            url:pagingQueryUrl,
+            url:url,
             method:'POST',
             contentType:"application/json",
             toolbar:'#toolbarBomb',
@@ -30,7 +28,7 @@ function pagingQuery(){
             title:'效果管理',
             even:true,
             expandRow:true,
-            where:params,
+            where:obj,
             page:true,
             limit:10,
             limits:[10, 20, 30, 40, 50],
@@ -118,9 +116,9 @@ function batchDel(checkStatus){
             btn: ['确定','取消']
         }, function(){
             var params = {
-                data:$.base64.btoa(JSON.stringify(data),charset)
+                data:data
             };
-            postRequest(batchDelUrl,params,function (data){
+            postRequest(params,manages,bStrike,function (data){
                 if (data.code === "0" && data.result === "SUCCESS") {
                     layer.msg("删除成功");
                     pagingQuery();
@@ -178,7 +176,7 @@ function addRequest() {
         layer.msg("效果执行目标不能为空",{icon:2});
         return ;
     }
-    postRequest(addUrl,params,function (data){
+    postRequest(params,manages,increase,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             layer.msg("新增成功");
             pagingQuery();
@@ -253,7 +251,7 @@ function edit(data){
     var params = {
         name:data.name
     };
-    postRequest(editQueryUrl,params,function (data){
+    postRequest(params,manages,eQuery,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if(isJSON(rows)) {
@@ -323,7 +321,7 @@ function editRequest(){
         suck_mp_purple:$("#edit_suck_mp_purple").val(),
         info:$("#edit_info").val()
     };
-    postRequest(editUrl,params,function (data){
+    postRequest(params,manages,renew,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             layer.msg("修改成功");
             pagingQuery();
@@ -365,7 +363,7 @@ function del(data){
     var params = {
         name:data.name
     };
-    postRequest(delUrl,params,function (data){
+    postRequest(params,manages,strike,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             layer.msg("删除成功");
             pagingQuery();

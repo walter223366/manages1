@@ -2,19 +2,14 @@ package com.ral.manages.service.app.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.emun.TableCode;
-import com.ral.manages.entity.app.KongFu;
-import com.ral.manages.entity.Result;
-import com.ral.manages.util.VerificationUtil;
+import com.ral.manages.comms.exception.BizException;
+import com.ral.manages.entity.ProjectConst;
+import com.ral.manages.service.app.UnifiedCall;
+import com.ral.manages.util.*;
 import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
-import com.ral.manages.service.app.IKongFuService;
 import com.ral.manages.comms.page.PageBean;
-import com.ral.manages.util.Base64Util;
-import com.ral.manages.util.SetUtil;
-import com.ral.manages.util.StringUtil;
-import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +19,50 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class KongFuServiceImpl implements IKongFuService {
+@Service("kongFu")
+public class KongFuServiceImpl implements UnifiedCall {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KongFuServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(KongFuServiceImpl.class);
     @Autowired
     private IKongFuMapper iKongFuMapper;
     @Autowired
     private IMoveMapper iMoveMapper;
 
     /**
-     * 分页查询
+     * 处理功夫管理
      *
+     * @param method method
      * @param map map
-     * @return GeneralResponse
+     * @return map
      */
     @Override
-    public Result kongFuPagingQuery(Map<String,Object> map) {
+    public Map<String,Object> uCall(String method,Map<String,Object> map) {
+        Map<String,Object> result = new HashMap<String,Object>();
+        switch (method){
+            case ProjectConst.PAGINGQUERY: result = kongFuPagingQuery(map);
+                break;
+            case ProjectConst.EDITQUERY: result = kongFuEditQuery(map);
+                break;
+            case ProjectConst.INSERT: result = kongFuInsert(map);
+                break;
+            case ProjectConst.UPDATE: result = kongFuUpdate(map);
+                break;
+            case ProjectConst.DELETE: result = kongFuDelete(map);
+                break;
+            case ProjectConst.BATCHDELETE: result = kongFuBatchDelete(map);
+                break;
+            case ProjectConst.KMOVEBOX: result = kongFuAddMove();
+                break;
+            case ProjectConst.SEEDETAILS: result = kongFuSee(map);
+                break;
+            default:
+                throw new BizException("传入该方法不存在");
+        }
+        return result;
+    }
+
+    /*分页查询*/
+    private Map<String,Object> kongFuPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
@@ -49,182 +71,127 @@ public class KongFuServiceImpl implements IKongFuService {
             String enableValue = (enable== TableCode.KongFu.ENABLE_ONE.getCode()? TableCode.KongFu.ENABLE_ONE.getName(): TableCode.KongFu.ENABLE_ZERO.getName());
             kongFuMap.put("enable",enableValue);
         }
-        return Result.success(ResultCode.SUCCESS.getResult(),PageBean.resultPage(page.getTotal(),kongFuList));
+        return PageBean.resultPage(page.getTotal(),kongFuList);
     }
 
-    /**
-     * 编辑查询
-     *
-     * @param kongFu kongFu
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuEditQuery(KongFu kongFu) {
-        if(StringUtil.isNull(kongFu.getName())){
-            return Result.fail("传入功夫名称为空");
+    /*编辑查询*/
+    private Map<String,Object> kongFuEditQuery(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+           throw new BizException("传入功夫名称为空");
         }
-        Map<String,Object> result = iKongFuMapper.kongFuEditQuery(kongFu);
-        return Result.success(ResultCode.SUCCESS.getResult(),result);
+        return iKongFuMapper.kongFuEditQuery(map);
     }
 
-    /**
-     * 招式下拉框
-     *
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuAddMove() {
+    /*招式下拉框*/
+    private Map<String,Object> kongFuAddMove() {
         List<Map<String,Object>> kongFuList = iMoveMapper.moveQueryMarquee();
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("data",kongFuList);
-        return Result.success(ResultCode.SUCCESS.getResult(),result);
+        return result;
     }
 
-    /**
-     * 新增
-     *
-     * @param kongFu kongFu
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuInsert(KongFu kongFu) {
-        String msg = VerificationUtil.verificationKongFu(kongFu);
-        if(!StringUtil.isNull(msg)){
-            return Result.fail(msg);
-        }
-        int count = iKongFuMapper.kongFuIsExist(kongFu);
+    /*新增*/
+    private Map<String,Object> kongFuInsert(Map<String,Object> map) {
+        VerificationUtil.verificationKongFu(map);
+        int count = iKongFuMapper.kongFuIsExist(map);
         if(count > 0){
-            return Result.fail("新增失败，功夫名称已存在");
+            throw new BizException("新增失败，功夫名称已存在");
         }
-        kongFu.setKongfu_id(StringUtil.getUUID());
-        kongFu.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
+        map.put("kongfu_id",StringUtil.getUUID());
+        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
         try{
-            iKongFuMapper.kongFuInsert(kongFu);
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            iKongFuMapper.kongFuInsert(map);
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("新增失败："+e.getMessage());
+            throw new BizException("新增失败："+e.getMessage());
         }
     }
 
-    /**
-     * 修改
-     *
-     * @param kongFu kongFu
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuUpdate(KongFu kongFu) {
-        if(StringUtil.isNull(kongFu.getKongfu_id())){
-            return Result.fail("传入功夫ID为空");
+    /*修改*/
+    private Map<String,Object> kongFuUpdate(Map<String,Object> map) {
+        String kongfu_id = MapUtil.getString(map,"kongfu_id");
+        if(StringUtil.isNull(kongfu_id)){
+            throw new BizException("传入功夫ID为空");
         }
-        String msg = VerificationUtil.verificationKongFu(kongFu);
-        if(!StringUtil.isNull(msg)){
-            return Result.fail(msg);
+        VerificationUtil.verificationKongFu(map);
+        Map<String,Object> qMap = iKongFuMapper.kongFuIdQuery(map);
+        if(SetUtil.isMapNull(qMap)){
+            throw new BizException("修改失败，该功夫不存在");
         }
-        Map<String,Object> map = iKongFuMapper.kongFuIdQuery(kongFu);
-        if(SetUtil.isMapNull(map)){
-            return Result.fail("修改失败，该功夫不存在");
-        }
-        String name = SetUtil.toMapValueString(map,"name");
-        if(!name.equals(kongFu.getName())){
-            int count = iKongFuMapper.kongFuIsExist(kongFu);
+        String name =  MapUtil.getString(qMap,"name");
+        String cName = MapUtil.getString(map,"name");
+        if(!name.equals(cName)){
+            int count = iKongFuMapper.kongFuIsExist(map);
             if(count > 0){
-                return Result.fail("修改失败，功夫名称已存在");
+                throw new BizException("修改失败，功夫名称已存在");
             }
         }
         try{
-            iKongFuMapper.kongFuUpdate(kongFu);
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            iKongFuMapper.kongFuUpdate(map);
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("修改失败："+e.getMessage());
+            throw new BizException("修改失败："+e.getMessage());
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param kongFu kongFu
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuDelete(KongFu kongFu) {
-        if(StringUtil.isNull(kongFu.getName())){
-            return Result.fail("传入功夫名称为空");
+    /*删除*/
+    private Map<String,Object> kongFuDelete(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入功夫名称为空");
         }
-        int count = iKongFuMapper.kongFuIsExist(kongFu);
+        int count = iKongFuMapper.kongFuIsExist(map);
         if(count <= 0){
-            return Result.fail("删除失败，该功夫不存在");
+            throw new BizException("删除失败，该功夫不存在");
         }
-        kongFu.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
         try{
-            iKongFuMapper.kongFuDelete(kongFu);
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            iKongFuMapper.kongFuDelete(map);
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 
-    /**
-     * 批量删除
-     *
-     * @param map map
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuBatchDelete(Map<String,Object> map) {
-        List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
-        String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
-        try{
-            resluList = JSONArray.fromObject(data);
-        }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail("传入data参数JSON格式错误");
-        }
-        if(SetUtil.isListNull(resluList)){
-            return Result.fail("传入data参数为空");
+    /*批量删除*/
+    private Map<String,Object> kongFuBatchDelete(Map<String,Object> map) {
+        List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
+        if(SetUtil.isListNull(dataList)){
+            throw new BizException("传入data参数为空");
         }
         try{
-            for(Map<String,Object> upMap : resluList){
+            for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
-                iKongFuMapper.kongFuBatchDelete(upMap);
+                iKongFuMapper.kongFuDelete(upMap);
             }
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("批量删除失败："+e.getMessage());
+            throw new BizException("批量删除失败："+e.getMessage());
         }
     }
 
-    /**
-     * 查看详情
-     *
-     * @param kongFu kongFu
-     * @return GeneralResponse
-     */
-    @Override
-    public Result kongFuSee(KongFu kongFu) {
-        if(StringUtil.isNull(kongFu.getName())){
-            return Result.fail("传入功夫名称为空");
+    /*查看详情*/
+    private Map<String,Object> kongFuSee(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入功夫名称为空");
         }
-        Map<String,Object> resultMap = iKongFuMapper.kongFuEditQuery(kongFu);
-        String moveId = SetUtil.toMapValueString(resultMap,"kongfu_zhaoshi");
+        Map<String,Object> resultMap = iKongFuMapper.kongFuEditQuery(map);
+        String moveId = MapUtil.getString(resultMap,"kongfu_zhaoshi");
         if(StringUtil.isNull(moveId)){
             resultMap.put("moveName","");
         }else{
             resultMap.put("moveName",seeMoveName(moveId));
         }
-        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
+        return resultMap;
     }
 
-    /**
-     * 获取招式名称
-     *
-     * @param str str
-     * @return  List<String>
-     */
+    /*获取招式名称*/
     private List<String> seeMoveName(String str){
         String[] values = str.split(",");
         List<String> list = new ArrayList<String>();
@@ -241,12 +208,7 @@ public class KongFuServiceImpl implements IKongFuService {
         return nameList;
     }
 
-    /**
-     * 处理功夫类型
-     *
-     * @param type type
-     * @return String
-     */
+   /*处理功夫类型*/
     private String kongFuType(int type){
         switch (type){
             case 0:return TableCode.KongFu.TYPE_ZERO.getName();

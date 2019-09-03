@@ -1,11 +1,5 @@
 charset="utf-8";
-var pagingQueryUrl="/manages/account/pagingQuery";//分页查询
-var batchDelUrl="/manages/account/inBatchDelete";//批量删除
-var addUrl="/manages/account/inAdd";//新增
-var editQueryUrl ="/manages/account/editQuery";//编辑查询
-var editUrl="/manages/account/inUpdate";//修改
-var delUrl="/manages/account/inDelete";//删除
-
+manages="account";
 
 /**查询部分*/
 $(function(){
@@ -20,11 +14,16 @@ function pagingQuery(){
         startTime:$("#query_startTime").val(),
         endTime:$("#query_endTime").val()
     };
+    var obj = {
+        manages:manages,
+        method:pQuery,
+        params:$.base64.btoa(JSON.stringify(params),charset)
+    };
     layui.use(['layer','table'],function (){
         var layer = layui.layer,table = layui.table;
         table.render({
             elem:'#dataInfo',
-            url:pagingQueryUrl,
+            url:url,
             method:'POST',
             contentType:"application/json",
             toolbar:'#toolbarBomb',
@@ -32,7 +31,7 @@ function pagingQuery(){
             title:'账号管理',
             even:true,
             expandRow:true,
-            where:params,
+            where:obj,
             page:true,
             limit:10,
             limits:[10, 20, 30, 40, 50],
@@ -116,9 +115,9 @@ function batchDel(checkStatus){
             btn: ['确定','取消']
         }, function(){
             var params = {
-                data:$.base64.btoa(JSON.stringify(data),charset)
+                data:data
             };
-            postRequest(batchDelUrl,params,function (data){
+            postRequest(params,manages,bStrike,function (data){
                 if (data.code === "0" && data.result === "SUCCESS"){
                     layer.msg("删除成功");
                     pagingQuery();
@@ -156,7 +155,7 @@ function addRequest(){
             return;
         }
     }
-    postRequest(addUrl,params,function (data){
+    postRequest(params,manages,increase,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             layer.msg("新增成功");
             pagingQuery();
@@ -179,7 +178,7 @@ function edit(data){
     var params = {
         account:data.account
     };
-    postRequest(editQueryUrl,params,function (data){
+    postRequest(params,manages,eQuery,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if(isJSON(rows)){
@@ -216,7 +215,7 @@ function editRequest(){
             return ;
         }
     }
-    postRequest(editUrl,params,function (data){
+    postRequest(params,manages,renew,function (data){
         if(data.code === "0" && data.result === "SUCCESS"){
             layer.msg("修改成功");
             pagingQuery();
@@ -237,7 +236,7 @@ function del(data){
     var params = {
         account:data.account
     };
-    postRequest(delUrl,params,function (data){
+    postRequest(params,manages,strike,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             layer.msg("删除成功");
             pagingQuery();

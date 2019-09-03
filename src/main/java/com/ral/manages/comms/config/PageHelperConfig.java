@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
- *   <p>功能描述：分页插件配置类</p>
- *   <p>创建时间：2019-07-18 </p>
+ *   分页插件配置
  *
  *   @author Double
+ *   @since  2019-07-18
  */
 @Configuration
 public class PageHelperConfig {

@@ -61,11 +61,18 @@
             return;
         }
         var landingUrl="/manages/user/landing";
-        postRequest(landingUrl,params,function (data){
-            if (data.code === "0" && data.result === "SUCCESS") {
-                window.location.href="/manages/system/main";
-            }else{
-                layer.msg(data.msg,{icon:2});
+        $.ajax({
+            type:"POST",
+            dataType:"JSON",
+            contentType:"application/json",
+            url:landingUrl,
+            data:JSON.stringify(params),
+            success:function (data) {
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    window.location.href="/manages/system/main";
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
             }
         });
     }

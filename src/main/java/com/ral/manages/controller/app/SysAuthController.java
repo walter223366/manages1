@@ -3,7 +3,7 @@ package com.ral.manages.controller.app;
 import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.Result;
-import com.ral.manages.service.app.IAccountService;
+import com.ral.manages.service.app.ISysAuthService;
 import com.ral.manages.util.Base64Util;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,15 +20,15 @@ public class SysAuthController {
 
     private static final Logger log = LoggerFactory.getLogger(SysAuthController.class);
     @Autowired
-    private IAccountService accountService;
+    private ISysAuthService sysAuthService;
 
-    @PostMapping("account")
-    public Object account(@RequestBody Map<String,Object> map) {
+    @PostMapping("server")
+    public Object sysAuth(@RequestBody Map<String,Object> map) {
         log.info("请求参数：" + map);
         Result result = new Result();
         try {
-            Map<String,Object> accountMap = accountService.sysAuthAccount(map);
-            JSONObject json = JSONObject.fromObject(accountMap);
+            Map<String,Object> resultMap = sysAuthService.sysAuth(map);
+            JSONObject json = JSONObject.fromObject(resultMap);
             result.setRows(Base64Util.Base64Encode(json.toString()));
         } catch (BizException ex) {
             log.debug("请求失败：", ex);

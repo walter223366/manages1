@@ -24,7 +24,7 @@ public class DruidSourceConfig {
         return new DruidDataSource();
     }
 
-    //Druid监控配置
+    /*Druid监控配置*/
     @Bean("doDruidRegistration")
     public ServletRegistrationBean<StatViewServlet> servletRegistrationBean(){
         StatViewServlet statViewServlet = new StatViewServlet();
@@ -35,7 +35,7 @@ public class DruidSourceConfig {
         return servletRegistrationBean;
     }
 
-    //Druid过滤器配置
+    /*Druid过滤器配置*/
     @Bean("doDruidFilter")
     public FilterRegistrationBean<WebStatFilter> filterRegistrationBean(){
         FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<>(new WebStatFilter());

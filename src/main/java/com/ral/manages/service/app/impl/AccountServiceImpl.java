@@ -5,7 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.ProjectConst;
-import com.ral.manages.service.app.IAccountService;
+import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.comms.page.PageBean;
@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class AccountServiceImpl implements IAccountService {
+@Service("account")
+public class AccountServiceImpl implements UnifiedCall {
 
     private static final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
     @Autowired
@@ -27,32 +27,31 @@ public class AccountServiceImpl implements IAccountService {
 
     /**
      * 处理账号管理
+     *
+     * @param method method
      * @param map map
      * @return map
      */
     @Override
-    public Map<String,Object> sysAuthAccount(Map<String,Object> map) {
-        String method = MapUtil.getString(map,"method");
-        String params = Base64Util.Base64Decode(MapUtil.getString(map,"params"));
-        Map<String,Object> dataMap = JsonUtil.formatJSON(params);
+    public Map<String,Object> uCall(String method,Map<String,Object> map) {
         Map<String,Object> result = new HashMap<String,Object>();
         switch (method){
-            case ProjectConst.PAGINGQUERY: result = accountPagingQuery(dataMap);
+            case ProjectConst.PAGINGQUERY: result = accountPagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = accountEditQuery(dataMap);
+            case ProjectConst.EDITQUERY: result = accountEditQuery(map);
                 break;
-            case ProjectConst.INSERT: result = accountInsert(dataMap);
+            case ProjectConst.INSERT: result = accountInsert(map);
                 break;
-            case ProjectConst.UPDATE: result = accountUpdate(dataMap);
+            case ProjectConst.UPDATE: result = accountUpdate(map);
                 break;
-            case ProjectConst.DELETE: result = accountDelete(dataMap);
+            case ProjectConst.DELETE: result = accountDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = accountBatchDelete(dataMap);
+            case ProjectConst.BATCHDELETE: result = accountBatchDelete(map);
                 break;
-            case ProjectConst.SIGNUP: result = accountSignUp(dataMap);
+            case ProjectConst.SIGNUP: result = accountSignUp(map);
                 break;
             default:
-                throw new BizException("传入method参数为空或方法不存在");
+                throw new BizException("传入该方法不存在");
         }
         return result;
     }
@@ -112,7 +111,7 @@ public class AccountServiceImpl implements IAccountService {
         if(SetUtil.isMapNull(queryMap)){
             throw new BizException("修改失败，该账号不存在");
         }
-        String name = SetUtil.toMapValueString(queryMap,"account");
+        String name = MapUtil.getString(queryMap,"account");
         String account = MapUtil.getString(map,"account");
         if(!name.equals(account)){
             int count = iAccountMapper.accountIsExist(map);
@@ -129,7 +128,7 @@ public class AccountServiceImpl implements IAccountService {
         }
     }
 
-    //删除
+    /*删除*/
     private Map<String,Object> accountDelete(Map<String,Object> map) {
         String account = MapUtil.getString(map,"account");
         if(StringUtil.isNull(account)){
@@ -149,14 +148,14 @@ public class AccountServiceImpl implements IAccountService {
         }
     }
 
-    //批量删除
+    /*批量删除*/
     private Map<String,Object> accountBatchDelete(Map<String,Object> map) {
-        List<Map<String,Object>> resluList = (List<Map<String, Object>>) map.get("data");
-        if(SetUtil.isListNull(resluList)){
+        List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
+        if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
         }
         try{
-            for(Map<String,Object> upMap : resluList){
+            for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
                 iAccountMapper.accountDelete(upMap);
             }
@@ -167,7 +166,7 @@ public class AccountServiceImpl implements IAccountService {
         }
     }
 
-    //登陆、注册
+    /*登陆、注册*/
     private Map<String,Object> accountSignUp(Map<String,Object> map) {
         VerificationUtil.verificationAccount(map);
         int count = iAccountMapper.accountIsExist(map);

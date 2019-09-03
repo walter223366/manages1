@@ -1,14 +1,5 @@
 charset="utf-8";
-var pagingQueryUrl="/manages/move/pagingQuery";//分页查询
-var batchDelUrl="/manages/move/inBatchDelete";//批量删除
-var kongFuBoxUrl="/manages/move/kongFuDownBox";//功夫下拉框
-var effectBoxUrl="/manages/move/effectDownBox";//效果下拉框
-var addUrl="/manages/move/inAdd";//新增
-var seeUrl="/manages/move/inSee";//查看
-var editQueryUrl="/manages/move/editQuery";//编辑查询
-var editUrl="/manages/move/inUpdate";//修改
-var delUrl="/manages/move/inDelete";//删除
-
+manages="move";
 //layer下拉框组件
 var formSelects = layui.formSelects;
 
@@ -23,11 +14,16 @@ function pagingQuery(){
         sexperience:Number($("#query_sExp").val()),
         eexperience:Number($("#query_eExp").val())
     };
+    var obj = {
+        manages:manages,
+        method:pQuery,
+        params:$.base64.btoa(JSON.stringify(params),charset)
+    };
     layui.use(['layer','table'],function (){
         var layer = layui.layer,table = layui.table;
         table.render({
             elem:'#dataInfo',
-            url:pagingQueryUrl,
+            url:url,
             method:'POST',
             contentType:"application/json",
             toolbar:'#toolbarBomb',
@@ -35,7 +31,7 @@ function pagingQuery(){
             title:'招式管理',
             even:true,
             expandRow:true,
-            where:params,
+            where:obj,
             page:true,
             limit:10,
             limits:[10, 20, 30, 40, 50],
@@ -117,9 +113,9 @@ function batchDel(checkStatus){
             btn: ['确定','取消']
         }, function(){
             var params = {
-                data:$.base64.btoa(JSON.stringify(data),charset)
+                data:data
             };
-            postRequest(batchDelUrl,params,function (data){
+            postRequest(params,manages,bStrike,function (data){
                 if (data.code === "0" && data.result === "SUCCESS") {
                     layer.msg("删除成功");
                     pagingQuery();
@@ -145,7 +141,8 @@ function add(){
 //新增-功夫下拉框（单选框）
 function addKongFu(){
     document.getElementById("add_kongFu").options.length = 0;
-    getRequest(kongFuBoxUrl,function (data){
+    var params = {};
+    postRequest(params,manages,mKongFuBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -164,7 +161,8 @@ function addKongFu(){
 //新增-效果下拉框
 function addEffect(){
     document.getElementById("add_effect").options.length = 0;
-    getRequest(effectBoxUrl,function (data){
+    var params = {};
+    postRequest(params,manages,mEffectBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -208,7 +206,7 @@ function addRequest() {
         layer.msg("效果选项不能为空",{icon:2});
         return;
     }
-    postRequest(addUrl,params,function (data){
+    postRequest(params,manages,increase,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             layer.msg("新增成功");
             pagingQuery();
@@ -235,7 +233,7 @@ function see(data) {
     var params = {
         name:data.name
     };
-    postRequest(seeUrl,params,function (data){
+    postRequest(params,manages,seeDetails,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if(isJSON(rows)) {
@@ -261,7 +259,7 @@ function edit(data) {
     var params = {
         name:data.name
     };
-    postRequest(editQueryUrl,params,function (data){
+    postRequest(params,manages,eQuery,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if(isJSON(rows)) {
@@ -286,7 +284,8 @@ function edit(data) {
 //编辑-功夫下拉框（单选框）
 function editKongFu(){
     document.getElementById("edit_kongFu").options.length = 0;
-    getRequest(kongFuBoxUrl,function (data){
+    var params = {};
+    postRequest(params,manages,mKongFuBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -305,7 +304,8 @@ function editKongFu(){
 //编辑-效果下拉框
 function editEffect(){
     document.getElementById("edit_effect").options.length = 0;
-    getRequest(effectBoxUrl,function (data){
+    var params = {};
+    postRequest(params,manages,mEffectBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -333,7 +333,7 @@ function editRequest() {
         zhaoshi_effect:zhaoshi_effect,
         zhaoshi_experience_cost:Number($("#edit_exp").val())
     };
-    postRequest(editUrl,params,function (data){
+    postRequest(params,manages,renew,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             layer.msg("修改成功");
             pagingQuery();
@@ -356,7 +356,7 @@ function del(data) {
     var params = {
         name:data.name
     };
-    postRequest(delUrl,params,function (data){
+    postRequest(params,manages,strike,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             layer.msg("删除成功");
             pagingQuery();

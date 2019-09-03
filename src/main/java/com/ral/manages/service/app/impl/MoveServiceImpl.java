@@ -2,20 +2,15 @@ package com.ral.manages.service.app.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.emun.TableCode;
+import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.comms.page.PageBean;
-import com.ral.manages.entity.Result;
-import com.ral.manages.util.VerificationUtil;
-import com.ral.manages.entity.app.Move;
+import com.ral.manages.entity.ProjectConst;
+import com.ral.manages.service.app.UnifiedCall;
+import com.ral.manages.util.*;
 import com.ral.manages.mapper.app.IEffectMapper;
 import com.ral.manages.mapper.app.IKongFuMapper;
 import com.ral.manages.mapper.app.IMoveMapper;
-import com.ral.manages.service.app.IMoveService;
-import com.ral.manages.util.Base64Util;
-import com.ral.manages.util.SetUtil;
-import com.ral.manages.util.StringUtil;
-import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class MoveServiceImpl implements IMoveService {
+@Service("move")
+public class MoveServiceImpl implements UnifiedCall {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MoveServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MoveServiceImpl.class);
     @Autowired
     private IMoveMapper iMoveMapper;
     @Autowired
@@ -37,13 +32,41 @@ public class MoveServiceImpl implements IMoveService {
     private IEffectMapper iEffectMapper;
 
     /**
-     * 分页查询
+     * 处理招式管理
      *
+     * @param method method
      * @param map map
-     * @return GeneralResponse
+     * @return map
      */
     @Override
-    public Result movePagingQuery(Map<String,Object> map) {
+    public Map<String,Object> uCall(String method,Map<String,Object> map) {
+        Map<String,Object> result = new HashMap<String,Object>();
+        switch (method){
+            case ProjectConst.PAGINGQUERY: result = movePagingQuery(map);
+                break;
+            case ProjectConst.EDITQUERY: result = moveEditQuery(map);
+                break;
+            case ProjectConst.INSERT: result = moveInsert(map);
+                break;
+            case ProjectConst.UPDATE: result = moveUpdate(map);
+                break;
+            case ProjectConst.DELETE: result = moveDelete(map);
+                break;
+            case ProjectConst.BATCHDELETE: result = moveBatchDelete(map);
+                break;
+            case ProjectConst.MEFFECTBOX: result = moveAddEffect();
+                break;
+            case ProjectConst.MKONGFUBOX: result = moveAddKongFu();
+                break;
+            case ProjectConst.SEEDETAILS: result = moveSee(map);
+            default:
+                throw new BizException("传入该方法不存在");
+        }
+        return result;
+    }
+
+    /*分页查询*/
+    private Map<String,Object> movePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map),PageBean.pageSize(map));
         List<Map<String,Object>> moveList = iMoveMapper.movePagingQuery(map);
         for(Map<String,Object> moveMap : moveList){
@@ -54,180 +77,125 @@ public class MoveServiceImpl implements IMoveService {
                 moveMap.put("kongFuName",seeKongFuName(kongFuId));
             }
         }
-        return Result.success(ResultCode.SUCCESS.getResult(),PageBean.resultPage(page.getTotal(),moveList));
+        return PageBean.resultPage(page.getTotal(),moveList);
     }
 
-    /**
-     * 编辑查询
-     *
-     * @param move move
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveEditQuery(Move move) {
-        if(StringUtil.isNull(move.getName())){
-            return Result.fail("传入招式名称为空");
+    /*编辑查询*/
+    private Map<String,Object> moveEditQuery(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入招式名称为空");
         }
-        Map<String,Object> result = iMoveMapper.moveEditQuery(move);
-        return Result.success(ResultCode.SUCCESS.getResult(),result);
+        return iMoveMapper.moveEditQuery(map);
     }
 
-    /**
-     * 新增
-     *
-     * @param move move
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveInsert(Move move) {
-        String msg = VerificationUtil.verificationMove(move);
-        if(!StringUtil.isNull(msg)){
-            return Result.fail(msg);
-        }
-        int count = iMoveMapper.moveIsExist(move);
+    /*新增*/
+    private Map<String,Object> moveInsert(Map<String,Object> map) {
+        VerificationUtil.verificationMove(map);
+        int count = iMoveMapper.moveIsExist(map);
         if(count > 0){
-            return Result.fail("新增失败，招式名称已存在");
+            throw new BizException("新增失败，招式名称已存在");
         }
-        move.setZhaoshi_id(StringUtil.getUUID());
-        move.setDeleteStatus(TableCode.Del.DELETE_ZERO.getCode());
+        map.put("zhaoshi_id",StringUtil.getUUID());
+        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
         try{
-            iMoveMapper.moveInsert(move);
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            iMoveMapper.moveInsert(map);
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("新增失败："+e.getMessage());
+            throw new BizException("新增失败："+e.getMessage());
         }
     }
 
-    /**
-     * 修改
-     *
-     * @param move move
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveUpdate(Move move) {
-        if(StringUtil.isNull(move.getZhaoshi_id())){
-            return Result.fail("传入招式ID为空");
+    /*修改*/
+    private Map<String,Object> moveUpdate(Map<String,Object> map) {
+        String zhaoshi_id = MapUtil.getString(map,"zhaoshi_id");
+        if(StringUtil.isNull(zhaoshi_id)){
+            throw new BizException("传入招式ID为空");
         }
-        String msg = VerificationUtil.verificationMove(move);
-        if(!StringUtil.isNull(msg)){
-            return Result.fail(msg);
+        VerificationUtil.verificationMove(map);
+        Map<String,Object> qMap = iMoveMapper.moveIdQuery(map);
+        if(SetUtil.isMapNull(qMap)){
+            throw new BizException("修改失败，该招式不存在");
         }
-        Map<String,Object> map = iMoveMapper.moveIdQuery(move);
-        if(SetUtil.isMapNull(map)){
-            return Result.fail("修改失败，该招式不存在");
-        }
-        String name = SetUtil.toMapValueString(map,"name");
-        if(!name.equals(move.getName())){
-            int count = iMoveMapper.moveIsExist(move);
+        String name = MapUtil.getString(qMap,"name");
+        String cName = MapUtil.getString(map,"name");
+        if(!name.equals(cName)){
+            int count = iMoveMapper.moveIsExist(map);
             if(count > 0){
-                return Result.fail("修改失败，招式名称已存在");
+                throw new BizException("修改失败，招式名称已存在");
             }
         }
         try{
-            iMoveMapper.moveUpdate(move);
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            iMoveMapper.moveUpdate(map);
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("修改失败："+e.getMessage());
+            throw new BizException("修改失败："+e.getMessage());
         }
     }
 
-    /**
-     * 删除
-     *
-     * @param move move
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveDelete(Move move) {
-        if(StringUtil.isNull(move.getName())){
-            return Result.fail("传入招式名称为空");
+    /*删除*/
+    private Map<String,Object> moveDelete(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入招式名称为空");
         }
-        int count = iMoveMapper.moveIsExist(move);
+        int count = iMoveMapper.moveIsExist(map);
         if(count <= 0){
-            return Result.fail("删除失败，该招式不存在");
+            throw new BizException("删除失败，该招式不存在");
         }
-        move.setDeleteStatus(TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
         try{
-            iMoveMapper.moveDelete(move);
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            iMoveMapper.moveDelete(map);
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 
-    /**
-     * 批量删除
-     *
-     * @param map map
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveBatchDelete(Map<String,Object> map) {
-        List<Map<String,Object>> resluList = new ArrayList<Map<String,Object>>();
-        String data = Base64Util.Base64Decode(SetUtil.toMapValueString(map,"data"));
-        try{
-            resluList = JSONArray.fromObject(data);
-        }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail("传入data参数JSON格式错误");
-        }
-        if(SetUtil.isListNull(resluList)){
-            return Result.fail("传入data参数为空");
+    /*批量删除*/
+    private Map<String,Object> moveBatchDelete(Map<String,Object> map) {
+        List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
+        if(SetUtil.isListNull(dataList)){
+            throw new BizException("传入data参数为空");
         }
         try{
-            for(Map<String,Object> upMap : resluList){
+            for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
-                iMoveMapper.moveBatchDelete(upMap);
+                iMoveMapper.moveDelete(upMap);
             }
-            return Result.successNotdatas(ResultCode.SUCCESS.getResult());
+            return new HashMap<>();
         }catch (Exception e){
-            LOG.debug(ResultCode.FAIL.getResult()+e.getMessage(),e);
-            return Result.fail(ResultCode.FAIL.getResult()+e.getMessage());
+            log.debug("批量删除失败："+e.getMessage());
+            throw new BizException("批量删除失败："+e.getMessage());
         }
     }
 
-    /**
-     * 效果下拉框
-     *
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveAddEffect() {
+    /*效果下拉框*/
+    private Map<String,Object> moveAddEffect() {
         List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
-        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
+        return resultMap;
     }
 
-    /**
-     * 功夫下拉框
-     *
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveAddKongFu() {
+    /*功夫下拉框*/
+    private Map<String,Object> moveAddKongFu() {
         List<Map<String,Object>> resultList = iKongFuMapper.kongFuQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
-        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
+        return resultMap;
     }
 
-    /**
-     * 查看详情
-     *
-     * @param move move
-     * @return GeneralResponse
-     */
-    @Override
-    public Result moveSee(Move move) {
-        if(StringUtil.isNull(move.getName())){
-            return Result.fail("传入招式名称为空");
+    /*查看详情*/
+    private Map<String,Object> moveSee(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入招式名称为空");
         }
-        Map<String,Object> resultMap = iMoveMapper.moveEditQuery(move);
+        Map<String,Object> resultMap = iMoveMapper.moveEditQuery(map);
         String kongFuId = SetUtil.toMapValueString(resultMap,"kongfu_id");
         if(StringUtil.isNull(kongFuId)){
             resultMap.put("kongFuName","");
@@ -240,15 +208,10 @@ public class MoveServiceImpl implements IMoveService {
         }else{
             resultMap.put("effectName",seeEffectName(effectId));
         }
-        return Result.success(ResultCode.SUCCESS.getResult(),resultMap);
+        return resultMap;
     }
 
-    /**
-     * 获取功夫名称
-     *
-     * @param str str
-     * @return  List<String>
-     */
+    /*获取功夫名称*/
     private List<String> seeKongFuName(String str){
         String[] values = str.split(",");
         List<String> list = new ArrayList<String>();
@@ -265,12 +228,7 @@ public class MoveServiceImpl implements IMoveService {
         return nameList;
     }
 
-    /**
-     * 获取效果名称
-     *
-     * @param str str
-     * @return  List<String>
-     */
+    /*获取效果名称*/
     private List<String> seeEffectName(String str){
         String[] values = str.split(",");
         List<String> list = new ArrayList<String>();

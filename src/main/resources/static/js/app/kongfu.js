@@ -1,16 +1,7 @@
 charset="utf-8";
-var pagingQueryUrl="/manages/kongFu/pagingQuery";//分页查询
-var batchDelUrl="/manages/kongFu/inBatchDelete";//批量删除
-var moveUrl="/manages/kongFu/moveDownBox";//招式下拉框查询
-var addUrl="/manages/kongFu/inAdd";//新增
-var seeUrl="/manages/kongFu/inSee";//查看
-var editQueryUrl="/manages/kongFu/editQuery";//编辑查询
-var editUrl="/manages/kongFu/inUpdate";//修改
-var delUrl="/manages/kongFu/inDelete";//删除
-
+manages="kongFu";
 //layer多选框组件
 var formSelects=layui.formSelects;
-
 
 /**查询部分*/
 $(function(){
@@ -23,11 +14,16 @@ function pagingQuery(){
         type:$("#query_type").val(),
         enable:$("#query_enable").val()
     };
+    var obj = {
+        manages:manages,
+        method:pQuery,
+        params:$.base64.btoa(JSON.stringify(params),charset)
+    };
     layui.use(['layer','table'],function(){
         var layer = layui.layer,table = layui.table;
         table.render({
             elem:'#dataInfo',
-            url:pagingQueryUrl,
+            url:url,
             method:'POST',
             contentType:"application/json",
             toolbar:'#toolbarBomb',
@@ -35,7 +31,7 @@ function pagingQuery(){
             title:'武学管理',
             even:true,
             expandRow:true,
-            where:params,
+            where:obj,
             page:true,
             limit:10,
             limits:[10, 20, 30, 40, 50],
@@ -119,9 +115,9 @@ function batchDel(checkStatus){
             btn: ['确定','取消']
         }, function(){
             var params = {
-                data:$.base64.btoa(JSON.stringify(data),charset)
+                data:data
             };
-            postRequest(batchDelUrl,params,function (data){
+            postRequest(params,manages,bStrike,function (data){
                 if (data.code === "0" && data.result === "SUCCESS"){
                     layer.msg("删除成功");
                     pagingQuery();
@@ -146,7 +142,8 @@ function add(){
 //新增-招式下拉框
 function addMove(){
     document.getElementById("add_move").options.length = 0;
-    getRequest(moveUrl,function (data){
+    var params = {};
+    postRequest(params,manages,kMoveBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS"){
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -180,7 +177,7 @@ function addRequest(){
     if(params.type===null || params.type===""){
         layer.msg("功夫类型不能为空",{icon:2});
     }
-    postRequest(addUrl,params,function (data){
+    postRequest(params,manages,increase,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             layer.msg("新增成功");
             pagingQuery();
@@ -203,7 +200,7 @@ function see(data) {
     var params = {
         name: data.name
     };
-    postRequest(seeUrl,params,function (data){
+    postRequest(params,manages,seeDetails,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -230,7 +227,7 @@ function edit(data) {
     var params = {
         name:data.name
     };
-    postRequest(editQueryUrl,params,function (data){
+    postRequest(params,manages,eQuery,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if(isJSON(rows)) {
@@ -255,7 +252,8 @@ function edit(data) {
 //编辑-招式下拉框
 function editMove(){
     document.getElementById("edit_move").options.length = 0;
-    getRequest(moveUrl,function (data){
+    var params = {};
+    postRequest(params,manages,kMoveBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS"){
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
@@ -290,7 +288,7 @@ function editRequest() {
     if(params.type===null || params.type===""){
         layer.msg("功夫类型不能为空",{icon:2});
     }
-    postRequest(editUrl,params,function (data){
+    postRequest(params,manages,renew,function (data){
         if (data.code === "0" && data.result === "SUCCESS"){
             layer.msg("修改成功");
             pagingQuery();
@@ -313,7 +311,7 @@ function del(data) {
     var params = {
         name:data.name
     };
-    postRequest(delUrl,params,function (data){
+    postRequest(params,manages,strike,function (data){
         if(data.code === "0" && data.result === "SUCCESS") {
             layer.msg("删除成功");
             pagingQuery();

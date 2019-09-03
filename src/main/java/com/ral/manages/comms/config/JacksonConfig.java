@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.io.IOException;
 
+/**
+ *   Jackson处理
+ *
+ *   @author Double
+ *   @since  2019-07-18
+ */
 @Configuration
 public class JacksonConfig extends ObjectMapper{
 

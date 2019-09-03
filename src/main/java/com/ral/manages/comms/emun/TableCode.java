@@ -1,10 +1,10 @@
 package com.ral.manages.comms.emun;
 
 /**
- *   <p>功能描述: 状态表</p>
- *   <p>创建时间: 2019-07-18 </p>
+ *   状态表
  *
  *   @author Double
+ *   @since  2019-07-18
  */
 public interface TableCode {
 
@@ -106,5 +106,4 @@ public interface TableCode {
         }
 
     }
-
 }

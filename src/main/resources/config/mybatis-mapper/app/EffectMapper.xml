@@ -23,14 +23,14 @@
     <select id="effectPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
-    <select id="effectIsExist" parameterType="com.ral.manages.entity.app.Effect" resultType="int">
-        SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND name=#{effect.name}
+    <select id="effectIsExist" parameterType="map" resultType="int">
+        SELECT COUNT(1) FROM dict_effect WHERE 1=1 AND name=#{name}
     </select>
-    <select id="effectEditQuery" parameterType="com.ral.manages.entity.app.Effect" resultType="map">
-        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND name=#{effect.name}
+    <select id="effectEditQuery" parameterType="map" resultType="map">
+        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND name=#{name}
     </select>
-    <select id="effectIdQuery" parameterType="com.ral.manages.entity.app.Effect" resultType="map">
-        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND effect_id=#{effect.effect_id}
+    <select id="effectIdQuery" parameterType="map" resultType="map">
+        SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND effect_id=#{effect_id}
     </select>
     <select id="effectQueryMarquee" resultType="map">
         SELECT effect_id,name FROM dict_effect
@@ -44,34 +44,32 @@
 
 
     <!--新增-->
-    <insert id="effectInsert" parameterType="com.ral.manages.entity.app.Effect">
+    <insert id="effectInsert" parameterType="map">
         INSERT INTO dict_effect(effect_id,name,info,target,Aggressivity,Defense,hp,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,injury,internal_injury,poisoning,
         stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple,deleteStatus)
         VALUES (
-        #{effect.effect_id},#{effect.name},#{effect.info},#{effect.target},#{effect.Aggressivity},#{effect.Defense},#{effect.hp},#{effect.mp_yellow},#{effect.mp_gold},#{effect.mp_green},
-        #{effect.mp_blue},#{effect.mp_purple},#{effect.injury},#{effect.internal_injury},#{effect.poisoning},#{effect.stun},#{effect.dodge},#{effect.hit_rate},
-        #{effect.crit_rate},#{effect.burst},#{effect.suck_HP},#{effect.suck_mp_yellow},#{effect.suck_mp_gold},#{effect.suck_mp_green},
-        #{effect.suck_mp_blue},#{effect.suck_mp_purple},#{effect.deleteStatus}
+        #{effect_id},#{name},#{info},#{target},#{Aggressivity},#{Defense},#{hp},#{mp_yellow},#{mp_gold},#{mp_green},
+        #{mp_blue},#{mp_purple},#{injury},#{internal_injury},#{poisoning},#{stun},#{dodge},#{hit_rate},
+        #{crit_rate},#{burst},#{suck_HP},#{suck_mp_yellow},#{suck_mp_gold},#{suck_mp_green},
+        #{suck_mp_blue},#{suck_mp_purple},#{deleteStatus}
         )
     </insert>
 
 
     <!--修改-->
-    <update id="effectUpdate" parameterType="com.ral.manages.entity.app.Effect">
-        UPDATE dict_effect SET name=#{effect.name},info=#{effect.info},target=#{effect.target},Aggressivity=#{effect.Aggressivity},Defense=#{effect.Defense},hp=#{effect.hp},
-        mp_yellow=#{effect.mp_yellow},mp_gold=#{effect.mp_gold},mp_green=#{effect.mp_green},mp_blue=#{effect.mp_blue},mp_purple=#{effect.mp_purple},
-        injury=#{effect.injury},internal_injury=#{effect.internal_injury},poisoning=#{effect.poisoning},stun=#{effect.stun},dodge=#{effect.dodge},
-        hit_rate=#{effect.hit_rate},crit_rate=#{effect.crit_rate},burst=#{effect.burst},suck_HP=#{effect.suck_HP},suck_mp_yellow=#{effect.suck_mp_yellow},
-        suck_mp_gold=#{effect.suck_mp_gold},suck_mp_green=#{effect.suck_mp_green},suck_mp_blue=#{effect.suck_mp_blue},suck_mp_purple=#{effect.suck_mp_purple}
-        WHERE 1=1 AND effect_id=#{effect.effect_id}
+    <update id="effectUpdate" parameterType="map">
+        UPDATE dict_effect SET name=#{name},info=#{info},target=#{target},Aggressivity=#{Aggressivity},Defense=#{Defense},hp=#{hp},
+        mp_yellow=#{mp_yellow},mp_gold=#{mp_gold},mp_green=#{mp_green},mp_blue=#{mp_blue},mp_purple=#{mp_purple},
+        injury=#{injury},internal_injury=#{internal_injury},poisoning=#{poisoning},stun=#{stun},dodge=#{dodge},
+        hit_rate=#{hit_rate},crit_rate=#{crit_rate},burst=#{burst},suck_HP=#{suck_HP},suck_mp_yellow=#{suck_mp_yellow},
+        suck_mp_gold=#{suck_mp_gold},suck_mp_green=#{suck_mp_green},suck_mp_blue=#{suck_mp_blue},suck_mp_purple=#{suck_mp_purple}
+        WHERE 1=1 AND effect_id=#{effect_id}
     </update>
 
 
     <!--删除-->
-    <update id="effectDelete" parameterType="com.ral.manages.entity.app.Effect">
-        UPDATE dict_effect SET deleteStatus=#{effect.deleteStatus} WHERE 1=1 AND name=#{effect.name}
-    </update>
-    <update id="effectBatchDelete" parameterType="map">
+    <update id="effectDelete" parameterType="map">
         UPDATE dict_effect SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
+
 </mapper>
