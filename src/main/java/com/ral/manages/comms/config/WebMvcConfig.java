@@ -18,10 +18,10 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 
     /*开启路径后缀匹配*/
-    @Override
+   /* @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
        //configurer.setUseRegisteredSuffixPatternMatch(false);
-    }
+    }*/
 
 
     /*URL后缀配置*/
