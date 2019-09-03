@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.app.IBaseInfoMapper">
+
+    <sql id="baseInfoResult">
+        id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
+        school_contribution,pic,enable,cancellation,is_npc,last_time
+    </sql>
+
+    <select id="getBaseInfo" parameterType="string" resultType="map">
+        SELECT <include refid="baseInfoResult"/> FROM biz_charactor_base_info WHERE 1=1 AND user_id=#{userId}
+    </select>
+
+
+</mapper>

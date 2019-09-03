@@ -25,22 +25,24 @@ public class DruidSourceConfig {
     }
 
     /*Druid监控配置*/
-    @Bean("doDruidRegistration")
+    @Bean
     public ServletRegistrationBean<StatViewServlet> servletRegistrationBean(){
         StatViewServlet statViewServlet = new StatViewServlet();
         ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>(statViewServlet,"/druid/*");
         servletRegistrationBean.addInitParameter("loginUsername","druid");
         servletRegistrationBean.addInitParameter("loginPassword","123456");
         servletRegistrationBean.addInitParameter("resetEnable","false");
+        servletRegistrationBean.setOrder(1);
         return servletRegistrationBean;
     }
 
     /*Druid过滤器配置*/
-    @Bean("doDruidFilter")
+    @Bean
     public FilterRegistrationBean<WebStatFilter> filterRegistrationBean(){
         FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<>(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,");
+        filterRegistrationBean.setOrder(1);
         return filterRegistrationBean;
     }
 }

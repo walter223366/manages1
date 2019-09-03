@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.ProjectConst;
+import com.ral.manages.service.app.IBaseInfoService;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.mapper.app.IAccountMapper;
@@ -24,6 +25,8 @@ public class AccountServiceImpl implements UnifiedCall {
     private static final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
     @Autowired
     private IAccountMapper iAccountMapper;
+    @Autowired
+    private IBaseInfoService baseInfoService;
 
     /**
      * 处理账号管理
@@ -169,20 +172,37 @@ public class AccountServiceImpl implements UnifiedCall {
     /*登陆、注册*/
     private Map<String,Object> accountSignUp(Map<String,Object> map) {
         VerificationUtil.verificationAccount(map);
-        int count = iAccountMapper.accountIsExist(map);
-        if(count > 0){
-            throw new BizException("登陆成功");
+        Map<String,Object> result = new HashMap<String,Object>();
+        Map<String,Object> qMap = iAccountMapper.accountEditQuery(map);
+        if(!SetUtil.isMapNull(qMap)){
+            result = landed(map);
+        }else {
+            map.put("cancellation", TableCode.User.CANCELLATION_ZERO.getCode());
+            map.put("deleteStatus", TableCode.Del.DELETE_ZERO.getCode());
+            map.put("lrrq", TimeUtil.currentTime());
+            String id = StringUtil.getUUID();
+            map.put("id", id);
+            try {
+                iAccountMapper.accountInsert(map);
+            } catch (Exception e) {
+                log.debug("注册失败：" + e.getMessage());
+                throw new BizException("注册失败：" + e.getMessage());
+            }
+            result = registered(map);
         }
-        map.put("cancellation",TableCode.User.CANCELLATION_ZERO.getCode());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
-        map.put("lrrq",TimeUtil.currentTime());
-        map.put("id",StringUtil.getUUID());
-        try{
-            iAccountMapper.accountInsert(map);
-            throw new BizException("注册成功");
-        }catch (Exception e){
-            log.debug("注册失败："+e.getMessage());
-            throw new BizException("注册失败："+e.getMessage());
-        }
+        return result;
+    }
+
+    /*已有账号时，查询人物信息*/
+    private Map<String,Object> landed(Map<String,Object> map){
+        Map<String,Object> qMap = baseInfoService.baseInfo(map);
+
+
+        return null;
+    }
+
+    /*未有账号时，注册并查询初始化人物信息*/
+    private Map<String,Object> registered(Map<String,Object> map){
+        return null;
     }
 }
