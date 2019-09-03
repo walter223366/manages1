@@ -43,7 +43,7 @@
 
 
     <!--删除-->
-    <update id="articleDelete" parameterType="com.ral.manages.entity.app.Article">
+    <update id="articleDelete" parameterType="map">
         UPDATE dict_article SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
 
