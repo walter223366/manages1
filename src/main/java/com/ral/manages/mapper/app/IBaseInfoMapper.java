@@ -7,6 +7,9 @@ import java.util.Map;
 public interface IBaseInfoMapper {
 
     /*查询*/
-    List<Map<String,Object>> getBaseInfo(@Param("userId") String userId);
-
+    List<Map<String,Object>> queryBaseInfo(@Param("userId") String userId);
+    List<Map<String,Object>> queryAttainmentsInfo(@Param("baseId") String baseId);
+    List<Map<String,Object>> queryBattleInfo(@Param("baseId") String baseId);
+    List<Map<String,Object>> queryPotentialInfo(@Param("baseId") String baseId);
+    List<Map<String,Object>> queryRelationInfo(@Param("baseId") String baseId);
 }

@@ -77,7 +77,7 @@ public class ArticleServiceImpl implements UnifiedCall {
            throw new BizException("新增失败，物品名称已存在");
         }
         map.put("id",StringUtil.getUUID());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             iArticleMapper.articleInsert(map);
             return new HashMap<>();
@@ -125,7 +125,7 @@ public class ArticleServiceImpl implements UnifiedCall {
         if(count <= 0){
             throw new BizException("删除失败，该物品不存在");
         }
-        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
         try{
             iArticleMapper.articleDelete(map);
             return new HashMap<>();
@@ -143,7 +143,7 @@ public class ArticleServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iArticleMapper.articleDelete(upMap);
             }
             return new HashMap<>();

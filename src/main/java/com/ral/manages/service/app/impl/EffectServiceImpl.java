@@ -59,7 +59,7 @@ public class EffectServiceImpl implements UnifiedCall {
         List<Map<String,Object>> effectList = iEffectMapper.effectPagingQuery(map);
         for(Map<String,Object> effectMap : effectList){
             int target = SetUtil.toMapValueInt(effectMap,"target");
-            String target_value = (target==0? TableCode.Effect.TARGET_ZERO.getName(): TableCode.Effect.TARGET_ONE.getName());
+            String target_value = (target==0? TableCode.TARGET_ZERO.getName(): TableCode.TARGET_ONE.getName());
             effectMap.put("target",target_value);
         }
         return PageBean.resultPage(page.getTotal(),effectList);
@@ -82,7 +82,7 @@ public class EffectServiceImpl implements UnifiedCall {
             throw new BizException("新增失败，效果名称已存在");
         }
         map.put("effect_id",StringUtil.getUUID());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             iEffectMapper.effectInsert(map);
             return new HashMap<>();
@@ -130,7 +130,7 @@ public class EffectServiceImpl implements UnifiedCall {
         if(count <= 0){
             throw new BizException("删除失败，该效果不存在");
         }
-        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
         try{
             iEffectMapper.effectDelete(map);
             return new HashMap<>();
@@ -148,7 +148,7 @@ public class EffectServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iEffectMapper.effectDelete(upMap);
             }
             return new HashMap<>();

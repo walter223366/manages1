@@ -97,7 +97,7 @@ public class MoveServiceImpl implements UnifiedCall {
             throw new BizException("新增失败，招式名称已存在");
         }
         map.put("zhaoshi_id",StringUtil.getUUID());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             iMoveMapper.moveInsert(map);
             return new HashMap<>();
@@ -145,7 +145,7 @@ public class MoveServiceImpl implements UnifiedCall {
         if(count <= 0){
             throw new BizException("删除失败，该招式不存在");
         }
-        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
         try{
             iMoveMapper.moveDelete(map);
             return new HashMap<>();
@@ -163,7 +163,7 @@ public class MoveServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iMoveMapper.moveDelete(upMap);
             }
             return new HashMap<>();

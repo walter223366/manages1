@@ -65,10 +65,10 @@ public class AccountServiceImpl implements UnifiedCall {
         List<Map<String,Object>> accountList = iAccountMapper.accountPagingQuery(map);
         for(Map<String,Object> accountMap : accountList){
             int source = SetUtil.toMapValueInt(accountMap,"source");
-            String source_value = (source==0? TableCode.User.SOURCE_ZERO.getName(): TableCode.User.SOURCE_ONE.getName());
+            String source_value = (source==0? TableCode.SOURCE_ZERO.getName(): TableCode.SOURCE_ONE.getName());
             accountMap.put("source",source_value);
             int cancellation = SetUtil.toMapValueInt(accountMap,"cancellation");
-            String cancellation_value = (cancellation==0? TableCode.User.CANCELLATION_ZERO.getName(): TableCode.User.CANCELLATION_ONE.getName());
+            String cancellation_value = (cancellation==0? TableCode.CANCELLATION_ZERO.getName(): TableCode.CANCELLATION_ONE.getName());
             accountMap.put("cancellation",cancellation_value);
         }
         return PageBean.resultPage(page.getTotal(),accountList);
@@ -90,8 +90,8 @@ public class AccountServiceImpl implements UnifiedCall {
         if(count > 0){
             throw new BizException("新增失败，账号名称已存在");
         }
-        map.put("cancellation",TableCode.User.CANCELLATION_ZERO.getCode());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
+        map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         map.put("lrrq",TimeUtil.currentTime());
         map.put("id",StringUtil.getUUID());
         try{
@@ -141,7 +141,7 @@ public class AccountServiceImpl implements UnifiedCall {
         if(count <= 0){
             throw new BizException("删除失败，该账号不存在");
         }
-        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
         try{
             iAccountMapper.accountDelete(map);
             return new HashMap<>();
@@ -159,7 +159,7 @@ public class AccountServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iAccountMapper.accountDelete(upMap);
             }
             return new HashMap<>();
@@ -175,10 +175,10 @@ public class AccountServiceImpl implements UnifiedCall {
         Map<String,Object> result = new HashMap<String,Object>();
         Map<String,Object> qMap = iAccountMapper.accountEditQuery(map);
         if(!SetUtil.isMapNull(qMap)){
-            result = landed(map);
+            result = landed(qMap);
         }else {
-            map.put("cancellation", TableCode.User.CANCELLATION_ZERO.getCode());
-            map.put("deleteStatus", TableCode.Del.DELETE_ZERO.getCode());
+            map.put("cancellation", TableCode.CANCELLATION_ZERO.getCode());
+            map.put("deleteStatus", TableCode.DELETE_ZERO.getCode());
             map.put("lrrq", TimeUtil.currentTime());
             String id = StringUtil.getUUID();
             map.put("id", id);
@@ -195,14 +195,19 @@ public class AccountServiceImpl implements UnifiedCall {
 
     /*已有账号时，查询人物信息*/
     private Map<String,Object> landed(Map<String,Object> map){
-        Map<String,Object> qMap = baseInfoService.baseInfo(map);
-
-
-        return null;
+        Map<String,Object> infoMap = SetUtil.clearValueNullToMap(map);
+        Map<String,Object> qMap = baseInfoService.baseInfo(infoMap);
+        map.put("isType",TableCode.LANDED.getCode());//登陆状态
+        map.put("character",qMap);//角色信息
+        return map;
     }
 
     /*未有账号时，注册并查询初始化人物信息*/
     private Map<String,Object> registered(Map<String,Object> map){
-        return null;
+        Map<String,Object> infoMap = SetUtil.clearValueNullToMap(map);
+        Map<String,Object> qMap = new HashMap<String,Object>();
+        map.put("isType",TableCode.REGISTERED.getCode());//注册状态
+        map.put("character",qMap);//角色信息（初始化角色）
+        return map;
     }
 }

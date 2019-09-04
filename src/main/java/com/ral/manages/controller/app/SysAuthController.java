@@ -41,7 +41,6 @@ public class SysAuthController {
             result.setCode(ResultCode.ERROR.getCode());
             result.setResult(ResultCode.ERROR.getResult());
         }
-        log.info("返回结果：" + result);
         return result;
     }
 }

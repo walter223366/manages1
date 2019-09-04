@@ -74,7 +74,7 @@ public class SchoolServiceImpl implements UnifiedCall {
             throw new BizException("新增失败，门派名称已存在");
         }
         map.put("school_id",StringUtil.getUUID());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             iSchoolMapper.schoolInsert(map);
             return new HashMap<>();
@@ -119,7 +119,7 @@ public class SchoolServiceImpl implements UnifiedCall {
         if(count <= 0){
             throw new BizException("删除失败，该门派不存在");
         }
-        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
         try{
             iSchoolMapper.schoolDelete(map);
             return new HashMap<>();
@@ -137,7 +137,7 @@ public class SchoolServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iSchoolMapper.schoolDelete(upMap);
             }
             return new HashMap<>();

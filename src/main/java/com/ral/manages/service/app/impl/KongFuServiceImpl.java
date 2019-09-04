@@ -68,7 +68,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         for(Map<String,Object> kongFuMap : kongFuList){
             kongFuMap.put("type",kongFuType(SetUtil.toMapValueInt(kongFuMap,"type")));
             int enable = SetUtil.toMapValueInt(kongFuMap,"enable");
-            String enableValue = (enable== TableCode.KongFu.ENABLE_ONE.getCode()? TableCode.KongFu.ENABLE_ONE.getName(): TableCode.KongFu.ENABLE_ZERO.getName());
+            String enableValue = (enable== TableCode.ENABLE_ONE.getCode()? TableCode.ENABLE_ONE.getName(): TableCode.ENABLE_ZERO.getName());
             kongFuMap.put("enable",enableValue);
         }
         return PageBean.resultPage(page.getTotal(),kongFuList);
@@ -99,7 +99,7 @@ public class KongFuServiceImpl implements UnifiedCall {
             throw new BizException("新增失败，功夫名称已存在");
         }
         map.put("kongfu_id",StringUtil.getUUID());
-        map.put("deleteStatus",TableCode.Del.DELETE_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             iKongFuMapper.kongFuInsert(map);
             return new HashMap<>();
@@ -147,7 +147,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         if(count <= 0){
             throw new BizException("删除失败，该功夫不存在");
         }
-        map.put("deleteStatus",TableCode.Del.DELETE_ONE.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
         try{
             iKongFuMapper.kongFuDelete(map);
             return new HashMap<>();
@@ -165,7 +165,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.Del.DELETE_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iKongFuMapper.kongFuDelete(upMap);
             }
             return new HashMap<>();
@@ -211,14 +211,14 @@ public class KongFuServiceImpl implements UnifiedCall {
    /*处理功夫类型*/
     private String kongFuType(int type){
         switch (type){
-            case 0:return TableCode.KongFu.TYPE_ZERO.getName();
-            case 1:return TableCode.KongFu.TYPE_ONE.getName();
-            case 2:return TableCode.KongFu.TYPE_TWO.getName();
-            case 3:return TableCode.KongFu.TYPE_THREE.getName();
-            case 4:return TableCode.KongFu.TYPE_FOUR.getName();
-            case 5:return TableCode.KongFu.TYPE_FIVES.getName();
-            case 6:return TableCode.KongFu.TYPE_SIX.getName();
-            case 7:return TableCode.KongFu.TYPE_SEVEN.getName();
+            case 0:return TableCode.TYPE_ZERO.getName();
+            case 1:return TableCode.TYPE_ONE.getName();
+            case 2:return TableCode.TYPE_TWO.getName();
+            case 3:return TableCode.TYPE_THREE.getName();
+            case 4:return TableCode.TYPE_FOUR.getName();
+            case 5:return TableCode.TYPE_FIVES.getName();
+            case 6:return TableCode.TYPE_SIX.getName();
+            case 7:return TableCode.TYPE_SEVEN.getName();
             default:return "其他";
         }
     }

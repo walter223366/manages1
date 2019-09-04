@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Configuration;
 public class MyFilterConfig{
 
     /*Cors跨域配置*/
-    @Bean
+    /*@Bean
     public FilterRegistrationBean<MyCorsFilter> corsFilter() {
         FilterRegistrationBean<MyCorsFilter> filterBean = new FilterRegistrationBean<MyCorsFilter>();
         filterBean.setFilter(new MyCorsFilter());
         filterBean.setName("MyCorsFilter");
         filterBean.addUrlPatterns("/*");
         return filterBean;
-    }
+    }*/
 }

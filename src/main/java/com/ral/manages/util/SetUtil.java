@@ -23,7 +23,7 @@ public class SetUtil {
     //List集合，字符串value为null转为""
     public static List<Map<String,Object>> clearValueNullToList(List<Map<String,Object>> list){
         if(null == list || list.size() <= 0){
-            return null;
+            return new ArrayList<>();
         }
         for(Map<String,Object> map:list){
             List<String> keyList = new ArrayList<String>();
@@ -44,7 +44,7 @@ public class SetUtil {
     //map集合，字符串value为null转为""
     public static Map<String,Object> clearValueNullToMap(Map<String,Object> map){
         if(null == map || map.size() <= 0){
-            return null;
+            return new HashMap<>();
         }
         List<String> keyList = new ArrayList<String>();
         Set<String> keySet = map.keySet();
