@@ -3,35 +3,38 @@ package com.ral.manages.controller.user;
 import com.ral.manages.comms.emun.ResultCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.Result;
-import com.ral.manages.entity.user.User;
 import com.ral.manages.service.user.IUserService;
 import com.ral.manages.util.Base64Util;
+import com.ral.manages.util.MapUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Map;
 
 @RestController
 @Scope("prototype")
-@RequestMapping("/user")
+@RequestMapping("/user/")
 public class UserController {
-
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    private IUserService iUserService;
+    private IUserService userService;
 
-    @RequestMapping("/landing")
-    public Object landingInfo(@RequestBody User user){
-        log.info("请求参数：" + user);
+    @PostMapping("landing")
+    public Object sysAuth(@RequestBody Map<String,Object> map) {
+        log.info("请求参数：" + map);
         Result result = new Result();
         try {
-            iUserService.landingInfo(user);
-            result.setRows(Base64Util.Base64Encode(new JSONObject().toString()));
-            log.info("返回结果：" + result);
+            userService.landingInfo(map);
+            JSONObject json = new JSONObject();
+            String url = "/manages/system/main?username="+ MapUtil.getString(map,"username");
+            json.put("url",url);
+            result.setRows(Base64Util.Base64Encode(json.toString()));
         } catch (BizException ex) {
             log.debug("请求失败：", ex);
             result.setMsg(ex.getMessage());
@@ -46,4 +49,3 @@ public class UserController {
         return result;
     }
 }
-

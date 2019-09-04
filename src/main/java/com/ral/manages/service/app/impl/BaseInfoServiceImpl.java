@@ -1,18 +1,16 @@
 package com.ral.manages.service.app.impl;
 
-import com.ral.manages.comms.exception.BizException;
+import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.mapper.app.IBaseInfoMapper;
 import com.ral.manages.mapper.app.ISchoolMapper;
 import com.ral.manages.service.app.IBaseInfoService;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.MapUtil;
 import com.ral.manages.util.SetUtil;
-import com.ral.manages.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +23,8 @@ public class BaseInfoServiceImpl implements UnifiedCall,IBaseInfoService {
     private IBaseInfoMapper baseInfoMapper;
     @Autowired
     private ISchoolMapper schoolMapper;
+    @Autowired
+    private IAccountMapper accountMapper;
 
     /**
      * 处理人物管理
@@ -38,6 +38,7 @@ public class BaseInfoServiceImpl implements UnifiedCall,IBaseInfoService {
         return null;
     }
 
+
     /**
      * 查询人物信息
      *
@@ -50,7 +51,7 @@ public class BaseInfoServiceImpl implements UnifiedCall,IBaseInfoService {
         String userId = MapUtil.getString(map,"id");
         List<Map<String,Object>> infoList = baseInfoMapper.queryBaseInfo(userId);
         if(SetUtil.isListNull(infoList)){
-            throw new BizException("该账号，未查询到人物信息");
+            return result;
         }
         for(Map<String,Object> baseMap : infoList){
             Map<String,Object> infoMap = SetUtil.clearValueNullToMap(baseMap);

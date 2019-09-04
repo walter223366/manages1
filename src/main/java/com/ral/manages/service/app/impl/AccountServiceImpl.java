@@ -210,4 +210,18 @@ public class AccountServiceImpl implements UnifiedCall {
         map.put("character",qMap);//角色信息（初始化角色）
         return map;
     }
+
+    /*切换人物*/
+    private Map<String,Object> switchBaseInfo(Map<String,Object> map){
+        String account = MapUtil.getString(map,"account");
+        if(StringUtil.isNull(account)){
+            throw new BizException("传入账号名称为空");
+        }
+        Map<String,Object> qMap = iAccountMapper.accountEditQuery(map);
+        if(SetUtil.isMapNull(qMap)){
+            throw new BizException("该账号不存在");
+        }
+        //TODO
+        return null;
+    }
 }

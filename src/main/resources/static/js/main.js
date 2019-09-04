@@ -160,7 +160,7 @@ function x_admin_show(title,url,w,h){
         title=false;
     };
     if (url == null || url == '') {
-        url="/app/404";
+        url="/manages/404";
     };
     if (w == null || w == '') {
         w=($(window).width()*0.9);
@@ -204,6 +204,7 @@ function isNull(str){
         return str;
     }
 }
+
 pQuery="pagingQuery";
 eQuery="editQuery";
 increase="insert";

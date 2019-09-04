@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Management System</title>
+    <title>ManageSystem</title>
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/images/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
@@ -14,19 +14,19 @@
 <body>
 <!-- 顶部栏 -->
 <div class="container">
-    <div class="logo"><a href="">Manage System</a></div>
+    <div class="logo"><a href="">ManageSystem</a></div>
     <div class="left_open">
         <i title="展开左侧栏" class="layui-icon layui-icon-shrink-right iconfont"></i>
     </div>
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">admin</a>
+            <input id="usernameId" type="text" autocomplete="off" class="layui-input" style="width: 80px"/>
             <dl class="layui-nav-child">
-                <dd><a onClick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
-                <dd><a onClick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                <dd><a href="/manages/login">切换帐号</a></dd>
+                <dd><a href="http://www.baidu.com">个人信息</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item to-index"><a href="#">安全退出</a></li>
+        <li class="layui-nav-item to-index"><a href="/manages/system/login">安全退出</a></li>
     </ul>
 </div>
 
@@ -73,6 +73,17 @@
                     <li><a _href=""><i class="layui-icon layui-icon-form iconfont"></i><cite>订单列表</cite></a></li >
                 </ul>
             </li>
+            <!--会员管理-->
+            <li>
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-templeate-1 iconfont"></i>
+                    <cite>会员管理</cite>
+                    <i class="layui-icon iconfont nav_right">&#xe602;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li><a _href=""><i class="layui-icon layui-icon-form iconfont"></i><cite>会员管理</cite></a></li >
+                </ul>
+            </li>
             <!--权限管理-->
             <li>
                 <a href="javascript:;">
@@ -109,5 +120,22 @@
 <div class="footer">
     <div class="copyright">Copyright ©2019 L-admin v2.3 All Rights Reserved</div>
 </div>
+<script>
+    $(function () {
+        document.getElementById("usernameId").value = GetRequest().username;
+    });
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+</script>
 </body>
 </html>

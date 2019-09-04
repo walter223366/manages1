@@ -1,9 +1,9 @@
 package com.ral.manages.service.user;
 
-import com.ral.manages.entity.user.User;
+import java.util.Map;
 
 public interface IUserService {
 
     /*登录*/
-    void landingInfo(User user);
+    void landingInfo(Map<String,Object> map);
 }

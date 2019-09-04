@@ -29,7 +29,7 @@ public class VerTokenController {
         String echostr = request.getParameter("echostr");
         if(StringUtil.isNull(signature) || StringUtil.isNull(timestamp) || StringUtil.isNull(nonce) || StringUtil.isNull(echostr)){
             try {
-                response.sendRedirect("/manages/system/login");
+                response.sendRedirect("/manages/login");
             } catch (IOException e) { ;
                 LOG.info(e.getMessage(), e);
             }

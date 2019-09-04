@@ -88,10 +88,13 @@
 }
 .login-form h2{ font-size:24px; color:#212121; font-weight:600; text-align:left;}
 body {
-	background: #20222A; /* fallback for old browsers */
+	background: #EFEEF0; /* fallback for old browsers */
 	font-family: "microsoft", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	/*background-image: url("/manages/images/1.png");
+	background-repeat: no-repeat;
+	background-size:600px;*/
 }
 .shake_effect {
 	-webkit-animation-name: shake;
