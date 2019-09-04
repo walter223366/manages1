@@ -60,6 +60,7 @@ public class WeChatUserInfoController {
                 .concat("&response_type=code&scope="+scope)
                 .concat("&state="+state)
                 .concat("#wechat_redirect");
+        System.out.println("重定向URL："+codeUrl);
         try {
             response.sendRedirect(codeUrl);
         } catch (IOException e) {

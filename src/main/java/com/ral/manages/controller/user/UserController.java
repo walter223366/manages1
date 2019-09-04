@@ -31,6 +31,7 @@ public class UserController {
         try {
             iUserService.landingInfo(user);
             result.setRows(Base64Util.Base64Encode(new JSONObject().toString()));
+            log.info("返回结果：" + result);
         } catch (BizException ex) {
             log.debug("请求失败：", ex);
             result.setMsg(ex.getMessage());
@@ -42,7 +43,6 @@ public class UserController {
             result.setCode(ResultCode.ERROR.getCode());
             result.setResult(ResultCode.ERROR.getResult());
         }
-        log.info("返回结果：" + result);
         return result;
     }
 }
