@@ -21,29 +21,38 @@ public class JumpController {
     public String user(@PathVariable String name){ return name; }*/
 
     @RequestMapping("/main")
-    public String jumpMain(HttpServletRequest request){
-        String username = request.getParameter("username");
-        if(StringUtil.isNull(username)){
-            return "error/404.html";
-        }
+    public String jumpMain(){
         return "main.html";
     }
+
     @RequestMapping("account")
-    public String jumpAccount(){ return "app/account.html"; }
+    public String jumpAccount(){
+        return "app/account.html";
+    }
 
     @RequestMapping("school")
-    public String jumpSchool(){ return "app/school.html"; }
+    public String jumpSchool(){
+        return "app/school.html";
+    }
 
     @RequestMapping("effect")
-    public String jumpEffect(){ return "app/effect.html"; }
+    public String jumpEffect(){
+        return "app/effect.html";
+    }
 
     @RequestMapping("move")
-    public String jumpZhaoShi(){ return "app/move.html"; }
+    public String jumpMove(){
+        return "app/move.html";
+    }
 
     @RequestMapping("kongFu")
-    public String jumpKongFu(){ return "app/kongfu.html"; }
+    public String jumpKongFu(){
+        return "app/kongfu.html";
+    }
 
     @RequestMapping("article")
-    public String jumpCharacter(){ return "app/article.html"; }
+    public String jumpCharacter(){
+        return "app/article.html";
+    }
 
 }
