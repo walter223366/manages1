@@ -30,7 +30,6 @@ public class SysAuthController {
             Map<String,Object> resultMap = sysAuthService.sysAuth(map);
             JSONObject json = JSONObject.fromObject(resultMap);
             result.setRows(Base64Util.Base64Encode(json.toString()));
-            log.info("返回结果：" + result);
         } catch (BizException ex) {
             log.debug("请求失败：", ex);
             result.setMsg(ex.getMessage());
