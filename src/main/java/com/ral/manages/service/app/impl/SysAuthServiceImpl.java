@@ -37,6 +37,12 @@ public class SysAuthServiceImpl implements ISysAuthService , ApplicationContextA
         }
         String params = Base64Util.Base64Decode(MapUtil.getString(map,"params"));
         Map<String,Object> dataMap = JsonUtil.formatJSON(params);
+        String limit = MapUtil.getString(map,"limit");
+        String page = MapUtil.getString(map,"page");
+        if(!StringUtil.isNull(limit) && !StringUtil.isNull(page)){
+            dataMap.put("limit",limit);
+            dataMap.put("page",page);
+        }
         UnifiedCall accountService = (UnifiedCall) applicationContext.getBean(manages);
         return accountService.uCall(method,dataMap);
     }
