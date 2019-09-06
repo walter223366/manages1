@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ral.manages.mapper.app.IBaseNPCMapper">
+
+    <!--NPC角色表-->
+    <sql id="baseNPCResult">
+        id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
+        school_contribution,img,enable,cancellation
+    </sql>
+
+
+    <!--新增-->
+    <insert id="baseNPCInsert" parameterType="map">
+        INSERT INTO biz_charactor_base_info_npc(id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
+        school_contribution,img,enable,cancellation)
+        VALUES (
+          #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{character},#{popularity},#{coin},
+          #{gold},#{experience},#{school_contribution},#{img},#{enable},#{cancellation}
+        )
+    </insert>
+
+</mapper>

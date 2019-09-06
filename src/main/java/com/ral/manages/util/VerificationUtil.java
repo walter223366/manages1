@@ -16,7 +16,7 @@ public class VerificationUtil {
         String account = MapUtil.getString(map,"account");
         String source = MapUtil.getString(map,"source");
         if(StringUtil.isNull(account)){
-            throw new BizException("传入账号名称为空") ;
+            throw new BizException("传入账号ID为空") ;
         }
         if(!source.equals("0") && !source.equals("1")){
             throw new BizException("传入账号来源标志错误");

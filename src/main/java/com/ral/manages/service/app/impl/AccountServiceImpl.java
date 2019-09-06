@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.ProjectConst;
+import com.ral.manages.mapper.app.IBaseInfoMapper;
 import com.ral.manages.service.app.IBaseInfoService;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.VerificationUtil;
@@ -25,6 +26,8 @@ public class AccountServiceImpl implements UnifiedCall {
     private static final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
     @Autowired
     private IAccountMapper iAccountMapper;
+    @Autowired
+    private IBaseInfoMapper baseInfoMapper;
     @Autowired
     private IBaseInfoService baseInfoService;
 
@@ -50,6 +53,8 @@ public class AccountServiceImpl implements UnifiedCall {
             case ProjectConst.DELETE: result = accountDelete(map);
                 break;
             case ProjectConst.BATCHDELETE: result = accountBatchDelete(map);
+                break;
+            case ProjectConst.SINGIN: result = accountSignIn(map);
                 break;
             case ProjectConst.SIGNUP: result = accountSignUp(map);
                 break;
@@ -169,28 +174,51 @@ public class AccountServiceImpl implements UnifiedCall {
         }
     }
 
-    /*登陆、注册*/
-    private Map<String,Object> accountSignUp(Map<String,Object> map) {
+    /*登陆、未注册返回状态*/
+    private Map<String,Object> accountSignIn(Map<String,Object> map) {
         VerificationUtil.verificationAccount(map);
         Map<String,Object> result = new HashMap<String,Object>();
         Map<String,Object> qMap = iAccountMapper.accountEditQuery(map);
         if(!SetUtil.isMapNull(qMap)){
             result = landed(qMap);
         }else {
-            map.put("cancellation", TableCode.CANCELLATION_ZERO.getCode());
-            map.put("deleteStatus", TableCode.DELETE_ZERO.getCode());
-            map.put("lrrq", TimeUtil.currentTime());
-            String id = StringUtil.getUUID();
-            map.put("id", id);
-            try {
-                iAccountMapper.accountInsert(map);
-            } catch (Exception e) {
-                log.debug("注册失败：" + e.getMessage());
-                throw new BizException("注册失败：" + e.getMessage());
-            }
             result = registered(map);
         }
         return result;
+    }
+
+    /*注册*/
+    private Map<String,Object> accountSignUp(Map<String,Object> map){
+        String account = MapUtil.getString(map,"account");
+        if(StringUtil.isNull(account)){
+            throw new BizException("传入账号ID为空");
+        }
+        String nickname = MapUtil.getString(map,"nickname");
+        if(StringUtil.isNull(nickname)){
+            throw new BizException("传入人物呢称为空");
+        }
+        Map<String,Object> userMap = new HashMap<String,Object>();
+        userMap.put("account",account);
+        userMap.put("cancellation", TableCode.CANCELLATION_ZERO.getCode());
+        userMap.put("deleteStatus", TableCode.DELETE_ZERO.getCode());
+        userMap.put("source",TableCode.SOURCE_ZERO.getCode());
+        userMap.put("lrrq", TimeUtil.currentTime());
+        String id = StringUtil.getUUID();
+        userMap.put("id",id);
+
+        map.put("last_time",TableCode.LASTTIME_ONE.getCode());
+        map.put("enable",TableCode.ENABLE_ONE.getCode());
+        map.put("id",StringUtil.getUUID());
+        map.put("user_id",id);
+        map.put("cancellation", TableCode.CANCELLATION_ZERO.getCode());
+        try {
+            iAccountMapper.accountInsert(userMap);
+            baseInfoMapper.baseInfoInsert(map);
+        } catch (Exception e) {
+            log.debug("注册失败：" + e.getMessage());
+            throw new BizException("注册失败：" + e.getMessage());
+        }
+        return new HashMap<>();
     }
 
     /*已有账号时，查询人物信息*/
@@ -207,7 +235,7 @@ public class AccountServiceImpl implements UnifiedCall {
         Map<String,Object> infoMap = SetUtil.clearValueNullToMap(map);
         Map<String,Object> qMap = new HashMap<String,Object>();
         map.put("isType",TableCode.REGISTERED.getCode());//注册状态
-        map.put("character",qMap);//角色信息（初始化角色）
+        map.put("character",qMap);//角色信息（初始化角色为空）
         return map;
     }
 
@@ -215,7 +243,7 @@ public class AccountServiceImpl implements UnifiedCall {
     private Map<String,Object> switchBaseInfo(Map<String,Object> map){
         String account = MapUtil.getString(map,"account");
         if(StringUtil.isNull(account)){
-            throw new BizException("传入账号名称为空");
+            throw new BizException("传入账号ID为空");
         }
         Map<String,Object> qMap = iAccountMapper.accountEditQuery(map);
         if(SetUtil.isMapNull(qMap)){

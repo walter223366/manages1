@@ -8,6 +8,11 @@
         id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
         school_contribution,pic,enable,cancellation,is_npc,last_time
     </sql>
+    <!--NPC角色表-->
+    <sql id="baseNPCResult">
+        id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
+        school_contribution,img,enable,cancellation
+    </sql>
     <!--造诣表-->
     <sql id="attainInfoResult">
         id,charactor_id,melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,sorcery_status,
@@ -27,6 +32,8 @@
         id,charactor_id,charactor_friend_id,relation_value
     </sql>
 
+
+    <!--查询-->
     <select id="queryBaseInfo" parameterType="java.lang.String" resultType="map">
         SELECT * FROM biz_charactor_base_info WHERE 1=1 AND user_id=#{userId} AND (cancellation IS NULL OR cancellation=0)
     </select>
@@ -42,5 +49,16 @@
     <select id="queryRelationInfo" parameterType="java.lang.String" resultType="map">
         SELECT * FROM biz_charactor_relationship WHERE 1=1 AND charactor_id=#{baseId}
     </select>
+
+
+    <!--新增-->
+    <insert id="baseInfoInsert" parameterType="map">
+        INSERT INTO biz_charactor_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
+        school_contribution,pic,enable,cancellation,is_npc,last_time)
+        VALUES (
+          #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{character},#{popularity},#{coin},#{gold},
+          #{experience},#{school_contribution},#{pic},#{enable},#{cancellation},#{is_npc},#{last_time}
+        )
+    </insert>
 
 </mapper>

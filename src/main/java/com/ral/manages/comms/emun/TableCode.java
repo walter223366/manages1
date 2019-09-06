@@ -11,6 +11,9 @@ public enum TableCode {
         LANDED("登陆",0),
         REGISTERED("注册",1),
 
+        LASTTIME_ZERO("不是上次登录",0),
+        LASTTIME_ONE("是上次登录",1),
+
         DELETE_ZERO("正常",0),
         DELETE_ONE("已删除",1),
 

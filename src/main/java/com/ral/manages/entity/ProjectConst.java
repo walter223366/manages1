@@ -14,8 +14,10 @@ public class ProjectConst {
     public final static String DELETE = "delete";
     //批量删除
     public final static String BATCHDELETE = "batchDelete";
-    //登陆、注册
+    //注册
     public final static String SIGNUP = "signUp";
+    //登陆
+    public final static String SINGIN = "signIn";
     //详情
     public final static String SEEDETAILS = "seeDetails";
     //功夫管理招式下拉框

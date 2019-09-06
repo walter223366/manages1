@@ -139,6 +139,9 @@ function add() {
     var content = $("#addInfo");
     layerOpen("新增",content,1050,500);
 }
+function hp(){
+    show(".hpId");
+}
 //新增-请求
 function addRequest() {
     var params = {

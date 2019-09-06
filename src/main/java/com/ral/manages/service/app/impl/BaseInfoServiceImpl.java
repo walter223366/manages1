@@ -1,5 +1,7 @@
 package com.ral.manages.service.app.impl;
 
+import com.ral.manages.comms.exception.BizException;
+import com.ral.manages.entity.ProjectConst;
 import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.mapper.app.IBaseInfoMapper;
 import com.ral.manages.mapper.app.ISchoolMapper;
@@ -35,8 +37,11 @@ public class BaseInfoServiceImpl implements UnifiedCall,IBaseInfoService {
      */
     @Override
     public Map<String,Object> uCall(String method,Map<String,Object> map) {
-        return null;
+        Map<String,Object> result = new HashMap<String,Object>();
+        //TODO
+        return result;
     }
+
 
 
     /**

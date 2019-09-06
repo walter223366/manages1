@@ -12,4 +12,7 @@ public interface IBaseInfoMapper {
     List<Map<String,Object>> queryBattleInfo(@Param("baseId") String baseId);
     List<Map<String,Object>> queryPotentialInfo(@Param("baseId") String baseId);
     List<Map<String,Object>> queryRelationInfo(@Param("baseId") String baseId);
+
+    /*新增*/
+    void baseInfoInsert(Map<String,Object> map);
 }
