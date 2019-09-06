@@ -59,6 +59,7 @@ public class MoveServiceImpl implements UnifiedCall {
             case ProjectConst.MKONGFUBOX: result = moveAddKongFu();
                 break;
             case ProjectConst.SEEDETAILS: result = moveSee(map);
+                break;
             default:
                 throw new BizException("传入该方法不存在");
         }
