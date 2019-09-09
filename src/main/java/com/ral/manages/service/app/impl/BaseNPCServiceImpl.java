@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,15 +29,17 @@ public class BaseNPCServiceImpl implements UnifiedCall {
     public Map<String,Object> uCall(String method,Map<String,Object> map) {
         Map<String,Object> result = new HashMap<String,Object>();
         switch (method){
-            case ProjectConst.PAGINGQUERY:
+            case ProjectConst.PAGINGQUERY: result = baseNPCPagingQuery(map);
                 break;
             default:
-                throw new BizException("传入该方法不存在");
+                throw new BizException("传入方法名不存在");
         }
         return result;
     }
 
+    /*分页查询*/
     private Map<String,Object> baseNPCPagingQuery(Map<String,Object> map){
+
         return null;
     }
 }

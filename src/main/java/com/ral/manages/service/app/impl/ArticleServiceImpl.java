@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements UnifiedCall {
             case ProjectConst.BATCHDELETE: result = articleBatchDelete(map);
                 break;
             default:
-                throw new BizException("传入该方法不存在");
+                throw new BizException("传入方法名不存在");
         }
         return result;
     }
