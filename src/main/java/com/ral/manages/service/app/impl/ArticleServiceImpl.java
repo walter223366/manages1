@@ -45,8 +45,6 @@ public class ArticleServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = articleDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = articleBatchDelete(map);
-                break;
             default:
                 throw new BizException("传入方法名不存在");
         }
@@ -117,26 +115,6 @@ public class ArticleServiceImpl implements UnifiedCall {
 
     /*删除*/
     private Map<String,Object> articleDelete(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入物品名称为空");
-        }
-        int count = iArticleMapper.articleIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该物品不存在");
-        }
-        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
-        try{
-            iArticleMapper.articleDelete(map);
-            return new HashMap<>();
-        }catch (Exception e){
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
-
-    /*批量删除*/
-    private Map<String,Object> articleBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> dataList = (List<Map<String, Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
            throw new BizException("传入data参数为空");

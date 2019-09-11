@@ -1,5 +1,7 @@
 package com.ral.manages.util;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StringUtil {
@@ -31,9 +33,20 @@ public class StringUtil {
         return value;
     }
 
-
-    public static String[] arrayToString(String str){
-        String[] arrayString = str.split(",");
-        return arrayString;
+    //分割时间
+    public static Map<String,Object> segTime(String str){
+        Map<String,Object> map = new HashMap<String,Object>();
+        if(StringUtil.isNull(str)){
+            return map;
+        }
+        String[] strs = str.split(" - ");
+        if(strs.length >= 2){
+            map.put("startTime",strs[0]);
+            map.put("endTime",strs[1]);
+        }else{
+            map.put("startTime",strs[0]);
+            map.put("endTime","");
+        }
+        return map;
     }
 }

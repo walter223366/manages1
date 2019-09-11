@@ -45,8 +45,6 @@ public class SchoolServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = schoolDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = schoolBatchDelete(map);
-                break;
             default:
                 throw new BizException("传入方法名不存在");
         }
@@ -114,23 +112,6 @@ public class SchoolServiceImpl implements UnifiedCall {
 
     /*删除*/
     private Map<String,Object> schoolDelete(Map<String,Object> map) {
-        VerificationUtil.verificationSchool(map);
-        int count = iSchoolMapper.schoolIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该门派不存在");
-        }
-        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
-        try{
-            iSchoolMapper.schoolDelete(map);
-            return new HashMap<>();
-        }catch (Exception e) {
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
-
-    /*批量删除*/
-    private Map<String,Object> schoolBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
@@ -142,8 +123,8 @@ public class SchoolServiceImpl implements UnifiedCall {
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 }

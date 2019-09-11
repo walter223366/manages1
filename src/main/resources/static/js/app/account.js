@@ -1,6 +1,7 @@
 charset="utf-8";
 manages="account";
 
+
 /**查询部分*/
 $(function(){
     pagingQuery();
@@ -11,8 +12,8 @@ function pagingQuery(){
         account:$("#query_account").val(),
         tellPhone:$("#query_tellPhone").val(),
         source:$("#query_source").val(),
-        startTime:$("#query_startTime").val(),
-        endTime:$("#query_endTime").val()
+        queryTime:$("#query_time").val(),
+        cancellation:$("#query_cancellation").val()
     };
     var obj = {
         manages:manages,
@@ -26,10 +27,10 @@ function pagingQuery(){
             url:url,
             method:'POST',
             contentType:"application/json",
-            toolbar:'#toolbarBomb',
+            toolbar:'default',
             id:'#dataInfo',
             title:'账号管理',
-            even:true,
+            //even:true,
             expandRow:true,
             where:obj,
             page:true,
@@ -50,7 +51,7 @@ function pagingQuery(){
             cols:[
                 [
                     {type:'checkbox',fixed:'felt'},
-                    {type:'numbers',title:'序号',align:'center',fixed:'felt',width:100},
+                    {type:'numbers',title:'序号',align:'center',fixed:'felt',width:70},
                     {field:'account',title:'账号',sort:true},
                     {field:'tellphone',title:'手机号码',sort:true},
                     {field:'source',title:'来源'},
@@ -60,83 +61,73 @@ function pagingQuery(){
                 ]
             ]
         });
-        //批量删除 新增
-        table.on('checkbox(dataInfo)',function(){
-            table.on('toolbar(dataInfo)',function (obj){
-                var checkStatus = table.checkStatus(obj.config.id);
-                if(obj.event === 'bombAdd'){
-                    add();
-                }else if(obj.event === 'bombDelete'){
-                    batchDel(checkStatus);
-                }
-            });
+
+        //新增、编辑、删除（批量）
+        table.on('toolbar(dataInfo)',function (obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            switch(obj.event){
+                case 'add': add();
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行编辑');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一条数据');
+                    } else {
+                        $.each(data,function (i,n) {
+                            edit(n);
+                        });
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行删除');
+                    } else {
+                        del(data);
+                    }
+                    break;
+            }
         });
+
         //编辑、删除
         table.on('tool(dataInfo)',function (obj){
             var data = obj.data;
             if (obj.event === 'edit'){
                 edit(data);
             }else if (obj.event === 'del'){
-                del(data);
-            }
-        });
-        //新增
-        table.on('toolbar(dataInfo)',function (obj){
-            if(obj.event === 'bombAdd'){
-                add();
-            }else if(obj.event === 'bombDelete'){
-                layer.msg("请勾选一条数据进行删除");
+                var des = [data];
+                del(des);
             }
         });
     });
 }
 
 
+
 /**清空条件*/
 function cleanUp(){
     $("#query_account").val('');
     $("#query_tellPhone").val('');
-    $("#query_startTime").val('');
-    $("#query_endTime").val('');
-    $("#query_source").val("");
+    $("#query_time").val('');
+    $("#query_source").val('');
+    $("#query_cancellation").val('');
     layui.form.render("select");
     pagingQuery();
 }
 
-
-/**批量删除*/
-function batchDel(checkStatus){
-    var data = checkStatus.data;
-    if(data.length <= 0){
-        layer.msg("请勾选一条数据进行删除");
-        return;
-    }
-    layer.confirm('请确定要删除这'+data.length+'条数据吗？', {
-            btn: ['确定','取消']
-        }, function(){
-            var params = {
-                data:data
-            };
-            postRequest(params,manages,bStrike,function (data){
-                if (data.code === "0" && data.result === "SUCCESS"){
-                    layer.msg("删除成功");
-                    pagingQuery();
-                }else{
-                    layer.msg(data.msg,{icon:2});
-                }
-            });
-        }, function(){
-            layer.closeAll();
-        }
-    );
-}
 
 
 /**新增部分*/
 function add(){
     addReset();
     var content =  $("#addInfo");
-    layerOpen("新增",content,1000,500);
+    layerOpen("新增",content,800,450,
+        function () {
+            addRequest();
+        },function (index,layero) {
+            addReset();
+    });
 }
 //新增-请求
 function addRequest(){
@@ -150,19 +141,26 @@ function addRequest(){
         layer.msg("账号名称不能为空",{icon:2});
         return;
     }else{
-        if(params.account.length<6 || params.account.length>12){
-            layer.msg("账号名称规定6-12个字符",{icon:2});
+        if(params.account.length>100){
+            layer.msg("账号名称字符过长",{icon:2});
             return;
         }
     }
-    postRequest(params,manages,increase,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("新增成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要新增这条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            postRequest(params,manages,increase,function (data){
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    layer.msg("新增成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.close();
         }
-    });
+    );
 }
 //新增-重置
 function addReset(){
@@ -171,6 +169,7 @@ function addReset(){
     $("#add_password").val('');
     $("#add_cPassword").val('');
 }
+
 
 
 /**编辑部分*/
@@ -186,11 +185,15 @@ function edit(data){
                 document.getElementById("edit_id").value = isNull(obj.id);
                 document.getElementById("edit_account").value = isNull(obj.account);
                 document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
-                document.getElementById("edit_lrrq").value = isNull(obj.lrrq);
                 $("#edit_source").val(String(obj.source));
                 layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen("编辑",content,1000,500);
+                layerOpen("编辑",content,950,500,
+                    function () {
+                        editRequest();
+                    },function (index,layero) {
+                        editReset();
+                });
             }
         }else{
             layer.msg(data.msg,{icon:2});
@@ -210,50 +213,69 @@ function editRequest(){
         layer.msg("账号名称不能为空",{icon:2});
         return ;
     }else{
-        if(params.account.length<6 || params.account.length>12){
-            layer.msg("账号名称规定6-12个字符",{icon:2});
-            return ;
+        if(params.account.length>100){
+            layer.msg("账号名称字符过长",{icon:2});
+            return;
         }
     }
-    postRequest(params,manages,renew,function (data){
-        if(data.code === "0" && data.result === "SUCCESS"){
-            layer.msg("修改成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要修改这条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            postRequest(params,manages,renew,function (data){
+                if(data.code === "0" && data.result === "SUCCESS"){
+                    layer.msg("修改成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.close();
         }
-    });
+    );
 }
 //编辑-重置
 function editReset(){
-    $("#edit_account").val('');
     $("#edit_tellPhone").val('');
 }
 
 
+
 /**删除部分*/
 function del(data){
-    var params = {
-        account:data.account
-    };
-    postRequest(params,manages,strike,function (data){
-        if(data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("删除成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要删除这'+data.length+'条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            var params = {
+                data:data
+            };
+            postRequest(params,manages,strike,function (data){
+                if (data.code === "0" && data.result === "SUCCESS"){
+                    layer.msg("删除成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.closeAll();
         }
-    });
+    );
 }
+
 
 
 /**时间控件*/
 layui.use('laydate', function(){
     var laydate = layui.laydate;
     laydate.render({
-        elem: '#query_startTime'
-    });
-    laydate.render({
-        elem: '#query_endTime'
+        elem:'#query_time'
+        ,type:'datetime'
+        ,range: true
     });
 });
+
+
+function baseInfo(){
+    $("#nickname").open();
+}

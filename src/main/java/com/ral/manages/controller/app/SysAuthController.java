@@ -5,6 +5,7 @@ import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.Result;
 import com.ral.manages.service.app.ISysAuthService;
 import com.ral.manages.util.Base64Util;
+import com.ral.manages.util.SetUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public class SysAuthController {
             Map<String,Object> resultMap = sysAuthService.sysAuth(map);
             JSONObject json = JSONObject.fromObject(resultMap);
             result.setRows(Base64Util.Base64Encode(json.toString()));
+            log.info("返回结果："+ json);
         } catch (BizException ex) {
             log.debug("请求失败：", ex);
             result.setMsg(ex.getMessage());

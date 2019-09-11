@@ -3,6 +3,7 @@ manages="kongFu";
 //layer多选框组件
 var formSelects=layui.formSelects;
 
+
 /**查询部分*/
 $(function(){
     pagingQuery();
@@ -26,10 +27,10 @@ function pagingQuery(){
             url:url,
             method:'POST',
             contentType:"application/json",
-            toolbar:'#toolbarBomb',
+            toolbar:'default',
             id:'#dataInfo',
             title:'武学管理',
-            even:true,
+            //even:true,
             expandRow:true,
             where:obj,
             page:true,
@@ -60,16 +61,32 @@ function pagingQuery(){
                 ]
             ]
         });
-        //批量删除、新增
-        table.on('checkbox(dataInfo)',function(){
-            table.on('toolbar(dataInfo)',function (obj){
-                var checkStatus = table.checkStatus(obj.config.id);
-                if(obj.event === 'bombDelete'){
-                    batchDel(checkStatus);
-                }else if(obj.event === 'bombAdd'){
-                    add();
-                }
-            });
+        //新增、编辑、删除（批量）
+        table.on('toolbar(dataInfo)',function (obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            switch(obj.event){
+                case 'add': add();
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行编辑');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一条数据');
+                    } else {
+                        $.each(data,function (i,n) {
+                            edit(n);
+                        });
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行删除');
+                    } else {
+                        del(data);
+                    }
+                    break;
+            }
         });
         //查看、编辑、删除
         table.on('tool(dataInfo)',function (obj){
@@ -79,19 +96,13 @@ function pagingQuery(){
             }else if (obj.event === 'edit'){
                 edit(data);
             }else if (obj.event === 'del'){
-                del(data);
-            }
-        });
-        //新增、勾选批量删除
-        table.on('toolbar(dataInfo)',function (obj){
-            if(obj.event === 'bombAdd'){
-                add();
-            }else if(obj.event === 'bombDelete'){
-                layer.msg("请勾选一条数据进行删除");
+                var des = [data];
+                del(des);
             }
         });
     });
 }
+
 
 
 /**清空条件*/
@@ -104,40 +115,18 @@ function cleanUp(){
 }
 
 
-/**批量删除*/
-function batchDel(checkStatus){
-    var data = checkStatus.data;
-    if(data.length <= 0){
-        layer.msg("请勾选一条数据进行删除");
-        return;
-    }
-    layer.confirm('请确定要删除这'+data.length+'条数据吗？', {
-            btn: ['确定','取消']
-        }, function(){
-            var params = {
-                data:data
-            };
-            postRequest(params,manages,bStrike,function (data){
-                if (data.code === "0" && data.result === "SUCCESS"){
-                    layer.msg("删除成功");
-                    pagingQuery();
-                }else{
-                    layer.msg(data.msg,{icon:2});
-                }
-            });
-        }, function(){
-            layer.closeAll();
-        }
-    );
-}
-
 
 /**新增部分*/
 function add(){
     addReset();
     addMove();
     var content = $("#addInfo");
-    layerOpen("新增",content,1000,500);
+    layerOpen("新增",content,1000,500,
+        function () {
+            addRequest();
+        },function (index,layero) {
+            addReset();
+        });
 }
 //新增-招式下拉框
 function addMove(){
@@ -177,14 +166,21 @@ function addRequest(){
     if(params.type===null || params.type===""){
         layer.msg("功夫类型不能为空",{icon:2});
     }
-    postRequest(params,manages,increase,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("新增成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要新增这条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            postRequest(params,manages,increase,function (data){
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    layer.msg("新增成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.close();
         }
-    });
+    );
 }
 //新增-重置
 function addReset() {
@@ -193,6 +189,7 @@ function addReset() {
     $("#add_exp").val(100);
     $("#add_attainments").val('');
 }
+
 
 
 /**查看*/
@@ -222,6 +219,7 @@ function see(data) {
 }
 
 
+
 /**编辑部分*/
 function edit(data) {
     var params = {
@@ -242,7 +240,12 @@ function edit(data) {
                 $("#edit_enable").val(String(obj.enable));
                 layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen("编辑",content,1000,500);
+                layerOpen("编辑",content,1000,500,
+                    function () {
+                        editRequest();
+                    },function (index,layero) {
+                        editReset();
+                    });
             }
         }else{
             layer.msg(data.msg,{icon:2});
@@ -288,14 +291,21 @@ function editRequest() {
     if(params.type===null || params.type===""){
         layer.msg("功夫类型不能为空",{icon:2});
     }
-    postRequest(params,manages,renew,function (data){
-        if (data.code === "0" && data.result === "SUCCESS"){
-            layer.msg("修改成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要修改这条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            postRequest(params,manages,renew,function (data){
+                if (data.code === "0" && data.result === "SUCCESS"){
+                    layer.msg("修改成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.close();
         }
-    });
+    );
 }
 //编辑-重置
 function editReset() {
@@ -306,17 +316,29 @@ function editReset() {
 }
 
 
+
 /**删除部分*/
-function del(data) {
-    var params = {
-        name:data.name
-    };
-    postRequest(params,manages,strike,function (data){
-        if(data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("删除成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+function del(data){
+    if(data.length <= 0){
+        layer.msg("请勾选一条数据进行删除");
+        return;
+    }
+    layer.confirm('请确定要删除这'+data.length+'条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            var params = {
+                data:data
+            };
+            postRequest(params,manages,strike,function (data){
+                if (data.code === "0" && data.result === "SUCCESS"){
+                    layer.msg("删除成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.closeAll();
         }
-    });
+    );
 }

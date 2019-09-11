@@ -1,6 +1,7 @@
 charset="utf-8";
 manages="effect";
 
+
 /**查询部分*/
 $(function(){
     pagingQuery()
@@ -23,10 +24,10 @@ function pagingQuery(){
             url:url,
             method:'POST',
             contentType:"application/json",
-            toolbar:'#toolbarBomb',
+            toolbar:'default',
             id:'#dataInfo',
             title:'效果管理',
-            even:true,
+            //even:true,
             expandRow:true,
             where:obj,
             page:true,
@@ -62,17 +63,35 @@ function pagingQuery(){
                 ]
             ]
         });
-        //批量删除、新增
-        table.on('checkbox(dataInfo)',function(){
-            table.on('toolbar(dataInfo)',function (obj){
-                var checkStatus = table.checkStatus(obj.config.id);
-                if(obj.event === 'bombAdd'){
-                    add();
-                }else if(obj.event === 'bombDelete'){
-                    batchDel(checkStatus);
-                }
-            });
+
+        //新增、编辑、删除（批量）
+        table.on('toolbar(dataInfo)',function (obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            switch(obj.event){
+                case 'add': add();
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行编辑');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一条数据');
+                    } else {
+                        $.each(data,function (i,n) {
+                            edit(n);
+                        });
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行删除');
+                    } else {
+                        del(data);
+                    }
+                    break;
+            }
         });
+
         //查看、编辑、删除
         table.on('tool(dataInfo)',function (obj){
             var data = obj.data;
@@ -81,15 +100,8 @@ function pagingQuery(){
             }else if (obj.event === 'edit'){
                 edit(data);
             }else if (obj.event === 'del'){
-                del(data);
-            }
-        });
-        //新增、勾选批量删除
-        table.on('toolbar(dataInfo)',function (obj){
-            if(obj.event === 'bombAdd'){
-                add();
-            }else if(obj.event === 'bombDelete'){
-                layer.msg("请勾选一条数据进行删除");
+                var des = [data];
+                del(des);
             }
         });
     });
@@ -105,42 +117,20 @@ function cleanUp() {
 }
 
 
-/**批量删除*/
-function batchDel(checkStatus){
-    var data = checkStatus.data;
-    if(data.length <= 0){
-        layer.msg("请勾选一条数据进行删除");
-        return;
-    }
-    layer.confirm('请确定要删除这'+data.length+'条数据吗？', {
-            btn: ['确定','取消']
-        }, function(){
-            var params = {
-                data:data
-            };
-            postRequest(params,manages,bStrike,function (data){
-                if (data.code === "0" && data.result === "SUCCESS") {
-                    layer.msg("删除成功");
-                    pagingQuery();
-                }else{
-                    layer.msg(data.msg,{icon:2});
-                }
-            });
-        }, function(){
-            layer.closeAll();
-        }
-    );
-}
-
-
 /**新增部分*/
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen("新增",content,1050,500);
+    layerOpen("新增",content,1050,500,
+        function () {
+            addRequest();
+        },function (index,layero) {
+            addReset();
+        });
 }
 function hp(){
-    show(".hpId");
+    alert("开始");
+
 }
 //新增-请求
 function addRequest() {
@@ -179,14 +169,21 @@ function addRequest() {
         layer.msg("效果执行目标不能为空",{icon:2});
         return ;
     }
-    postRequest(params,manages,increase,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("新增成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要新增这条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            postRequest(params,manages,increase,function (data){
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    layer.msg("新增成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.close();
         }
-    });
+    );
 }
 //新增-重置
 function addReset() {
@@ -287,7 +284,12 @@ function edit(data){
                 $("#edit_target").val(String(obj.target));
                 layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen("编辑",content,1050,500);
+                layerOpen("编辑",content,1050,500,
+                    function () {
+                        editRequest();
+                    },function (index,layero) {
+                        editReset();
+                    });
             }
         }else{
             layer.msg(data.msg,{icon:2});
@@ -324,14 +326,21 @@ function editRequest(){
         suck_mp_purple:$("#edit_suck_mp_purple").val(),
         info:$("#edit_info").val()
     };
-    postRequest(params,manages,renew,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("修改成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    layer.confirm('请确认要修改这条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            postRequest(params,manages,renew,function (data){
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    layer.msg("修改成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.close();
         }
-    });
+    );
 }
 //编辑-重置
 function editReset(){
@@ -363,15 +372,26 @@ function editReset(){
 
 /**删除部分*/
 function del(data){
-    var params = {
-        name:data.name
-    };
-    postRequest(params,manages,strike,function (data){
-        if(data.code === "0" && data.result === "SUCCESS") {
-            layer.msg("删除成功");
-            pagingQuery();
-        }else{
-            layer.msg(data.msg,{icon:2});
+    if(data.length <= 0){
+        layer.msg("请勾选一条数据进行删除");
+        return;
+    }
+    layer.confirm('请确定要删除这'+data.length+'条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            var params = {
+                data:data
+            };
+            postRequest(params,manages,strike,function (data){
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    layer.msg("删除成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.closeAll();
         }
-    });
+    );
 }

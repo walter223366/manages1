@@ -33,7 +33,7 @@ public class PageBean {
     /**分页返回*/
     public static Map<String,Object> resultPage(long total, List<Map<String,Object>> data){
         Map<String,Object> result = new HashMap<String,Object>();
-        result.put("data",data);
+        result.put("data",SetUtil.clearValueNullToList(data));
         result.put("total",total);
         return result;
     }

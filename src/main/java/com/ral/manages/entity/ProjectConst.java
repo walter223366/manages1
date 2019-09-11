@@ -26,4 +26,6 @@ public class ProjectConst {
     public final static String MEFFECTBOX = "mEffectBox";
     //招式管理功夫下拉框
     public final static String MKONGFUBOX = "mKongFuBox";
+    //人物（NPC）管理门派下拉框
+    public final static String NPCSCHOOLBOX = "nSchoolBox";
 }

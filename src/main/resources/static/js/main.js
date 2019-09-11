@@ -216,6 +216,7 @@ seeDetails="seeDetails";
 kMoveBox="kMoveBox";
 mKongFuBox="mKongFuBox";
 mEffectBox="mEffectBox";
+nSchoolBox="nSchoolBox";
 url = "/manages/sysAuth/server";
 
 function postRequest(params,manages,method,callback){
@@ -257,8 +258,8 @@ function getRequest(url,manages,method,callback){
     });
 }
 
-/*弹出层*/
-function layerOpen(title,content,width,height) {
+/*操作弹出层*/
+function layerOpen(title,content,width,height,callback,Reset) {
     layer.open({
         type: 1,
         offset: "auto",
@@ -267,11 +268,20 @@ function layerOpen(title,content,width,height) {
         fix: false,
         maxmin: true,
         shadeClose: true,
+        btn: ['立即提交', '重置'],
         shade: 0.4,
         title: title,
         content: content,
         yes:function(){
-            content.hide();
+            if (typeof callback === "function") {
+                callback();
+            }
+        },
+        btn2:function(index,layero){
+            if (typeof Reset === "function") {
+                Reset(index,layero);
+            }
+            return false;
         }
     });
 }

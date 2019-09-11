@@ -22,7 +22,7 @@ public enum TableCode {
 
         /*注销状态*/
         CANCELLATION_ZERO("正常",0),
-        CANCELLATION_ONE("注销",1),
+        CANCELLATION_ONE("已注销",1),
 
         /*功夫分类*/
         TYPE_ZERO("内功",0),
@@ -40,7 +40,11 @@ public enum TableCode {
 
         /*执行目标*/
         TARGET_ZERO("自己",0),
-        TARGET_ONE("对方",1);
+        TARGET_ONE("对方",1),
+
+        /*性别*/
+        SEX_ZERO("女",0),
+        SEX_ONE("男",1);
 
         private String name;
         private int code;

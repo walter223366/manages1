@@ -45,8 +45,6 @@ public class EffectServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = effectDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = effectBatchDelete(map);
-                break;
             default:
                 throw new BizException("传入方法名不存在");
         }
@@ -122,26 +120,6 @@ public class EffectServiceImpl implements UnifiedCall {
 
     /*删除*/
     private Map<String,Object> effectDelete(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入效果名称为空");
-        }
-        int count = iEffectMapper.effectIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该效果不存在");
-        }
-        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
-        try{
-            iEffectMapper.effectDelete(map);
-            return new HashMap<>();
-        }catch (Exception e){
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
-
-    /*批量删除*/
-    private Map<String,Object> effectBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> dataList = (List<Map<String, Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
@@ -153,8 +131,8 @@ public class EffectServiceImpl implements UnifiedCall {
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 }

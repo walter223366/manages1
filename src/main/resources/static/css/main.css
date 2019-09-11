@@ -285,10 +285,10 @@ xblock{
 }
 .left-nav #nav > li:hover {
     background:#181818;
-    border-left:4px solid #42b8f1;
+    border-left:4px solid #5FB878;
 }
 .left-nav #nav > li.open {
-    border-left:4px solid #42b8f1;
+    border-left:4px solid #5FB878;
     background:#181818;
 }
 
@@ -297,7 +297,7 @@ xblock{
     color: white;
 }
 .left-nav #nav .current{
-    background:#41b8f0;
+    background:#5FB878;
 }
 .left-nav #nav li a{
     font-size: 14px;
@@ -544,7 +544,7 @@ input::-webkit-outer-spin-button{
     -webkit-appearance: none;
 }
 input[disabled="true"]{
-    background-color: #eaeaea;
+    background-color: #EFEEF0;
 }
 
 .layui-input:focus{border-color:#1E9FFF!important}
@@ -588,7 +588,11 @@ input[disabled="true"]{
 .x-font{font-size:14px;font-weight:600;}
 .see-textarea{width:800px;height:500px;}
 
-/*.layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
-    top: 50%;
-    transform: translateY(-50%);
-}*/
+.liw{
+    width: 280px;
+}
+.btnc{
+    background-color: #5FB878
+}
+.layLeng{width: 410px;}
+.inLeng{width: 260px}

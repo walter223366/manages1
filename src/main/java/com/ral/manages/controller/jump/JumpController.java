@@ -1,11 +1,7 @@
 package com.ral.manages.controller.jump;
 
-import com.ral.manages.util.StringUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *   页面跳转
@@ -16,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/system/")
 public class JumpController {
-
-    /*@RequestMapping(value="{name}")
-    public String user(@PathVariable String name){ return name; }*/
 
     @RequestMapping("/main")
     public String jumpMain(){
@@ -51,8 +44,18 @@ public class JumpController {
     }
 
     @RequestMapping("article")
-    public String jumpCharacter(){
+    public String jumpArticle(){
         return "app/article.html";
+    }
+
+    @RequestMapping("baseInfo")
+    public String jumpBaseInfo(){
+        return "app/baseinfo.html";
+    }
+
+    @RequestMapping("baseNpc")
+    public String jumpBaseNpc(){
+        return "app/basenpc.html";
     }
 
 }

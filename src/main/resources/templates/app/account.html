@@ -14,144 +14,149 @@
 </head>
 <body>
 <div class="x-body">
+
     <!--搜索栏-->
     <div class="layui-row">
         <div class="search-conditional">
             <form class="layui-form-item layui-form">
                 <div class="layui-inline">
                     <label class="layui-form-label">账号名称</label>
-                    <div class="layui-input-inline inputWidth" >
-                        <input id="query_account" type="text" autocomplete="off" class="layui-input">
+                    <div class="layui-input-inline">
+                        <input id="query_account" type="text" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">手机号码</label>
-                    <div class="layui-input-inline inputWidth">
-                        <input id="query_tellPhone" type="number" autocomplete="off" class="layui-input">
+                    <div class="layui-input-inline">
+                        <input id="query_tellPhone" type="number" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline layui-form-item">
                     <label class="layui-form-label">来&emsp;&emsp;源</label>
-                    <div class="layui-input-inline inputWidth">
-                        <select id="query_source" name="querySource" class="layui-input">
-                            <option value="">全选</option>
+                    <div class="layui-input-inline">
+                        <select id="query_source" class="layui-input">
+                            <option value="">请选择</option>
                             <option value="0">微信</option>
                             <option value="1">其他</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">开始时间</label>
-                    <div class="layui-input-inline inputWidth">
-                        <input id="query_startTime" autocomplete="off" class="layui-input">
+                    <label class="layui-form-label">创建时间</label>
+                    <div class="layui-input-inline">
+                        <input  id="query_time" type="text" class="layui-input" placeholder=" - " >
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">结束时间</label>
-                    <div class="layui-input-inline inputWidth">
-                        <input id="query_endTime" autocomplete="off" class="layui-input">
+                <div class="layui-inline layui-form-item">
+                    <label class="layui-form-label">注销状态</label>
+                    <div class="layui-input-inline">
+                        <select id="query_cancellation" class="layui-input">
+                            <option value="">请选择</option>
+                            <option value="0">正常</option>
+                            <option value="1">已注销</option>
+                        </select>
                     </div>
                 </div>
             </form>
         </div>
         <div class="search-button">
             <div class="layui-inline">
-                <button onclick="pagingQuery()" type="button" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
+                <button onclick="pagingQuery()" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
             </div>
             <div class="layui-inline">
-                <button onclick="cleanUp()" type="button" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+                <button onclick="add()" class="layui-btn btnc"><i class="layui-icon layui-icon-add-circle-fine"></i>新增</button>
+            </div>
+            <div class="layui-inline">
+                <button onclick="cleanUp()" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
             </div>
         </div>
     </div>
 
+
     <!--数据栏-->
     <table class="layui-table" id="dataInfo" lay-filter="dataInfo"></table>
-    <div class="layui-btn-container" id="toolbarBomb" hidden>
-        <button class="layui-btn layui-btn-danger" lay-event="bombDelete"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
-        <button class="layui-btn layui-btn-normal" lay-event="bombAdd"><i class="layui-icon layui-icon-add-1"></i>新增</button>
-    </div>
     <script type="text/html" id="operational">
-        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit"><i class='layui-icon layui-icon-edit'></i>编辑</a>
+        <a class="layui-btn layui-btn-xs " lay-event="see"><i class='layui-icon layui-icon-read'></i>查看</a>
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit" ><i class='layui-icon layui-icon-edit'></i>编辑</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class='layui-icon layui-icon-delete'></i>删除</a>
     </script>
+
 
     <!--新增栏-->
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form">
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
                 <div class="layui-input-inline">
-                    <input id="add_account" type="text" autocomplete="off" class="layui-input">
-                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">请填写6到12位账号名</span></div>
+                    <input id="add_account" type="text" class="layui-input inLeng">
+                </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">手机号码</label>
                 <div class="layui-input-inline">
-                    <input id="add_tellPhone" type="number" autocomplete="off" class="layui-input">
+                    <input id="add_tellPhone" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">密&emsp;&emsp;码</label>
                 <div class="layui-input-inline">
-                    <input id="add_password" type="password" autocomplete="off" class="layui-input">
+                    <input id="add_password" type="password" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline" style="width: 260px">
                     <select id="add_source" class="layui-input">
                         <option value="0">微信</option>
                         <option value="1">其他</option>
                     </select>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"></label>
-                <button onclick="addRequest()" type="button" class="layui-btn">新增</button>
-                <button onclick="addReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
-            </div>
         </form>
     </div>
 
+
     <!--编辑栏-->
     <div class="x-body" id="editInfo" aria-hidden="true" hidden>
-        <form class="layui-form">
+        <form class="layui-form-item layui-form">
             <div class="layui-form-item" hidden>
                 <label class="layui-form-label">账号id</label>
                 <div class="layui-input-inline">
-                    <input id="edit_id" type="text" autocomplete="off" class="layui-input">
+                    <input id="edit_id" type="text" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>账号名称</label>
                 <div class="layui-input-inline">
-                    <input id="edit_account" type="text" autocomplete="off" class="layui-input">
-                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">请填写6到12位账号名</span></div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">手机号码</label>
-                <div class="layui-input-inline">
-                    <input id="edit_tellPhone" type="number" autocomplete="off" class="layui-input">
+                    <input id="edit_account" type="text" class="layui-input inLeng" disabled="true">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red"></span>创建时间</label>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">手机号码</label>
                 <div class="layui-input-inline">
-                    <input id="edit_lrrq" type="text" autocomplete="off" class="layui-input" disabled="true"></div>
+                    <input id="edit_tellPhone" type="number" class="layui-input inLeng">
+                </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>来&emsp;&emsp;源</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline" style="width: 260px">
                     <select id="edit_source" class="layui-input">
                         <option value="0">微信</option>
                         <option value="1">其他</option>
                     </select>
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"></label>
-                <button onclick="editRequest()" type="button" class="layui-btn">修改</button>
-                <button onclick="editReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
+                <div class="layui-input-inline">
+                    <button onclick="baseInfo()" class="layui-btn layui-btn-primary inLeng">查询角色信息</button>
+                </div>
+            </div>
+            <div id="nickname" class="layui-form-item layLeng" hidden>
+                <label class="layui-form-label">人物名称</label>
+                <div class="layui-input-inline">
+                    <input id="edit_nickname" type="number" class="layui-input inLeng">
+                </div>
             </div>
         </form>
     </div>

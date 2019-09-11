@@ -8,16 +8,56 @@
         id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
         school_contribution,img,enable,cancellation
     </sql>
+    <sql id="conditionalCheck">
+        <if test="nickname!=null and nickname!=''">
+            AND nickname like '%${nickname}%'
+        </if>
+        <if test="school_id!=null and school_id!=''">
+            AND school_id=#{schoolId}
+        </if>
+        <if test="enable!=null and enable!=''">
+            AND enable=#{enable}
+        </if>
+    </sql>
+
+    <!--查询-->
+    <select id="baseNpcPagingQuery" parameterType="map" resultType="map">
+        SELECT * FROM biz_charactor_base_info_npc WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
+    </select>
+    <select id="baseNpcIsExist" parameterType="map" resultType="int">
+        SELECT COUNT(1) FROM biz_charactor_base_info_npc WHERE 1=1 AND nickname=#{nickname}
+    </select>
+    <select id="baseNpcEditQuery" parameterType="map" resultType="map">
+        SELECT * FROM biz_charactor_base_info_npc WHERE 1=1 AND nickname=#{nickname}
+    </select>
+    <select id="baseNpcIdQuery" parameterType="map" resultType="map">
+        SELECT * FROM biz_charactor_base_info_npc WHERE 1=1 AND id=#{id}
+    </select>
 
 
     <!--新增-->
     <insert id="baseNPCInsert" parameterType="map">
-        INSERT INTO biz_charactor_base_info_npc(id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
-        school_contribution,img,enable,cancellation)
+        INSERT INTO biz_charactor_base_info_npc(id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,
+        coin,gold,experience,school_contribution,img,enable,cancellation)
         VALUES (
           #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{character},#{popularity},#{coin},
           #{gold},#{experience},#{school_contribution},#{img},#{enable},#{cancellation}
         )
     </insert>
+
+
+    <!--修改-->
+    <update id="baseNPCUpdate" parameterType="map">
+        UPDATE biz_charactor_base_info_npc SET user_id=#{user_id},school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},
+        sex=#{sex},level#{level},attitude=#{attitude},character=#{character},popularity=#{popularity},coin=#{coin},gold=#{gold},
+        experience=#{experience},school_contribution=#{school_contribution},img=#{img},enable=#{enable}
+        WHERE 1=1 AND id=#{id}
+    </update>
+
+
+    <!--删除-->
+    <update id="baseNPCDelete" parameterType="map">
+        UPDATE biz_charactor_base_info_npc SET cancellation=#{cancellation} WHERE 1=1 AND nickname=#{nickname}
+    </update>
 
 </mapper>

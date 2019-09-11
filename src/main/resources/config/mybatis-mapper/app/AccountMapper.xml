@@ -22,12 +22,23 @@
         <if test="endTime != null and endTime != ''">
           AND DATE_FORMAT(lrrq,'%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(#{endTime},'%Y-%m-%d')
         </if>
+        <if test="cancellation != null and cancellation != ''">
+            <choose>
+                <when test="cancellation == 1">
+                    AND cancellation=#{cancellation}
+                </when>
+                <otherwise>
+                    AND (cancellation IS NULL OR cancellation=0)
+                </otherwise>
+            </choose>
+        </if>
     </sql>
 
 
     <!--查询-->
     <select id="accountPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0) ORDER BY lrrq DESC
+        SELECT <include refid="accountResult"/> FROM biz_user WHERE 1=1 <include refid="conditionalCheck"/>
+        AND (deleteStatus IS NULL OR deleteStatus=0) ORDER BY lrrq DESC
     </select>
     <select id="accountIsExist" parameterType="map" resultType="int">
         SELECT COUNT(1) FROM biz_user WHERE 1=1 AND account=#{account}

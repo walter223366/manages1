@@ -52,8 +52,6 @@ public class MoveServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = moveDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = moveBatchDelete(map);
-                break;
             case ProjectConst.MEFFECTBOX: result = moveAddEffect();
                 break;
             case ProjectConst.MKONGFUBOX: result = moveAddKongFu();
@@ -138,26 +136,6 @@ public class MoveServiceImpl implements UnifiedCall {
 
     /*删除*/
     private Map<String,Object> moveDelete(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入招式名称为空");
-        }
-        int count = iMoveMapper.moveIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该招式不存在");
-        }
-        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
-        try{
-            iMoveMapper.moveDelete(map);
-            return new HashMap<>();
-        }catch (Exception e){
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
-
-    /*批量删除*/
-    private Map<String,Object> moveBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
@@ -169,8 +147,8 @@ public class MoveServiceImpl implements UnifiedCall {
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 

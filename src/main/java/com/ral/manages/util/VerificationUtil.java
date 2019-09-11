@@ -91,4 +91,17 @@ public class VerificationUtil {
             throw new BizException("传入物品图片为空");
         }
     }
+
+
+    /*人物管理参数校验*/
+    public static void verificationBaseNpc(Map<String,Object> map){
+        String nickname = MapUtil.getString(map,"nickname");
+        if(StringUtil.isNull(nickname)){
+            throw new BizException("传入人物名称为空");
+        }
+        String school_id = MapUtil.getString(map,"school_id");
+        if(StringUtil.isNull(school_id)){
+            throw new BizException("传入所属门派为空");
+        }
+    }
 }

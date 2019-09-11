@@ -10,6 +10,7 @@ public interface ISchoolMapper {
     int schoolIsExist(Map<String,Object> map);
     Map<String,Object> schoolEditQuery(Map<String,Object> map);
     Map<String,Object> schoolIdQuery(Map<String,Object> map);
+    List<Map<String,Object>> schoolQueryMarquee();
     /*新增*/
     void schoolInsert(Map<String,Object> map);
     /*修改*/

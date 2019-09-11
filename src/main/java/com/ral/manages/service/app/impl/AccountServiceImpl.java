@@ -52,8 +52,6 @@ public class AccountServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = accountDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = accountBatchDelete(map);
-                break;
             case ProjectConst.SINGIN: result = accountSignIn(map);
                 break;
             case ProjectConst.SIGNUP: result = accountSignUp(map);
@@ -67,6 +65,10 @@ public class AccountServiceImpl implements UnifiedCall {
     /*分页查询*/
     private Map<String,Object> accountPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
+        String queryTime = MapUtil.getString(map,"queryTime");
+        Map<String,Object> timeMap = StringUtil.segTime(queryTime);
+        map.put("startTime",MapUtil.getString(timeMap,"startTime"));
+        map.put("endTime",MapUtil.getString(timeMap,"endTime"));
         List<Map<String,Object>> accountList = iAccountMapper.accountPagingQuery(map);
         for(Map<String,Object> accountMap : accountList){
             int source = SetUtil.toMapValueInt(accountMap,"source");
@@ -138,39 +140,19 @@ public class AccountServiceImpl implements UnifiedCall {
 
     /*删除*/
     private Map<String,Object> accountDelete(Map<String,Object> map) {
-        String account = MapUtil.getString(map,"account");
-        if(StringUtil.isNull(account)){
-            throw new BizException("传入账号名称为空");
-        }
-        int count = iAccountMapper.accountIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该账号不存在");
-        }
-        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
-        try{
-            iAccountMapper.accountDelete(map);
-            return new HashMap<>();
-        }catch (Exception e){
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
-
-    /*批量删除*/
-    private Map<String,Object> accountBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
+                upMap.put("cancellation", TableCode.CANCELLATION_ONE.getCode());
                 iAccountMapper.accountDelete(upMap);
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 
@@ -199,8 +181,7 @@ public class AccountServiceImpl implements UnifiedCall {
         }
         Map<String,Object> userMap = new HashMap<String,Object>();
         userMap.put("account",account);
-        userMap.put("cancellation", TableCode.CANCELLATION_ZERO.getCode());
-        userMap.put("deleteStatus", TableCode.DELETE_ZERO.getCode());
+        userMap.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
         userMap.put("source",TableCode.SOURCE_ZERO.getCode());
         userMap.put("lrrq", TimeUtil.currentTime());
         String id = StringUtil.getUUID();
@@ -210,7 +191,7 @@ public class AccountServiceImpl implements UnifiedCall {
         map.put("enable",TableCode.ENABLE_ONE.getCode());
         map.put("id",StringUtil.getUUID());
         map.put("user_id",id);
-        map.put("cancellation", TableCode.CANCELLATION_ZERO.getCode());
+        map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
         try {
             iAccountMapper.accountInsert(userMap);
             baseInfoMapper.baseInfoInsert(map);

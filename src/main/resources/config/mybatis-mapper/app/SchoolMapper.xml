@@ -32,6 +32,9 @@
     <select id="schoolIdQuery" parameterType="map" resultType="map">
         SELECT <include refid="schoolResult"/> FROM dict_school WHERE 1=1 AND school_id=#{school_id}
     </select>
+    <select id="schoolQueryMarquee" resultType="map">
+        SELECT <include refid="schoolResult"/> FROM dict_school
+    </select>
 
     <!--新增-->
     <insert id="schoolInsert" parameterType="map">
@@ -47,7 +50,7 @@
 
     <!--删除-->
     <update id="schoolDelete" parameterType="map">
-        UPDATE dict_school SET deleteStatus=#{school.deleteStatus} WHERE 1=1 AND name=#{name}
+        UPDATE dict_school SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
 
 </mapper>

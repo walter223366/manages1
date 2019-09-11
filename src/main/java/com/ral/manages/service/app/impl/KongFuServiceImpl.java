@@ -49,8 +49,6 @@ public class KongFuServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = kongFuDelete(map);
                 break;
-            case ProjectConst.BATCHDELETE: result = kongFuBatchDelete(map);
-                break;
             case ProjectConst.KMOVEBOX: result = kongFuAddMove();
                 break;
             case ProjectConst.SEEDETAILS: result = kongFuSee(map);
@@ -139,26 +137,6 @@ public class KongFuServiceImpl implements UnifiedCall {
 
     /*删除*/
     private Map<String,Object> kongFuDelete(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入功夫名称为空");
-        }
-        int count = iKongFuMapper.kongFuIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该功夫不存在");
-        }
-        map.put("deleteStatus",TableCode.DELETE_ONE.getCode());
-        try{
-            iKongFuMapper.kongFuDelete(map);
-            return new HashMap<>();
-        }catch (Exception e){
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
-
-    /*批量删除*/
-    private Map<String,Object> kongFuBatchDelete(Map<String,Object> map) {
         List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
@@ -170,8 +148,8 @@ public class KongFuServiceImpl implements UnifiedCall {
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 
