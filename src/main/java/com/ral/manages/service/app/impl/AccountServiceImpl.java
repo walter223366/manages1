@@ -146,7 +146,7 @@ public class AccountServiceImpl implements UnifiedCall {
         }
         try{
             for(Map<String,Object> upMap : dataList){
-                upMap.put("cancellation", TableCode.CANCELLATION_ONE.getCode());
+                upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
                 iAccountMapper.accountDelete(upMap);
             }
             return new HashMap<>();

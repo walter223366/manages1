@@ -277,5 +277,31 @@ layui.use('laydate', function(){
 
 
 function baseInfo(){
-    $("#nickname").open();
+    alert("123");
+    var content = $("#baseInfo");
+    layer.open({
+        type: 1,
+        offset: "auto",
+        id: 'layerDemo'+'auto',
+        area: [900+'px',500+'px'],
+        fix: false,
+        maxmin: true,
+        shadeClose: true,
+        btn: ['立即提交', '重置'],
+        shade: 0.4,
+        title: "角色信息",
+        content: content,
+        yes:function(){
+            if (typeof callback === "function") {
+                callback();
+            }
+        },
+        btn2:function(index,layero){
+            if (typeof Reset === "function") {
+                Reset(index,layero);
+            }
+            return false;
+        }
+    });
+
 }
