@@ -168,26 +168,31 @@ function addEffect(){
 //新增-请求
 function addRequest() {
     var formSelects = layui.formSelects;
-    //var kongfu_id = formSelects.value('select_addKongFu', 'valStr');
     var zhaoshi_effect = formSelects.value('select_addEffect', 'valStr');
     var params = {
         name:$("#add_name").val(),
         kongfu_id:$("#add_kongFu").val(),
         zhaoshi_effect:zhaoshi_effect,
-        MP_cost:$("#add_spend").val(),
+        yellowSpend:Number($("#add_yellowSpend").val()),
+        goldSpend:Number($("#add_goldSpend").val()),
+        greenSpend:Number($("#add_greenSpend").val()),
+        blueSpend:Number($("#add_blueSpend").val()),
+        purpleSpend:Number($("#add_purpleSpend").val()),
         zhaoshi_experience_cost:Number($("#add_exp").val()),
         info:$("#add_info").val()
     };
+    var tver = new RegExp("[0-9]");
+    if(!tver.test(params.yellowSpend) || !tver.test(params.goldSpend) || !tver.test(params.greenSpend)
+        || !tver.test(params.blueSpend) || !tver.test(params.purpleSpend)){
+        layer.msg("内力花费格式错误",{icon: 2});
+        return false;
+    }
     if(params.name===null || params.name===""){
         layer.msg("招式名称不能为空",{icon:2});
         return;
     }
     if(params.kongfu_id===null || params.kongfu_id===""){
         layer.msg("功夫选项不能为空",{icon:2});
-        return;
-    }
-    if(params.MP_cost===null || params.MP_cost===""){
-        layer.msg("招式内力花费不能为空",{icon:2});
         return;
     }
     if(params.zhaoshi_effect===null || params.zhaoshi_effect===""){
@@ -214,10 +219,15 @@ function addRequest() {
 function addReset(){
     $("#add_name").val('');
     $("#add_kongFu").val('');
-    $("#add_MP_cost").val('');
+    $("#add_yellowSpend").val('');
+    $("#add_goldSpend").val('');
+    $("#add_greenSpend").val('');
+    $("#add_blueSpend").val('');
+    $("#add_purpleSpend").val('');
     $("#add_zhaoshi_effect").val('');
     $("#add_zhaoshi_experience_cost").val('');
     $("#add_info").val('');
+    $("#add_exp").val('');
     formSelects.btns('select_addKongFu','remove');
     formSelects.btns('select_addEffect','remove');
 }
@@ -263,7 +273,7 @@ function edit(data) {
                 editEffect();
                 document.getElementById("edit_id").value = isNull(obj.zhaoshi_id);
                 document.getElementById("edit_name").value = isNull(obj.name);
-                document.getElementById("edit_spend").value = isNull(obj.MP_cost);
+                /*document.getElementById("edit_spend").value = isNull(obj.MP_cost);*/
                 document.getElementById("edit_exp").value = isNull(obj.zhaoshi_experience_cost);
                 document.getElementById("edit_info").value = isNull(obj.info);
                 $("#edit_kongFu").val(String(obj.kongfu_id));

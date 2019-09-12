@@ -1,6 +1,7 @@
 charset="utf-8";
 manages="baseNpc";
 
+
 /**查询部分*/
 $(function(){
     //addKongFu();
@@ -25,10 +26,10 @@ function pagingQuery(){
             url:url,
             method:'POST',
             contentType:"application/json",
-            toolbar:'#toolbarBomb',
+            toolbar:'default',
             id:'#dataInfo',
             title:'人物管理',
-            even:true,
+            //even:true,
             expandRow:true,
             where:obj,
             page:true,
@@ -63,36 +64,49 @@ function pagingQuery(){
                 ]
             ]
         });
-        //批量删除 新增
-        table.on('checkbox(dataInfo)',function(){
-            table.on('toolbar(dataInfo)',function (obj){
-                var checkStatus = table.checkStatus(obj.config.id);
-                if(obj.event === 'bombAdd'){
-                    add();
-                }else if(obj.event === 'bombDelete'){
-                    batchDel(checkStatus);
-                }
-            });
+
+        //新增、编辑、删除（批量）
+        table.on('toolbar(dataInfo)',function (obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            switch(obj.event){
+                case 'add': add();
+                    break;
+                case 'update':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行编辑');
+                    } else if(data.length > 1){
+                        layer.msg('只能同时编辑一条数据');
+                    } else {
+                        $.each(data,function (i,n) {
+                            edit(n);
+                        });
+                    }
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请勾选一条数据进行删除');
+                    } else {
+                        del(data);
+                    }
+                    break;
+            }
         });
+
         //编辑、删除
         table.on('tool(dataInfo)',function (obj){
             var data = obj.data;
             if (obj.event === 'edit'){
                 edit(data);
             }else if (obj.event === 'del'){
-                del(data);
-            }
-        });
-        //新增
-        table.on('toolbar(dataInfo)',function (obj){
-            if(obj.event === 'bombAdd'){
-                add();
-            }else if(obj.event === 'bombDelete'){
-                layer.msg("请勾选一条数据进行删除");
+                var des = [data];
+                del(des);
             }
         });
     });
 }
+
+
 //查询-门派下拉框（单选）
 function addKongFu(){
     document.getElementById("query_school").options.length = 0;
@@ -111,4 +125,27 @@ function addKongFu(){
             layer.msg(data.msg,{icon:2});
         }
     });
+}
+
+
+/**删除部分*/
+function del(data){
+    layer.confirm('请确认要删除这'+data.length+'条数据吗？', {
+            btn: ['确定','取消']
+        }, function(){
+            var params = {
+                data:data
+            };
+            postRequest(params,manages,strike,function (data){
+                if (data.code === "0" && data.result === "SUCCESS"){
+                    layer.msg("删除成功");
+                    pagingQuery();
+                }else{
+                    layer.msg(data.msg,{icon:2});
+                }
+            });
+        }, function(){
+            layer.closeAll();
+        }
+    );
 }

@@ -50,7 +50,7 @@ function pagingQuery(){
                     {type:'checkbox',fixed:'felt'},
                     {type:'numbers',title:'序号',align:'center',fixed:'felt',width:150},
                     {field:'name',title:'门派名称',sort:true},
-                    {field:'influence',title:'影响力',sort:true},
+                    {field:'influence',title:'门派影响力值',sort:true},
                     {fixed:'right',title:'操作',width:300,align:'center',toolbar:'#operational'}
                 ]
             ]
@@ -164,7 +164,7 @@ function see(data){
     document.getElementById("see_influence").value = isNull(data.influence);
     document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerSeeOpen("查看详情",content,1000,500);
+    layerSeeOpen("查看详情",content,900,450);
 }
 
 

@@ -17,6 +17,7 @@
     .see-input{background-color:transparent;border:0;}
 </style>
 <div class="x-body">
+
     <!--搜索栏-->
     <div class="layui-row">
         <div class="search-conditional">
@@ -244,155 +245,168 @@
         <form class="layui-form-item layui-form">
             <div class="layui-form-item" hidden>
                 <label class="layui-form-label"><span class="x-red">*</span>效果ID</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_effect_id" type="text" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline">
+                    <input id="edit_effect_id" type="text" class="layui-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>效果名称</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_name" type="text" autocomplete="off" class="layui-input">
+                <div class="layui-input-inline">
+                    <input id="edit_name" type="text" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>执行目标</label>
-                <div class="layui-input-inline inputWidth" >
+                <div class="layui-input-inline" style="width: 260px">
                     <select id="edit_target" class="layui-input">
                         <option value="0">自己</option>
                         <option value="1">对方</option>
                     </select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>HP&nbsp;影&nbsp;响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_hp" type="number" autocomplete="off" class="layui-input"  placeholder="请输入HP影响值">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">外&emsp;&emsp;伤</label>
+                <div class="layui-input-inline">
+                    <input id="edit_injury" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_mp_yellow" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">内&emsp;&emsp;伤</label>
+                <div class="layui-input-inline">
+                    <input id="edit_internal_injury" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">毒&emsp;&emsp;伤</label>
                 <div class="layui-input-inline inputWidth">
-                    <input id="edit_mp_gold" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+                    <input id="edit_poisoning" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_mp_green" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">攻&ensp;击&ensp;力</label>
+                <div class="layui-input-inline">
+                    <input id="edit_aggressivity" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_mp_blue" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">防&ensp;御&ensp;力</label>
+                <div class="layui-input-inline">
+                    <input id="edit_defense" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_mp_purple" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">暴&ensp;击&ensp;力</label>
+                <div class="layui-input-inline">
+                    <input id="edit_burst" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>攻&ensp;击&ensp;力</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_aggressivity" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">击&ensp;晕&ensp;率</label>
+                <div class="layui-input-inline">
+                    <input id="edit_stun" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>防&ensp;御&ensp;力</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_defense" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">闪&ensp;避&ensp;率</label>
+                <div class="layui-input-inline">
+                    <input id="edit_dodge" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>暴&ensp;击&ensp;力</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_burst" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">命&ensp;中&ensp;率</label>
+                <div class="layui-input-inline">
+                    <input id="edit_hit_rate" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>外&emsp;&emsp;伤</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_injury" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">暴&ensp;击&ensp;率</label>
+                <div class="layui-input-inline">
+                    <input id="edit_crit_rate" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>内&emsp;&emsp;伤</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_internal_injury" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">HP&nbsp;影&nbsp;响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_hp" type="number" class="layui-input inLeng" placeholder="请输入HP影响值">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>毒&emsp;&emsp;伤</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_poisoning" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                    <button onclick="hp()" class="layui-btn layui-btn-primary layui-input inLeng">填写(HP)色球影响值</button>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>击&ensp;晕&ensp;率</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_stun" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">黄球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mp_yellow" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>闪&ensp;避&ensp;率</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_dodge" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">金球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mp_gold" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>命&ensp;中&ensp;率</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_hit_rate" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">绿球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mp_green" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>暴&ensp;击&ensp;率</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_crit_rate" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">蓝球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mp_blue" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>吸&emsp;&emsp;血</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_suck_HP" type="number" autocomplete="off" class="layui-input">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">紫球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mp_purple" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>黄球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_suck_mp_yellow" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">吸&emsp;&emsp;血</label>
+                <div class="layui-input-inline">
+                    <input id="edit_suck_HP" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>金球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_suck_mp_gold" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                    <button onclick="hp()" class="layui-btn layui-btn-primary layui-input inLeng">填写吸血色球影响值</button>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>绿球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_suck_mp_green" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">黄球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_suck_mp_yellow" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>蓝球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_suck_mp_blue" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">金球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_suck_mp_gold" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>紫球影响</label>
-                <div class="layui-input-inline inputWidth">
-                    <input id="edit_suck_mp_purple" type="text" autocomplete="off" class="layui-input" placeholder="格式如80,80,-60">
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">绿球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_suck_mp_green" type="text" class="layui-input" placeholder="格式如80,80,-60">
+                </div>
+            </div>
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">蓝球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_suck_mp_blue" type="text" class="layui-input" placeholder="格式如80,80,-60">
+                </div>
+            </div>
+            <div class="layui-form-item" hidden>
+                <label class="layui-form-label">紫球影响</label>
+                <div class="layui-input-inline">
+                    <input id="edit_suck_mp_purple" type="text" class="layui-input" placeholder="格式如80,80,-60">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -401,11 +415,6 @@
                     <textarea id="edit_info" placeholder="请输入内容" class="layui-textarea layui-input-width1"></textarea>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label for="add_target" class="layui-form-label"></label>
-                <button onclick="editRequest()" type="button" class="layui-btn">修改</button>
-                <button onclick="editReset()" type="button" class="layui-btn layui-btn-primary">重置</button>
-            </div>
         </form>
     </div>
 
@@ -413,145 +422,145 @@
     <!--查看栏-->
     <div class="x-body" id="seeInfo" aria-hidden="true" hidden style="overflow-y: hidden">
         <form class="layui-form-item layui-form">
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">效果名称：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_name" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">执行目标：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_target" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">HP&nbsp;影&nbsp;响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_hp" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">黄球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_mp_yellow" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">金球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_mp_gold" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">绿球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_mp_green" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">蓝球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_mp_blue" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">紫球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_mp_purple" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">攻&ensp;击&ensp;力：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_aggressivity" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">防&ensp;御&ensp;力：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_defense" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">暴&ensp;击&ensp;力：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_burst" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">外&emsp;&emsp;伤：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_injury" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">内&emsp;&emsp;伤：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_internal_injury" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">毒&emsp;&emsp;伤：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_poisoning" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">击&ensp;晕&ensp;率：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_stun" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">闪&ensp;避&ensp;率：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_dodge" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">命&ensp;中&ensp;率：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_hit_rate" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">暴&ensp;击&ensp;率：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_crit_rate" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">吸&emsp;&emsp;血：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_suck_HP" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">黄球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_yellow" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">金球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_gold" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">绿球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_green" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">蓝球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_blue" class="layui-input see-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-font">紫球影响：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_purple" class="layui-input see-input">

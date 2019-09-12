@@ -95,6 +95,8 @@ public class MoveServiceImpl implements UnifiedCall {
         if(count > 0){
             throw new BizException("新增失败，招式名称已存在");
         }
+        String cost = spliceString(map);
+        map.put("MP_cost",cost);
         map.put("zhaoshi_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
@@ -222,5 +224,14 @@ public class MoveServiceImpl implements UnifiedCall {
             nameList.add(SetUtil.toMapValueString(map,"name"));
         }
         return nameList;
+    }
+
+    private String spliceString(Map<String,Object> map){
+        int yellowSend = MapUtil.getInt(map,"yellowSpend");
+        int goldSpend = MapUtil.getInt(map,"goldSpend");
+        int greenSpend = MapUtil.getInt(map,"greenSpend");
+        int blueSpend = MapUtil.getInt(map,"blueSpend");
+        int purpleSpend = MapUtil.getInt(map,"purpleSpend");
+        return yellowSend+","+goldSpend+"."+greenSpend+","+blueSpend+","+purpleSpend;
     }
 }
