@@ -6,6 +6,7 @@ import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.comms.page.PageBean;
 import com.ral.manages.entity.ProjectConst;
+import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.mapper.app.IBaseNPCMapper;
 import com.ral.manages.mapper.app.ISchoolMapper;
 import com.ral.manages.service.app.UnifiedCall;
@@ -29,6 +30,8 @@ public class BaseNPCServiceImpl implements UnifiedCall {
     private IBaseNPCMapper baseNPCMapper;
     @Autowired
     private ISchoolMapper schoolMapper;
+    @Autowired
+    private IAccountMapper accountMapper;
 
     /**
      * 处理人物管理(NPC)
@@ -45,13 +48,15 @@ public class BaseNPCServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.NPCSCHOOLBOX: result = baseNPCQuerySchool();
                 break;
+            case ProjectConst.EDITQUERY: result = baseNPCEditQuery(map);
+                break;
+            case ProjectConst.SEEDETAILS: result = baseNPCSee(map);
+                break;
             case ProjectConst.INSERT: result = baseNPCInsert(map);
                 break;
             case ProjectConst.UPDATE: result = baseNPCUpdate(map);
                 break;
             case ProjectConst.DELETE: result = baseNPCDelete(map);
-                break;
-            case ProjectConst.BATCHDELETE: result = baseNPCBatchDelete(map);
                 break;
             default:
                 throw new BizException("传入方法名不存在");
@@ -76,6 +81,15 @@ public class BaseNPCServiceImpl implements UnifiedCall {
         return PageBean.resultPage(page.getTotal(),baseList);
     }
 
+    /*编辑查询*/
+    private Map<String,Object> baseNPCEditQuery(Map<String,Object> map) {
+        String nickname = MapUtil.getString(map,"nickname");
+        if(StringUtil.isNull(nickname)){
+            throw new BizException("传入人物名称为空");
+        }
+        return baseNPCMapper.baseNpcEditQuery(map);
+    }
+
     /*门派下拉框*/
     private Map<String,Object> baseNPCQuerySchool(){
         Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -91,7 +105,7 @@ public class BaseNPCServiceImpl implements UnifiedCall {
         if(count > 0){
             throw new BizException("新增失败，人物名称已存在");
         }
-        map.put("user_id","888888");//TODO 暂固定
+        map.put("user_id","b936e068b53f43feac2dd55b4a4c5ed8");//TODO 暂固定
         map.put("cancellation",TableCode.CANCELLATION_ONE.getCode());
         map.put("id",StringUtil.getUUID());
         try{
@@ -131,28 +145,9 @@ public class BaseNPCServiceImpl implements UnifiedCall {
         }
     }
 
-    /*删除*/
-    private Map<String,Object> baseNPCDelete(Map<String,Object> map){
-        String account = MapUtil.getString(map,"nickname");
-        if(StringUtil.isNull(account)){
-            throw new BizException("传入人物名称为空");
-        }
-        int count = baseNPCMapper.baseNpcIsExist(map);
-        if(count <= 0){
-            throw new BizException("删除失败，该人物不存在");
-        }
-        map.put("cancellation",TableCode.CANCELLATION_ONE.getCode());
-        try{
-            baseNPCMapper.baseNPCDelete(map);
-            return new HashMap<>();
-        }catch (Exception e){
-            log.debug("删除失败："+e.getMessage());
-            throw new BizException("删除失败："+e.getMessage());
-        }
-    }
 
     /*批量删除*/
-    private Map<String,Object> baseNPCBatchDelete(Map<String,Object> map){
+    private Map<String,Object> baseNPCDelete(Map<String,Object> map){
         List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
             throw new BizException("传入data参数为空");
@@ -167,5 +162,29 @@ public class BaseNPCServiceImpl implements UnifiedCall {
             log.debug("批量删除失败："+e.getMessage());
             throw new BizException("批量删除失败："+e.getMessage());
         }
+    }
+
+    /*查看详情*/
+    private Map<String,Object> baseNPCSee(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"nickname");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入人物名称为空");
+        }
+        Map<String,Object> resultMap = baseNPCMapper.baseNpcEditQuery(map);
+        String userId = MapUtil.getString(resultMap,"user_id");
+        if(StringUtil.isNull(userId)){
+            resultMap.put("userName","");
+        }else{
+            Map<String,Object> userMap = accountMapper.accountQueryName(userId);
+            resultMap.put("userName",MapUtil.getString(userMap,"account"));
+        }
+        String schoolId = MapUtil.getString(resultMap,"school_id");
+        if(StringUtil.isNull(schoolId)){
+            resultMap.put("schoolName","");
+        }else{
+            Map<String,Object> schoolMap = schoolMapper.schoolQueryName(schoolId);
+            resultMap.put("schoolName",MapUtil.getString(schoolMap,"name"));
+        }
+        return resultMap;
     }
 }

@@ -544,7 +544,7 @@ input::-webkit-outer-spin-button{
     -webkit-appearance: none;
 }
 input[disabled="true"]{
-    background-color: #EFEEF0;
+    background-color: #FAFAFA;
 }
 
 .layui-input:focus{border-color:#1E9FFF!important}

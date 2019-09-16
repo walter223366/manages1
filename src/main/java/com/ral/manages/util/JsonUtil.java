@@ -17,7 +17,6 @@ public class JsonUtil {
         }
         try{
             Map<String,Object> map = JSONObject.fromObject(str);
-            log.info("请求参数:"+map);
             return map;
         }catch (Exception e){
             log.debug("传入JSON格式错误;"+e.getMessage());

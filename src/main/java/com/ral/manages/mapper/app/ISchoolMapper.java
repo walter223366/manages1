@@ -1,5 +1,6 @@
 package com.ral.manages.mapper.app;
 
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public interface ISchoolMapper {
     Map<String,Object> schoolEditQuery(Map<String,Object> map);
     Map<String,Object> schoolIdQuery(Map<String,Object> map);
     List<Map<String,Object>> schoolQueryMarquee();
+    Map<String,Object> schoolQueryName(@Param("schoolId") String schoolId);
     /*新增*/
     void schoolInsert(Map<String,Object> map);
     /*修改*/

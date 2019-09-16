@@ -49,6 +49,9 @@
     <select id="accountIdQuery" parameterType="map" resultType="map">
         SELECT <include refid="accountResult"/> FROM  biz_user WHERE 1=1 AND id=#{id}
     </select>
+    <select id="accountQueryName" parameterType="string" resultType="map">
+        SELECT id,account FROM biz_user WHERE 1=1 AND id=#{userId}
+    </select>
 
 
     <!--新增-->

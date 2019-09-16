@@ -35,6 +35,9 @@
     <select id="schoolQueryMarquee" resultType="map">
         SELECT <include refid="schoolResult"/> FROM dict_school
     </select>
+    <select id="schoolQueryName" parameterType="string" resultType="map">
+        SELECT school_id,name  FROM  dict_school WHERE 1=1 AND school_id=#{schoolId}
+    </select>
 
     <!--新增-->
     <insert id="schoolInsert" parameterType="map">

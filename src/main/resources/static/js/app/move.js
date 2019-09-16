@@ -261,6 +261,8 @@ function see(data) {
 
 /**编辑部分*/
 function edit(data) {
+    editKongFu();
+    editEffect();
     var params = {
         name:data.name
     };
@@ -269,11 +271,8 @@ function edit(data) {
             var rows = $.base64.atob(data.rows,charset);
             if(isJSON(rows)) {
                 var obj = JSON.parse(rows);
-                editKongFu();
-                editEffect();
                 document.getElementById("edit_id").value = isNull(obj.zhaoshi_id);
                 document.getElementById("edit_name").value = isNull(obj.name);
-                /*document.getElementById("edit_spend").value = isNull(obj.MP_cost);*/
                 document.getElementById("edit_exp").value = isNull(obj.zhaoshi_experience_cost);
                 document.getElementById("edit_info").value = isNull(obj.info);
                 $("#edit_kongFu").val(String(obj.kongfu_id));
@@ -304,7 +303,6 @@ function editKongFu(){
                     $("#edit_kongFu").append("<option value='"+n.kongfu_id+"'>"+n.name+"</option>");
                 });
                 layui.form.render("select");
-                //layui.formSelects.config('select_editKongFu',{direction:'down'});
             }
         } else {
             layer.msg(data.msg,{icon:2});

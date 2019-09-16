@@ -12,8 +12,6 @@ public class ProjectConst {
     public final static String UPDATE = "update";
     //删除
     public final static String DELETE = "delete";
-    //批量删除
-    public final static String BATCHDELETE = "batchDelete";
     //注册
     public final static String SIGNUP = "signUp";
     //登陆
