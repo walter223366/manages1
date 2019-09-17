@@ -171,17 +171,55 @@ function addRequest(){
         }
     );
 }
-$(function () {
+$(function (){
     $("#add_level").on("input",function (e) {
         var obj = e.delegateTarget.value;
         calExperience(obj);
+        calAttributes(obj);
     });
+    but();
 });
-//根据等级计算经验值
+function but(){
+    $(".attInfo").html($("#attInfo").html());
+    $(".weaponInfo").html($("#weaponInfo").html());
+    $(".artsInfo").html($("#artsInfo").html());
+}
+$(document).on('click','#attbut',function () {
+    $("#attInfo").hide();
+});
+//分配属性点
+function attDistribution(){
+
+}
+$(document).on("click","#mphysAdd",function () {
+    alert("455");
+    $("#add_mphysique").on("input",function (e) {
+        var data = e.delegateTarget.value;
+        alert(data);
+    })
+});
+//根据等级计算经验值（TODO 暂时为1等级为100经验值）
 function calExperience(level){
     var experience = level*100;
     document.getElementById("add_experience").value = isNull(experience);
     return experience;
+}
+//根据等级计算属性分值(TODO 1等级5点属性值)
+function calAttributes(level){
+    var attributes = level*5;
+    document.getElementById("add_attributes").value = isNull(attributes);
+    return attributes;
+}
+function attributeAll(attributes){
+    var attr = {};
+    var mphysique=Number($("#add_mphysique").val());
+    var force=Number($("#add_force").val());
+    var muscles=Number($("#add_muscles").val());
+    var chakra=Number($("#add_chakra").val());
+    var sensitivity=Number($("#add_sensitivity").val());
+    var willpower=Number($("#add_willpower").val());
+    var knowledge=Number($("#add_knowledge").val());
+    var lucky=Number($("#add_lucky").val());
 }
 //新增-账号下拉框（单选）
 function addUser(){
@@ -221,20 +259,40 @@ function addSchool(){
         }
     });
 }
-$(function () {
-    layui.use('transfer', function(){
-        var transfer = layui.transfer;
-        transfer.render({
-            elem: '#addKongFu'  //绑定元素
-            ,data: [
-                {"value": "1", "title": "李白", "disabled": "", "checked": ""},
-                {"value": "2", "title": "杜甫", "disabled": "", "checked": ""},
-                {"value": "3", "title": "贤心", "disabled": "", "checked": ""}
-            ]
-            ,id: 'demo1' //定义索引
-            ,width:150
-            ,height:100
-        });
+$(function (){
+    //获取武学下拉框
+    var params = {};
+    postRequest(params,"move",mKongFuBox,function (data){
+        if (data.code === "0" && data.result === "SUCCESS") {
+            var rows = $.base64.atob(data.rows,charset);
+            if (isJSON(rows)) {
+                var obj = JSON.parse(rows);
+                layui.use('transfer', function(){
+                    var transfer = layui.transfer;
+                    transfer.render({
+                        elem: '#addKongFu'
+                        ,data:obj.data
+                        ,parseData:function (res) {
+                            return {
+                                "value": res.kongfu_id,
+                                "title": res.name,
+                                "disabled": res.disabled,
+                                "checked": res.checked
+                            }
+                        }
+                        ,title: ['武学选项', '武学添加']
+                        ,id: 'demo1' //定义索引
+                        ,width:304
+                        ,height:340
+                        ,onchange:function () {
+
+                        }
+                    });
+                });
+            }
+        } else {
+            layer.msg(data.msg,{icon:2});
+        }
     });
 });
 //新增-重置

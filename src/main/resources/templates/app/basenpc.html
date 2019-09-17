@@ -12,10 +12,12 @@
     <script th:src="@{/js/main.js}" type="text/javascript"></script>
     <script th:src="@{/js/app/basenpc.js}" type="text/javascript"></script>
 </head>
-<body>
 <style>
-    .weap{display:none;}
+    .attTop{margin-top: 30px}.atoder{background-color:transparent;border:0;}
+    .fontSize{font-size: 15px;color: #2F4056;}
+    .fontWith{font-weight: 900}
 </style>
+<body>
 <div class="x-body">
 
     <!--搜索栏-->
@@ -66,7 +68,7 @@
     <!--新增栏-->
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <fieldset class="layui-elem-field layui-field-title">
-            <legend style="margin-left:0;"><span style="font-size:15px;">基础信息</span></legend>
+            <legend style="margin-left:0;"><span class="fontSize">基础信息</span></legend>
         </fieldset>
         <form class="layui-form-item layui-form">
             <div class="layui-inline layLeng">
@@ -120,7 +122,7 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">经&ensp;验&ensp;值</label>
                 <div class="layui-input-inline">
-                    <input id="add_experience" type="number"class="layui-input inLeng" disabled="true">
+                    <input id="add_experience" type="number" class="layui-input inLeng" disabled="true">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -147,20 +149,144 @@
                     <input id="add_gold" type="number" class="layui-input inLeng" placeholder="默认值为0">
                 </div>
             </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">属性分值</label>
+                <div class="layui-input-inline">
+                    <input id="add_attributes" type="number" class="layui-input inLeng" disabled="true">
+                </div>
+            </div>
         </form>
+
+        <fieldset class="layui-elem-field layui-field-title attTop">
+            <legend style="margin-left:0;"><button type="button" id="attbut" class="atoder"><span class="fontSize">属性分配</span></button></legend>
+        </fieldset>
+        <div class="attInfo"></div>
+
+        <fieldset class="layui-elem-field layui-field-title attTop">
+            <legend style="margin-left:0;"><button type="button" id="artsbut" class="atoder"><span class="fontSize">武学添加</span></button></legend>
+        </fieldset>
+        <div class="artsInfo"></div>
+
+        <fieldset class="layui-elem-field layui-field-title attTop">
+            <legend style="margin-left:0;"><button type="button" id="weapbut" class="atoder"><span class="fontSize">兵器造诣</span></button></legend>
+        </fieldset>
+        <div class="weaponInfo"></div>
+    </div>
+
+
+    <!--新增栏-属性分配-->
+    <div id="attInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
-                <legend style="margin-left:0;"><span style="font-size:15px;">武学添加</span></legend>
-            </fieldset>
-            <div class="layui-inline" style="width: 600px">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">体&emsp;&emsp;质</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" id="mphysAdd" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_mphysique" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">臂&emsp;&emsp;力</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_force" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">筋&emsp;&emsp;骨</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_muscles" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">内&emsp;&emsp;修</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_chakra" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">灵&emsp;&emsp;活</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_sensitivity" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">意&emsp;&emsp;志</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_willpower" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">学&emsp;&emsp;识</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_knowledge" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">运&emsp;&emsp;气</label>
+                <div class="layui-input-inline" style="width:45px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                </div>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="add_lucky" type="number" class="layui-input" value="0">
+                </div>
+                <div class="layui-input-inline" style="width:50px">
+                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--新增栏-武学添加-->
+    <div id="artsInfo" aria-hidden="true" hidden>
+        <form class="layui-form-item layui-form">
+            <div class="layui-form-item" style="width: 900px">
                 <label class="layui-form-label"></label>
                 <div class="demo-transfer" id="addKongFu"></div>
             </div>
         </form>
+    </div>
+    <!--新增栏-兵器造诣-->
+    <div id="weaponInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px">
-                <legend style="margin-left:0;"><span style="font-size:15px;">兵器造诣</span></legend>
-            </fieldset>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">拳脚造诣</label>
                 <div class="layui-input-inline">
