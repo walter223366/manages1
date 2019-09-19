@@ -6,6 +6,8 @@ public class ProjectConst {
     public final static String PAGINGQUERY = "pagingQuery";
     //编辑查询
     public final static String EDITQUERY = "editQuery";
+    //详情
+    public final static String SEEDETAILS = "seeDetails";
     //新增
     public final static String INSERT = "insert";
     //修改
@@ -16,14 +18,12 @@ public class ProjectConst {
     public final static String SIGNUP = "signUp";
     //登陆
     public final static String SINGIN = "signIn";
-    //详情
-    public final static String SEEDETAILS = "seeDetails";
-    //功夫管理招式下拉框
-    public final static String KMOVEBOX = "kMoveBox";
-    //招式管理效果下拉框
-    public final static String MEFFECTBOX = "mEffectBox";
-    //招式管理功夫下拉框
-    public final static String MKONGFUBOX = "mKongFuBox";
-    //人物（NPC）管理门派下拉框
-    public final static String NPCSCHOOLBOX = "nSchoolBox";
+    //招式下拉框
+    public final static String MOVEDOWNBOX = "moveBox";
+    //效果下拉框
+    public final static String EFFECTDOWNBOX = "effectBox";
+    //功夫下拉框
+    public final static String KONGFUDOWNBOX = "kongFuBox";
+    //门派下拉框
+    public final static String SCHOOLDOWNBOX = "schoolBox";
 }

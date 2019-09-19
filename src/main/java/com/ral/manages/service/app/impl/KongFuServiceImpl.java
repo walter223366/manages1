@@ -24,9 +24,9 @@ public class KongFuServiceImpl implements UnifiedCall {
 
     private static final Logger log = LoggerFactory.getLogger(KongFuServiceImpl.class);
     @Autowired
-    private IKongFuMapper iKongFuMapper;
+    private IKongFuMapper kongFuMapper;
     @Autowired
-    private IMoveMapper iMoveMapper;
+    private IMoveMapper moveMapper;
 
     /**
      * 处理功夫管理
@@ -49,8 +49,6 @@ public class KongFuServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = kongFuDelete(map);
                 break;
-            case ProjectConst.KMOVEBOX: result = kongFuAddMove();
-                break;
             case ProjectConst.SEEDETAILS: result = kongFuSee(map);
                 break;
             default:
@@ -62,7 +60,7 @@ public class KongFuServiceImpl implements UnifiedCall {
     /*分页查询*/
     private Map<String,Object> kongFuPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> kongFuList = iKongFuMapper.kongFuPagingQuery(map);
+        List<Map<String,Object>> kongFuList = kongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
             kongFuMap.put("type",kongFuType(MapUtil.getInt(kongFuMap,"type")));
             int enable = MapUtil.getInt(kongFuMap,"enable");
@@ -78,28 +76,20 @@ public class KongFuServiceImpl implements UnifiedCall {
         if(StringUtil.isNull(name)){
            throw new BizException("传入功夫名称为空");
         }
-        return iKongFuMapper.kongFuEditQuery(map);
-    }
-
-    /*招式下拉框*/
-    private Map<String,Object> kongFuAddMove() {
-        List<Map<String,Object>> kongFuList = iMoveMapper.moveQueryMarquee();
-        Map<String,Object> result = new HashMap<String,Object>();
-        result.put("data",kongFuList);
-        return result;
+        return kongFuMapper.kongFuEditQuery(map);
     }
 
     /*新增*/
     private Map<String,Object> kongFuInsert(Map<String,Object> map) {
         VerificationUtil.verificationKongFu(map);
-        int count = iKongFuMapper.kongFuIsExist(map);
+        int count = kongFuMapper.kongFuIsExist(map);
         if(count > 0){
             throw new BizException("新增失败，功夫名称已存在");
         }
         map.put("kongfu_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            iKongFuMapper.kongFuInsert(map);
+            kongFuMapper.kongFuInsert(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -114,20 +104,20 @@ public class KongFuServiceImpl implements UnifiedCall {
             throw new BizException("传入功夫ID为空");
         }
         VerificationUtil.verificationKongFu(map);
-        Map<String,Object> qMap = iKongFuMapper.kongFuIdQuery(map);
+        Map<String,Object> qMap = kongFuMapper.kongFuIdQuery(map);
         if(SetUtil.isMapNull(qMap)){
             throw new BizException("修改失败，该功夫不存在");
         }
         String name =  MapUtil.getString(qMap,"name");
         String cName = MapUtil.getString(map,"name");
         if(!name.equals(cName)){
-            int count = iKongFuMapper.kongFuIsExist(map);
+            int count = kongFuMapper.kongFuIsExist(map);
             if(count > 0){
                 throw new BizException("修改失败，功夫名称已存在");
             }
         }
         try{
-            iKongFuMapper.kongFuUpdate(map);
+            kongFuMapper.kongFuUpdate(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -144,7 +134,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         try{
             for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
-                iKongFuMapper.kongFuDelete(upMap);
+                kongFuMapper.kongFuDelete(upMap);
             }
             return new HashMap<>();
         }catch (Exception e){
@@ -159,7 +149,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         if(StringUtil.isNull(name)){
             throw new BizException("传入功夫名称为空");
         }
-        Map<String,Object> resultMap = iKongFuMapper.kongFuEditQuery(map);
+        Map<String,Object> resultMap = kongFuMapper.kongFuEditQuery(map);
         String moveId = MapUtil.getString(resultMap,"kongfu_zhaoshi");
         if(StringUtil.isNull(moveId)){
             resultMap.put("moveName","");
@@ -183,7 +173,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         }
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("mIds",list);
-        List<Map<String,Object>> resultList = iMoveMapper.moveQueryMarqueeName(result);
+        List<Map<String,Object>> resultList = moveMapper.moveQueryMarqueeName(result);
         List<String> nameList = new ArrayList<String>();
         for(Map<String,Object> map : resultList){
             nameList.add(SetUtil.toMapValueString(map,"name"));

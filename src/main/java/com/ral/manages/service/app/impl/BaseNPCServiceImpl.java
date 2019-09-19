@@ -46,8 +46,6 @@ public class BaseNPCServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = baseNPCPagingQuery(map);
                 break;
-            case ProjectConst.NPCSCHOOLBOX: result = baseNPCQuerySchool();
-                break;
             case ProjectConst.EDITQUERY: result = baseNPCEditQuery(map);
                 break;
             case ProjectConst.SEEDETAILS: result = baseNPCSee(map);
@@ -69,7 +67,7 @@ public class BaseNPCServiceImpl implements UnifiedCall {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> baseList = baseNPCMapper.baseNpcPagingQuery(map);
         for(Map<String,Object> baseMap : baseList){
-            int sex = MapUtil.getInt(map,"sex");
+            int sex = MapUtil.getInt(baseMap,"sex");
             String sexValue = (sex== TableCode.SEX_ZERO.getCode()?TableCode.SEX_ZERO.getName():TableCode.SEX_ONE.getName());
             baseMap.put("sex",sexValue);
             String schoolId = MapUtil.getString(baseMap,"school_id");
@@ -88,14 +86,6 @@ public class BaseNPCServiceImpl implements UnifiedCall {
             throw new BizException("传入人物名称为空");
         }
         return baseNPCMapper.baseNpcEditQuery(map);
-    }
-
-    /*门派下拉框*/
-    private Map<String,Object> baseNPCQuerySchool(){
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        List<Map<String,Object>> resultList = schoolMapper.schoolQueryMarquee();
-        resultMap.put("data",resultList);
-        return resultMap;
     }
 
     /*新增*/
@@ -146,7 +136,7 @@ public class BaseNPCServiceImpl implements UnifiedCall {
     }
 
 
-    /*批量删除*/
+    /*删除*/
     private Map<String,Object> baseNPCDelete(Map<String,Object> map){
         List<Map<String,Object>> dataList = (List<Map<String,Object>>) map.get("data");
         if(SetUtil.isListNull(dataList)){
@@ -159,8 +149,8 @@ public class BaseNPCServiceImpl implements UnifiedCall {
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 

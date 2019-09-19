@@ -25,11 +25,11 @@ public class MoveServiceImpl implements UnifiedCall {
 
     private static final Logger log = LoggerFactory.getLogger(MoveServiceImpl.class);
     @Autowired
-    private IMoveMapper iMoveMapper;
+    private IMoveMapper moveMapper;
     @Autowired
-    private IKongFuMapper iKongFuMapper;
+    private IKongFuMapper kongFuMapper;
     @Autowired
-    private IEffectMapper iEffectMapper;
+    private IEffectMapper effectMapper;
 
     /**
      * 处理招式管理
@@ -52,10 +52,6 @@ public class MoveServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.DELETE: result = moveDelete(map);
                 break;
-            case ProjectConst.MEFFECTBOX: result = moveAddEffect();
-                break;
-            case ProjectConst.MKONGFUBOX: result = moveAddKongFu();
-                break;
             case ProjectConst.SEEDETAILS: result = moveSee(map);
                 break;
             default:
@@ -67,7 +63,7 @@ public class MoveServiceImpl implements UnifiedCall {
     /*分页查询*/
     private Map<String,Object> movePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map),PageBean.pageSize(map));
-        List<Map<String,Object>> moveList = iMoveMapper.movePagingQuery(map);
+        List<Map<String,Object>> moveList = moveMapper.movePagingQuery(map);
         for(Map<String,Object> moveMap : moveList){
             String kongFuId = SetUtil.toMapValueString(moveMap,"kongfu_id");
             if(StringUtil.isNull(kongFuId)){
@@ -85,13 +81,13 @@ public class MoveServiceImpl implements UnifiedCall {
         if(StringUtil.isNull(name)){
             throw new BizException("传入招式名称为空");
         }
-        return iMoveMapper.moveEditQuery(map);
+        return moveMapper.moveEditQuery(map);
     }
 
     /*新增*/
     private Map<String,Object> moveInsert(Map<String,Object> map) {
         VerificationUtil.verificationMove(map);
-        int count = iMoveMapper.moveIsExist(map);
+        int count = moveMapper.moveIsExist(map);
         if(count > 0){
             throw new BizException("新增失败，招式名称已存在");
         }
@@ -100,7 +96,7 @@ public class MoveServiceImpl implements UnifiedCall {
         map.put("zhaoshi_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            iMoveMapper.moveInsert(map);
+            moveMapper.moveInsert(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -115,20 +111,20 @@ public class MoveServiceImpl implements UnifiedCall {
             throw new BizException("传入招式ID为空");
         }
         VerificationUtil.verificationMove(map);
-        Map<String,Object> qMap = iMoveMapper.moveIdQuery(map);
+        Map<String,Object> qMap = moveMapper.moveIdQuery(map);
         if(SetUtil.isMapNull(qMap)){
             throw new BizException("修改失败，该招式不存在");
         }
         String name = MapUtil.getString(qMap,"name");
         String cName = MapUtil.getString(map,"name");
         if(!name.equals(cName)){
-            int count = iMoveMapper.moveIsExist(map);
+            int count = moveMapper.moveIsExist(map);
             if(count > 0){
                 throw new BizException("修改失败，招式名称已存在");
             }
         }
         try{
-            iMoveMapper.moveUpdate(map);
+            moveMapper.moveUpdate(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -145,7 +141,7 @@ public class MoveServiceImpl implements UnifiedCall {
         try{
             for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
-                iMoveMapper.moveDelete(upMap);
+                moveMapper.moveDelete(upMap);
             }
             return new HashMap<>();
         }catch (Exception e){
@@ -154,29 +150,13 @@ public class MoveServiceImpl implements UnifiedCall {
         }
     }
 
-    /*效果下拉框*/
-    private Map<String,Object> moveAddEffect() {
-        List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarquee();
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("data",resultList);
-        return resultMap;
-    }
-
-    /*功夫下拉框*/
-    private Map<String,Object> moveAddKongFu() {
-        List<Map<String,Object>> resultList = iKongFuMapper.kongFuQueryMarquee();
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        resultMap.put("data",resultList);
-        return resultMap;
-    }
-
     /*查看详情*/
     private Map<String,Object> moveSee(Map<String,Object> map) {
         String name = MapUtil.getString(map,"name");
         if(StringUtil.isNull(name)){
             throw new BizException("传入招式名称为空");
         }
-        Map<String,Object> resultMap = iMoveMapper.moveEditQuery(map);
+        Map<String,Object> resultMap = moveMapper.moveEditQuery(map);
         String kongFuId = SetUtil.toMapValueString(resultMap,"kongfu_id");
         if(StringUtil.isNull(kongFuId)){
             resultMap.put("kongFuName","");
@@ -201,7 +181,7 @@ public class MoveServiceImpl implements UnifiedCall {
         }
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("kIds",list);
-        List<Map<String,Object>> resultList = iKongFuMapper.kongFuQueryMarqueeName(result);
+        List<Map<String,Object>> resultList = kongFuMapper.kongFuQueryMarqueeName(result);
         List<String> nameList = new ArrayList<String>();
         for(Map<String,Object> map : resultList){
             nameList.add(SetUtil.toMapValueString(map,"name"));
@@ -218,7 +198,7 @@ public class MoveServiceImpl implements UnifiedCall {
         }
         Map<String,Object> result = new HashMap<String,Object>();
         result.put("eIds",list);
-        List<Map<String,Object>> resultList = iEffectMapper.effectQueryMarqueeName(result);
+        List<Map<String,Object>> resultList = effectMapper.effectQueryMarqueeName(result);
         List<String> nameList = new ArrayList<String>();
         for(Map<String,Object> map : resultList){
             nameList.add(SetUtil.toMapValueString(map,"name"));

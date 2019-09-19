@@ -22,7 +22,7 @@ public class ArticleServiceImpl implements UnifiedCall {
 
     private static final Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
     @Autowired
-    private IArticleMapper iArticleMapper;
+    private IArticleMapper articleMapper;
 
     /**
      * 处理物品管理
@@ -54,7 +54,7 @@ public class ArticleServiceImpl implements UnifiedCall {
     /*分页查询*/
     private Map<String,Object> articlePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> articleList = iArticleMapper.articlePagingQuery(map);
+        List<Map<String,Object>> articleList = articleMapper.articlePagingQuery(map);
         return PageBean.resultPage(page.getTotal(),articleList);
     }
 
@@ -64,20 +64,20 @@ public class ArticleServiceImpl implements UnifiedCall {
         if(StringUtil.isNull(name)){
             throw new BizException("传入物品名称为空");
         }
-        return iArticleMapper.articleEditQuery(map);
+        return articleMapper.articleEditQuery(map);
     }
 
     /*新增*/
     private Map<String,Object> articleInsert(Map<String,Object> map) {
         VerificationUtil.verificationArticle(map);
-        int count = iArticleMapper.articleIsExist(map);
+        int count = articleMapper.articleIsExist(map);
         if(count > 0){
            throw new BizException("新增失败，物品名称已存在");
         }
         map.put("id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            iArticleMapper.articleInsert(map);
+            articleMapper.articleInsert(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -92,20 +92,20 @@ public class ArticleServiceImpl implements UnifiedCall {
             throw new BizException("传入物品ID为空");
         }
         VerificationUtil.verificationArticle(map);
-        Map<String,Object> qMap = iArticleMapper.articleIdQuery(map);
+        Map<String,Object> qMap = articleMapper.articleIdQuery(map);
         if(SetUtil.isMapNull(qMap)){
            throw new BizException("修改失败，该物品不存在");
         }
         String name = MapUtil.getString(map,"name");
         String cName = MapUtil.getString(map,"name");
         if(!name.equals(cName)){
-            int count = iArticleMapper.articleIsExist(map);
+            int count = articleMapper.articleIsExist(map);
             if(count > 0){
                 throw new BizException("修改失败，门派名称已存在");
             }
         }
         try{
-            iArticleMapper.articleUpdate(map);
+            articleMapper.articleUpdate(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -122,7 +122,7 @@ public class ArticleServiceImpl implements UnifiedCall {
         try{
             for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
-                iArticleMapper.articleDelete(upMap);
+                articleMapper.articleDelete(upMap);
             }
             return new HashMap<>();
         }catch (Exception e){

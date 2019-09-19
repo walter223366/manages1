@@ -22,7 +22,7 @@ public class SchoolServiceImpl implements UnifiedCall {
 
     private static final Logger log = LoggerFactory.getLogger(SchoolServiceImpl.class);
     @Autowired
-    private ISchoolMapper iSchoolMapper;
+    private ISchoolMapper schoolMapper;
 
     /**
      * 处理门派管理
@@ -54,27 +54,27 @@ public class SchoolServiceImpl implements UnifiedCall {
     /*分页查询*/
     private Map<String,Object> schoolPagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
-        List<Map<String,Object>> schoolList = iSchoolMapper.schoolPagingQuery(map);
+        List<Map<String,Object>> schoolList = schoolMapper.schoolPagingQuery(map);
         return PageBean.resultPage(page.getTotal(),schoolList);
     }
 
     /*编辑查询*/
     private Map<String,Object> schoolEditQuery(Map<String,Object> map) {
         VerificationUtil.verificationSchool(map);
-        return iSchoolMapper.schoolEditQuery(map);
+        return schoolMapper.schoolEditQuery(map);
     }
 
     /*新增*/
     private Map<String,Object> schoolInsert(Map<String,Object> map) {
         VerificationUtil.verificationSchool(map);
-        int count = iSchoolMapper.schoolIsExist(map);
+        int count = schoolMapper.schoolIsExist(map);
         if(count > 0){
             throw new BizException("新增失败，门派名称已存在");
         }
         map.put("school_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            iSchoolMapper.schoolInsert(map);
+            schoolMapper.schoolInsert(map);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -89,20 +89,20 @@ public class SchoolServiceImpl implements UnifiedCall {
             throw new BizException("传入门派ID为空");
         }
         VerificationUtil.verificationSchool(map);
-        Map<String,Object> qMap = iSchoolMapper.schoolIdQuery(map);
+        Map<String,Object> qMap = schoolMapper.schoolIdQuery(map);
         if(SetUtil.isMapNull(qMap)){
            throw new BizException("修改失败，该门派不存在");
         }
         String name = MapUtil.getString(qMap,"name");
         String cName = MapUtil.getString(map,"name");
         if(!name.equals(cName)){
-            int count = iSchoolMapper.schoolIsExist(map);
+            int count = schoolMapper.schoolIsExist(map);
             if(count > 0){
                 throw new BizException("修改失败，门派名称已存在");
             }
         }
         try{
-            iSchoolMapper.schoolUpdate(map);
+            schoolMapper.schoolUpdate(map);
             return new HashMap<>();
         }catch (Exception e) {
             log.debug("修改失败："+e.getMessage());
@@ -119,7 +119,7 @@ public class SchoolServiceImpl implements UnifiedCall {
         try{
             for(Map<String,Object> upMap : dataList){
                 upMap.put("deleteStatus", TableCode.DELETE_ONE.getCode());
-                iSchoolMapper.schoolDelete(upMap);
+                schoolMapper.schoolDelete(upMap);
             }
             return new HashMap<>();
         }catch (Exception e){
