@@ -410,3 +410,28 @@ function lSelection(selectId){
 }
 url="/manages/sysAuth/server";
 eQuery="editQuery"; sDetails="seeDetails"; moveBox="moveBox"; kongFuBox="kongFuBox"; effectBox="effectBox"; schoolBox="schoolBox";
+
+function calAttr(level,num,elementId){
+    var attributes = level*num;
+    document.getElementById(elementId).value = isNull(attributes);
+    return attributes;
+}
+function calAdd(obj,min){
+    isDisabled(obj,min);
+    obj = (Math.abs(parseInt(obj)) + 1);
+    isDisabled(obj,min);
+    return obj;
+}
+function calMin(obj,min){
+    isDisabled(obj,min);
+    obj = (Math.abs(parseInt(obj)) - 1);
+    isDisabled(obj,min);
+    return obj;
+}
+function isDisabled(obj,min) {
+    if(parseInt(obj) <= 0){
+        min.attr('disabled',true);
+    }else{
+        min.attr('disabled',false);
+    }
+}

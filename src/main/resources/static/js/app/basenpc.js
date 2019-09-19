@@ -1,8 +1,12 @@
 charset="utf-8";
 manages="baseNpc";
+expNum=100;//TODO 暂时为1等级为100经验值
+attNum=5;//TODO 1等级5点属性值
 $(function(){
     pagingQuery();
 });
+
+
 function pagingQuery() {
     $("#dataInfo").empty();
     var params = {};
@@ -36,7 +40,7 @@ function cleanUp() {
 
 function add() {
     addReset();
-    downBox(schoolBox, "add_school", "", mlSelection);
+    downBox(schoolBox, "add_school", "", lSelection);
     var content = $("#addInfo");
     layerOpen("新增", content, 1000, 500,
         function () {
@@ -65,7 +69,7 @@ function add() {
                 layer.msg("等级不能为空或小于1", {icon: 2});
                 return;
             }
-            params.experience = Number(calExperience(params.level));
+            params.experience = Number(calAttr(params.level,expNum,"add_experience"));
             aTransfer(params, manages, pagingQuery);
         }, function (index, layero) {
             addReset();
@@ -76,61 +80,35 @@ function but(){
     $(".weaponInfo").html($("#weaponInfo").html());
     $(".artsInfo").html($("#artsInfo").html());
 }
+
 var mphysique;
 $(function (){
     but();
     $("#add_level").on("input",function (e) {
         var obj = e.delegateTarget.value;
-        calExperience(obj);
-        calAttributes(obj);
+        calAttr(obj,expNum,"add_experience");
+        calAttr(obj,attNum,"add_attributes");
     });
     $("#add_mphysique").on("input",function (e) {
         mphysique = e.delegateTarget.value;
     });
 });
-function calAdd(obj,min){
-    obj = (Math.abs(parseInt(obj)) + 1);
-    alert(obj);
-    if (parseInt(obj) > 0) {
-        min.attr('disabled',false);
-    }
-    return obj;
-}
-function calMin(obj,min){
-    obj = (Math.abs(parseInt(obj)) - 1);
-    if(parseInt(obj) <= 0){
-        min.attr('disabled',true);
-    }
-    return obj;
-}
+
 $(document).on("click","#mphysMin",function () {
     var min = $("#mphysMin");
     var mphys = calMin(mphysique,min);
     document.getElementById("add_mphysique").value = isNull(mphys);
 });
 $(document).on("click","#mphysAdd",function () {
-    alert("455");
-    $("#add_mphysique").on("input",function (e) {
-        var data = e.delegateTarget.value;
-        alert(data);
-    })
+    var min = $("#mphysMin");
+    var mphys = calAdd(mphysique,min);
+    document.getElementById("add_mphysique").value = isNull(mphys);
 });
 //分配属性点
 function attDistribution(){
 
 }
-//根据等级计算经验值（TODO 暂时为1等级为100经验值）
-function calExperience(level){
-    var experience = level*100;
-    document.getElementById("add_experience").value = isNull(experience);
-    return experience;
-}
-//根据等级计算属性分值(TODO 1等级5点属性值)
-function calAttributes(level){
-    var attributes = level*5;
-    document.getElementById("add_attributes").value = isNull(attributes);
-    return attributes;
-}
+
 function attributeAll(attributes){
     var attr = {};
     var mphysique=Number($("#add_mphysique").val());
@@ -142,30 +120,10 @@ function attributeAll(attributes){
     var knowledge=Number($("#add_knowledge").val());
     var lucky=Number($("#add_lucky").val());
 }
-
-//新增-门派下拉框（单选）
-function addSchool(){
-    document.getElementById("add_school").options.length = 0;
-    var params = {};
-    postRequest(params,manages,nSchoolBox,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            var rows = $.base64.atob(data.rows,charset);
-            if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                $.each(obj.data,function (i,n) {
-                    $("#add_school").append("<option value='"+n.school_id+"'>"+n.name+"</option>");
-                });
-                layui.form.render("select");
-            }
-        } else {
-            layer.msg(data.msg,{icon:2});
-        }
-    });
-}
 $(function (){
     //获取武学下拉框
     var params = {};
-    postRequest(params,"move",mKongFuBox,function (data){
+    postRequest(params,"downBox",kongFuBox,function (data){
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows,charset);
             if (isJSON(rows)) {
