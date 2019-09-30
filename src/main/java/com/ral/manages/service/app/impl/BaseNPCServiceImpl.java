@@ -10,14 +10,13 @@ import com.ral.manages.mapper.app.IAccountMapper;
 import com.ral.manages.mapper.app.IBaseNPCMapper;
 import com.ral.manages.mapper.app.ISchoolMapper;
 import com.ral.manages.service.app.UnifiedCall;
-import com.ral.manages.util.MapUtil;
-import com.ral.manages.util.SetUtil;
-import com.ral.manages.util.StringUtil;
-import com.ral.manages.util.VerificationUtil;
+import com.ral.manages.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.beans.Transient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,17 +88,29 @@ public class BaseNPCServiceImpl implements UnifiedCall {
     }
 
     /*新增*/
+    @Transient
     private Map<String,Object> baseNPCInsert(Map<String,Object> map){
-        VerificationUtil.verificationBaseNpc(map);
-        int count = baseNPCMapper.baseNpcIsExist(map);
+        Map<String,Object> basis = JsonUtil.formatJSON(map.get("basis").toString());
+        Map<String,Object> virtue = JsonUtil.formatJSON(map.get("virtue").toString());
+        Map<String,Object> weapon = JsonUtil.formatJSON(map.get("weapon").toString());
+        VerificationUtil.verificationBaseNpc(basis);
+        int count = baseNPCMapper.baseNpcIsExist(basis);
         if(count > 0){
             throw new BizException("新增失败，人物名称已存在");
         }
-        map.put("user_id","b936e068b53f43feac2dd55b4a4c5ed8");//TODO 暂固定
-        map.put("cancellation",TableCode.CANCELLATION_ONE.getCode());
-        map.put("id",StringUtil.getUUID());
+        basis.put("user_id","b936e068b53f43feac2dd55b4a4c5ed8");//TODO 暂固定
+        basis.put("cancellation",TableCode.CANCELLATION_ONE.getCode());
+        basis.put("enable",TableCode.ENABLE_ONE.getCode());
+        String id = StringUtil.getUUID();
+        basis.put("id",id);
+        virtue.put("id",StringUtil.getUUID());
+        virtue.put("charactor_id",id);
+        weapon.put("id",StringUtil.getUUID());
+        weapon.put("charactor_id",id);
         try{
-            baseNPCMapper.baseNPCInsert(map);
+            baseNPCMapper.baseNPCInsert(basis);
+            baseNPCMapper.baseExtInsert(virtue);
+            baseNPCMapper.basePotInsert(weapon);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());

@@ -33,18 +33,17 @@ function cleanUp(){
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen("新增", content, 900, 450,
+    layerOpen(1, "新增", content, 900, 450, "立即提交", "重置",
         function () {
             var params = {
                 name: $("#add_name").val(),
                 influence: Number($("#add_influence").val()),
                 info: $("#add_info").val()
             };
-            if (params.name === null || params.name === "") {
-                layer.msg("门派名称不能为空", {icon: 2});
+            if (verIf(params) === false) {
                 return;
             }
-            aTransfer(params, manages, pagingQuery);
+            aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset();
         });
@@ -56,13 +55,20 @@ function addReset() {
 }
 
 
+
 function see(data) {
     document.getElementById("see_name").value = isNull(data.name);
     document.getElementById("see_influence").value = isNull(data.influence);
     document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerSeeOpen("查看详情", content, 900, 450);
+    layerOpen(1, "查看详情", content, 900, 450, "明白了", "关闭",
+        function () {
+            content.hide();layer.closeAll();
+        }, function () {
+            content.hide();layer.closeAll();
+        });
 }
+
 
 
 function edit(data) {
@@ -77,7 +83,7 @@ function edit(data) {
                 document.getElementById("edit_influence").value = isNull(obj.influence);
                 document.getElementById("edit_info").value = isNull(obj.info);
                 var content = $("#editInfo");
-                layerOpen("编辑", content, 900, 450,
+                layerOpen(1, "编辑", content, 900, 450, "立即提交", "重置",
                     function () {
                         var params = {
                             school_id: $("#edit_school_id").val(),
@@ -85,11 +91,10 @@ function edit(data) {
                             influence: Number($("#edit_influence").val()),
                             info: $("#edit_info").val()
                         };
-                        if (params.name === null || params.name === "") {
-                            layer.msg("门派名称不能为空", {icon: 2});
+                        if (verIf(params) === false) {
                             return;
                         }
-                        eTransfer(params, manages, pagingQuery);
+                        aaUp(params, manages, update, "修改", pagingQuery);
                     }, function (index, layero) {
                         $("#edit_name").val('');
                         $("#edit_influence").val('');
@@ -100,4 +105,13 @@ function edit(data) {
             layer.msg(data.msg, {icon: 2});
         }
     });
+}
+
+
+function verIf(params) {
+    if (params.name === null || params.name === "") {
+        layer.msg("门派名称不能为空", {icon: 2});
+        return false;
+    }
+    return true;
 }

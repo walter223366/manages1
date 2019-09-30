@@ -13,7 +13,7 @@
     <script th:src="@{/js/app/school.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="x-body">
+<div class="x-body"><div class="x-body">
 
     <!--搜索栏-->
     <div class="layui-row">
@@ -28,10 +28,10 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">影响力值</label>
                     <div class="layui-input-inline">
-                        <input id="query_sinfluence" type="number" placeholder="开始范围" class="layui-input">
+                        <input id="query_sinfluence" type="number" placeholder="开始范围" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                     </div>
                     <div class="layui-input-inline">
-                        <input id="query_einfluence" type="number" placeholder="结束范围" class="layui-input">
+                        <input id="query_einfluence" type="number" placeholder="结束范围" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                     </div>
                 </div>
             </form>
@@ -71,7 +71,7 @@
             <div class="layui-form-item layLeng">
                 <label class="layui-form-label">影响力值</label>
                 <div class="layui-input-inline">
-                    <input id="add_influence" type="number" value="0" class="layui-input inLeng" placeholder="默认值为0">
+                    <input id="add_influence" type="number" value="0" class="layui-input inLeng" placeholder="默认值为0" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -102,7 +102,7 @@
             <div class="layui-form-item layLeng">
                 <label class="layui-form-label">影响力值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_influence" type="number" value="0" class="layui-input inLeng" placeholder="默认值为0">
+                    <input id="edit_influence" type="number" value="0" class="layui-input inLeng" placeholder="默认值为0" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -133,11 +133,11 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-font">门派说明：</span></label>
                 <div class="layui-input-inline">
-                    <textarea id="see_info" class="layui-textarea see-textarea see-input"></textarea>
+                    <textarea id="see_info" class="layui-textarea see-textarea"></textarea>
                 </div>
             </div>
         </form>
     </div>
-</div>
+</div></div>
 </body>
 </html>

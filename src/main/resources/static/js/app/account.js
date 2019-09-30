@@ -41,7 +41,7 @@ function cleanUp() {
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen("新增", content, 800, 450,
+    layerOpen(1, "新增", content, 800, 450, "立即提交", "重置",
         function () {
             var params = {
                 account: $("#add_account").val(),
@@ -49,16 +49,11 @@ function add() {
                 password: $("#add_password").val(),
                 source: Number($("#add_source").val())
             };
-            if (params.account === null || params.account === "") {
-                layer.msg("账号名称不能为空", {icon: 2});
+            if (verIf(params) === false) {
                 return;
-            } else {
-                if (params.account.length > 100) {
-                    layer.msg("账号名称字符过长", {icon: 2});
-                    return;
-                }
             }
-            aTransfer(params, manages, pagingQuery);
+            layer.msg("暂时无法新增用户账号");
+            //aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset();
         });
@@ -72,7 +67,7 @@ function addReset() {
 
 
 function see(data) {
-    
+    layer.msg("暂未处理");
 }
 
 
@@ -89,7 +84,7 @@ function edit(data) {
                 $("#edit_source").val(String(obj.source));
                 layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen("编辑", content, 950, 500,
+                layerOpen(1, "编辑", content, 950, 500, "立即提交", "重置",
                     function () {
                         var params = {
                             id: $("#edit_id").val(),
@@ -98,16 +93,10 @@ function edit(data) {
                             lrrq: $("#edit_lrrq").val(),
                             source: Number($("#edit_source").val())
                         };
-                        if (params.account === null || params.account === "") {
-                            layer.msg("账号名称不能为空", {icon: 2});
+                        if (verIf(params) === false) {
                             return;
-                        } else {
-                            if (params.account.length > 100) {
-                                layer.msg("账号名称字符过长", {icon: 2});
-                                return;
-                            }
                         }
-                        eTransfer(params, manages, pagingQuery);
+                        aaUp(params, manages, update, "修改", pagingQuery);
                     }, function (index, layero) {
                         $("#edit_tellPhone").val('');
                     });
@@ -127,3 +116,16 @@ layui.use('laydate', function(){
         ,range: true
     });
 });
+
+function verIf(params) {
+    if (params.account === null || params.account === "") {
+        layer.msg("账号名称不能为空", {icon: 2});
+        return false;
+    } else {
+        if (params.account.length > 100) {
+            layer.msg("账号名称字符过长", {icon: 2});
+            return false;
+        }
+    }
+    return true;
+}

@@ -2,6 +2,7 @@ charset="utf-8";
 manages="baseNpc";
 expNum=100;//TODO 暂时为1等级为100经验值
 attNum=5;//TODO 1等级5点属性值
+addUrl=splictUrl+"/system/baseNpc_add";
 $(function(){
     pagingQuery();
 });
@@ -41,67 +42,139 @@ function cleanUp() {
 function add() {
     addReset();
     downBox(schoolBox, "add_school", "", lSelection);
-    var content = $("#addInfo");
-    layerOpen("新增", content, 1000, 500,
+    layerOpen(2, "新增", addUrl, 1200, 600, "立即提交", "重置",
         function () {
-            var params = {
+
+            //基础信息
+            var basis = {
                 nickname: $("#add_nickname").val(),
                 school_id: $("#add_school").val(),
-                sex: Number($("#add_sex").val()),
-                level: Number($("#add_level").val()),
-                attitude: Number($("#add_attitude").val()),
-                character: Number($("#add_character").val()),
-                popularity: Number($("#add_popularity").val()),
-                coin: Number($("#add_coin").val()),
-                gold: Number($("#add_gold").val()),
-                school_contribution: Number($("#add_school_contribution").val()),
-                enable: $("#add_enable").val()
+                sex: $("#add_sex").val(),
+                level: $("#add_level").val(),
+                attitude: $("#add_attitude").val(),
+                character: $("#add_character").val(),
+                popularity: $("#add_popularity").val(),
+                coin: $("#add_coin").val(),
+                gold: $("#add_gold").val(),
+                school_contribution: $("#add_school_contribution").val()
             };
-            if (params.nickname === null || params.nickname === "") {
+            if (basis.nickname === null || basis.nickname === "") {
                 layer.msg("人物名称不能为空", {icon: 2});
                 return;
             }
-            if (params.school_id === null || params.school_id === "") {
+            if (basis.school_id === null || basis.school_id === "") {
                 layer.msg("所属门派不能为空", {icon: 2});
                 return;
             }
-            if (params.level <= 0) {
+            if (basis.level <= 0) {
                 layer.msg("等级不能为空或小于1", {icon: 2});
                 return;
             }
-            params.experience = Number(calAttr(params.level,expNum,"add_experience"));
+            basis.experience = Number(calAttr(basis.level, expNum, "add_experience"));
+            //属性分配
+            var virtue = {
+                physique: $("#add_mphysique").val(),
+                force: $("#add_force").val(),
+                muscles: $("#add_muscles").val(),
+                chakra: $("#add_chakra").val(),
+                sensitivity: $("#add_sensitivity").val(),
+                willpower: $("#add_willpower").val(),
+                knowledge: $("#add_knowledge").val(),
+                lucky: $("#add_lucky").val()
+            };
+            //兵器造诣
+            var weapon = {
+                melee_status: $("#add_melee_status").val(),
+                sword_status: $("#add_sword_status").val(),
+                axe_status: $("#add_axe_status").val(),
+                javelin_status: $("#add_javelin_status").val(),
+                hidden_weapons_status: $("#add_hidden_weapons_status").val(),
+                sorcery_status: $("#add_sorcery_status").val(),
+                dodge_skill_status: $("#add_dodge_skill_status").val(),
+                chakra_status: $("#add_chakra_status").val()
+            };
+            var params = {
+                basis: basis,
+                virtue: virtue,
+                weapon: weapon
+            };
             aTransfer(params, manages, pagingQuery);
         }, function (index, layero) {
             addReset();
         });
 }
-function but(){
+function virtueBut() {
+    var content = $("#attInfo");
+    layerOpen(1, "属性分配", content, 900, 400, "确定", "重置",
+        function () {
+
+        }, function () {
+
+        });
+}
+function kongFuBut() {
+    downBox(kongFuBox, "add_kongFu", "", lSelection);
+    var content = $("#artsInfo");
+    layerOpen(1, "武学信息", content, 900, 400, "确定", "重置",
+        function () {
+
+        }, function () {
+
+        });
+}
+function weaponBut() {
+    var content = $("#weaponInfo");
+    layerOpen(1, "兵器造诣", content, 900, 400, "确定", "重置",
+        function () {
+
+        }, function () {
+
+        });
+}
+
+
+function but() {
     $(".attInfo").html($("#attInfo").html());
     $(".weaponInfo").html($("#weaponInfo").html());
     $(".artsInfo").html($("#artsInfo").html());
 }
 
-var mphysique;
-$(function (){
+
+
+function butKongFu() {
+    var a = $("#add_kongFu").val();
+    var a1 = $("#add_kongFu1").val();
+    if(isNull(al)){
+        $('#productName').bind('input propertychange', function() {searchProductClassbyName();});
+    }
+}
+
+
+var mphysique1;
+$(function () {
     but();
-    $("#add_level").on("input",function (e) {
+    $("#add_level").on("input", function (e) {
         var obj = e.delegateTarget.value;
-        calAttr(obj,expNum,"add_experience");
-        calAttr(obj,attNum,"add_attributes");
+        calAttr(obj, expNum, "add_experience");
+        calAttr(obj, attNum, "add_attributes");
     });
-    $("#add_mphysique").on("input",function (e) {
-        mphysique = e.delegateTarget.value;
+    $("#add_mphysique").on("input", function (e) {
+        mphysique1 = e.delegateTarget.value;
     });
 });
 
 $(document).on("click","#mphysMin",function () {
     var min = $("#mphysMin");
-    var mphys = calMin(mphysique,min);
+    $('#add_mphysique').bind('input propertychange', function() {
+        searchProductClassbyName();
+    });
+    var mphys = calMin(mphysique1,min);
     document.getElementById("add_mphysique").value = isNull(mphys);
 });
 $(document).on("click","#mphysAdd",function () {
     var min = $("#mphysMin");
-    var mphys = calAdd(mphysique,min);
+    alert(mphysique1);
+    var mphys = calAdd(mphysique1,min);
     document.getElementById("add_mphysique").value = isNull(mphys);
 });
 //分配属性点
@@ -205,7 +278,7 @@ function see(data) {
 
 
 function edit(data) {
-    editSchool();
+    downBox(schoolBox, "edit_school", "", lSelection);
     var params = {nickname: data.nickname};
     postRequest(params, manages, eQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
@@ -247,25 +320,6 @@ function edit(data) {
             }
         } else {
             layer.msg(data.msg, {icon: 2});
-        }
-    });
-}
-//编辑-门派下拉框（单选）
-function editSchool(){
-    document.getElementById("edit_school").options.length = 0;
-    var params = {};
-    postRequest(params,manages,nSchoolBox,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            var rows = $.base64.atob(data.rows,charset);
-            if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                $.each(obj.data,function (i,n) {
-                    $("#edit_school").append("<option value='"+n.school_id+"'>"+n.name+"</option>");
-                });
-                layui.form.render("select");
-            }
-        } else {
-            layer.msg(data.msg,{icon:2});
         }
     });
 }

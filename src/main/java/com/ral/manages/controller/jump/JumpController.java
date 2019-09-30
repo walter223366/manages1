@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/system/")
 public class JumpController {
 
-    @RequestMapping("/main")
+    @RequestMapping("main")
     public String jumpMain(){
         return "main.html";
     }
@@ -30,8 +30,11 @@ public class JumpController {
 
     @RequestMapping("effect")
     public String jumpEffect(){
-        return "app/effect.html";
+        return "app/effect/effect.html";
     }
+
+    @RequestMapping("effect_add")
+    public String jumpEffectAdd() { return "app/effect/effect-add.html"; }
 
     @RequestMapping("move")
     public String jumpMove(){
@@ -55,7 +58,9 @@ public class JumpController {
 
     @RequestMapping("baseNpc")
     public String jumpBaseNpc(){
-        return "app/basenpc.html";
+        return "app/baseNpc/basenpc.html";
     }
 
+    @RequestMapping("baseNpc_add")
+    public String jumpBaseNpcAdd(){ return "app/baseNpc/basenpc-add.html"; }
 }

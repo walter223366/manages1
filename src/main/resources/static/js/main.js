@@ -1,3 +1,13 @@
+url="/manages/sysAuth/server";
+splictUrl="/manages";
+eQuery="editQuery";
+sDetails="seeDetails";
+moveBox="moveBox";
+kongFuBox="kongFuBox";
+effectBox="effectBox";
+schoolBox="schoolBox";
+insert="insert";
+update="update";
 $(function () {
     layui.use(['form','element'],
     function() {
@@ -199,16 +209,19 @@ function postRequest(params,manages,method,callback) {
         }
     });
 }
-function layerOpen(title,content,width,height,callback,Reset) {
+function layerOpen(type,title,content,width,height,btn1,btn2,callback,reset) {
+    if (url === null || url === '') {
+        url = "/manages/system/404";
+    }
     layer.open({
-        type: 1,
+        type: type,
         offset: "auto",
         id: 'layerDemo' + 'auto',
         area: [width + 'px', height + 'px'],
         fix: false,
         maxmin: true,
         shadeClose: true,
-        btn: ['立即提交', '重置'],
+        btn: [btn1, btn2],
         shade: 0.4,
         title: title,
         content: content,
@@ -218,8 +231,8 @@ function layerOpen(title,content,width,height,callback,Reset) {
             }
         },
         btn2: function (index, layero) {
-            if (typeof Reset === "function") {
-                Reset(index, layero);
+            if (typeof reset === "function") {
+                reset(index, layero);
             }
             return false;
         }
@@ -317,13 +330,13 @@ function pQue(params,manages,title,cole,add,edit,del,see,pagingQuery) {
         });
     });
 }
-function aTransfer(params,manages,pagingQuery) {
-    layer.confirm('请确认要新增这条数据吗？', {
+function aaUp(params,manages,method,res,pagingQuery) {
+    layer.confirm('请确认要'+res+'这条数据吗？', {
             btn: ['确定', '取消']
         }, function () {
-            postRequest(params, manages, "insert", function (data) {
+            postRequest(params, manages, method, function (data) {
                 if (data.code === "0" && data.result === "SUCCESS") {
-                    layer.msg("新增成功");
+                    layer.msg(res+"成功");
                     pagingQuery();
                 } else {
                     layer.msg(data.msg, {icon: 2});
@@ -334,24 +347,7 @@ function aTransfer(params,manages,pagingQuery) {
         }
     );
 }
-function eTransfer(params,manages,pagingQuery) {
-    layer.confirm('请确认要修改这条数据吗？', {
-            btn: ['确定', '取消']
-        }, function () {
-            postRequest(params, manages, "update", function (data) {
-                if (data.code === "0" && data.result === "SUCCESS") {
-                    layer.msg("修改成功");
-                    pagingQuery();
-                } else {
-                    layer.msg(data.msg, {icon: 2});
-                }
-            });
-        }, function () {
-            layer.close();
-        }
-    );
-}
-function del(data,manages,Func) {
+function del(data,manages,pagingQuery) {
     if (data.length === 0) {
         layer.msg('请勾选一条数据进行删除');
         return;
@@ -365,7 +361,7 @@ function del(data,manages,Func) {
             postRequest(params, manages, "delete", function (data) {
                 if (data.code === "0" && data.result === "SUCCESS") {
                     layer.msg("删除成功");
-                    Func();
+                    pagingQuery();
                 } else {
                     layer.msg(data.msg, {icon: 2});
                 }
@@ -376,15 +372,16 @@ function del(data,manages,Func) {
     );
 }
 function downBox(method,id,selectId,mlSelection) {
-    document.getElementById(id).options.length = 0;
+    //document.getElementById(id).options.length = 0;
     var params = {};
     postRequest(params, "downBox", method, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
+                var ids = "#" + id;
+                $(ids).prepend("<option value=''>请选择</option>");
                 $.each(obj.data, function (i, n) {
-                    var ids = "#" + id;
                     if (method === moveBox) {
                         $(ids).append("<option value='" + n.zhaoshi_id + "'>" + n.name + "</option>");
                     } else if (method === kongFuBox) {
@@ -408,15 +405,16 @@ function mSelection(selectId){
 function lSelection(selectId){
     layui.form.render("select");
 }
-url="/manages/sysAuth/server";
-eQuery="editQuery"; sDetails="seeDetails"; moveBox="moveBox"; kongFuBox="kongFuBox"; effectBox="effectBox"; schoolBox="schoolBox";
-
+function splices(a,b,c){
+    return Number($("#"+a).val())+","+Number($("#"+b).val())+","+Number($("#"+c).val());
+}
 function calAttr(level,num,elementId){
     var attributes = level*num;
     document.getElementById(elementId).value = isNull(attributes);
     return attributes;
 }
 function calAdd(obj,min){
+    alert(obj);
     isDisabled(obj,min);
     obj = (Math.abs(parseInt(obj)) + 1);
     isDisabled(obj,min);

@@ -13,12 +13,12 @@ function pagingQuery() {
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt'},
-        {field: 'name', title: '效果名称', sort: true},
+        {field: 'name', title: '效果名称', sort: true, width: 120},
         {field: 'target', title: '执行目标'},
         {field: 'Aggressivity', title: '攻击力'},
         {field: 'Defense', title: '防御力'},
         {field: 'burst', title: '暴击力'},
-        {field: 'hp', title: 'HP影响', sort: true},
+        {field: 'hp', title: 'HP影响', sort: true, width: 120},
         {field: 'injury', title: '外伤'},
         {field: 'internal_injury', title: '内伤'},
         {field: 'poisoning', title: '毒伤'},
@@ -39,18 +39,13 @@ function cleanUp() {
 
 function add() {
     addReset();
-    var content = $("#addInfo");
-    layerOpen("新增", content, 1050, 500,
+    var content = splictUrl + "/system/effect_add";
+    layerOpen(2, "新增", content, 1200, 650, "立即提交", "重置",
         function () {
             var params = {
                 name: $("#add_name").val(),
                 target: Number($("#add_target").val()),
                 hp: Number($("#add_hp").val()),
-                mp_yellow: $("#add_mp_yellow").val(),
-                mp_gold: $("#add_mp_gold").val(),
-                mp_green: $("#add_mp_green").val(),
-                mp_blue: $("#add_mp_blue").val(),
-                mp_purple: $("#add_mp_purple").val(),
                 Aggressivity: Number($("#add_aggressivity").val()),
                 Defense: Number($("#add_defense").val()),
                 burst: Number($("#add_burst").val()),
@@ -62,24 +57,56 @@ function add() {
                 hit_rate: Number($("#add_hit_rate").val()),
                 crit_rate: Number($("#add_crit_rate").val()),
                 suck_HP: Number($("#add_suck_HP").val()),
-                suck_mp_yellow: $("#add_suck_mp_yellow").val(),
+                /*suck_mp_yellow: $("#add_suck_mp_yellow").val(),
                 suck_mp_gold: $("#add_suck_mp_gold").val(),
                 suck_mp_green: $("#add_suck_mp_green").val(),
                 suck_mp_blue: $("#add_suck_mp_blue").val(),
-                suck_mp_purple: $("#add_suck_mp_purple").val(),
+                suck_mp_purple: $("#add_suck_mp_purple").val(),*/
                 info: $("#add_info").val()
             };
-            if (params.name === null || params.name === "") {
-                layer.msg("效果名称不能为空", {icon: 2});
+            if (verIf(params) === false) {
                 return;
             }
-            if (params.target === null || params.target === "") {
-                layer.msg("效果执行目标不能为空", {icon: 2});
-                return;
-            }
-            aTransfer(params, manages, pagingQuery);
+            //var hp = hps();
+            var yellow = splices("add_hpYellow1","add_hpYellow2","add_hpYellow3");
+            alert(yellow);
+            aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset();
+        });
+}
+
+function hpInfo() {
+    var content = $("#hpInfo");
+    layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置",
+        function () {
+            var hp = {
+                mp_yellow: splices("add_hpYellow1", "add_hpYellow2", "add_hpYellow3"),
+                mp_gold: splices("add_hpGold1", "add_hpGold2", "add_hpGold3"),
+                mp_green: splices("add_hpGreen1", "add_hpGreen2", "add_hpGreen3"),
+                mp_blue: splices("add_hpBlue1", "add_hpBlue2", "add_hpBlue3"),
+                mp_purple: splices("add_hpPurple1", "add_hpPurple2", "add_hpPurple3")
+            };
+            alert(hp.mp_yellow);
+            content.hide();layer.closeAll();
+        }, function () {
+            cleanHpInfo();
+        });
+}
+
+function suckInfo() {
+    var content = $("#suckInfo");
+    layerOpen(1, "吸血色球影响", content, 900, 400, "确定", "重置",
+        function () {
+            var suck = {
+                mp_yellow: splices("add_suckYellow1", "add_suckYellow2", "add_suckYellow3"),
+                mp_gold: splices("add_suckGold1", "add_suckGold2", "add_suckGold3"),
+                mp_green: splices("add_suckGreen1", "add_suckGreen2", "add_suckGreen3"),
+                mp_blue: splices("add_suckBlue1", "add_suckBlue2", "add_suckBlue3"),
+                mp_purple: splices("add_suckPurple1", "add_suckPurple2", "add_suckPurple3")
+            };
+        }, function () {
+            cleanSuckInfo();
         });
 }
 function addReset() {
@@ -137,7 +164,12 @@ function see(data) {
     document.getElementById("see_suck_mp_purple").value = isNull(data.suck_mp_purple);
     document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerSeeOpen("查看详情", content, 1050, 500);
+    layerOpen(1, "查看详情", content, 1050, 500, "明白了", "关闭",
+        function () {
+            content.hide();layer.closeAll();
+        }, function () {
+            content.hide();layer.closeAll();
+        });
 }
 
 
@@ -176,7 +208,7 @@ function edit(data) {
                 $("#edit_target").val(String(obj.target));
                 layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen("编辑", content, 1050, 500,
+                layerOpen(1,"编辑", content, 1200, 650,"立即提交","重置",
                     function () {
                         var params = {
                             effect_id: $("#edit_effect_id").val(),
@@ -240,4 +272,53 @@ function editReset() {
     $("#edit_suck_mp_blue").val('');
     $("#edit_suck_mp_purple").val('');
     $("#edit_info").val('');
+}
+
+
+function verIf(params) {
+    if (params.name === null || params.name === "") {
+        layer.msg("效果名称不能为空", {icon: 2});
+        return false;
+    }
+    if (params.target === null || params.target === "") {
+        layer.msg("效果执行目标不能为空", {icon: 2});
+        return false;
+    }
+    return true;
+}
+
+function cleanHpInfo() {
+    $("#add_hpYellow1").val('');
+    $("#add_hpYellow2").val('');
+    $("#add_hpYellow3").val('');
+    $("#add_hpGold1").val('');
+    $("#add_hpGold2").val('');
+    $("#add_hpGold3").val('');
+    $("#add_hpGreen1").val('');
+    $("#add_hpGreen2").val('');
+    $("#add_hpGreen3").val('');
+    $("#add_hpBlue1").val('');
+    $("#add_hpBlue2").val('');
+    $("#add_hpBlue3").val('');
+    $("#add_hpPurple1").val('');
+    $("#add_hpPurple2").val('');
+    $("#add_hpPurple3").val('');
+}
+
+function cleanSuckInfo() {
+    $("#add_suckYellow1").val('');
+    $("#add_suckYellow2").val('');
+    $("#add_suckYellow3").val('');
+    $("#add_suckGold1").val('');
+    $("#add_suckGold2").val('');
+    $("#add_suckGold3").val('');
+    $("#add_suckGreen1").val('');
+    $("#add_suckGreen2").val('');
+    $("#add_suckGreen3").val('');
+    $("#add_suckBlue1").val('');
+    $("#add_suckBlue2").val('');
+    $("#add_suckBlue3").val('');
+    $("#add_suckPurple1").val('');
+    $("#add_suckPurple2").val('');
+    $("#add_suckPurple3").val('');
 }
