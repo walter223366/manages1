@@ -52,7 +52,7 @@ function add() {
             if (verIf(params) === false) {
                 return;
             }
-            layer.msg("暂时无法新增用户账号");
+            layer.msg("暂时无法新增用户账号，请至微信公众号进行注册账号");
             //aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset();
@@ -78,33 +78,40 @@ function edit(data) {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
-                document.getElementById("edit_id").value = isNull(obj.id);
-                document.getElementById("edit_account").value = isNull(obj.account);
-                document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
-                $("#edit_source").val(String(obj.source));
-                layui.form.render("select");
-                var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 950, 500, "立即提交", "重置",
-                    function () {
-                        var params = {
-                            id: $("#edit_id").val(),
-                            account: $("#edit_account").val(),
-                            tellphone: Number($("#edit_tellPhone").val()),
-                            lrrq: $("#edit_lrrq").val(),
-                            source: Number($("#edit_source").val())
-                        };
-                        if (verIf(params) === false) {
-                            return;
-                        }
-                        aaUp(params, manages, update, "修改", pagingQuery);
-                    }, function (index, layero) {
-                        $("#edit_tellPhone").val('');
-                    });
+                sessionStorage.setItem("edit",rows);
+                editOpen();
             }
         } else {
             layer.msg(data.msg, {icon: 2});
         }
     });
+}
+function editOpen(){
+    var content = splictUrl+"/system/account_update";
+    var edit = sessionStorage.getItem("edit");
+    var obj = JSON.parse(edit);
+    alert(edit);
+    document.getElementById("edit_id").value = isNull(obj.id);
+    document.getElementById("edit_account").value = isNull(obj.account);
+    document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
+    $("#edit_source").val(String(obj.source));
+    layui.form.render("select");
+    layerOpen(2, "编辑", content, 950, 500, "立即提交", "重置",
+        function () {
+            var params = {
+                id: $("#edit_id").val(),
+                account: $("#edit_account").val(),
+                tellphone: Number($("#edit_tellPhone").val()),
+                lrrq: $("#edit_lrrq").val(),
+                source: Number($("#edit_source").val())
+            };
+            if (verIf(params) === false) {
+                return;
+            }
+            aaUp(params, manages, update, "修改", pagingQuery);
+        }, function (index, layero) {
+            $("#edit_tellPhone").val('');
+        });
 }
 
 

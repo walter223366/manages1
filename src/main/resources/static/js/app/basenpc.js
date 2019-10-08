@@ -41,10 +41,10 @@ function cleanUp() {
 
 function add() {
     addReset();
-    downBox(schoolBox, "add_school", "", lSelection);
+    var id = document.getElementById("add_school");
+    downBox(schoolBox, id, "", lSelection);
     layerOpen(2, "新增", addUrl, 1200, 600, "立即提交", "重置",
         function () {
-
             //基础信息
             var basis = {
                 nickname: $("#add_nickname").val(),
@@ -70,73 +70,130 @@ function add() {
                 layer.msg("等级不能为空或小于1", {icon: 2});
                 return;
             }
-            basis.experience = Number(calAttr(basis.level, expNum, "add_experience"));
-            //属性分配
-            var virtue = {
-                physique: $("#add_mphysique").val(),
-                force: $("#add_force").val(),
-                muscles: $("#add_muscles").val(),
-                chakra: $("#add_chakra").val(),
-                sensitivity: $("#add_sensitivity").val(),
-                willpower: $("#add_willpower").val(),
-                knowledge: $("#add_knowledge").val(),
-                lucky: $("#add_lucky").val()
-            };
-            //兵器造诣
-            var weapon = {
-                melee_status: $("#add_melee_status").val(),
-                sword_status: $("#add_sword_status").val(),
-                axe_status: $("#add_axe_status").val(),
-                javelin_status: $("#add_javelin_status").val(),
-                hidden_weapons_status: $("#add_hidden_weapons_status").val(),
-                sorcery_status: $("#add_sorcery_status").val(),
-                dodge_skill_status: $("#add_dodge_skill_status").val(),
-                chakra_status: $("#add_chakra_status").val()
-            };
+            //basis.experience = Number(calAttr(basis.level, expNum, "add_experience"));
+            var virtue = sessionStorage.getItem("virtue");
+            var kongFu = sessionStorage.getItem("kongFu");
+            var weapon = sessionStorage.getItem("weapon");
             var params = {
                 basis: basis,
-                virtue: virtue,
-                weapon: weapon
+                virtue: JSON.parse(virtue),
+                kongFu: JSON.parse(kongFu),
+                weapon: JSON.parse(weapon)
             };
-            aTransfer(params, manages, pagingQuery);
+            aaUp(params, manages, "insert", "新增", pagingQuery)
         }, function (index, layero) {
             addReset();
         });
 }
 function virtueBut() {
+    var virtue = {};
     var content = $("#attInfo");
     layerOpen(1, "属性分配", content, 900, 400, "确定", "重置",
-        function () {
-
-        }, function () {
-
+        function (index, layero) {
+            virtue.physique = document.getElementById("add_mphysique").value;
+            virtue.force = document.getElementById("add_force").value;
+            virtue.muscles = document.getElementById("add_muscles").value;
+            virtue.chakra = document.getElementById("add_chakra").value;
+            virtue.sensitivity = document.getElementById("add_sensitivity").value;
+            virtue.willpower = document.getElementById("add_willpower").value;
+            virtue.knowledge = document.getElementById("add_knowledge").value;
+            virtue.lucky = document.getElementById("add_lucky").value;
+            sessionStorage.setItem("virtue", JSON.stringify(virtue));
+            content.hide();
+            layer.closeAll();
+        }, function (index, layero) {
+            document.getElementById("add_mphysique").value = 0;
+            document.getElementById("add_force").value = 0;
+            document.getElementById("add_muscles").value = 0;
+            document.getElementById("add_chakra").value = 0;
+            document.getElementById("add_sensitivity").value = 0;
+            document.getElementById("add_willpower").value = 0;
+            document.getElementById("add_knowledge").value = 0;
+            document.getElementById("add_lucky").value = 0;
         });
 }
 function kongFuBut() {
     downBox(kongFuBox, "add_kongFu", "", lSelection);
+    var kongFu = {};
     var content = $("#artsInfo");
     layerOpen(1, "武学信息", content, 900, 400, "确定", "重置",
-        function () {
-
-        }, function () {
-
+        function (layero, index) {
+            kongFu.kongFu1 = document.getElementById("add_kongFu1").value;
+            kongFu.exp1 = document.getElementById("add_experience1").value;
+            kongFu.kongFu2 = document.getElementById("add_kongFu2").value;
+            kongFu.exp2 = document.getElementById("add_experience2").value;
+            kongFu.kongFu3 = document.getElementById("add_kongFu3").value;
+            kongFu.exp3 = document.getElementById("add_experience3").value;
+            kongFu.kongFu4 = document.getElementById("add_kongFu4").value;
+            kongFu.exp4 = document.getElementById("add_experience4").value;
+            sessionStorage.setItem("kongFu", JSON.stringify(kongFu));
+            content.hide();
+            layer.closeAll();
+        }, function (index, layero) {
+            document.getElementById("add_kongFu1").value = '';
+            document.getElementById("add_experience1").value = '';
+            document.getElementById("add_kongFu2").value = '';
+            document.getElementById("add_experience2").value = '';
+            document.getElementById("add_kongFu3").value = '';
+            document.getElementById("add_experience3").value = '';
+            document.getElementById("add_kongFu4").value = '';
+            document.getElementById("add_experience4").value = '';
+            document.getElementById("add_kongFu").value = '';
+            layui.form.render("select");
         });
 }
+function addKongFu() {
+    var kongFu = $("#add_kongFu").find("option:selected").text();
+    var kongFu1 = document.getElementById("add_kongFu1");
+    var kongFu2 = document.getElementById("add_kongFu2");
+    var kongFu3 = document.getElementById("add_kongFu3");
+    var kongFu4 = document.getElementById("add_kongFu4");
+    if (kongFu === "请选择") {
+        layer.msg("请选择武学选项");
+        return;
+    }
+    if (kongFu1.value === '') {
+        kongFu1.value = kongFu;
+    } else if (kongFu2.value === '') {
+        kongFu2.value = kongFu;
+    } else if (kongFu3.value === '') {
+        kongFu3.value = kongFu;
+    } else if (kongFu4.value === '') {
+        kongFu4.value = kongFu;
+    } else {
+        layer.msg("添加武学选项已满");
+    }
+}
+function resetKongFu(a,b) {
+    document.getElementById(a).value = '';
+    document.getElementById(b).value = '';
+}
 function weaponBut() {
+    var weapon = {};
     var content = $("#weaponInfo");
     layerOpen(1, "兵器造诣", content, 900, 400, "确定", "重置",
         function () {
-
-        }, function () {
-
+            weapon.melee = document.getElementById("add_melee_status").value;
+            weapon.sword = document.getElementById("add_sword_status").value;
+            weapon.axe = document.getElementById("add_axe_status").value;
+            weapon.javelin = document.getElementById("add_javelin_status").value;
+            weapon.hiddens = document.getElementById("hidden_weapons_status").value;
+            weapon.sorcery = document.getElementById("add_sorcery_status").value;
+            weapon.dodges = document.getElementById("add_dodge_skill_status").value;
+            weapon.chakra = document.getElementById("chakra_status").value;
+            sessionStorage.setItem("weapon", JSON.stringify(weapon));
+            content.hide();
+            layer.closeAll();
+        }, function (index, layero) {
+            document.getElementById("add_melee_status").value = '';
+            document.getElementById("add_sword_status").value = '';
+            document.getElementById("add_axe_status").value = '';
+            document.getElementById("add_javelin_status").value = '';
+            document.getElementById("add_hidden_weapons_status").value = '';
+            document.getElementById("add_sorcery_status").value = '';
+            document.getElementById("add_dodge_skill_status").value = '';
+            document.getElementById("add_chakra_status").value = '';
         });
-}
-
-
-function but() {
-    $(".attInfo").html($("#attInfo").html());
-    $(".weaponInfo").html($("#weaponInfo").html());
-    $(".artsInfo").html($("#artsInfo").html());
 }
 
 
@@ -150,84 +207,31 @@ function butKongFu() {
 }
 
 
-var mphysique1;
 $(function () {
-    but();
     $("#add_level").on("input", function (e) {
         var obj = e.delegateTarget.value;
         calAttr(obj, expNum, "add_experience");
         calAttr(obj, attNum, "add_attributes");
     });
     $("#add_mphysique").on("input", function (e) {
-        mphysique1 = e.delegateTarget.value;
+        var value = e.delegateTarget.value;
+        alert(vaule);
+        sessionStorage.setItem("mphys",value);
     });
 });
-
 $(document).on("click","#mphysMin",function () {
     var min = $("#mphysMin");
-    $('#add_mphysique').bind('input propertychange', function() {
-        searchProductClassbyName();
-    });
-    var mphys = calMin(mphysique1,min);
-    document.getElementById("add_mphysique").value = isNull(mphys);
+    var a = sessionStorage.getItem("mphys");
+    alert(a);
+    var mph = calMin(Number(a),min);
+    document.getElementById("add_mphysique").value = isNull(mph);
 });
 $(document).on("click","#mphysAdd",function () {
     var min = $("#mphysMin");
-    alert(mphysique1);
-    var mphys = calAdd(mphysique1,min);
-    document.getElementById("add_mphysique").value = isNull(mphys);
-});
-//分配属性点
-function attDistribution(){
-
-}
-
-function attributeAll(attributes){
-    var attr = {};
-    var mphysique=Number($("#add_mphysique").val());
-    var force=Number($("#add_force").val());
-    var muscles=Number($("#add_muscles").val());
-    var chakra=Number($("#add_chakra").val());
-    var sensitivity=Number($("#add_sensitivity").val());
-    var willpower=Number($("#add_willpower").val());
-    var knowledge=Number($("#add_knowledge").val());
-    var lucky=Number($("#add_lucky").val());
-}
-$(function (){
-    //获取武学下拉框
-    var params = {};
-    postRequest(params,"downBox",kongFuBox,function (data){
-        if (data.code === "0" && data.result === "SUCCESS") {
-            var rows = $.base64.atob(data.rows,charset);
-            if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                layui.use('transfer', function(){
-                    var transfer = layui.transfer;
-                    transfer.render({
-                        elem: '#addKongFu'
-                        ,data:obj.data
-                        ,parseData:function (res) {
-                            return {
-                                "value": res.kongfu_id,
-                                "title": res.name,
-                                "disabled": res.disabled,
-                                "checked": res.checked
-                            }
-                        }
-                        ,title: ['武学选项', '武学添加']
-                        ,id: 'demo1' //定义索引
-                        ,width:304
-                        ,height:340
-                        ,onchange:function () {
-
-                        }
-                    });
-                });
-            }
-        } else {
-            layer.msg(data.msg,{icon:2});
-        }
-    });
+    var a = sessionStorage.getItem("mphys");
+    alert(a);
+    var mph = calAdd(Number(a),min);
+    document.getElementById("add_mphysique").value = isNull(mph);
 });
 //新增-重置
 function addReset(){
@@ -322,4 +326,19 @@ function edit(data) {
             layer.msg(data.msg, {icon: 2});
         }
     });
+}
+
+function verIf(basis) {
+    if (basis.nickname === null || basis.nickname === "") {
+        layer.msg("人物名称不能为空", {icon: 2});
+        return false;
+    }
+    if (basis.school_id === null || basis.school_id === "") {
+        layer.msg("所属门派不能为空", {icon: 2});
+        return false;
+    }
+    if (basis.level <= 0) {
+        layer.msg("等级不能为空或小于1", {icon: 2});
+        return false;
+    }
 }

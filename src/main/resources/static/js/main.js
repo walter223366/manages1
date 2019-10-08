@@ -184,7 +184,7 @@ function isJSON(str) {
     }
 }
 function isNull(str) {
-    if (str === null || str === "") {
+    if (str === null || str ==="undefined" || str === "null" || str === "" ) {
         return "";
     } else {
         return str;
@@ -225,9 +225,9 @@ function layerOpen(type,title,content,width,height,btn1,btn2,callback,reset) {
         shade: 0.4,
         title: title,
         content: content,
-        yes: function () {
+        yes: function (layero,index) {
             if (typeof callback === "function") {
-                callback();
+                callback(layero,index);
             }
         },
         btn2: function (index, layero) {
@@ -412,6 +412,9 @@ function calAttr(level,num,elementId){
     var attributes = level*num;
     document.getElementById(elementId).value = isNull(attributes);
     return attributes;
+}
+function cala(level,num) {
+    return level*num;
 }
 function calAdd(obj,min){
     alert(obj);

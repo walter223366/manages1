@@ -14,53 +14,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class JumpController {
 
     @RequestMapping("main")
-    public String jumpMain(){
-        return "main.html";
-    }
+    public String jumpMain(){ return "main.html"; }
 
     @RequestMapping("account")
-    public String jumpAccount(){
-        return "app/account.html";
-    }
+    public String jumpAccount(){ return "app/account/account.html"; }
+    @RequestMapping("account_update")
+    public String jumpAccountUpdate(){ return "app/account/account_update.html";}
 
     @RequestMapping("school")
-    public String jumpSchool(){
-        return "app/school.html";
-    }
+    public String jumpSchool(){ return "app/school.html"; }
 
     @RequestMapping("effect")
-    public String jumpEffect(){
-        return "app/effect/effect.html";
-    }
-
+    public String jumpEffect(){ return "app/effect/effect.html"; }
     @RequestMapping("effect_add")
-    public String jumpEffectAdd() { return "app/effect/effect-add.html"; }
+    public String jumpEffectAdd(){ return "app/effect/effect_add.html"; }
 
     @RequestMapping("move")
-    public String jumpMove(){
-        return "app/move.html";
-    }
+    public String jumpMove(){ return "app/move.html"; }
 
     @RequestMapping("kongFu")
-    public String jumpKongFu(){
-        return "app/kongfu.html";
-    }
+    public String jumpKongFu(){ return "app/kongfu.html"; }
 
     @RequestMapping("article")
-    public String jumpArticle(){
-        return "app/article.html";
-    }
+    public String jumpArticle(){ return "app/article.html"; }
 
     @RequestMapping("baseInfo")
-    public String jumpBaseInfo(){
-        return "app/baseinfo.html";
-    }
+    public String jumpBaseInfo(){ return "app/baseinfo.html"; }
 
     @RequestMapping("baseNpc")
-    public String jumpBaseNpc(){
-        return "app/baseNpc/basenpc.html";
-    }
-
+    public String jumpBaseNpc(){ return "app/baseNpc/basenpc.html"; }
     @RequestMapping("baseNpc_add")
-    public String jumpBaseNpcAdd(){ return "app/baseNpc/basenpc-add.html"; }
+    public String jumpBaseNpcAdd(){ return "app/baseNpc/basenpc_add.html"; }
 }

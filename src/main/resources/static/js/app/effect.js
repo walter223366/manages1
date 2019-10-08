@@ -68,8 +68,8 @@ function add() {
                 return;
             }
             //var hp = hps();
-            var yellow = splices("add_hpYellow1","add_hpYellow2","add_hpYellow3");
-            alert(yellow);
+            //var iframeWin = window[layero.find('iframe')[0]['name']];
+            alert(iframeWin);
             aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset();

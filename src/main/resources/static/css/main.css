@@ -594,6 +594,9 @@ button[disabled="true"]{
 .btnc{
     background-color: #5FB878
 }
+.btncc{
+    background-color: #9F9F9F;
+}
 .layLeng{width: 410px;}
 .inLeng{width: 260px}
 .buLeng{width: 120px}
