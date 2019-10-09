@@ -87,7 +87,7 @@ function edit(data) {
     });
 }
 function editOpen(){
-    var content = splictUrl+"/system/account_update";
+    var content = splictUrl+"/system/accountUpdate";
     var edit = sessionStorage.getItem("edit");
     var obj = JSON.parse(edit);
     alert(edit);
@@ -97,7 +97,7 @@ function editOpen(){
     $("#edit_source").val(String(obj.source));
     layui.form.render("select");
     layerOpen(2, "编辑", content, 950, 500, "立即提交", "重置",
-        function () {
+        function (index, layero) {
             var params = {
                 id: $("#edit_id").val(),
                 account: $("#edit_account").val(),

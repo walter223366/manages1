@@ -31,109 +31,137 @@ function pagingQuery() {
 
 function cleanUp() {
     $("#query_name").val('');
-    $("#query_target").val("");
+    $("#query_target").val('');
     layui.form.render("select");
     pagingQuery();
 }
 
 
 function add() {
-    addReset();
-    var content = splictUrl + "/system/effect_add";
+    var params = {};
+    var content = [splictUrl + '/system/effectAdd', 'no'];
     layerOpen(2, "新增", content, 1200, 650, "立即提交", "重置",
-        function () {
-            var params = {
-                name: $("#add_name").val(),
-                target: Number($("#add_target").val()),
-                hp: Number($("#add_hp").val()),
-                Aggressivity: Number($("#add_aggressivity").val()),
-                Defense: Number($("#add_defense").val()),
-                burst: Number($("#add_burst").val()),
-                injury: Number($("#add_injury").val()),
-                internal_injury: Number($("#add_internal_injury").val()),
-                poisoning: Number($("#add_poisoning").val()),
-                stun: Number($("#add_stun").val()),
-                dodge: Number($("#add_dodge").val()),
-                hit_rate: Number($("#add_hit_rate").val()),
-                crit_rate: Number($("#add_crit_rate").val()),
-                suck_HP: Number($("#add_suck_HP").val()),
-                /*suck_mp_yellow: $("#add_suck_mp_yellow").val(),
-                suck_mp_gold: $("#add_suck_mp_gold").val(),
-                suck_mp_green: $("#add_suck_mp_green").val(),
-                suck_mp_blue: $("#add_suck_mp_blue").val(),
-                suck_mp_purple: $("#add_suck_mp_purple").val(),*/
-                info: $("#add_info").val()
-            };
+        function (index, layero) {
+            params.name = getVal(layero, "add_name");
+            params.target = getVal(layero, "add_target");
+            params.hp = Number(getVal(layero, "add_hp"));
+            params.Aggressivity = Number(getVal(layero, "add_aggressivity"));
+            params.Defense = Number(getVal(layero, "add_defense"));
+            params.burst = Number(getVal(layero, "add_burst"));
+            params.injury = Number(getVal(layero, "add_injury"));
+            params.internal_injury = Number(getVal(layero, "add_internal_injury"));
+            params.poisoning = Number(getVal(layero, "add_poisoning"));
+            params.stun = Number(getVal(layero, "add_stun"));
+            params.dodge = Number(getVal(layero, "add_dodge"));
+            params.hit_rate = Number(getVal(layero, "add_hit_rate"));
+            params.crit_rate = Number(getVal(layero, "add_crit_rate"));
+            params.suck_HP = Number(getVal(layero, "add_suck_HP"));
+            params.info = getVal(layero, "add_info");
             if (verIf(params) === false) {
                 return;
             }
-            //var hp = hps();
-            //var iframeWin = window[layero.find('iframe')[0]['name']];
-            alert(iframeWin);
+            var hp = sessionStorage.getItem("hp");
+            var hpObj = JSON.parse(hp);
+            if (hpObj != null) {
+                params.mp_yellow = hpObj.mp_yellow;
+                params.mp_gold = hpObj.mp_gold;
+                params.mp_green = hpObj.mp_green;
+                params.mp_blue = hpObj.mp_blue;
+                params.mp_purple = hpObj.mp_purple;
+            }
+            var suck = sessionStorage.getItem("suck");
+            var suckObj = JSON.parse(suck);
+            if (suckObj != null) {
+                params.suck_mp_yellow = suckObj.suck_mp_yellow;
+                params.suck_mp_gold = suckObj.suck_mp_gold;
+                params.suck_mp_green = suckObj.suck_mp_green;
+                params.suck_mp_blue = suckObj.suck_mp_blue;
+                params.suck_mp_purple = suckObj.suck_mp_purple;
+            }
+            sessionStorage.removeItem("hp");
+            sessionStorage.removeItem("suck");
             aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
-            addReset();
+            addReset(layero);
         });
 }
-
-function hpInfo() {
-    var content = $("#hpInfo");
+function aHpInfo() {
+    var content = $("#aHpInfo");
     layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置",
-        function () {
-            var hp = {
-                mp_yellow: splices("add_hpYellow1", "add_hpYellow2", "add_hpYellow3"),
-                mp_gold: splices("add_hpGold1", "add_hpGold2", "add_hpGold3"),
-                mp_green: splices("add_hpGreen1", "add_hpGreen2", "add_hpGreen3"),
-                mp_blue: splices("add_hpBlue1", "add_hpBlue2", "add_hpBlue3"),
-                mp_purple: splices("add_hpPurple1", "add_hpPurple2", "add_hpPurple3")
-            };
-            alert(hp.mp_yellow);
-            content.hide();layer.closeAll();
-        }, function () {
-            cleanHpInfo();
+        function (index, layero) {
+            var hp = {};
+            hp.mp_yellow = splices("add_hpYellow1", "add_hpYellow2", "add_hpYellow3");
+            hp.mp_gold = splices("add_hpGold1", "add_hpGold2", "add_hpGold3");
+            hp.mp_green = splices("add_hpGreen1", "add_hpGreen2", "add_hpGreen3");
+            hp.mp_blue = splices("add_hpBlue1", "add_hpBlue2", "add_hpBlue3");
+            hp.mp_purple = splices("add_hpPurple1", "add_hpPurple2", "add_hpPurple3");
+            sessionStorage.setItem("hp", JSON.stringify(hp));
+            content.hide();
+            layer.closeAll();
+        }, function (index, layero) {
+            document.getElementById("add_hpYellow1").value = '';
+            document.getElementById("add_hpYellow2").value = '';
+            document.getElementById("add_hpYellow3").value = '';
+            document.getElementById("add_hpGold1").value = '';
+            document.getElementById("add_hpGold2").value = '';
+            document.getElementById("add_hpGold3").value = '';
+            document.getElementById("add_hpGreen1").value = '';
+            document.getElementById("add_hpGreen2").value = '';
+            document.getElementById("add_hpGreen3").value = '';
+            document.getElementById("add_hpBlue1").value = '';
+            document.getElementById("add_hpBlue2").value = '';
+            document.getElementById("add_hpBlue3").value = '';
+            document.getElementById("add_hpPurple1").value = '';
+            document.getElementById("add_hpPurple2").value = '';
+            document.getElementById("add_hpPurple3").value = '';
         });
 }
-
-function suckInfo() {
-    var content = $("#suckInfo");
-    layerOpen(1, "吸血色球影响", content, 900, 400, "确定", "重置",
-        function () {
-            var suck = {
-                mp_yellow: splices("add_suckYellow1", "add_suckYellow2", "add_suckYellow3"),
-                mp_gold: splices("add_suckGold1", "add_suckGold2", "add_suckGold3"),
-                mp_green: splices("add_suckGreen1", "add_suckGreen2", "add_suckGreen3"),
-                mp_blue: splices("add_suckBlue1", "add_suckBlue2", "add_suckBlue3"),
-                mp_purple: splices("add_suckPurple1", "add_suckPurple2", "add_suckPurple3")
-            };
-        }, function () {
-            cleanSuckInfo();
+function aSuckInfo() {
+    var content = $("#aSuckInfo");
+    layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置",
+        function (index, layero) {
+            var suck = {};
+            suck.suck_mp_yellow = splices("add_suckYellow1", "add_suckYellow2", "add_suckYellow3");
+            suck.suck_mp_gold = splices("add_suckGold1", "add_suckGold2", "add_suckGold3");
+            suck.suck_mp_green = splices("add_suckGreen1", "add_suckGreen2", "add_suckGreen3");
+            suck.suck_mp_blue = splices("add_suckBlue1", "add_suckBlue2", "add_suckBlue3");
+            suck.suck_mp_purple = splices("add_suckPurple1", "add_suckPurple2", "add_suckPurple3");
+            sessionStorage.setItem("suck", JSON.stringify(suck));
+            content.hide();
+            layer.closeAll();
+        }, function (index, layero) {
+            document.getElementById("add_suckYellow1").value = '';
+            document.getElementById("add_suckYellow2").value = '';
+            document.getElementById("add_suckYellow3").value = '';
+            document.getElementById("add_suckGold1").value = '';
+            document.getElementById("add_suckGold2").value = '';
+            document.getElementById("add_suckGold3").value = '';
+            document.getElementById("add_suckGreen1").value = '';
+            document.getElementById("add_suckGreen2").value = '';
+            document.getElementById("add_suckGreen3").value = '';
+            document.getElementById("add_suckBlue1").value = '';
+            document.getElementById("add_suckBlue2").value = '';
+            document.getElementById("add_suckBlue3").value = '';
+            document.getElementById("add_suckPurple1").value = '';
+            document.getElementById("add_suckPurple2").value = '';
+            document.getElementById("add_suckPurple3").value = '';
         });
 }
-function addReset() {
-    $("#add_name").val('');
-    $("#add_hp").val('');
-    $("#add_mp_yellow").val('');
-    $("#add_mp_gold").val('');
-    $("#add_mp_green").val('');
-    $("#add_mp_blue").val('');
-    $("#add_mp_purple").val('');
-    $("#add_aggressivity").val('');
-    $("#add_defense").val('');
-    $("#add_burst").val('');
-    $("#add_injury").val('');
-    $("#add_internal_injury").val('');
-    $("#add_poisoning").val('');
-    $("#add_stun").val('');
-    $("#add_dodge").val('');
-    $("#add_hit_rate").val('');
-    $("#add_crit_rate").val('');
-    $("#add_suck_HP").val('');
-    $("#add_suck_mp_yellow").val('');
-    $("#add_suck_mp_gold").val('');
-    $("#add_suck_mp_green").val('');
-    $("#add_suck_mp_blue").val('');
-    $("#add_suck_mp_purple").val('');
-    $("#add_info").val('');
+function addReset(layero) {
+    cleanVal(layero,"add_name");
+    cleanVal(layero,"add_hp");
+    cleanVal(layero,"add_aggressivity");
+    cleanVal(layero,"add_defense");
+    cleanVal(layero,"add_burst");
+    cleanVal(layero,"add_injury");
+    cleanVal(layero,"add_internal_injury");
+    cleanVal(layero,"add_poisoning");
+    cleanVal(layero,"add_stun");
+    cleanVal(layero,"add_dodge");
+    cleanVal(layero,"add_hit_rate");
+    cleanVal(layero,"add_crit_rate");
+    cleanVal(layero,"add_suck_HP");
+    cleanVal(layero,"add_info");
 }
 
 
@@ -165,22 +193,25 @@ function see(data) {
     document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
     layerOpen(1, "查看详情", content, 1050, 500, "明白了", "关闭",
-        function () {
-            content.hide();layer.closeAll();
-        }, function () {
-            content.hide();layer.closeAll();
+        function (index, layero) {
+            content.hide();
+            layer.closeAll();
+        }, function (index, layero) {
+            content.hide();
+            layer.closeAll();
         });
 }
 
 
 function edit(data) {
     var params = {name: data.name};
+    var content = [splictUrl + '/system/effectUpdate', 'no'];
     postRequest(params, manages, eQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
-                document.getElementById("edit_effect_id").value = isNull(obj.effect_id);
+                /*document.getElementById("edit_effect_id").value = isNull(obj.effect_id);
                 document.getElementById("edit_name").value = isNull(obj.name);
                 document.getElementById("edit_hp").value = isNull(obj.hp);
                 document.getElementById("edit_mp_yellow").value = isNull(obj.mp_yellow);
@@ -206,10 +237,22 @@ function edit(data) {
                 document.getElementById("edit_suck_mp_purple").value = isNull(obj.suck_mp_purple);
                 document.getElementById("edit_info").value = isNull(obj.info);
                 $("#edit_target").val(String(obj.target));
-                layui.form.render("select");
-                var content = $("#editInfo");
-                layerOpen(1,"编辑", content, 1200, 650,"立即提交","重置",
-                    function () {
+                layui.form.render("select");*/
+                //$(layero).find("iframe")[0].contentWindow.document.getElementById("edit_name").value = obj.name;
+                alert(obj.name);
+                layerOpen(2,"编辑", content, 1200, 650,"立即提交","重置",
+                    function (index, layero) {
+                        var body = layer.getChildFrame('body', index);
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                        console.log(body.html()); //得到iframe页的body内容
+                        body.find('#edit_name').val('Hi，我是从父页来的');
+
+                        //alert(obj.name);
+                        //var pIframe = $('iframe')[0].contentWindow.document;
+                        //$(pIframe).find("#edit_name").val(obj.name);
+
+                            //body.contents().find("#edit_name").val(obj.name);
+                        alert(obj.name);
                         var params = {
                             effect_id: $("#edit_effect_id").val(),
                             name: $("#edit_name").val(),
@@ -285,40 +328,4 @@ function verIf(params) {
         return false;
     }
     return true;
-}
-
-function cleanHpInfo() {
-    $("#add_hpYellow1").val('');
-    $("#add_hpYellow2").val('');
-    $("#add_hpYellow3").val('');
-    $("#add_hpGold1").val('');
-    $("#add_hpGold2").val('');
-    $("#add_hpGold3").val('');
-    $("#add_hpGreen1").val('');
-    $("#add_hpGreen2").val('');
-    $("#add_hpGreen3").val('');
-    $("#add_hpBlue1").val('');
-    $("#add_hpBlue2").val('');
-    $("#add_hpBlue3").val('');
-    $("#add_hpPurple1").val('');
-    $("#add_hpPurple2").val('');
-    $("#add_hpPurple3").val('');
-}
-
-function cleanSuckInfo() {
-    $("#add_suckYellow1").val('');
-    $("#add_suckYellow2").val('');
-    $("#add_suckYellow3").val('');
-    $("#add_suckGold1").val('');
-    $("#add_suckGold2").val('');
-    $("#add_suckGold3").val('');
-    $("#add_suckGreen1").val('');
-    $("#add_suckGreen2").val('');
-    $("#add_suckGreen3").val('');
-    $("#add_suckBlue1").val('');
-    $("#add_suckBlue2").val('');
-    $("#add_suckBlue3").val('');
-    $("#add_suckPurple1").val('');
-    $("#add_suckPurple2").val('');
-    $("#add_suckPurple3").val('');
 }

@@ -18,7 +18,7 @@ public class JumpController {
 
     @RequestMapping("account")
     public String jumpAccount(){ return "app/account/account.html"; }
-    @RequestMapping("account_update")
+    @RequestMapping("accountUpdate")
     public String jumpAccountUpdate(){ return "app/account/account_update.html";}
 
     @RequestMapping("school")
@@ -26,8 +26,11 @@ public class JumpController {
 
     @RequestMapping("effect")
     public String jumpEffect(){ return "app/effect/effect.html"; }
-    @RequestMapping("effect_add")
+    @RequestMapping("effectAdd")
     public String jumpEffectAdd(){ return "app/effect/effect_add.html"; }
+    @RequestMapping("effectUpdate")
+    public String jumpEffectUpdate(){ return "app/effect/effect_update.html"; }
+
 
     @RequestMapping("move")
     public String jumpMove(){ return "app/move.html"; }
@@ -43,6 +46,6 @@ public class JumpController {
 
     @RequestMapping("baseNpc")
     public String jumpBaseNpc(){ return "app/baseNpc/basenpc.html"; }
-    @RequestMapping("baseNpc_add")
+    @RequestMapping("baseNpcAdd")
     public String jumpBaseNpcAdd(){ return "app/baseNpc/basenpc_add.html"; }
 }

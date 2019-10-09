@@ -2,7 +2,7 @@ charset="utf-8";
 manages="baseNpc";
 expNum=100;//TODO 暂时为1等级为100经验值
 attNum=5;//TODO 1等级5点属性值
-addUrl=splictUrl+"/system/baseNpc_add";
+addUrl=splictUrl+"/system/baseNpcAdd";
 $(function(){
     pagingQuery();
 });
@@ -80,6 +80,7 @@ function add() {
                 kongFu: JSON.parse(kongFu),
                 weapon: JSON.parse(weapon)
             };
+            alert(JSON.stringify(params));
             aaUp(params, manages, "insert", "新增", pagingQuery)
         }, function (index, layero) {
             addReset();

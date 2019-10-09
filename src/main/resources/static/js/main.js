@@ -175,6 +175,12 @@ function x_admin_close() {
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
 }
+function getVal(layero,id) {
+    return $(layero).find("iframe")[0].contentWindow.document.getElementById(id).value;
+}
+function cleanVal(layero,id) {
+    $(layero).find("iframe")[0].contentWindow.document.getElementById(id).value = '';
+}
 function isJSON(str) {
     try {
         JSON.parse(str);
@@ -225,6 +231,35 @@ function layerOpen(type,title,content,width,height,btn1,btn2,callback,reset) {
         shade: 0.4,
         title: title,
         content: content,
+        yes: function (index,layero) {
+            if (typeof callback === "function") {
+                callback(index,layero);
+            }
+        },
+        btn2: function (index,layero) {
+            if (typeof reset === "function") {
+                reset(index, layero);
+            }
+            return false;
+        }
+    });
+}
+function parentOpen(title,content,width,height) {
+    if (url === null || url === '') {
+        url = "/manages/system/404";
+    }
+    window.parent.layer.getChildFrame({
+        type: 2,
+        offset: "auto",
+        id: 'layerDemo' + 'auto',
+        area: [width + 'px', height + 'px'],
+        fix: false,
+        maxmin: true,
+        shadeClose: true,
+        btn: ["立即提交", "重置"],
+        shade: 0.4,
+        title: title,
+        content: content,
         yes: function (layero,index) {
             if (typeof callback === "function") {
                 callback(layero,index);
@@ -235,25 +270,6 @@ function layerOpen(type,title,content,width,height,btn1,btn2,callback,reset) {
                 reset(index, layero);
             }
             return false;
-        }
-    });
-}
-function layerSeeOpen(title,content,width,height) {
-    layer.open({
-        type: 1,
-        offset: "auto",
-        id: 'layerDemo' + 'auto',
-        area: [width + 'px', height + 'px'],
-        fix: false,
-        maxmin: true,
-        shadeClose: true,
-        btn: ['明白了'],
-        shade: 0.4,
-        title: title,
-        content: content,
-        yes: function () {
-            content.hide();
-            layer.closeAll();
         }
     });
 }
@@ -405,8 +421,8 @@ function mSelection(selectId){
 function lSelection(selectId){
     layui.form.render("select");
 }
-function splices(a,b,c){
-    return Number($("#"+a).val())+","+Number($("#"+b).val())+","+Number($("#"+c).val());
+function splices(id1,id2,id3){
+    return Number($("#"+id1).val())+","+Number($("#"+id2).val())+","+Number($("#"+id3).val());
 }
 function calAttr(level,num,elementId){
     var attributes = level*num;
