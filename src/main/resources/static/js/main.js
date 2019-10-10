@@ -181,6 +181,24 @@ function getVal(layero,id) {
 function cleanVal(layero,id) {
     $(layero).find("iframe")[0].contentWindow.document.getElementById(id).value = '';
 }
+function editVal(layero,id,par) {
+    var body = layer.getChildFrame('body', layero);
+    body.contents().find("#"+id).val(isNull(par));
+}
+function mergeVal(id) {
+    var obj = "#";
+    var a = obj + id + 1, b = obj + id + 2, c = obj + id + 3;
+    return Number($(a).val()) + "," + Number($(b).val()) + "," + Number($(c).val());
+}
+function clearValue(ids) {
+    var obj = ids.split(",");
+    for (var i = 0; i < obj.length; i++) {
+        for (var j = 1; j < 4; j++) {
+            var id = obj[i] + j;
+            document.getElementById(id).value = '';
+        }
+    }
+}
 function isJSON(str) {
     try {
         JSON.parse(str);
@@ -190,7 +208,7 @@ function isJSON(str) {
     }
 }
 function isNull(str) {
-    if (str === null || str ==="undefined" || str === "null" || str === "" ) {
+    if (str === null || str === "undefined" || str === "null" || str === "") {
         return "";
     } else {
         return str;
@@ -215,7 +233,7 @@ function postRequest(params,manages,method,callback) {
         }
     });
 }
-function layerOpen(type,title,content,width,height,btn1,btn2,callback,reset) {
+function layerOpen(type,title,content,width,height,btn1,btn2,success,callback,reset) {
     if (url === null || url === '') {
         url = "/manages/system/404";
     }
@@ -231,38 +249,14 @@ function layerOpen(type,title,content,width,height,btn1,btn2,callback,reset) {
         shade: 0.4,
         title: title,
         content: content,
-        yes: function (index,layero) {
-            if (typeof callback === "function") {
-                callback(index,layero);
+        success: function (index, layero) {
+            if (typeof success === "function") {
+                success(index, layero);
             }
         },
-        btn2: function (index,layero) {
-            if (typeof reset === "function") {
-                reset(index, layero);
-            }
-            return false;
-        }
-    });
-}
-function parentOpen(title,content,width,height) {
-    if (url === null || url === '') {
-        url = "/manages/system/404";
-    }
-    window.parent.layer.getChildFrame({
-        type: 2,
-        offset: "auto",
-        id: 'layerDemo' + 'auto',
-        area: [width + 'px', height + 'px'],
-        fix: false,
-        maxmin: true,
-        shadeClose: true,
-        btn: ["立即提交", "重置"],
-        shade: 0.4,
-        title: title,
-        content: content,
-        yes: function (layero,index) {
+        yes: function (index, layero) {
             if (typeof callback === "function") {
-                callback(layero,index);
+                callback(index, layero);
             }
         },
         btn2: function (index, layero) {
@@ -347,12 +341,12 @@ function pQue(params,manages,title,cole,add,edit,del,see,pagingQuery) {
     });
 }
 function aaUp(params,manages,method,res,pagingQuery) {
-    layer.confirm('请确认要'+res+'这条数据吗？', {
+    layer.confirm('请确认要' + res + '这条数据吗？', {
             btn: ['确定', '取消']
         }, function () {
             postRequest(params, manages, method, function (data) {
                 if (data.code === "0" && data.result === "SUCCESS") {
-                    layer.msg(res+"成功");
+                    layer.msg(res + "成功");
                     pagingQuery();
                 } else {
                     layer.msg(data.msg, {icon: 2});
@@ -418,14 +412,15 @@ function downBox(method,id,selectId,mlSelection) {
 function mSelection(selectId){
     layui.formSelects.config(selectId,{direction:'down'});
 }
-function lSelection(selectId){
+function lSelection(selectId) {
     layui.form.render("select");
 }
-function splices(id1,id2,id3){
-    return Number($("#"+id1).val())+","+Number($("#"+id2).val())+","+Number($("#"+id3).val());
+
+function cost(yellow,gold,green,blue,purple) {
+    return yellow + "," + gold + "," + green + "," + blue + "," + purple;
 }
-function calAttr(level,num,elementId){
-    var attributes = level*num;
+function calAttr(level,num,elementId) {
+    var attributes = level * num;
     document.getElementById(elementId).value = isNull(attributes);
     return attributes;
 }

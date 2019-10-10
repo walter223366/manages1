@@ -4,7 +4,6 @@ $(function(){
     pagingQuery()
 });
 
-
 function pagingQuery() {
     $("#dataInfo").empty();
     var params = {};
@@ -28,7 +27,6 @@ function pagingQuery() {
     pQue(params, manages, "效果管理", cole, add, edit, del, see, pagingQuery);
 }
 
-
 function cleanUp() {
     $("#query_name").val('');
     $("#query_target").val('');
@@ -36,12 +34,11 @@ function cleanUp() {
     pagingQuery();
 }
 
-
 function add() {
-    var params = {};
     var content = [splictUrl + '/system/effectAdd', 'no'];
-    layerOpen(2, "新增", content, 1200, 650, "立即提交", "重置",
+    layerOpen(2, "新增", content, 1200, 650, "立即提交", "重置", "",
         function (index, layero) {
+            var params = {};
             params.name = getVal(layero, "add_name");
             params.target = getVal(layero, "add_target");
             params.hp = Number(getVal(layero, "add_hp"));
@@ -57,233 +54,191 @@ function add() {
             params.crit_rate = Number(getVal(layero, "add_crit_rate"));
             params.suck_HP = Number(getVal(layero, "add_suck_HP"));
             params.info = getVal(layero, "add_info");
-            if (verIf(params) === false) {
+            if (verIfy(params) === false) {
                 return;
             }
-            var hp = sessionStorage.getItem("hp");
-            var hpObj = JSON.parse(hp);
-            if (hpObj != null) {
-                params.mp_yellow = hpObj.mp_yellow;
-                params.mp_gold = hpObj.mp_gold;
-                params.mp_green = hpObj.mp_green;
-                params.mp_blue = hpObj.mp_blue;
-                params.mp_purple = hpObj.mp_purple;
+            var hp = JSON.parse(sessionStorage.getItem("ahp"));
+            if (hp != null) {
+                params.mp_yellow = hp.mp_yellow;
+                params.mp_gold = hp.mp_gold;
+                params.mp_green = hp.mp_green;
+                params.mp_blue = hp.mp_blue;
+                params.mp_purple = hp.mp_purple;
             }
-            var suck = sessionStorage.getItem("suck");
-            var suckObj = JSON.parse(suck);
-            if (suckObj != null) {
-                params.suck_mp_yellow = suckObj.suck_mp_yellow;
-                params.suck_mp_gold = suckObj.suck_mp_gold;
-                params.suck_mp_green = suckObj.suck_mp_green;
-                params.suck_mp_blue = suckObj.suck_mp_blue;
-                params.suck_mp_purple = suckObj.suck_mp_purple;
+            var suck = JSON.parse(sessionStorage.getItem("amp"));
+            if (suck != null) {
+                params.suck_mp_yellow = suck.suck_mp_yellow;
+                params.suck_mp_gold = suck.suck_mp_gold;
+                params.suck_mp_green = suck.suck_mp_green;
+                params.suck_mp_blue = suck.suck_mp_blue;
+                params.suck_mp_purple = suck.suck_mp_purple;
             }
-            sessionStorage.removeItem("hp");
-            sessionStorage.removeItem("suck");
+            sessionStorage.removeItem("ahp");
+            sessionStorage.removeItem("amp");
             aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset(layero);
         });
 }
+
 function aHpInfo() {
     var content = $("#aHpInfo");
-    layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置",
+    layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置", "",
         function (index, layero) {
             var hp = {};
-            hp.mp_yellow = splices("add_hpYellow1", "add_hpYellow2", "add_hpYellow3");
-            hp.mp_gold = splices("add_hpGold1", "add_hpGold2", "add_hpGold3");
-            hp.mp_green = splices("add_hpGreen1", "add_hpGreen2", "add_hpGreen3");
-            hp.mp_blue = splices("add_hpBlue1", "add_hpBlue2", "add_hpBlue3");
-            hp.mp_purple = splices("add_hpPurple1", "add_hpPurple2", "add_hpPurple3");
-            sessionStorage.setItem("hp", JSON.stringify(hp));
-            content.hide();
+            hp.mp_yellow = mergeVal("add_hpYellow");
+            hp.mp_gold = mergeVal("add_hpGold");
+            hp.mp_green = mergeVal("add_hpGreen");
+            hp.mp_blue = mergeVal("add_hpBlue");
+            hp.mp_purple = mergeVal("add_hpPurple");
+            sessionStorage.setItem("ahp", JSON.stringify(hp));
             layer.closeAll();
         }, function (index, layero) {
-            document.getElementById("add_hpYellow1").value = '';
-            document.getElementById("add_hpYellow2").value = '';
-            document.getElementById("add_hpYellow3").value = '';
-            document.getElementById("add_hpGold1").value = '';
-            document.getElementById("add_hpGold2").value = '';
-            document.getElementById("add_hpGold3").value = '';
-            document.getElementById("add_hpGreen1").value = '';
-            document.getElementById("add_hpGreen2").value = '';
-            document.getElementById("add_hpGreen3").value = '';
-            document.getElementById("add_hpBlue1").value = '';
-            document.getElementById("add_hpBlue2").value = '';
-            document.getElementById("add_hpBlue3").value = '';
-            document.getElementById("add_hpPurple1").value = '';
-            document.getElementById("add_hpPurple2").value = '';
-            document.getElementById("add_hpPurple3").value = '';
+            clearValue("add_hpYellow,add_hpGold,add_hpGreen,add_hpBlue,add_hpPurple");
         });
 }
+
 function aSuckInfo() {
     var content = $("#aSuckInfo");
-    layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置",
+    layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置", "",
         function (index, layero) {
             var suck = {};
-            suck.suck_mp_yellow = splices("add_suckYellow1", "add_suckYellow2", "add_suckYellow3");
-            suck.suck_mp_gold = splices("add_suckGold1", "add_suckGold2", "add_suckGold3");
-            suck.suck_mp_green = splices("add_suckGreen1", "add_suckGreen2", "add_suckGreen3");
-            suck.suck_mp_blue = splices("add_suckBlue1", "add_suckBlue2", "add_suckBlue3");
-            suck.suck_mp_purple = splices("add_suckPurple1", "add_suckPurple2", "add_suckPurple3");
-            sessionStorage.setItem("suck", JSON.stringify(suck));
-            content.hide();
+            suck.suck_mp_yellow = mergeVal("add_suckYellow");
+            suck.suck_mp_gold = mergeVal("add_suckGold");
+            suck.suck_mp_green = mergeVal("add_suckGreen");
+            suck.suck_mp_blue = mergeVal("add_suckBlue");
+            suck.suck_mp_purple = mergeVal("add_suckPurple");
+            sessionStorage.setItem("amp", JSON.stringify(suck));
             layer.closeAll();
         }, function (index, layero) {
-            document.getElementById("add_suckYellow1").value = '';
-            document.getElementById("add_suckYellow2").value = '';
-            document.getElementById("add_suckYellow3").value = '';
-            document.getElementById("add_suckGold1").value = '';
-            document.getElementById("add_suckGold2").value = '';
-            document.getElementById("add_suckGold3").value = '';
-            document.getElementById("add_suckGreen1").value = '';
-            document.getElementById("add_suckGreen2").value = '';
-            document.getElementById("add_suckGreen3").value = '';
-            document.getElementById("add_suckBlue1").value = '';
-            document.getElementById("add_suckBlue2").value = '';
-            document.getElementById("add_suckBlue3").value = '';
-            document.getElementById("add_suckPurple1").value = '';
-            document.getElementById("add_suckPurple2").value = '';
-            document.getElementById("add_suckPurple3").value = '';
+            clearValue("add_suckYellow,add_suckGold,add_suckGreen,add_suckBlue,add_suckPurple");
         });
 }
+
 function addReset(layero) {
-    cleanVal(layero,"add_name");
-    cleanVal(layero,"add_hp");
-    cleanVal(layero,"add_aggressivity");
-    cleanVal(layero,"add_defense");
-    cleanVal(layero,"add_burst");
-    cleanVal(layero,"add_injury");
-    cleanVal(layero,"add_internal_injury");
-    cleanVal(layero,"add_poisoning");
-    cleanVal(layero,"add_stun");
-    cleanVal(layero,"add_dodge");
-    cleanVal(layero,"add_hit_rate");
-    cleanVal(layero,"add_crit_rate");
-    cleanVal(layero,"add_suck_HP");
-    cleanVal(layero,"add_info");
+    cleanVal(layero, "add_name");
+    cleanVal(layero, "add_hp");
+    cleanVal(layero, "add_aggressivity");
+    cleanVal(layero, "add_defense");
+    cleanVal(layero, "add_burst");
+    cleanVal(layero, "add_injury");
+    cleanVal(layero, "add_internal_injury");
+    cleanVal(layero, "add_poisoning");
+    cleanVal(layero, "add_stun");
+    cleanVal(layero, "add_dodge");
+    cleanVal(layero, "add_hit_rate");
+    cleanVal(layero, "add_crit_rate");
+    cleanVal(layero, "add_suck_HP");
+    cleanVal(layero, "add_info");
 }
 
-
 function see(data) {
-    document.getElementById("see_name").value = isNull(data.name);
-    document.getElementById("see_target").value = isNull(data.target);
-    document.getElementById("see_hp").value = isNull(data.hp);
-    document.getElementById("see_mp_yellow").value = isNull(data.mp_yellow);
-    document.getElementById("see_mp_gold").value = isNull(data.mp_gold);
-    document.getElementById("see_mp_green").value = isNull(data.mp_green);
-    document.getElementById("see_mp_blue").value = isNull(data.mp_blue);
-    document.getElementById("see_mp_purple").value = isNull(data.mp_purple);
-    document.getElementById("see_aggressivity").value = isNull(data.Aggressivity);
-    document.getElementById("see_defense").value = isNull(data.Defense);
-    document.getElementById("see_burst").value = isNull(data.burst);
-    document.getElementById("see_injury").value = isNull(data.injury);
-    document.getElementById("see_internal_injury").value = isNull(data.internal_injury);
-    document.getElementById("see_poisoning").value = isNull(data.poisoning);
-    document.getElementById("see_stun").value = isNull(data.stun);
-    document.getElementById("see_dodge").value = isNull(data.dodge);
-    document.getElementById("see_hit_rate").value = isNull(data.hit_rate);
-    document.getElementById("see_crit_rate").value = isNull(data.crit_rate);
-    document.getElementById("see_suck_HP").value = isNull(data.suck_HP);
-    document.getElementById("see_suck_mp_yellow").value = isNull(data.suck_mp_yellow);
-    document.getElementById("see_suck_mp_gold").value = isNull(data.suck_mp_gold);
-    document.getElementById("see_suck_mp_green").value = isNull(data.suck_mp_green);
-    document.getElementById("see_suck_mp_blue").value = isNull(data.suck_mp_blue);
-    document.getElementById("see_suck_mp_purple").value = isNull(data.suck_mp_purple);
-    document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
     layerOpen(1, "查看详情", content, 1050, 500, "明白了", "关闭",
         function (index, layero) {
-            content.hide();
+            document.getElementById("see_name").value = isNull(data.name);
+            document.getElementById("see_target").value = isNull(data.target);
+            document.getElementById("see_hp").value = isNull(data.hp);
+            document.getElementById("see_mp_yellow").value = isNull(data.mp_yellow);
+            document.getElementById("see_mp_gold").value = isNull(data.mp_gold);
+            document.getElementById("see_mp_green").value = isNull(data.mp_green);
+            document.getElementById("see_mp_blue").value = isNull(data.mp_blue);
+            document.getElementById("see_mp_purple").value = isNull(data.mp_purple);
+            document.getElementById("see_aggressivity").value = isNull(data.Aggressivity);
+            document.getElementById("see_defense").value = isNull(data.Defense);
+            document.getElementById("see_burst").value = isNull(data.burst);
+            document.getElementById("see_injury").value = isNull(data.injury);
+            document.getElementById("see_internal_injury").value = isNull(data.internal_injury);
+            document.getElementById("see_poisoning").value = isNull(data.poisoning);
+            document.getElementById("see_stun").value = isNull(data.stun);
+            document.getElementById("see_dodge").value = isNull(data.dodge);
+            document.getElementById("see_hit_rate").value = isNull(data.hit_rate);
+            document.getElementById("see_crit_rate").value = isNull(data.crit_rate);
+            document.getElementById("see_suck_HP").value = isNull(data.suck_HP);
+            document.getElementById("see_suck_mp_yellow").value = isNull(data.suck_mp_yellow);
+            document.getElementById("see_suck_mp_gold").value = isNull(data.suck_mp_gold);
+            document.getElementById("see_suck_mp_green").value = isNull(data.suck_mp_green);
+            document.getElementById("see_suck_mp_blue").value = isNull(data.suck_mp_blue);
+            document.getElementById("see_suck_mp_purple").value = isNull(data.suck_mp_purple);
+            document.getElementById("see_info").value = isNull(data.info);
+        }, function (index, layero) {
             layer.closeAll();
         }, function (index, layero) {
-            content.hide();
             layer.closeAll();
         });
 }
 
-
 function edit(data) {
     var params = {name: data.name};
-    var content = [splictUrl + '/system/effectUpdate', 'no'];
     postRequest(params, manages, eQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
-                /*document.getElementById("edit_effect_id").value = isNull(obj.effect_id);
-                document.getElementById("edit_name").value = isNull(obj.name);
-                document.getElementById("edit_hp").value = isNull(obj.hp);
-                document.getElementById("edit_mp_yellow").value = isNull(obj.mp_yellow);
-                document.getElementById("edit_mp_gold").value = isNull(obj.mp_gold);
-                document.getElementById("edit_mp_green").value = isNull(obj.mp_green);
-                document.getElementById("edit_mp_blue").value = isNull(obj.mp_blue);
-                document.getElementById("edit_mp_purple").value = isNull(obj.mp_purple);
-                document.getElementById("edit_aggressivity").value = isNull(obj.Aggressivity);
-                document.getElementById("edit_defense").value = isNull(obj.Defense);
-                document.getElementById("edit_burst").value = isNull(obj.burst);
-                document.getElementById("edit_injury").value = isNull(obj.injury);
-                document.getElementById("edit_internal_injury").value = isNull(obj.internal_injury);
-                document.getElementById("edit_poisoning").value = isNull(obj.poisoning);
-                document.getElementById("edit_stun").value = isNull(obj.stun);
-                document.getElementById("edit_dodge").value = isNull(obj.dodge);
-                document.getElementById("edit_hit_rate").value = isNull(obj.hit_rate);
-                document.getElementById("edit_crit_rate").value = isNull(obj.crit_rate);
-                document.getElementById("edit_suck_HP").value = isNull(obj.suck_HP);
-                document.getElementById("edit_suck_mp_yellow").value = isNull(obj.suck_mp_yellow);
-                document.getElementById("edit_suck_mp_gold").value = isNull(obj.suck_mp_gold);
-                document.getElementById("edit_suck_mp_green").value = isNull(obj.suck_mp_green);
-                document.getElementById("edit_suck_mp_blue").value = isNull(obj.suck_mp_blue);
-                document.getElementById("edit_suck_mp_purple").value = isNull(obj.suck_mp_purple);
-                document.getElementById("edit_info").value = isNull(obj.info);
-                $("#edit_target").val(String(obj.target));
-                layui.form.render("select");*/
-                //$(layero).find("iframe")[0].contentWindow.document.getElementById("edit_name").value = obj.name;
-                alert(obj.name);
-                layerOpen(2,"编辑", content, 1200, 650,"立即提交","重置",
+                var content = [splictUrl + '/system/effectUpdate', 'no'];
+                layerOpen(2, "编辑", content, 1200, 650, "立即提交", "重置",
                     function (index, layero) {
-                        var body = layer.getChildFrame('body', index);
-                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                        console.log(body.html()); //得到iframe页的body内容
-                        body.find('#edit_name').val('Hi，我是从父页来的');
-
-                        //alert(obj.name);
-                        //var pIframe = $('iframe')[0].contentWindow.document;
-                        //$(pIframe).find("#edit_name").val(obj.name);
-
-                            //body.contents().find("#edit_name").val(obj.name);
-                        alert(obj.name);
-                        var params = {
-                            effect_id: $("#edit_effect_id").val(),
-                            name: $("#edit_name").val(),
-                            target: Number($("#edit_target").val()),
-                            hp: Number($("#edit_hp").val()),
-                            mp_yellow: $("#edit_mp_yellow").val(),
-                            mp_gold: $("#edit_mp_gold").val(),
-                            mp_green: $("#edit_mp_green").val(),
-                            mp_blue: $("#edit_mp_blue").val(),
-                            mp_purple: $("#edit_mp_purple").val(),
-                            Aggressivity: Number($("#edit_aggressivity").val()),
-                            Defense: Number($("#edit_defense").val()),
-                            burst: Number($("#edit_burst").val()),
-                            injury: Number($("#edit_injury").val()),
-                            internal_injury: Number($("#edit_internal_injury").val()),
-                            poisoning: Number($("#edit_poisoning").val()),
-                            stun: Number($("#edit_stun").val()),
-                            dodge: Number($("#edit_dodge").val()),
-                            hit_rate: Number($("#edit_hit_rate").val()),
-                            crit_rate: Number($("#edit_crit_rate").val()),
-                            suck_HP: Number($("#edit_suck_HP").val()),
-                            suck_mp_yellow: $("#edit_suck_mp_yellow").val(),
-                            suck_mp_gold: $("#edit_suck_mp_gold").val(),
-                            suck_mp_green: $("#edit_suck_mp_green").val(),
-                            suck_mp_blue: $("#edit_suck_mp_blue").val(),
-                            suck_mp_purple: $("#edit_suck_mp_purple").val(),
-                            info: $("#edit_info").val()
-                        };
-                        eTransfer(params, manages, pagingQuery);
+                        editVal(layero, "edit_name", obj.name);
+                        editVal(layero, "edit_hp", obj.hp);
+                        editVal(layero, "edit_aggressivity", obj.Aggressivity);
+                        editVal(layero, "edit_defense", obj.Defense);
+                        editVal(layero, "edit_burst", obj.burst);
+                        editVal(layero, "edit_injury", obj.injury);
+                        editVal(layero, "edit_internal_injury", obj.internal_injury);
+                        editVal(layero, "edit_poisoning", obj.poisoning);
+                        editVal(layero, "edit_stun", obj.stun);
+                        editVal(layero, "edit_dodge", obj.dodge);
+                        editVal(layero, "edit_hit_rate", obj.hit_rate);
+                        editVal(layero, "edit_crit_rate", obj.crit_rate);
+                        editVal(layero, "edit_suck_HP", obj.suck_HP);
+                        editVal(layero, "edit_info", obj.info);
+                        editVal(layero, "edit_target", String(obj.target));
+                        layui.form.render("select");
+                        sessionStorage.setItem("obj", JSON.stringify(obj));
                     }, function (index, layero) {
-                        editReset();
+                        var body =  $(layero).find("iframe")[0].contentWindow;
+                        var params = {};
+                        params.effect_id = obj.effect_id;
+                        params.name = body.document.getElementById("edit_name").value;
+                        params.target = Number(body.document.getElementById("edit_target").value);
+                        params.hp = Number(body.document.getElementById("edit_hp").value);
+                        params.Aggressivity = Number(body.document.getElementById("edit_aggressivity").value);
+                        params.Defense = Number(body.document.getElementById("edit_defense").value);
+                        params.burst = Number(body.document.getElementById("edit_burst").value);
+                        params.injury = Number(body.document.getElementById("edit_injury").value);
+                        params.internal_injury = Number(body.document.getElementById("edit_internal_injury").value);
+                        params.poisoning = Number(body.document.getElementById("edit_poisoning").value);
+                        params.stun = Number(body.document.getElementById("edit_stun").value);
+                        params.dodge = Number(body.document.getElementById("edit_dodge").value);
+                        params.hit_rate = Number(body.document.getElementById("edit_hit_rate").value);
+                        params.crit_rate = Number(body.document.getElementById("edit_crit_rate").value);
+                        params.suck_HP = Number(body.document.getElementById("edit_suck_HP").value);
+                        params.info = body.document.getElementById("edit_info").value;
+                        if (verIfy(params) === false) {
+                            return;
+                        }
+                        var hp = JSON.parse(sessionStorage.getItem("ehp"));
+                        if (hp != null) {
+                            params.mp_yellow = hp.mp_yellow;
+                            params.mp_gold = hp.mp_gold;
+                            params.mp_green = hp.mp_green;
+                            params.mp_blue = hp.mp_blue;
+                            params.mp_purple = hp.mp_purple;
+                        }
+                        var suck = JSON.parse(sessionStorage.getItem("emp"));
+                        if (suck != null) {
+                            params.suck_mp_yellow = suck.suck_mp_yellow;
+                            params.suck_mp_gold = suck.suck_mp_gold;
+                            params.suck_mp_green = suck.suck_mp_green;
+                            params.suck_mp_blue = suck.suck_mp_blue;
+                            params.suck_mp_purple = suck.suck_mp_purple;
+                        }
+                        sessionStorage.setItem("obj", JSON.stringify(params));
+                        sessionStorage.removeItem("ehp");
+                        sessionStorage.removeItem("emp");
+                        aaUp(params, manages, update, "修改", pagingQuery)
+                    }, function (index, layero) {
+                        editReset(layero);
                     });
             }
         } else {
@@ -291,34 +246,123 @@ function edit(data) {
         }
     });
 }
-function editReset() {
-    $("#edit_hp").val('');
-    $("#edit_mp_yellow").val('');
-    $("#edit_mp_gold").val('');
-    $("#edit_mp_green").val('');
-    $("#edit_mp_blue").val('');
-    $("#edit_mp_purple").val('');
-    $("#edit_aggressivity").val('');
-    $("#edit_defense").val('');
-    $("#edit_burst").val('');
-    $("#edit_injury").val('');
-    $("#edit_internal_injury").val('');
-    $("#edit_poisoning").val('');
-    $("#edit_stun").val('');
-    $("#edit_dodge").val('');
-    $("#edit_hit_rate").val('');
-    $("#edit_crit_rate").val('');
-    $("#edit_suck_HP").val('');
-    $("#edit_suck_mp_yellow").val('');
-    $("#edit_suck_mp_gold").val('');
-    $("#edit_suck_mp_green").val('');
-    $("#edit_suck_mp_blue").val('');
-    $("#edit_suck_mp_purple").val('');
-    $("#edit_info").val('');
+
+function eHpInfo() {
+    var content = $("#eHpInfo");
+    layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置",
+        function (index, layero) {
+            var obj = JSON.parse(sessionStorage.getItem("obj"));
+            var yellow = obj.mp_yellow.split(",");
+            //assignmentValue(yellow,"edit_hpYellow");
+            document.getElementById("edit_hpYellow1").value = Number(yellow[0]);
+            document.getElementById("edit_hpYellow2").value = Number(yellow[1]);
+            document.getElementById("edit_hpYellow3").value = Number(yellow[2]);
+            var gold = obj.mp_gold.split(",");
+            //assignmentValue(gold,"edit_hpGold");
+            document.getElementById("edit_hpGold1").value = Number(gold[0]);
+            document.getElementById("edit_hpGold2").value = Number(gold[1]);
+            document.getElementById("edit_hpGold3").value = Number(gold[2]);
+            var green = obj.mp_green.split(",");
+            //assignmentValue(green,"edit_hpGreen");
+            document.getElementById("edit_hpGreen1").value = Number(green[0]);
+            document.getElementById("edit_hpGreen2").value = Number(green[1]);
+            document.getElementById("edit_hpGreen3").value = Number(green[2]);
+            var blue = obj.mp_blue.split(",");
+            //assignmentValue(blue,"edit_hpBlue");
+            document.getElementById("edit_hpBlue1").value = Number(blue[0]);
+            document.getElementById("edit_hpBlue2").value = Number(blue[1]);
+            document.getElementById("edit_hpBlue3").value = Number(blue[2]);
+            var purple = obj.mp_purple.split(",");
+            //assignmentValue(purple,"edit_hpPurple");
+            document.getElementById("edit_hpPurple1").value = Number(purple[0]);
+            document.getElementById("edit_hpPurple2").value = Number(purple[1]);
+            document.getElementById("edit_hpPurple3").value = Number(purple[2]);
+        }, function (index, layero) {
+            var hp = {};
+            hp.mp_yellow = mergeVal("edit_hpYellow");
+            hp.mp_gold = mergeVal("edit_hpGold");
+            hp.mp_green = mergeVal("edit_hpGreen");
+            hp.mp_blue = mergeVal("edit_hpBlue");
+            hp.mp_purple = mergeVal("edit_hpPurple");
+            sessionStorage.setItem("ehp", JSON.stringify(hp));
+            layer.closeAll();
+        }, function (index, layero) {
+            clearValue("edit_hpYellow,edit_hpGold,edit_hpGreen,edit_hpBlue,edit_hpPurple");
+        }
+    );
 }
 
+function eSuckInfo(){
+    var content = $("#eSuckInfo");
+    layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置",
+        function (index, layero) {
+            var obj = JSON.parse(sessionStorage.getItem("obj"));
+            var yellow = obj.suck_mp_yellow.split(",");
+            //assignmentValue(yellow,"edit_suckYellow");
+            document.getElementById("edit_suckYellow1").value = Number(yellow[0]);
+            document.getElementById("edit_suckYellow2").value = Number(yellow[1]);
+            document.getElementById("edit_suckYellow3").value = Number(yellow[2]);
+            var gold = obj.suck_mp_gold.split(",");
+            //assignmentValue(gold,"edit_suckGold");
+            document.getElementById("edit_suckGold1").value = Number(gold[0]);
+            document.getElementById("edit_suckGold2").value = Number(gold[1]);
+            document.getElementById("edit_suckGold3").value = Number(gold[2]);
+            var green = obj.suck_mp_green.split(",");
+            //assignmentValue(green,"edit_suckGreen");
+            document.getElementById("edit_suckGreen1").value = Number(green[0]);
+            document.getElementById("edit_suckGreen2").value = Number(green[1]);
+            document.getElementById("edit_suckGreen3").value = Number(green[2]);
+            var blue = obj.suck_mp_blue.split(",");
+            //assignmentValue(blue,"edit_suckBlue");
+            document.getElementById("edit_suckBlue1").value = Number(blue[0]);
+            document.getElementById("edit_suckBlue2").value = Number(blue[1]);
+            document.getElementById("edit_suckBlue3").value = Number(blue[2]);
+            var purple = obj.suck_mp_purple.split(",");
+            //assignmentValue(purple,"edit_suckPurple");
+            document.getElementById("edit_suckPurple1").value = Number(purple[0]);
+            document.getElementById("edit_suckPurple2").value = Number(purple[1]);
+            document.getElementById("edit_suckPurple3").value = Number(purple[2]);
+        }, function (index, layero) {
+            var suck = {};
+            suck.suck_mp_yellow = mergeVal("edit_suckYellow");
+            suck.suck_mp_gold = mergeVal("edit_suckGold");
+            suck.suck_mp_green = mergeVal("edit_suckGreen");
+            suck.suck_mp_blue = mergeVal("edit_suckBlue");
+            suck.suck_mp_purple = mergeVal("edit_suckPurple");
+            sessionStorage.setItem("emp", JSON.stringify(suck));
+            layer.closeAll();
+        }, function (index, layero) {
+            clearValue("edit_hpYellow,edit_hpGold,edit_hpGreen,edit_hpBlue,edit_hpPurple");
+        }
+    );
+}
 
-function verIf(params) {
+function assignmentValue(obj,id) {
+    alert(obj);
+    for(var i=0; i<4; i++){
+        var a = id+1+i;
+        alert(a);
+        document.getElementById(a).value = Number(obj[i]);
+    }
+}
+
+function editReset(layero) {
+    cleanVal(layero, "edit_hp");
+    cleanVal(layero, "edit_aggressivity");
+    cleanVal(layero, "edit_defense");
+    cleanVal(layero, "edit_burst");
+    cleanVal(layero, "edit_injury");
+    cleanVal(layero, "edit_internal_injury");
+    cleanVal(layero, "edit_poisoning");
+    cleanVal(layero, "edit_stun");
+    cleanVal(layero, "edit_dodge");
+    cleanVal(layero, "edit_hit_rate");
+    cleanVal(layero, "edit_crit_rate");
+    cleanVal(layero, "edit_suck_HP");
+    cleanVal(layero, "edit_info");
+}
+
+function verIfy(params) {
     if (params.name === null || params.name === "") {
         layer.msg("效果名称不能为空", {icon: 2});
         return false;

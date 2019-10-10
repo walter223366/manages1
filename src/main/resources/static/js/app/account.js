@@ -4,7 +4,6 @@ $(function(){
     pagingQuery();
 });
 
-
 function pagingQuery() {
     $("#dataInfo").empty();
     var params = {};
@@ -26,7 +25,6 @@ function pagingQuery() {
     pQue(params, manages, "账号管理", cole, add, edit, del, see, pagingQuery);
 }
 
-
 function cleanUp() {
     $("#query_account").val('');
     $("#query_tellPhone").val('');
@@ -37,19 +35,17 @@ function cleanUp() {
     pagingQuery();
 }
 
-
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen(1, "新增", content, 800, 450, "立即提交", "重置",
-        function () {
-            var params = {
-                account: $("#add_account").val(),
-                tellphone: Number($("#add_tellPhone").val()),
-                password: $("#add_password").val(),
-                source: Number($("#add_source").val())
-            };
-            if (verIf(params) === false) {
+    layerOpen(1, "新增", content, 800, 450, "立即提交", "重置", "",
+        function (index, layero) {
+            var params = {};
+            params.account = $("#add_account").val();
+            params.tellphone = Number($("#add_tellPhone").val());
+            params.password = $("#add_password").val();
+            params.source = Number($("#add_source").val());
+            if (verIfy(params) === false) {
                 return;
             }
             layer.msg("暂时无法新增用户账号，请至微信公众号进行注册账号");
@@ -58,6 +54,7 @@ function add() {
             addReset();
         });
 }
+
 function addReset() {
     $("#add_account").val('');
     $("#add_tellPhone").val('');
@@ -65,11 +62,9 @@ function addReset() {
     $("#add_cPassword").val('');
 }
 
-
 function see(data) {
     layer.msg("暂未处理");
 }
-
 
 function edit(data) {
     var params = {account: data.account};
@@ -86,26 +81,25 @@ function edit(data) {
         }
     });
 }
-function editOpen(){
-    var content = splictUrl+"/system/accountUpdate";
+
+function editOpen() {
     var edit = sessionStorage.getItem("edit");
     var obj = JSON.parse(edit);
-    alert(edit);
     document.getElementById("edit_id").value = isNull(obj.id);
     document.getElementById("edit_account").value = isNull(obj.account);
     document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
     $("#edit_source").val(String(obj.source));
     layui.form.render("select");
-    layerOpen(2, "编辑", content, 950, 500, "立即提交", "重置",
+    var content = [splictUrl + '/system/accountUpdate', 'no'];
+    layerOpen(2, "编辑", content, 950, 500, "立即提交", "重置", "",
         function (index, layero) {
-            var params = {
-                id: $("#edit_id").val(),
-                account: $("#edit_account").val(),
-                tellphone: Number($("#edit_tellPhone").val()),
-                lrrq: $("#edit_lrrq").val(),
-                source: Number($("#edit_source").val())
-            };
-            if (verIf(params) === false) {
+            var params = {};
+            params.id = $("#edit_id").val();
+            params.account = $("#edit_account").val();
+            params.tellphone = Number($("#edit_tellPhone").val());
+            params.lrrq = $("#edit_lrrq").val();
+            params.source = Number($("#edit_source").val());
+            if (verIfy(params) === false) {
                 return;
             }
             aaUp(params, manages, update, "修改", pagingQuery);
@@ -113,7 +107,6 @@ function editOpen(){
             $("#edit_tellPhone").val('');
         });
 }
-
 
 layui.use('laydate', function(){
     var laydate = layui.laydate;
@@ -124,7 +117,7 @@ layui.use('laydate', function(){
     });
 });
 
-function verIf(params) {
+function verIfy(params) {
     if (params.account === null || params.account === "") {
         layer.msg("账号名称不能为空", {icon: 2});
         return false;

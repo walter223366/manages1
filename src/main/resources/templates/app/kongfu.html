@@ -15,7 +15,7 @@
     <script th:src="@{/js/app/kongfu.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="x-body">
+<div class="x-body"><div class="x-body">
 
     <!--搜索栏-->
     <div class="layui-row">
@@ -48,8 +48,8 @@
                     <div class="layui-input-inline">
                         <select id="query_enable" class="layui-input">
                             <option value="">请选择</option>
+                            <option value="1">启用</option>
                             <option value="0">未启用</option>
-                            <option value="1">已启用</option>
                         </select>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
     <!--数据栏-->
     <table class="layui-table" id="dataInfo" lay-filter="dataInfo"></table>
     <script type="text/html" id="operational">
-        <a class="layui-btn layui-btn-xs " lay-event="see"><i class='layui-icon layui-icon-read'></i>查看</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="see"><i class='layui-icon layui-icon-read'></i>查看</a>
         <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit" ><i class='layui-icon layui-icon-edit'></i>编辑</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class='layui-icon layui-icon-delete'></i>删除</a>
     </script>
@@ -81,15 +81,15 @@
     <!--新增栏-->
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
                 <div class="layui-input-inline">
-                    <input id="add_name" type="text" class="layui-input">
+                    <input id="add_name" type="text" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-form-item layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫类型</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline" style="width: 260px">
                     <select id="add_type" class="layui-input">
                         <option value="0">内功</option>
                         <option value="1">轻功</option>
@@ -102,37 +102,38 @@
                     </select>
                 </div>
             </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
+                <div class="layui-input-inline">
+                    <input id="add_exp" type="number" value="100" class="layui-input inLeng" placeholder="默认值为100">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
+                <div class="layui-input-inline"  style="width: 260px">
+                    <select id="add_enable" class="layui-input">
+                        <option value="1">启用</option>
+                        <option value="0">未启用</option>
+                    </select>
+                </div>
+            </div>
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>招式选项</label>
-                <div class="layui-input-inline" style="width:514px">
+                <div class="layui-input-inline" style="width:685px">
                     <select id="add_move" type="checkbox" xm-select="select_addMove" xm-select-show-count="3" xm-select-skin="normal"></select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
-                <div class="layui-input-inline">
-                    <input id="add_exp" type="number" value="100" class="layui-input" placeholder="默认值为100">
-                </div>
-            </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>造&emsp;&emsp;诣</label>
                 <div class="layui-input-inline">
-                    <input id="add_attainments" type="text" class="layui-input" placeholder='格式：[{"10":"1"},...]'>
-                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">说明：前面的值是武学经验，后面的值是提升的造诣值（根据武功分类提升对应的造诣）</span></div>
-            </div>
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
-                <div class="layui-input-inline">
-                    <select id="add_enable" class="layui-input">
-                        <option value="0">未启用</option>
-                        <option value="1">启用</option>
-                    </select>
+                    <input id="add_attainments" type="text" class="layui-input inLeng" placeholder='格式：[{"10":"1"},...]'>
                 </div>
+                <!--<div class="layui-form-mid layui-word-aux"><span class="x-red"></span></div>-->
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">功夫说明</label>
                 <div class="layui-input-inline">
-                    <textarea  id="add_info" class="layui-textarea layui-input-width" placeholder="请输入内容"></textarea>
+                    <textarea  id="add_info" class="layui-textarea layui-input-width1" placeholder="请输入内容"></textarea>
                 </div>
             </div>
         </form>
@@ -148,15 +149,15 @@
                     <input id="edit_id" type="text" class="layui-input">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
                 <div class="layui-input-inline">
-                    <input id="edit_name" type="text" class="layui-input">
+                    <input id="edit_name" type="text" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-form-item layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫类型</label>
-                <div class="layui-input-inline">
+                <div class="layui-input-inline" style="width: 260px">
                     <select id="edit_type" class="layui-input">
                         <option value="0">内功</option>
                         <option value="1">轻功</option>
@@ -169,37 +170,37 @@
                     </select>
                 </div>
             </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
+                <div class="layui-input-inline">
+                    <input id="edit_exp" type="number" value="100" class="layui-input inLeng" placeholder="默认值为100">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">启用状态</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="edit_enable" class="layui-input">
+                        <option value="1">启用</option>
+                        <option value="0">未启用</option>
+                    </select>
+                </div>
+            </div>
             <div class="layui-inline">
                 <label class="layui-form-label"><span class="x-red">*</span>招式选项</label>
-                <div class="layui-input-inline" style="width:514px">
+                <div class="layui-input-inline" style="width:685px">
                     <select id="edit_move" type="checkbox" xm-select="select_editMove" xm-select-show-count="3" xm-select-skin="normal"></select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>可学经验</label>
-                <div class="layui-input-inline">
-                    <input id="edit_exp" type="number" value="100" class="layui-input" placeholder="默认值为100">
-                </div>
-            </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>造&emsp;&emsp;诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_attainments" type="text" class="layui-input" placeholder='格式：[{"10":"1"},...]'>
-                </div><div class="layui-form-mid layui-word-aux"><span class="x-red">说明：前面的值是武学经验，后面的值是提升的造诣值（根据武功分类提升对应的造诣）</span></div>
-            </div>
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label">启用状态</label>
-                <div class="layui-input-inline">
-                    <select id="edit_enable" class="layui-input">
-                        <option value="0">未启用</option>
-                        <option value="1">启用</option>
-                    </select>
+                    <input id="edit_attainments" type="text" class="layui-input inLeng" placeholder='格式：[{"10":"1"},...]'>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">功夫说明</label>
                 <div class="layui-input-inline">
-                    <textarea  id="edit_info" class="layui-textarea layui-input-width" placeholder="请输入内容"></textarea>
+                    <textarea  id="edit_info" class="layui-textarea layui-input-width1" placeholder="请输入内容"></textarea>
                 </div>
             </div>
         </form>
@@ -253,6 +254,6 @@
             </div>
         </form>
     </div>
-</div>
+</div></div>
 </body>
 </html>

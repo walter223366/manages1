@@ -4,7 +4,6 @@ $(function(){
     pagingQuery();
 });
 
-
 function pagingQuery() {
     $("#dataInfo").empty();
     var params = {};
@@ -21,7 +20,6 @@ function pagingQuery() {
     pQue(params, manages, "门派管理", cole, add, edit, del, see, pagingQuery);
 }
 
-
 function cleanUp(){
     $("#query_name").val('');
     $("#query_sinfluence").val('');
@@ -29,18 +27,16 @@ function cleanUp(){
     pagingQuery();
 }
 
-
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen(1, "新增", content, 900, 450, "立即提交", "重置",
-        function () {
-            var params = {
-                name: $("#add_name").val(),
-                influence: Number($("#add_influence").val()),
-                info: $("#add_info").val()
-            };
-            if (verIf(params) === false) {
+    layerOpen(1, "新增", content, 900, 450, "立即提交", "重置", "",
+        function (index, layero) {
+            var params = {};
+            params.name = $("#add_name").val();
+            params.influence = Number($("#add_influence").val());
+            params.info = $("#add_info").val();
+            if (verIfy(params) === false) {
                 return;
             }
             aaUp(params, manages, insert, "新增", pagingQuery);
@@ -48,28 +44,25 @@ function add() {
             addReset();
         });
 }
+
 function addReset() {
     $("#add_name").val('');
     $("#add_influence").val('');
     $("#add_info").val('');
 }
 
-
-
 function see(data) {
     document.getElementById("see_name").value = isNull(data.name);
     document.getElementById("see_influence").value = isNull(data.influence);
     document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerOpen(1, "查看详情", content, 900, 450, "明白了", "关闭",
+    layerOpen(1, "查看详情", content, 900, 450, "明白了", "关闭", "",
         function () {
-            content.hide();layer.closeAll();
+            layer.closeAll();
         }, function () {
-            content.hide();layer.closeAll();
+            layer.closeAll();
         });
 }
-
-
 
 function edit(data) {
     var params = {name: data.name};
@@ -83,15 +76,14 @@ function edit(data) {
                 document.getElementById("edit_influence").value = isNull(obj.influence);
                 document.getElementById("edit_info").value = isNull(obj.info);
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 900, 450, "立即提交", "重置",
+                layerOpen(1, "编辑", content, 900, 450, "立即提交", "重置", "",
                     function () {
-                        var params = {
-                            school_id: $("#edit_school_id").val(),
-                            name: $("#edit_name").val(),
-                            influence: Number($("#edit_influence").val()),
-                            info: $("#edit_info").val()
-                        };
-                        if (verIf(params) === false) {
+                        var params = {};
+                        params.school_id = $("#edit_school_id").val();
+                        params.name = $("#edit_name").val();
+                        params.influence = Number($("#edit_influence").val());
+                        params.info = $("#edit_info").val();
+                        if (verIfy(params) === false) {
                             return;
                         }
                         aaUp(params, manages, update, "修改", pagingQuery);
@@ -107,8 +99,7 @@ function edit(data) {
     });
 }
 
-
-function verIf(params) {
+function verIfy(params) {
     if (params.name === null || params.name === "") {
         layer.msg("门派名称不能为空", {icon: 2});
         return false;

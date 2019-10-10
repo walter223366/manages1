@@ -4,7 +4,6 @@ $(function(){
     pagingQuery();
 });
 
-
 function pagingQuery() {
     $("#dataInfo").empty();
     var params = {};
@@ -14,55 +13,52 @@ function pagingQuery() {
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 100},
         {field: 'name', title: '物品名称', sort: true},
         {field: 'img', title: '物品图标'},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 400, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "物品管理", cole, add, edit, del, see, pagingQuery);
 }
-
 
 function cleanUp() {
     $("#query_name").val('');
     pagingQuery();
 }
 
-
 function add() {
     addReset();
     var content = $("#addInfo");
-    layerOpen("新增", content, 1000, 500,
-        function () {
-            var params = {
-                name: $("#add_name").val(),
-                img: $("#add_img").val(),
-                info: $("#add_info").val()
-            };
-            if (params.name === null || params.name === "") {
-                layer.msg("物品名称不能为空", {icon: 2});
+    layerOpen(1, "新增", content, 1000, 500, "立即提交", "重置", "",
+        function (index, layero) {
+            var params = {};
+            params.name = $("#add_name").val();
+            params.img = $("#add_img").val();
+            params.info = $("#add_info").val();
+            if (verIfy(params) === false) {
                 return;
             }
-            if (params.img === null || params.img === "") {
-                layer.msg("物品图标不能为空", {icon: 2});
-            }
-            aTransfer(params, manages, pagingQuery);
+            aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset();
         });
 }
+
 function addReset() {
     $("#add_name").val('');
     $("#add_info").val('');
     $("#add_img").val('');
 }
 
-
 function see(data) {
     document.getElementById("see_name").value = isNull(data.name);
     document.getElementById("see_img").value = isNull(data.img);
     document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerSeeOpen("查看详情", content, 1000, 500);
+    layerOpen(1, "查看详情", content, 1000, 500, "明白了", "关闭", "",
+        function (index, layero) {
+            layer.closeAll();
+        }, function (index, layero) {
+            layer.closeAll();
+        });
 }
-
 
 function edit(data) {
     var params = {name: data.name};
@@ -76,22 +72,17 @@ function edit(data) {
                 document.getElementById("edit_img").value = isNull(obj.img);
                 document.getElementById("edit_info").value = isNull(obj.info);
                 var content = $("#editInfo");
-                layerOpen("编辑", content, 1000, 500,
-                    function () {
-                        var params = {
-                            article_id: $("#edit_id").val(),
-                            name: $("#edit_name").val(),
-                            info: $("#edit_info").val(),
-                            img: $("#edit_img").val()
-                        };
-                        if (params.name === null || params.name === "") {
-                            layer.msg("物品名称不能为空", {icon: 2});
+                layerOpen(1, "编辑", content, 1000, 500, "立即提交", "重置", "",
+                    function (index, layero) {
+                        var params = {};
+                        params.article_id = $("#edit_id").val();
+                        params.name = $("#edit_name").val();
+                        params.info = $("#edit_info").val();
+                        params.img = $("#edit_img").val();
+                        if (verIfy(params) === false) {
                             return;
                         }
-                        if (params.img === null || params.img === "") {
-                            layer.msg("物品图标不能为空", {icon: 2});
-                        }
-                        eTransfer(params, manages, pagingQuery);
+                        aaUp(params, manages, update, "修改", pagingQuery);
                     }, function (index, layero) {
                         $("#edit_name").val('');
                         $("#edit_img").val('');
@@ -104,6 +95,17 @@ function edit(data) {
     });
 }
 
+function verIfy(params){
+    if (params.name === null || params.name === "") {
+        layer.msg("物品名称不能为空", {icon: 2});
+        return false;
+    }
+    if (params.img === null || params.img === "") {
+        layer.msg("物品图标不能为空", {icon: 2});
+        return false;
+    }
+    return true;
+}
 
 layui.use('upload', function(){
     //TODO

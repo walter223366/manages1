@@ -91,8 +91,7 @@ public class MoveServiceImpl implements UnifiedCall {
         if(count > 0){
             throw new BizException("新增失败，招式名称已存在");
         }
-        String cost = spliceString(map);
-        map.put("MP_cost",cost);
+        //String cost = spliceString(map);//map.put("MP_cost",cost);
         map.put("zhaoshi_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{

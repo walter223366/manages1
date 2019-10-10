@@ -31,7 +31,6 @@ public class JumpController {
     @RequestMapping("effectUpdate")
     public String jumpEffectUpdate(){ return "app/effect/effect_update.html"; }
 
-
     @RequestMapping("move")
     public String jumpMove(){ return "app/move.html"; }
 
@@ -48,4 +47,6 @@ public class JumpController {
     public String jumpBaseNpc(){ return "app/baseNpc/basenpc.html"; }
     @RequestMapping("baseNpcAdd")
     public String jumpBaseNpcAdd(){ return "app/baseNpc/basenpc_add.html"; }
+    @RequestMapping("baseNpcUpdate")
+    public String jumpBaseNpcUpdate(){ return "app/baseNpc/basenpc_update.html"; }
 }
