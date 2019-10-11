@@ -6,9 +6,8 @@ import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.comms.page.PageBean;
 import com.ral.manages.entity.ProjectConst;
-import com.ral.manages.mapper.app.IAccountMapper;
-import com.ral.manages.mapper.app.IBaseNPCMapper;
-import com.ral.manages.mapper.app.ISchoolMapper;
+import com.ral.manages.entity.SysConfigurers;
+import com.ral.manages.mapper.app.*;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.*;
 import org.slf4j.Logger;
@@ -31,6 +30,12 @@ public class BaseNPCServiceImpl implements UnifiedCall {
     private ISchoolMapper schoolMapper;
     @Autowired
     private IAccountMapper accountMapper;
+    @Autowired
+    private IKongFuMapper kongFuMapper;
+    @Autowired
+    private SysConfigurers sys;
+    @Autowired
+    private IBaseInfoMapper baseInfoMapper;
 
     /**
      * 处理人物管理(NPC)
@@ -84,37 +89,82 @@ public class BaseNPCServiceImpl implements UnifiedCall {
         if(StringUtil.isNull(nickname)){
             throw new BizException("传入人物名称为空");
         }
-        return baseNPCMapper.baseNpcEditQuery(map);
+        Map<String,Object> basicMap =  baseNPCMapper.baseNpcEditQuery(map);
+        Map<String,Object> schoolMap = schoolMapper.schoolIdQuery(basicMap);
+        basicMap.put("schoolName",MapUtil.getString(schoolMap,"name"));
+        String id = MapUtil.getString(basicMap,"id");
+
+        return null;
     }
 
     /*新增*/
     @Transient
     private Map<String,Object> baseNPCInsert(Map<String,Object> map){
-        Map<String,Object> basis = JsonUtil.formatJSON(map.get("basis").toString());
-        Map<String,Object> virtue = JsonUtil.formatJSON(map.get("virtue").toString());
-        Map<String,Object> weapon = JsonUtil.formatJSON(map.get("weapon").toString());
-        VerificationUtil.verificationBaseNpc(basis);
-        int count = baseNPCMapper.baseNpcIsExist(basis);
+        Map<String,Object> virtue = JsonUtil.formatJSON(MapUtil.getString(map,"virtue"));
+        Map<String,Object> weapon = JsonUtil.formatJSON(MapUtil.getString(map,"weapon"));
+        List<Map<String,Object>> kongFu = JsonUtil.formatList(MapUtil.getString(map,"kongFu"));
+        VerificationUtil.verificationBaseNpc(map);
+        int count = baseNPCMapper.baseNpcIsExist(map);
         if(count > 0){
             throw new BizException("新增失败，人物名称已存在");
         }
-        basis.put("user_id","b936e068b53f43feac2dd55b4a4c5ed8");//TODO 暂固定
-        basis.put("cancellation",TableCode.CANCELLATION_ONE.getCode());
-        basis.put("enable",TableCode.ENABLE_ONE.getCode());
+        map.put("user_id",sys.getNpcAccount());//TODO 暂固定
+        map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
         String id = StringUtil.getUUID();
-        basis.put("id",id);
-        virtue.put("id",StringUtil.getUUID());
-        virtue.put("charactor_id",id);
-        weapon.put("id",StringUtil.getUUID());
-        weapon.put("charactor_id",id);
+        map.put("id",id);
         try{
-            baseNPCMapper.baseNPCInsert(basis);
-            baseNPCMapper.baseExtInsert(virtue);
-            baseNPCMapper.basePotInsert(weapon);
+            baseNPCMapper.baseNPCInsert(map);
+            extInsert(virtue,id);
+            attInsert(weapon,id);
+            kofInsert(kongFu,id);
+            //potInsert(null,id);
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
             throw new BizException("新增失败："+e.getMessage());
+        }
+    }
+
+    //新增属性
+    private void extInsert(Map<String,Object> map,String id){
+        if(!SetUtil.isMapNull(map)){
+            map.put("id",StringUtil.getUUID());
+            map.put("charactor_id",id);
+            baseNPCMapper.baseExtInsert(map);
+        }
+    }
+
+    //新增造诣
+    private void attInsert(Map<String,Object> map,String id){
+        if(!SetUtil.isMapNull(map)){
+            map.put("id",StringUtil.getUUID());
+            map.put("charactor_id",id);
+            baseNPCMapper.baseAttInsert(map);
+        }
+    }
+
+    //新增武学
+    private void kofInsert(List<Map<String,Object>> list,String id){
+        if(!SetUtil.isListNull(list)){
+            for(Map<String,Object> map : list){
+                map.put("id",StringUtil.getUUID());
+                map.put("role_id",id);
+                String name = MapUtil.getString(map,"name");
+                if(!StringUtil.isNull(name)){
+                    Map<String,Object> idMap = kongFuMapper.kongFuEditQuery(map);
+                    map.put("kongfu_id",MapUtil.getString(idMap,"kongfu_id"));
+                    baseNPCMapper.baseRrkInsert(map);
+                }
+            }
+        }
+    }
+
+    //新增潜力
+    private void potInsert(Map<String,Object> map,String id){
+        if(!SetUtil.isMapNull(map)){
+            map.put("id",StringUtil.getUUID());
+            map.put("charactor_id",id);
+            baseNPCMapper.basePotInsert(map);
         }
     }
 

@@ -44,58 +44,58 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">门派贡献值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_school_contribution" type="number" class="layui-input inLeng" placeholder="默认值为0" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_school_contribution" type="text" class="layui-input inLeng" placeholder="默认值为0" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">性&emsp;&emsp;别</label>
                 <div class="layui-input-inline" style="width: 260px">
                     <select id="edit_sex" class="layui-input">
-                        <option value="0">女</option>
                         <option value="1">男</option>
+                        <option value="0">女</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">性&emsp;&emsp;格</label>
                 <div class="layui-input-inline">
-                    <input id="edit_character" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_character" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">等&emsp;&emsp;级</label>
                 <div class="layui-input-inline">
-                    <input id="edit_level" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_level" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">声&emsp;&emsp;望</label>
                 <div class="layui-input-inline">
-                    <input id="edit_popularity" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_popularity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">经&ensp;验&ensp;值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_experience" type="number" class="layui-input inLeng" disabled="true" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_experience" type="text" class="layui-input inLeng" disabled="true" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">态&emsp;&emsp;度</label>
                 <div class="layui-input-inline">
-                    <input id="edit_attitude" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_attitude" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">铜&emsp;&emsp;钱</label>
                 <div class="layui-input-inline">
-                    <input id="edit_coin" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_coin" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">元&emsp;&emsp;宝</label>
                 <div class="layui-input-inline">
-                    <input id="edit_gold" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_gold" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
         </form>
@@ -105,7 +105,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-inline" style="width: 390px">
-                <button onclick="virtueBut()" type="button" class="layui-btn btncc inLeng">填写属性分配</button>
+                <button onclick="eVirtueBut()" type="button" class="layui-btn btncc">点击填写属性分配</button>
             </div>
         </div>
         <fieldset class="layui-elem-field layui-field-title">
@@ -114,7 +114,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-inline" style="width: 390px">
-                <button onclick="kongFuBut()" type="button" class="layui-btn btncc inLeng">填写武学信息</button>
+                <button onclick="eKongFuBut()" type="button" class="layui-btn btncc">点击填写武学信息</button>
             </div>
         </div>
         <fieldset class="layui-elem-field layui-field-title">
@@ -123,115 +123,115 @@
         <div class="layui-form-item">
             <label class="layui-form-label"></label>
             <div class="layui-input-inline" style="width: 390px">
-                <button onclick="weaponBut()" type="button" class="layui-btn btncc inLeng">填写兵器造诣</button>
+                <button onclick="eWeaponBut()" type="button" class="layui-btn btncc">点击填写兵器造诣</button>
             </div>
         </div>
     </div>
 
 
     <!--编辑栏-属性分配-->
-    <div class="x-body" id="attInfo" aria-hidden="true" hidden>
+    <div class="x-body" id="eAttInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form" id="formAttInfo">
             <div class="layui-form-item layLeng">
                 <label class="layui-form-label">属性分值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_attributes" type="number" class="layui-input inLeng" disabled="true">
+                    <input id="edit_attributes" type="text" class="layui-input inLeng" disabled="true">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">体&emsp;&emsp;质</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" id="mphysMin" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_mphysique')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_mphysique" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_mphysique" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" id="mphysAdd" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_mphysique')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">臂&emsp;&emsp;力</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_force')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_force" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_force" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_force')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">筋&emsp;&emsp;骨</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_muscles')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_muscles" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_muscles" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_muscles')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">内&emsp;&emsp;修</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_chakra')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_chakra" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_chakra" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_chakra')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">灵&emsp;&emsp;活</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_sensitivity')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_sensitivity" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_sensitivity" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_sensitivity')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">意&emsp;&emsp;志</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_willpower')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_willpower" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_willpower" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_willpower')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">学&emsp;&emsp;识</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_knowledge')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_knowledge" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_knowledge" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_knowledge')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">运&emsp;&emsp;气</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('edit_lucky')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="edit_lucky" type="number" class="layui-input" value=0 oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_lucky" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('edit_lucky')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
         </form>
@@ -239,7 +239,7 @@
 
 
     <!--编辑栏-武学添加-->
-    <div class="x-body" id="artsInfo" aria-hidden="true" hidden>
+    <div class="x-body" id="eArtsInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form" id="formArtsInfo">
             <div class="layui-form-item">
                 <label class="layui-form-label">武学选项</label>
@@ -247,7 +247,7 @@
                     <select id="edit_kongFu" type="checkbox"></select>
                 </div>
                 <div class="layui-input-inline">
-                    <button onclick="addKongFu()" type="button" class="layui-btn buLeng">添加</button>
+                    <button onclick="editKongFu()" type="button" class="layui-btn buLeng">添加</button>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -256,7 +256,7 @@
                     <input id="edit_kongFu1" type="text" class="layui-input" disabled="true">
                 </div>
                 <div class="layui-input-inline">
-                    <input id="edit_experience1" type="number" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_experience1" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
                 </div>
                 <div class="layui-input-inline">
                     <button type="button" onclick="resetKongFu('edit_kongFu1','edit_experience1')" class="layui-btn layui-btn-primary buLeng">清除</button>
@@ -268,7 +268,7 @@
                     <input id="edit_kongFu2" type="text" class="layui-input" disabled="true">
                 </div>
                 <div class="layui-input-inline">
-                    <input id="edit_experience2" type="number" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_experience2" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
                 </div>
                 <div class="layui-input-inline">
                     <button type="button" onclick="resetKongFu('edit_kongFu2','edit_experience2')" class="layui-btn layui-btn-primary buLeng">清除</button>
@@ -280,7 +280,7 @@
                     <input id="edit_kongFu3" type="text" class="layui-input" disabled="true">
                 </div>
                 <div class="layui-input-inline">
-                    <input id="edit_experience3" type="number" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_experience3" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
                 </div>
                 <div class="layui-input-inline">
                     <button type="button" onclick="resetKongFu('edit_kongFu3','edit_experience3')" class="layui-btn layui-btn-primary buLeng">清除</button>
@@ -292,7 +292,7 @@
                     <input id="edit_kongFu4" type="text" class="layui-input" disabled="true">
                 </div>
                 <div class="layui-input-inline">
-                    <input id="edit_experience4" type="number" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_experience4" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
                 </div>
                 <div class="layui-input-inline">
                     <button type="button" onclick="resetKongFu('edit_kongFu4','edit_experience4')" class="layui-btn layui-btn-primary buLeng">清除</button>
@@ -303,58 +303,63 @@
 
 
     <!--编辑栏-兵器造诣-->
-    <div class="x-body" id="weaponInfo" aria-hidden="true" hidden>
+    <div class="x-body" id="eWeaponInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form" id="formWeaponInfo">
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">拳脚造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_melee_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_melee_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">剑法造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_sword_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_sword_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">刀斧造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_axe_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_axe_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">枪棍造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_javelin_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_javelin_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">暗器造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_hidden_weapons_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_hidden_weapons_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">异功造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_sorcery_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_sorcery_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">闪避造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_dodge_skill_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_dodge_skill_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">精神造诣</label>
                 <div class="layui-input-inline">
-                    <input id="edit_chakra_status" type="number" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_chakra_status" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
         </form>
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    $(function () {
+        downBox(schoolBox, "edit_school", "", lSelection)
+    });
+</script>
 </html>

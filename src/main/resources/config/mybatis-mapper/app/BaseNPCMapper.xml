@@ -37,11 +37,12 @@
 
     <!--新增-->
     <insert id="baseNPCInsert" parameterType="map">
-        INSERT INTO biz_charactor_base_info_npc(id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,
+        INSERT INTO biz_charactor_base_info_npc(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,
         coin,gold,experience,school_contribution,img,enable,cancellation)
         VALUES (
-          #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{character},#{popularity},#{coin},
-          #{gold},#{experience},#{school_contribution},#{img},#{enable},#{cancellation}
+          #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex,jdbcType=INTEGER},#{level,jdbcType=INTEGER},
+          #{attitude,jdbcType=INTEGER},#{characters,jdbcType=INTEGER},#{popularity,jdbcType=INTEGER},#{coin,jdbcType=INTEGER},
+          #{gold,jdbcType=INTEGER},#{experience,jdbcType=INTEGER},#{school_contribution,jdbcType=INTEGER},#{img},#{enable},#{cancellation}
         )
     </insert>
     <insert id="baseAttInsert" parameterType="map">
@@ -64,6 +65,12 @@
         VALUES (
           #{id},#{wisdom1},#{wisdom2},#{wisdom3},#{healthy1},#{healthy2},#{healthy3},#{mellow1},#{mellow2},#{mellow3},#{mellow4},#{mellow5},
           #{fineness1},#{fineness2},#{burst1},#{burst2},#{sharp1},#{sharp2},#{tenacity1},#{tenacity2},#{tenacity3},#{charactor_id}
+        )
+    </insert>
+    <insert id="baseRrkInsert" parameterType="map">
+        INSERT INTO relat_role_kongfu(role_kongfu_id,kongfu_id,role_id,experience)
+        VALUES (
+          #{id},#{kongfu_id},#{role_id},#{experience}
         )
     </insert>
 

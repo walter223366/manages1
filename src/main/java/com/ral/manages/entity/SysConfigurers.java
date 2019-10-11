@@ -31,4 +31,6 @@ public class SysConfigurers{
     private String wehChat_userInfo;//获取微信用户信息地址
     private String wehChat_getAccessToken;//获取access_token地址
 
+    private String npcAccount;//npc人物固定账号ID
+
 }

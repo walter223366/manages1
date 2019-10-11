@@ -185,19 +185,42 @@ function editVal(layero,id,par) {
     var body = layer.getChildFrame('body', layero);
     body.contents().find("#"+id).val(isNull(par));
 }
+function parFormat(str){
+    var obj = {};
+    if(str === null){
+        return obj;
+    }else{
+        return JSON.parse(str);
+    }
+}
+function checkNull(str){
+    if (str === null || str === "undefined" || str === "null" || str === "") {
+        return false;
+    }else{
+        return true;
+    }
+}
 function mergeVal(id) {
     var obj = "#";
     var a = obj + id + 1, b = obj + id + 2, c = obj + id + 3;
     return Number($(a).val()) + "," + Number($(b).val()) + "," + Number($(c).val());
 }
-function clearValue(ids) {
+function clearVal(ids,per) {
     var obj = ids.split(",");
-    for (var i = 0; i < obj.length; i++) {
-        for (var j = 1; j < 4; j++) {
-            var id = obj[i] + j;
+    var id;
+    if(per === 1){
+        for (var a = 0; a < obj.length; a++) {
+            id = "add_"+obj[a];
             document.getElementById(id).value = '';
         }
     }
+    if(per === 2){
+        for (var e = 0; e < obj.length; e++) {
+            id = "edit_"+obj[e];
+            document.getElementById(id).value = '';
+        }
+    }
+    layui.form.render("select");
 }
 function isJSON(str) {
     try {

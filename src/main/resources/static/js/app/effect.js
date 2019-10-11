@@ -194,7 +194,7 @@ function edit(data) {
                         editVal(layero, "edit_info", obj.info);
                         editVal(layero, "edit_target", String(obj.target));
                         layui.form.render("select");
-                        sessionStorage.setItem("obj", JSON.stringify(obj));
+                        sessionStorage.setItem("eff", JSON.stringify(obj));
                     }, function (index, layero) {
                         var body =  $(layero).find("iframe")[0].contentWindow;
                         var params = {};
@@ -233,7 +233,6 @@ function edit(data) {
                             params.suck_mp_blue = suck.suck_mp_blue;
                             params.suck_mp_purple = suck.suck_mp_purple;
                         }
-                        sessionStorage.setItem("obj", JSON.stringify(params));
                         sessionStorage.removeItem("ehp");
                         sessionStorage.removeItem("emp");
                         aaUp(params, manages, update, "修改", pagingQuery)
@@ -251,32 +250,35 @@ function eHpInfo() {
     var content = $("#eHpInfo");
     layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置",
         function (index, layero) {
-            var obj = JSON.parse(sessionStorage.getItem("obj"));
+            var obj = JSON.parse(sessionStorage.getItem("ehp"));
+            if(obj === null){
+                obj = JSON.parse(sessionStorage.getItem("eff"));
+            }
             var yellow = obj.mp_yellow.split(",");
             //assignmentValue(yellow,"edit_hpYellow");
-            document.getElementById("edit_hpYellow1").value = Number(yellow[0]);
-            document.getElementById("edit_hpYellow2").value = Number(yellow[1]);
-            document.getElementById("edit_hpYellow3").value = Number(yellow[2]);
+            document.getElementById("edit_hpYellow1").value = (yellow[0]);
+            document.getElementById("edit_hpYellow2").value = (yellow[1]);
+            document.getElementById("edit_hpYellow3").value = (yellow[2]);
             var gold = obj.mp_gold.split(",");
             //assignmentValue(gold,"edit_hpGold");
-            document.getElementById("edit_hpGold1").value = Number(gold[0]);
-            document.getElementById("edit_hpGold2").value = Number(gold[1]);
-            document.getElementById("edit_hpGold3").value = Number(gold[2]);
+            document.getElementById("edit_hpGold1").value = (gold[0]);
+            document.getElementById("edit_hpGold2").value = (gold[1]);
+            document.getElementById("edit_hpGold3").value = (gold[2]);
             var green = obj.mp_green.split(",");
             //assignmentValue(green,"edit_hpGreen");
-            document.getElementById("edit_hpGreen1").value = Number(green[0]);
-            document.getElementById("edit_hpGreen2").value = Number(green[1]);
-            document.getElementById("edit_hpGreen3").value = Number(green[2]);
+            document.getElementById("edit_hpGreen1").value = (green[0]);
+            document.getElementById("edit_hpGreen2").value = (green[1]);
+            document.getElementById("edit_hpGreen3").value = (green[2]);
             var blue = obj.mp_blue.split(",");
             //assignmentValue(blue,"edit_hpBlue");
-            document.getElementById("edit_hpBlue1").value = Number(blue[0]);
-            document.getElementById("edit_hpBlue2").value = Number(blue[1]);
-            document.getElementById("edit_hpBlue3").value = Number(blue[2]);
+            document.getElementById("edit_hpBlue1").value = (blue[0]);
+            document.getElementById("edit_hpBlue2").value = (blue[1]);
+            document.getElementById("edit_hpBlue3").value = (blue[2]);
             var purple = obj.mp_purple.split(",");
             //assignmentValue(purple,"edit_hpPurple");
-            document.getElementById("edit_hpPurple1").value = Number(purple[0]);
-            document.getElementById("edit_hpPurple2").value = Number(purple[1]);
-            document.getElementById("edit_hpPurple3").value = Number(purple[2]);
+            document.getElementById("edit_hpPurple1").value = (purple[0]);
+            document.getElementById("edit_hpPurple2").value = (purple[1]);
+            document.getElementById("edit_hpPurple3").value = (purple[2]);
         }, function (index, layero) {
             var hp = {};
             hp.mp_yellow = mergeVal("edit_hpYellow");
@@ -296,32 +298,35 @@ function eSuckInfo(){
     var content = $("#eSuckInfo");
     layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置",
         function (index, layero) {
-            var obj = JSON.parse(sessionStorage.getItem("obj"));
+            var obj = JSON.parse(sessionStorage.getItem("emp"));
+            if(obj === null){
+                obj = JSON.parse(sessionStorage.getItem("eff"));
+            }
             var yellow = obj.suck_mp_yellow.split(",");
             //assignmentValue(yellow,"edit_suckYellow");
-            document.getElementById("edit_suckYellow1").value = Number(yellow[0]);
-            document.getElementById("edit_suckYellow2").value = Number(yellow[1]);
-            document.getElementById("edit_suckYellow3").value = Number(yellow[2]);
+            document.getElementById("edit_suckYellow1").value = (yellow[0]);
+            document.getElementById("edit_suckYellow2").value = (yellow[1]);
+            document.getElementById("edit_suckYellow3").value = (yellow[2]);
             var gold = obj.suck_mp_gold.split(",");
             //assignmentValue(gold,"edit_suckGold");
-            document.getElementById("edit_suckGold1").value = Number(gold[0]);
-            document.getElementById("edit_suckGold2").value = Number(gold[1]);
-            document.getElementById("edit_suckGold3").value = Number(gold[2]);
+            document.getElementById("edit_suckGold1").value = (gold[0]);
+            document.getElementById("edit_suckGold2").value = (gold[1]);
+            document.getElementById("edit_suckGold3").value = (gold[2]);
             var green = obj.suck_mp_green.split(",");
             //assignmentValue(green,"edit_suckGreen");
-            document.getElementById("edit_suckGreen1").value = Number(green[0]);
-            document.getElementById("edit_suckGreen2").value = Number(green[1]);
-            document.getElementById("edit_suckGreen3").value = Number(green[2]);
+            document.getElementById("edit_suckGreen1").value = (green[0]);
+            document.getElementById("edit_suckGreen2").value = (green[1]);
+            document.getElementById("edit_suckGreen3").value = (green[2]);
             var blue = obj.suck_mp_blue.split(",");
             //assignmentValue(blue,"edit_suckBlue");
-            document.getElementById("edit_suckBlue1").value = Number(blue[0]);
-            document.getElementById("edit_suckBlue2").value = Number(blue[1]);
-            document.getElementById("edit_suckBlue3").value = Number(blue[2]);
+            document.getElementById("edit_suckBlue1").value = (blue[0]);
+            document.getElementById("edit_suckBlue2").value = (blue[1]);
+            document.getElementById("edit_suckBlue3").value = (blue[2]);
             var purple = obj.suck_mp_purple.split(",");
             //assignmentValue(purple,"edit_suckPurple");
-            document.getElementById("edit_suckPurple1").value = Number(purple[0]);
-            document.getElementById("edit_suckPurple2").value = Number(purple[1]);
-            document.getElementById("edit_suckPurple3").value = Number(purple[2]);
+            document.getElementById("edit_suckPurple1").value = (purple[0]);
+            document.getElementById("edit_suckPurple2").value = (purple[1]);
+            document.getElementById("edit_suckPurple3").value = (purple[2]);
         }, function (index, layero) {
             var suck = {};
             suck.suck_mp_yellow = mergeVal("edit_suckYellow");
@@ -372,4 +377,14 @@ function verIfy(params) {
         return false;
     }
     return true;
+}
+
+function clearValue(ids) {
+    var obj = ids.split(",");
+    for (var i = 0; i < obj.length; i++) {
+        for (var j = 1; j < 4; j++) {
+            var id = obj[i] + j;
+            document.getElementById(id).value = '';
+        }
+    }
 }
