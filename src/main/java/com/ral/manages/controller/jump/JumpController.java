@@ -1,6 +1,7 @@
 package com.ral.manages.controller.jump;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -40,13 +41,10 @@ public class JumpController {
     @RequestMapping("article")
     public String jumpArticle(){ return "app/article.html"; }
 
-    @RequestMapping("baseInfo")
-    public String jumpBaseInfo(){ return "app/baseinfo.html"; }
-
-    @RequestMapping("baseNpc")
-    public String jumpBaseNpc(){ return "app/baseNpc/basenpc.html"; }
-    @RequestMapping("baseNpcAdd")
-    public String jumpBaseNpcAdd(){ return "app/baseNpc/basenpc_add.html"; }
-    @RequestMapping("baseNpcUpdate")
-    public String jumpBaseNpcUpdate(){ return "app/baseNpc/basenpc_update.html"; }
+    @RequestMapping("base")
+    public String jumpBaseNpc(){ return "app/base/base.html"; }
+    @RequestMapping("baseAdd")
+    public String jumpBaseNpcAdd(){ return "app/base/base_add.html"; }
+    @RequestMapping("baseUpdate")
+    public String jumpBaseNpcUpdate(){ return "app/base/base_update.html"; }
 }

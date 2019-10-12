@@ -586,7 +586,7 @@ button[disabled="true"]{
     width: 70%;
 }
 .see-input{background-color:transparent;border:0;width:300px;}
-.x-font{font-size:14px;font-weight:600;}
+.x-font{font-size:14px;font-weight:500;}
 .see-textarea{width:700px;height:180px;background-color:transparent;border:0;}
 .liw{
     width: 280px;

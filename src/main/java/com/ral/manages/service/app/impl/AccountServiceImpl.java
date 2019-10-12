@@ -5,8 +5,8 @@ import com.github.pagehelper.PageHelper;
 import com.ral.manages.comms.emun.TableCode;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.ProjectConst;
-import com.ral.manages.mapper.app.IBaseInfoMapper;
-import com.ral.manages.service.app.IBaseInfoService;
+import com.ral.manages.mapper.app.IBaseMapper;
+import com.ral.manages.service.app.IBaseService;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.VerificationUtil;
 import com.ral.manages.mapper.app.IAccountMapper;
@@ -27,9 +27,9 @@ public class AccountServiceImpl implements UnifiedCall {
     @Autowired
     private IAccountMapper accountMapper;
     @Autowired
-    private IBaseInfoMapper baseInfoMapper;
+    private IBaseMapper baseMapper;
     @Autowired
-    private IBaseInfoService baseInfoService;
+    private IBaseService baseService;
 
     /**
      * 处理账号管理
@@ -194,7 +194,7 @@ public class AccountServiceImpl implements UnifiedCall {
         map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
         try {
             accountMapper.accountInsert(userMap);
-            baseInfoMapper.baseInfoInsert(map);
+            baseMapper.baseIsExist(map);
         } catch (Exception e) {
             log.debug("注册失败：" + e.getMessage());
             throw new BizException("注册失败：" + e.getMessage());
@@ -205,7 +205,7 @@ public class AccountServiceImpl implements UnifiedCall {
     /*已有账号时，查询人物信息*/
     private Map<String,Object> landed(Map<String,Object> map){
         Map<String,Object> infoMap = SetUtil.clearValueNullToMap(map);
-        Map<String,Object> qMap = baseInfoService.baseInfo(infoMap);
+        Map<String,Object> qMap = baseService.baseInfo(infoMap);
         map.put("isType",TableCode.LANDED.getCode());//登陆状态
         map.put("character",qMap);//角色信息
         return map;

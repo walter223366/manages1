@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>人物管理</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/base64.js}"></script>
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+    <script th:src="@{/js/jquery.serializejson.min.js}"></script>
+</head>
+<style>
+    .attTop{margin-top: 30px}.atoder{background-color:transparent;border:0;}
+    .fontSize{font-size: 15px;color: #2F4056;}
+    .fontWith{font-weight: 900}
+</style>
+<body>
+<div class="x-body"><div class="x-body">
+
+    <!--搜索栏-->
+    <div class="layui-row">
+        <div class="search-conditional">
+            <form class="layui-form-item layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label">人物名称</label>
+                    <div class="layui-input-inline" >
+                        <input id="query_nickname" type="text" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">是否启用</label>
+                    <div class="layui-input-inline">
+                        <select id="query_enable" class="layui-input">
+                            <option value="">请选择</option>
+                            <option value="0">未启用</option>
+                            <option value="1">已启用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">人物标志</label>
+                    <div class="layui-input-inline">
+                        <select id="query_isNpc" class="layui-input">
+                            <option value="">请选择</option>
+                            <option value="0">玩家</option>
+                            <option value="1">NPC</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="search-button">
+            <div class="layui-inline">
+                <button onclick="pagingQuery()" class="layui-btn"><i class="layui-icon layui-icon-search"></i>查询</button>
+            </div>
+            <div class="layui-inline">
+                <button onclick="add()" class="layui-btn btnc"><i class="layui-icon layui-icon-add-circle-fine"></i>新增</button>
+            </div>
+            <div class="layui-inline">
+                <button onclick="cleanUp()" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>清空条件</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!--数据栏-->
+    <table class="layui-table" id="dataInfo" lay-filter="dataInfo"></table>
+    <script type="text/html" id="operational">
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="see"><i class='layui-icon layui-icon-read'></i>查看</a>
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit" ><i class='layui-icon layui-icon-edit'></i>编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class='layui-icon layui-icon-delete'></i>删除</a>
+    </script>
+
+
+    <!--查看栏-->
+    <div class="x-body" id="seeInfo" aria-hidden="true" hidden>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend style="margin-left:0;"><span style="font-size:15px;">基本信息</span></legend>
+        </fieldset>
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">人物名称：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_nickname" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">用户账号：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_user" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">所属门派：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_school" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">门派贡献：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_school_contribution" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">性&emsp;&emsp;别：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_sex" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">等&emsp;&emsp;级：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_level" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">经&ensp;验&ensp;值：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_experience" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">态&emsp;&emsp;度：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_attitude" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">性&emsp;&emsp;格：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_character" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">声&emsp;&emsp;望：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_popularity" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">铜&emsp;&emsp;钱：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_coin" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">元&emsp;&emsp;宝：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_gold" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">是否启用：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_enable" type="text" class="layui-input see-input">
+                </div>
+            </div>
+        </form>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend style="margin-left:0;"><span style="font-size:15px;">属性分配</span></legend>
+        </fieldset>
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">体&emsp;&emsp;质：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_mphysique" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">臂&emsp;&emsp;力：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_force" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">筋&emsp;&emsp;骨：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_muscles" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">内&emsp;&emsp;修：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_chakra" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">灵&emsp;&emsp;活：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_sensitivity" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">意&emsp;&emsp;志：</span></label>
+                <div class="layui-input-inline" style="width:145px">
+                    <input id="see_willpower" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">学&emsp;&emsp;识：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_knowledge" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">运&emsp;&emsp;气：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_lucky" type="text" class="layui-input see-input">
+                </div>
+            </div>
+        </form>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend style="margin-left:0;"><span style="font-size:15px;">武学信息</span></legend>
+        </fieldset>
+        <form class="layui-form-item layui-form">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">武学序一：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_kongFu1" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">经验值一：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_experience1" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">武学序二：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_kongFu2" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">经验值二：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_experience2" type="text" class="layui-input see-input" >
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">武学序三：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_kongFu3" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">经验值三：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_experience3" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">武学序四：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_kongFu4" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">经验值四：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_experience4" type="text" class="layui-input see-input">
+                </div>
+            </div>
+        </form>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend style="margin-left:0;"><span style="font-size:15px;">兵器造诣</span></legend>
+        </fieldset>
+        <form class="layui-form-item layui-form" id="formWeaponInfo">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">拳脚造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_melee_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">剑法造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_sword_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">刀斧造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_axe_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">枪棍造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_javelin_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">暗器造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_hidden_weapons_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">异功造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_sorcery_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">闪避造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_dodge_skill_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-font">精神造诣：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_chakra_status" type="text" class="layui-input see-input">
+                </div>
+            </div>
+        </form>
+    </div>
+</div></div>
+</body>
+<script th:src="@{/js/main.js}" type="text/javascript"></script>
+<script th:src="@{/js/app/base.js}" type="text/javascript"></script>
+</html>

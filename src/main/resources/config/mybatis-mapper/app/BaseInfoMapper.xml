@@ -34,21 +34,6 @@
 
 
     <!--查询-->
-    <select id="queryBaseInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_base_info WHERE 1=1 AND user_id=#{userId} AND (cancellation IS NULL OR cancellation=0)
-    </select>
-    <select id="queryAttainmentsInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_attainments WHERE 1=1 AND charactor_id=#{baseId}
-    </select>
-    <select id="queryBattleInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_battle_ext WHERE 1=1 AND charactor_id=#{baseId}
-    </select>
-    <select id="queryPotentialInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_potential WHERE 1=1 AND charactor_id=#{baseId}
-    </select>
-    <select id="queryRelationInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_relationship WHERE 1=1 AND charactor_id=#{baseId}
-    </select>
 
 
     <!--新增-->

@@ -1,5 +1,5 @@
 charset="utf-8";
-manages="baseNpc";
+manages="base";
 expNum=100;//TODO 暂时为1等级为100经验值
 attNum=5;//TODO 1等级5点属性值
 $(function(){
@@ -38,7 +38,7 @@ function cleanUp() {
 
 
 function add() {
-    var content = [splictUrl + '/system/baseNpcAdd'];
+    var content = [splictUrl + '/system/baseAdd'];
     layerOpen(2, "新增", content, 1200, 600, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
@@ -133,6 +133,10 @@ function aKongFuBut() {
             layer.closeAll();
         }, function (index, layero) {
             clearVal(kongFuID, 1);
+            document.getElementById("add_experience1").disabled = true;
+            document.getElementById("add_experience2").disabled = true;
+            document.getElementById("add_experience3").disabled = true;
+            document.getElementById("add_experience4").disabled = true;
         });
 }
 
@@ -198,6 +202,9 @@ function increase(id) {
 function cutback(id) {
     var obj = "#" + id;
     var num = parseInt($(obj).val()) || 0;
+    if(num === 0){
+        layer.msg("");
+    }
     num = num - 1;
     num = num < 1 ? 0 : num;
     $(obj).val(num);
@@ -248,7 +255,7 @@ function see(data) {
                         document.getElementById("see_nickname").value = isNull(obj.nickname);
                         document.getElementById("see_level").value = isNull(obj.level);
                         document.getElementById("see_attitude").value = isNull(obj.attitude);
-                        document.getElementById("see_character").value = isNull(obj.character);
+                        document.getElementById("see_character").value = isNull(obj.characters);
                         document.getElementById("see_popularity").value = isNull(obj.popularity);
                         document.getElementById("see_coin").value = isNull(obj.coin);
                         document.getElementById("see_gold").value = isNull(obj.gold);
@@ -256,8 +263,50 @@ function see(data) {
                         document.getElementById("see_school_contribution").value = isNull(obj.school_contribution);
                         document.getElementById("see_school").value = isNull(obj.schoolName);
                         document.getElementById("see_sex").value = isNull(obj.sex);
-                        document.getElementById("see_enable").value = isNull(obj.enable);
+                        document.getElementById("see_enable").value = isNull(obj.enable=1?"已启用":"未启用");
                         document.getElementById("see_user").value = isNull(obj.userName);
+                        if(obj.virtue.length > 0){
+                            var virtue = obj.virtue[0];
+                            document.getElementById("see_mphysique").value = isNull(virtue.physique);
+                            document.getElementById("see_force").value = isNull(virtue.force);
+                            document.getElementById("see_muscles").value = isNull(virtue.muscles);
+                            document.getElementById("see_chakra").value = isNull(virtue.chakra);
+                            document.getElementById("see_sensitivity").value = isNull(virtue.sensitivity);
+                            document.getElementById("see_willpower").value = isNull(virtue.willpower);
+                            document.getElementById("see_knowledge").value = isNull(virtue.knowledge);
+                            document.getElementById("see_lucky").value = isNull(virtue.lucky);
+                        }
+                        if(obj.kongFu.length > 0){
+                            var kongFu1 = obj.kongFu[0];
+                            document.getElementById("see_kongFu1").value = isNull(kongFu1.kongFuName);
+                            document.getElementById("see_experience1").value = isNull(kongFu1.experience);
+                            var kongFu2 = obj.kongFu[1];
+                            if(kongFu2 !== "undefined"){
+                                document.getElementById("see_kongFu2").value = isNull(kongFu2.kongFuName);
+                                document.getElementById("see_experience3").value = isNull(kongFu2.experience);
+                            }
+                            var kongFu3 = obj.kongFu[1];
+                            if(kongFu3 !== "undefined"){
+                                document.getElementById("see_kongFu3").value = isNull(kongFu3.kongFuName);
+                                document.getElementById("see_experience3").value = isNull(kongFu3.experience);
+                            }
+                            var kongFu4 = obj.kongFu[1];
+                            if(kongFu4 !== "undefined"){
+                                document.getElementById("see_kongFu4").value = isNull(kongFu4.kongFuName);
+                                document.getElementById("see_experience4").value = isNull(kongFu4.experience);
+                            }
+                        }
+                        if(obj.weapon.length > 0){
+                            var weapon = obj.weapon[0];
+                            document.getElementById("see_melee_status").value = isNull(weapon.melee_status);
+                            document.getElementById("see_sword_status").value = isNull(weapon.sword_status);
+                            document.getElementById("see_axe_status").value = isNull(weapon.axe_status);
+                            document.getElementById("see_javelin_status").value = isNull(weapon.javelin_status);
+                            document.getElementById("see_hidden_weapons_status").value = isNull(weapon.hidden_weapons_status);
+                            document.getElementById("see_sorcery_status").value = isNull(weapon.sorcery_status);
+                            document.getElementById("see_dodge_skill_status").value = isNull(weapon.dodge_skill_status);
+                            document.getElementById("see_chakra_status").value = isNull(weapon.chakra_status);
+                        }
                     }, function (index, layero) {
                         layer.closeAll();
                     }, function (index, layero) {
@@ -278,7 +327,7 @@ function edit(data) {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
-                var content = [splictUrl + '/system/baseNpcUpdate'];
+                var content = [splictUrl + '/system/baseUpdate'];
                 layerOpen(2, "编辑", content, 1200, 600, "立即提交", "重置",
                     function (index, layero) {
                         editVal(layero, "edit_nickname", obj.nickname);
@@ -294,9 +343,39 @@ function edit(data) {
                         editVal(layero, "edit_sex", obj.sex);
                         editVal(layero, "edit_school", obj.school_id);
                         layui.form.render("select");
-                        sessionStorage.setItem("npc", JSON.stringify(obj));
+                        sessionStorage.setItem("qvt", JSON.stringify(obj.virtue));
+                        sessionStorage.setItem("qkf", JSON.stringify(obj.kongFu));
+                        sessionStorage.setItem("qmp", JSON.stringify(obj.weapon));
                     }, function (index, layero) {
-
+                        var params = {};
+                        params.id = obj.id;
+                        params.nickname = getVal(layero, "edit_nickname");
+                        params.school_id = getVal(layero, "edit_school");
+                        params.enable = getVal(layero, "edit_enable");
+                        params.sex = Number(getVal(layero, "edit_sex"));
+                        params.level = Number(getVal(layero, "edit_level"));
+                        params.attitude = Number(getVal(layero, "edit_attitude"));
+                        params.characters = Number(getVal(layero, "edit_character"));
+                        params.popularity = Number(getVal(layero, "edit_popularity"));
+                        params.coin = Number(getVal(layero, "edit_coin"));
+                        params.gold = Number(getVal(layero, "edit_gold"));
+                        params.school_contribution = Number(getVal(layero, "edit_school_contribution"));
+                        params.experience = Number(getVal(layero, "edit_experience"));
+                        if (verIfy(params) === false) {
+                            return;
+                        }
+                        var ekf = JSON.parse(sessionStorage.getItem("ekf"));
+                        if(ekf === null){
+                            ekf = [];
+                        }
+                        params.kongFu = ekf;
+                        params.virtue = parFormat(sessionStorage.getItem("evt"));
+                        params.weapon = parFormat(sessionStorage.getItem("ewp"));
+                        alert(JSON.stringify(params));
+                        sessionStorage.removeItem("evt");
+                        sessionStorage.removeItem("ekf");
+                        sessionStorage.removeItem("ewp");
+                        aaUp(params, manages, update, "修改", pagingQuery);
                     }, function (index, layero) {
                         editReset(layero);
                     });
@@ -313,10 +392,10 @@ function eVirtueBut() {
         function (index, layero) {
             var obj = JSON.parse(sessionStorage.getItem("evt"));
             if (obj === null) {
-                obj = JSON.parse(sessionStorage.getItem("npc"));
+                obj = JSON.parse(sessionStorage.getItem("qvt"));
             }
-            var virtue = obj.virtue;
-            if (virtue != null) {
+            if (obj.length > 0) {
+                var virtue = obj[0];
                 document.getElementById("edit_mphysique").value = isNull(virtue.physique);
                 document.getElementById("edit_force").value = isNull(virtue.force);
                 document.getElementById("edit_muscles").value = isNull(virtue.muscles);
@@ -350,40 +429,38 @@ function eKongFuBut() {
         function (layero, index) {
             var obj = JSON.parse(sessionStorage.getItem("ekf"));
             if (obj === null) {
-                obj = JSON.parse(sessionStorage.getItem("npc"));
+                obj = JSON.parse(sessionStorage.getItem("qkf"));
             }
-            var kongFu = obj.kongFu;
-            if(kongFu != null){
+            if (obj.length > 0) {
 
             }
-            document.getElementById("").value = "123"
         }, function (layero, index) {
             var kongFu = [];
             var v1 = {}, v2 = {}, v3 = {}, v4 = {};
             var kongFu1 = document.getElementById("edit_kongFu1").value;
             var exp1 = document.getElementById("edit_experience1").value;
-            if (!checkNull(kongFu1)) {
+            if (kongFu1 !== "") {
                 v1.kongFu = kongFu1;
                 v1.exp = Number(exp1);
                 kongFu.push(v1);
             }
             var kongFu2 = document.getElementById("edit_kongFu2").value;
             var exp2 = document.getElementById("edit_experience2").value;
-            if (!checkNull(kongFu2)) {
+            if (kongFu2 !== "") {
                 v2.kongFu = kongFu2;
                 v2.exp = Number(exp2);
                 kongFu.push(v2);
             }
             var kongFu3 = document.getElementById("edit_kongFu3").value;
             var exp3 = document.getElementById("edit_experience3").value;
-            if (!checkNull(kongFu3)) {
+            if (kongFu3 !== "") {
                 v3.kongFu = kongFu3;
                 v3.exp = Number(exp3);
                 kongFu.push(v3);
             }
             var kongFu4 = document.getElementById("edit_kongFu4").value;
             var exp4 = document.getElementById("edit_experience4").value;
-            if (!checkNull(kongFu4)) {
+            if (kongFu4 !== "") {
                 v4.kongFu = kongFu4;
                 v4.exp = Number(exp4);
                 kongFu.push(v4);
@@ -392,6 +469,10 @@ function eKongFuBut() {
             layer.closeAll();
         }, function (index, layero) {
             clearVal(kongFuID, 2);
+            $('#edit_experience1').removeAttr("disabled");
+            $('#edit_experience2').removeAttr("disabled");
+            $('#edit_experience3').removeAttr("disabled");
+            $('#edit_experience4').removeAttr("disabled");
         });
 }
 
@@ -428,18 +509,20 @@ function eWeaponBut() {
         function (index, layero) {
             var obj = JSON.parse(sessionStorage.getItem("ewp"));
             if (obj === null) {
-                obj = JSON.parse(sessionStorage.getItem("npc"));
+                obj = JSON.parse(sessionStorage.getItem("qwp"));
             }
-            var weapon = obj.weapon;
-            if (weapon != null) {
-                document.getElementById("edit_melee_status").value = weapon.melee_status;
-                document.getElementById("edit_sword_status").value = weapon.sword_status;
-                document.getElementById("edit_axe_status").value = weapon.axe_status;
-                document.getElementById("edit_javelin_status").value = weapon.javelin_status;
-                document.getElementById("edit_hidden_weapons_status").value = weapon.hidden_weapons_status;
-                document.getElementById("edit_sorcery_status").value = weapon.sorcery_status;
-                document.getElementById("edit_dodge_skill_status").value = weapon.dodge_skill_status;
-                document.getElementById("edit_chakra_status").value = weapon.chakra_status;
+            if(obj !== null){
+                if (obj.length > 0) {
+                    var weapon = obj[0];
+                    document.getElementById("edit_melee_status").value = isNull(weapon.melee_status);
+                    document.getElementById("edit_sword_status").value = isNull(weapon.sword_status);
+                    document.getElementById("edit_axe_status").value = isNull(weapon.axe_status);
+                    document.getElementById("edit_javelin_status").value = isNull(weapon.javelin_status);
+                    document.getElementById("edit_hidden_weapons_status").value = isNull(weapon.hidden_weapons_status);
+                    document.getElementById("edit_sorcery_status").value = isNull(weapon.sorcery_status);
+                    document.getElementById("edit_dodge_skill_status").value = isNull(weapon.dodge_skill_status);
+                    document.getElementById("edit_chakra_status").value = isNull(weapon.chakra_status);
+                }
             }
         }, function (index, layero) {
             var weapon = {};
