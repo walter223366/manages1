@@ -404,10 +404,9 @@ function del(data,manages,pagingQuery) {
         }
     );
 }
-function downBox(method,id,selectId,mlSelection) {
+function downBox(downs,method,id,selectId,mlSelection) {
     //document.getElementById(id).options.length = 0;
-    var params = {};
-    postRequest(params, "downBox", method, function (data) {
+    postRequest(downs, "downBox", method, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {

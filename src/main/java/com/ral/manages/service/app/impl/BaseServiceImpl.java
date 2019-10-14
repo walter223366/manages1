@@ -78,6 +78,11 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
                 Map<String,Object> shcoolMap = schoolMapper.schoolIdQuery(baseMap);
                 baseMap.put("schoolName",MapUtil.getString(shcoolMap,"name"));
             }
+            String userId = MapUtil.getString(baseMap,"user_id");
+            if(!StringUtil.isNull(userId)){
+                Map<String,Object> userMap = accountMapper.accountQueryName(userId);
+                baseMap.put("userName",MapUtil.getString(userMap,"account"));
+            }
         }
         return PageBean.resultPage(page.getTotal(),baseList);
     }

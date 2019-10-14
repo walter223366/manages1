@@ -18,9 +18,7 @@ public class JumpController {
     public String jumpMain(){ return "main.html"; }
 
     @RequestMapping("account")
-    public String jumpAccount(){ return "app/account/account.html"; }
-    @RequestMapping("accountUpdate")
-    public String jumpAccountUpdate(){ return "app/account/account_update.html";}
+    public String jumpAccount(){ return "app/account.html"; }
 
     @RequestMapping("school")
     public String jumpSchool(){ return "app/school.html"; }

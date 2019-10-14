@@ -39,7 +39,20 @@
         SELECT kongfu_id,name FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
     </select>
     <select id="kongFuQueryMarquee" resultType="map">
-        SELECT  kongfu_id,name FROM dict_kongfu
+        SELECT  kongfu_id,name FROM dict_kongfu WHERE 1=1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 0 or type == '0'">
+                    AND type=#{type}
+                </when>
+                <when test="type == 1 or type == '1'">
+                    AND type=#{type}
+                </when>
+                <otherwise>
+                    AND (type!=0 AND type!=1)
+                </otherwise>
+            </choose>
+        </if>
     </select>
     <select id="kongFuQueryMarqueeName" parameterType="map" resultType="map">
         SELECT name FROM dict_kongfu WHERE 1=1 AND kongfu_id IN

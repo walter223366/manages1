@@ -12,7 +12,7 @@ public interface IKongFuMapper {
     Map<String,Object> kongFuEditQuery(Map<String,Object> map);
     Map<String,Object> kongFuIdQuery(Map<String,Object> map);
     Map<String,Object> kongFuQueryName(@Param("kongFuId") String kongFuId);
-    List<Map<String,Object>> kongFuQueryMarquee();
+    List<Map<String,Object>> kongFuQueryMarquee(Map<String,Object> map);
     List<Map<String,Object>> kongFuQueryMarqueeName(Map<String,Object> map);
     /*新增*/
     void kongFuInsert(Map<String,Object> map);

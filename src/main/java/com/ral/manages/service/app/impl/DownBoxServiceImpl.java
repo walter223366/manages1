@@ -40,13 +40,13 @@ public class DownBoxServiceImpl implements UnifiedCall {
     public Map<String,Object> uCall(String method,Map<String,Object> map) {
         Map<String,Object> result = new HashMap<String,Object>();
         switch (method){
-            case ProjectConst.MOVEDOWNBOX: result = moveDownBox();
+            case ProjectConst.MOVEDOWNBOX: result = moveDownBox(map);
                 break;
-            case ProjectConst.EFFECTDOWNBOX: result = effectDownBox();
+            case ProjectConst.EFFECTDOWNBOX: result = effectDownBox(map);
                 break;
-            case ProjectConst.KONGFUDOWNBOX: result = kongFuDownBox();
+            case ProjectConst.KONGFUDOWNBOX: result = kongFuDownBox(map);
                 break;
-            case ProjectConst.SCHOOLDOWNBOX: result = schoolDownBox();
+            case ProjectConst.SCHOOLDOWNBOX: result = schoolDownBox(map);
                 break;
             default:
                 throw new BizException("传入方法名不存在");
@@ -55,7 +55,7 @@ public class DownBoxServiceImpl implements UnifiedCall {
     }
 
     /*招式下拉框*/
-    private Map<String,Object> moveDownBox() {
+    private Map<String,Object> moveDownBox(Map<String,Object> map) {
         List<Map<String,Object>> resultList = moveMapper.moveQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
@@ -63,7 +63,7 @@ public class DownBoxServiceImpl implements UnifiedCall {
     }
 
     /*效果下拉框*/
-    private Map<String,Object> effectDownBox() {
+    private Map<String,Object> effectDownBox(Map<String,Object> map) {
         List<Map<String,Object>> resultList = effectMapper.effectQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
@@ -71,15 +71,15 @@ public class DownBoxServiceImpl implements UnifiedCall {
     }
 
     /*功夫下拉框*/
-    private Map<String,Object> kongFuDownBox() {
-        List<Map<String,Object>> resultList = kongFuMapper.kongFuQueryMarquee();
+    private Map<String,Object> kongFuDownBox(Map<String,Object> map) {
+        List<Map<String,Object>> resultList = kongFuMapper.kongFuQueryMarquee(map);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
         return resultMap;
     }
 
     /*门派下拉框*/
-    private Map<String,Object> schoolDownBox(){
+    private Map<String,Object> schoolDownBox(Map<String,Object> map){
         Map<String,Object> resultMap = new HashMap<String,Object>();
         List<Map<String,Object>> resultList = schoolMapper.schoolQueryMarquee();
         resultMap.put("data",resultList);

@@ -3,26 +3,53 @@
 
 <mapper namespace="com.ral.manages.mapper.app.IBaseMapper">
 
-    <!--NPC角色表-->
+    <!--角色表-->
     <sql id="baseResult">
-        id,user_id,school_id,member_id,nickname,sex,level,attitude,character,popularity,coin,gold,experience,
-        school_contribution,img,enable,cancellation
+        id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,experience,
+        school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus
     </sql>
     <sql id="conditionalCheck">
-        <if test="nickname!=null and nickname!=''">
+        <if test="nickname != null and nickname != ''">
             AND nickname like '%${nickname}%'
         </if>
-        <if test="school_id!=null and school_id!=''">
+        <if test="school_id != null and school_id != ''">
             AND school_id=#{schoolId}
         </if>
-        <if test="enable!=null and enable!=''">
-            AND enable=#{enable}
+        <if test="enable != null and enable != ''">
+            <choose>
+                <when test="enable == 1">
+                    AND enable=#{enable}
+                </when>
+                <otherwise>
+                    AND (enable IS NULL OR enable=0)
+                </otherwise>
+            </choose>
+        </if>
+        <if test="cancellation != null and cancellation != ''">
+            <choose>
+                <when test="cancellation == 1">
+                    AND cancellation=#{cancellation}
+                </when>
+                <otherwise>
+                    AND (cancellation IS NULL OR cancellation=0)
+                </otherwise>
+            </choose>
+        </if>
+        <if test="is_npc != null and is_npc != ''">
+            <choose>
+                <when test="is_npc == 1">
+                    AND is_npc=#{is_npc}
+                </when>
+                <otherwise>
+                    AND (is_npc IS NULL OR is_npc=0)
+                </otherwise>
+            </choose>
         </if>
     </sql>
 
     <!--查询-->
     <select id="basePagingQuery" parameterType="map" resultType="map">
-        SELECT * FROM biz_charactor_base_info WHERE 1=1 <include refid="conditionalCheck"/> AND (cancellation IS NULL OR cancellation=0)
+        SELECT * FROM biz_charactor_base_info WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="baseIsExist" parameterType="map" resultType="int">
         SELECT COUNT(1) FROM biz_charactor_base_info WHERE 1=1 AND nickname=#{nickname}
@@ -56,12 +83,13 @@
 
     <!--新增-->
     <insert id="baseInsert" parameterType="map">
-        INSERT INTO biz_charactor_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,
-        coin,gold,experience,school_contribution,img,enable,cancellation)
+        INSERT INTO biz_charactor_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,
+        experience,school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus)
         VALUES (
           #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex,jdbcType=INTEGER},#{level,jdbcType=INTEGER},
           #{attitude,jdbcType=INTEGER},#{characters,jdbcType=INTEGER},#{popularity,jdbcType=INTEGER},#{coin,jdbcType=INTEGER},
-          #{gold,jdbcType=INTEGER},#{experience,jdbcType=INTEGER},#{school_contribution,jdbcType=INTEGER},#{img},#{enable},#{cancellation}
+          #{gold,jdbcType=INTEGER},#{experience,jdbcType=INTEGER},#{school_contribution,jdbcType=INTEGER},#{img},#{enable},#{cancellation},
+          #{is_npc},#{last_time},#{deleteStatus}
         )
     </insert>
     <insert id="baseAttInsert" parameterType="map">
@@ -95,11 +123,11 @@
 
     <!--修改-->
     <update id="baseUpdate" parameterType="map">
-        UPDATE biz_charactor_base_info_npc SET school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},
+        UPDATE biz_charactor_base_info SET school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},
         sex=#{sex,jdbcType=INTEGER},level#{level,jdbcType=INTEGER},attitude=#{attitude,jdbcType=INTEGER},
         characters=#{characters,jdbcType=INTEGER},popularity=#{popularity,jdbcType=INTEGER},coin=#{coin,jdbcType=INTEGER},
-        gold=#{gold,jdbcType=INTEGER},experience=#{experience,jdbcType=INTEGER},
-        school_contribution=#{school_contribution,jdbcType=INTEGER},enable=#{enable}
+        gold=#{gold,jdbcType=INTEGER},experience=#{experience,jdbcType=INTEGER},school_contribution=#{school_contribution,jdbcType=INTEGER},
+        img=#{img},enable=#{enable},cancellation=#{cancellation},is_npc=#{is_npc},last_time=#{last_time}
         WHERE 1=1 AND id=#{id}
     </update>
     <update id="baseAttUpdate" parameterType="map">
@@ -126,7 +154,7 @@
 
     <!--删除-->
     <update id="baseDelete" parameterType="map">
-        UPDATE biz_charactor_base_info_npc SET cancellation=#{cancellation} WHERE 1=1 AND nickname=#{nickname}
+        UPDATE biz_charactor_base_info SET deleteStatus=#{deleteStatus} WHERE 1=1 AND nickname=#{nickname}
     </update>
 
 </mapper>

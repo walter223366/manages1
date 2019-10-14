@@ -73,39 +73,32 @@ function edit(data) {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
-                sessionStorage.setItem("edit",rows);
-                editOpen();
+                document.getElementById("edit_id").value = isNull(obj.id);
+                document.getElementById("edit_account").value = isNull(obj.account);
+                document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
+                $("#edit_source").val(String(obj.source));
+                layui.form.render("select");
+                var content = $("#editInfo");
+                layerOpen(1, "编辑", content, 800, 450, "立即提交", "重置", "",
+                    function (index, layero) {
+                        var params = {};
+                        params.id = $("#edit_id").val();
+                        params.account = $("#edit_account").val();
+                        params.tellphone = Number($("#edit_tellPhone").val());
+                        params.lrrq = $("#edit_lrrq").val();
+                        params.source = Number($("#edit_source").val());
+                        if (verIfy(params) === false) {
+                            return;
+                        }
+                        aaUp(params, manages, update, "修改", pagingQuery);
+                    }, function (index, layero) {
+                        $("#edit_tellPhone").val('');
+                    });
             }
         } else {
             layer.msg(data.msg, {icon: 2});
         }
     });
-}
-
-function editOpen() {
-    var edit = sessionStorage.getItem("edit");
-    var obj = JSON.parse(edit);
-    document.getElementById("edit_id").value = isNull(obj.id);
-    document.getElementById("edit_account").value = isNull(obj.account);
-    document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
-    $("#edit_source").val(String(obj.source));
-    layui.form.render("select");
-    var content = [splictUrl + '/system/accountUpdate', 'no'];
-    layerOpen(2, "编辑", content, 950, 500, "立即提交", "重置", "",
-        function (index, layero) {
-            var params = {};
-            params.id = $("#edit_id").val();
-            params.account = $("#edit_account").val();
-            params.tellphone = Number($("#edit_tellPhone").val());
-            params.lrrq = $("#edit_lrrq").val();
-            params.source = Number($("#edit_source").val());
-            if (verIfy(params) === false) {
-                return;
-            }
-            aaUp(params, manages, update, "修改", pagingQuery);
-        }, function (index, layero) {
-            $("#edit_tellPhone").val('');
-        });
 }
 
 layui.use('laydate', function(){

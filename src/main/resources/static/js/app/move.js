@@ -32,8 +32,9 @@ function cleanUp() {
 
 function add() {
     addReset();
-    downBox(kongFuBox, "add_kongFu", "", lSelection);
-    downBox(effectBox, "add_effect", "select_addEffect", mSelection);
+    var downs = {};
+    downBox(downs, kongFuBox, "add_kongFu", "", lSelection);
+    downBox(downs, effectBox, "add_effect", "select_addEffect", mSelection);
     var content = $("#addInfo");
     layerOpen(1, "新增", content, 1000, 500, "立即提交", "重置", "",
         function (index, layero) {
@@ -106,8 +107,9 @@ function see(data) {
 }
 
 function edit(data) {
-    downBox(kongFuBox, "edit_kongFu", "", lSelection);
-    downBox(effectBox, "edit_effect", "select_editEffect", mSelection);
+    var downs = {};
+    downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
+    downBox(downs, effectBox, "edit_effect", "select_editEffect", mSelection);
     var params = {name: data.name};
     postRequest(params, manages, eQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {

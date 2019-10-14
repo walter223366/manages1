@@ -57,7 +57,7 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">性&emsp;&emsp;格</label>
                 <div class="layui-input-inline">
-                    <input id="edit_character" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_character" type="number" class="layui-input inLeng">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -81,7 +81,7 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">态&emsp;&emsp;度</label>
                 <div class="layui-input-inline">
-                    <input id="edit_attitude" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_attitude" type="number" class="layui-input inLeng">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -124,10 +124,19 @@
                 <button onclick="eWeaponBut()" type="button" class="layui-btn btncc">点击填写兵器造诣</button>
             </div>
         </div>
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend style="margin-left:0;"><span style="font-size:15px;">人物潜能</span></legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline" style="width: 390px">
+                <button onclick="ePotentBut()" type="button" class="layui-btn btncc">点击填写人物潜能</button>
+            </div>
+        </div>
     </div>
 
 
-    <!--编辑栏-属性分配-->
+    <!--属性分配-->
     <div class="x-body" id="eAttInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form" id="formAttInfo">
             <div class="layui-form-item layLeng">
@@ -236,7 +245,7 @@
     </div>
 
 
-    <!--编辑栏-武学添加-->
+    <!--武学添加-->
     <div class="x-body" id="eArtsInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form" id="formArtsInfo">
             <div class="layui-form-item">
@@ -300,7 +309,7 @@
     </div>
 
 
-    <!--编辑栏-兵器造诣-->
+    <!--兵器造诣-->
     <div class="x-body" id="eWeaponInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form" id="formWeaponInfo">
             <div class="layui-inline layLeng">
@@ -353,13 +362,162 @@
             </div>
         </form>
     </div>
+
+
+    <!--人物潜能-->
+    <div class="x-body" id="ePotentInfo" aria-hidden="true" hidden>
+        <form class="layui-form-item layui-form">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">智慧</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">见多识广</label>
+                <div class="layui-input-inline">
+                    <input id="edit_wisdom1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">嗜练烈毒</label>
+                <div class="layui-input-inline">
+                    <input id="edit_wisdom2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">遍尝百草</label>
+                <div class="layui-input-inline">
+                    <input id="edit_wisdom3" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">强壮</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">生命旺盛</label>
+                <div class="layui-input-inline">
+                    <input id="edit_healthy1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">抗晕体质</label>
+                <div class="layui-input-inline">
+                    <input id="edit_healthy2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">再生体质</label>
+                <div class="layui-input-inline">
+                    <input id="edit_healthy3" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">醇厚</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">浑厚力道</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mellow1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">极速御气</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mellow2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">凝聚真气</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mellow3" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">周转御气</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mellow4" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">逆行真气</label>
+                <div class="layui-input-inline">
+                    <input id="edit_mellow5" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">技巧</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">行云流水</label>
+                <div class="layui-input-inline">
+                    <input id="edit_fineness1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">模糊身形</label>
+                <div class="layui-input-inline">
+                    <input id="edit_fineness2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">爆发</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">致命打击</label>
+                <div class="layui-input-inline">
+                    <input id="edit_burst1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">招招毙命</label>
+                <div class="layui-input-inline">
+                    <input id="edit_burst2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">犀利</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">重创攻击</label>
+                <div class="layui-input-inline">
+                    <input id="edit_sharp1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">撕裂攻击</label>
+                <div class="layui-input-inline">
+                    <input id="edit_sharp2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0;"><span style="font-size:15px;">坚韧</span></legend>
+            </fieldset>
+            <div class="layui-inline">
+                <label class="layui-form-label">坚强意志</label>
+                <div class="layui-input-inline">
+                    <input id="edit_tenacity1" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">钢筋铁骨</label>
+                <div class="layui-input-inline">
+                    <input id="edit_tenacity2" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">凝气守神</label>
+                <div class="layui-input-inline">
+                    <input id="edit_tenacity3" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 <script th:src="@{/js/main.js}" type="text/javascript"></script>
 <script th:src="@{/js/app/base.js}" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
-        downBox(schoolBox, "edit_school", "", lSelection)
+        var downs = {};
+        downBox(downs, schoolBox, "edit_school", "", lSelection)
     });
 </script>
 </html>
