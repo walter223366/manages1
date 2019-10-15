@@ -250,12 +250,12 @@
 
     <!--武学添加-->
     <div class="x-body" id="aArtsInfo" aria-hidden="true" hidden>
-        <form class="layui-form-item layui-form">
+        <form class="layui-form-item layui-form" id="formKongFu">
             <div class="layui-form-item">
                 <label class="layui-form-label">武学类型</label>
                 <div class="layui-input-inline" style="width: 390px">
-                    <select id="add_kfTypes" type="checkbox">
-                        <option value="0">内功</option>
+                    <select id="add_kfTypes" onchange="changeQualifications(this)">
+                        <option value="0" selected="selected">内功</option>
                         <option value="1">轻功</option>
                         <option value="2">外功</option>
                     </select>
@@ -270,59 +270,9 @@
                     <select id="add_kongFu" type="checkbox"></select>
                 </div>
                 <div class="layui-input-inline">
-                    <button onclick="addKongFu()" type="button" class="layui-btn buLeng">添加</button>
+                    <button id="addKongFus" onclick="addKongFu()" type="button" class="layui-btn buLeng">添加</button>
                 </div>
             </div>
-            <!--<div id="formKongFu"></div>-->
-
-            <!--<div class="layui-form-item">
-                <label class="layui-form-label">武学添一</label>
-                <div class="layui-input-inline">
-                    <input id="add_kongFu1" type="text" class="layui-input" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_experience1" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <button type="button" onclick="resetKongFu('add_kongFu1','add_experience1')" class="layui-btn layui-btn-primary buLeng">清除</button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">武学添二</label>
-                <div class="layui-input-inline">
-                    <input id="add_kongFu2" type="text" class="layui-input" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_experience2" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <button type="button" onclick="resetKongFu('add_kongFu2','add_experience2')" class="layui-btn layui-btn-primary buLeng">清除</button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">武学添三</label>
-                <div class="layui-input-inline">
-                    <input id="add_kongFu3" type="text" class="layui-input" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_experience3" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <button type="button" onclick="resetKongFu('add_kongFu3','add_experience3')" class="layui-btn layui-btn-primary buLeng">清除</button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">武学添四</label>
-                <div class="layui-input-inline">
-                    <input id="add_kongFu4" type="text" class="layui-input" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_experience4" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <button type="button" onclick="resetKongFu('add_kongFu4','add_experience4')" class="layui-btn layui-btn-primary buLeng">清除</button>
-                </div>
-            </div>-->
         </form>
     </div>
 
@@ -535,11 +485,16 @@
 <script type="text/javascript">
     $(function () {
         var downs = {};
-        downBox(downs, schoolBox, "add_school", "", lSelection)
+        downBox(downs, schoolBox, "add_school", "", lSelection);
     });
-    $("#add_kfTypes").change(function () {
-        var options=$("#add_kfTypes option:selected");
-        alert(options.val());
+
+    $(function() {
+        $("select[id='add_kfTypes']").change(function(){
+            changeQualifications(this);
+        });
     });
+    function changeQualifications(a) {
+        alert(a)
+    }
 </script>
 </html>

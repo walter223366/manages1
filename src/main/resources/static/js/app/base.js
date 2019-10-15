@@ -145,46 +145,25 @@ function calcuAttNum(a,b,c,d,e,f,m,n) {
 
 function aKongFuBut() {
     var content = $("#aArtsInfo");
-    layerOpen(1, "武学信息", content, 900, 400, "确定", "重置", "",
+    layerOpen(1, "武学信息", content, 1000, 400, "确定", "关闭", "",
         function (layero, index) {
             var kongFu = [];
-            var v1 = {}, v2 = {}, v3 = {}, v4 = {};
-            var kongFu1 = document.getElementById("add_kongFu1").value;
-            var exp1 = document.getElementById("add_experience1").value;
-            if (kongFu1 !== "") {
-                v1.name = kongFu1;
-                v1.experience = Number(exp1);
-                kongFu.push(v1);
+            var forms = document.getElementById("formKongFu");
+            var div = forms.getElementsByClassName("inp");
+            for(var i=1; i<=div.length; i++) {
+                var diValue = {};
+                diValue.type = document.getElementById("label"+i).innerHTML;
+                diValue.kongFuName = document.getElementById("name"+i).value;
+                diValue.experience = document.getElementById("exp"+i).value;
+                diValue.state = document.getElementById("state"+i).value;
+                diValue.kongfu_id = document.getElementById("id"+i).value;
+                kongFu.push(diValue);
             }
-            var kongFu2 = document.getElementById("add_kongFu2").value;
-            var exp2 = document.getElementById("add_experience2").value;
-            if (kongFu2 !== "") {
-                v2.name = kongFu2;
-                v2.experience = Number(exp2);
-                kongFu.push(v2);
-            }
-            var kongFu3 = document.getElementById("add_kongFu3").value;
-            var exp3 = document.getElementById("add_experience3").value;
-            if (kongFu3 !== "") {
-                v3.name = kongFu3;
-                v3.experience = Number(exp3);
-                kongFu.push(v3);
-            }
-            var kongFu4 = document.getElementById("add_kongFu4").value;
-            var exp4 = document.getElementById("add_experience4").value;
-            if (kongFu4 !== "") {
-                v4.name = kongFu4;
-                v4.experience = Number(exp4);
-                kongFu.push(v4);
-            }
+            alert(JSON.stringify(kongFu));
             sessionStorage.setItem("akf", JSON.stringify(kongFu));
             layer.closeAll();
         }, function (index, layero) {
-            clearVal(kongFuID, 1);
-            document.getElementById("add_experience1").disabled = true;
-            document.getElementById("add_experience2").disabled = true;
-            document.getElementById("add_experience3").disabled = true;
-            document.getElementById("add_experience4").disabled = true;
+            layer.closeAll();
         });
 }
 
@@ -196,32 +175,98 @@ function addTypeBut() {
     downBox(downs, kongFuBox, "add_kongFu", "", lSelection);
 }
 
-/*$(function(){
-    $("#add_kongFuInfo").html($("#formKongFu").html());
-});*/
-
+var i = 1;
 function addKongFu() {
-    var kongFu = $("#add_kongFu").find("option:selected").text();
-    if (kongFu === "请选择") {
+    var kongFu = $("#add_kongFu").find("option:selected");
+    var kText = kongFu.text();
+    if (kText === "请选择" || kText === "") {
         layer.msg("请选择武学选项");
         return;
     }
-    var div = document.getElementById("aArtsInfo");
+    var typeV = $("#add_kfTypes").find("option:selected").text();
+    createE(typeV,kText,kongFu.val());
+}
+
+function createE(typeV,kText,kVal) {
+    var div = document.getElementById("formKongFu");
     var div1 = document.createElement("div");
-    div1.className = "layui-form-item";
+    div1.id = "pDiv"+i;
+    div1.className = "layui-form-item inp";
     var label = document.createElement("label");
     label.className = "layui-form-label";
+    label.id = "label"+i;
+    label.innerHTML  = typeV;
     div1.appendChild(label);
     var div2 = document.createElement("div");
     div2.className = "layui-input-inline";
-    var input = document.createElement("input");
-    input.className = "layui-input";
-    input.setAttribute('type', 'text');
-    input.setAttribute('ReadOnly', 'True');  //设置文本为只读类型
-    input.value = kongFu;
-    div2.appendChild(input);
+    var input1 = document.createElement("input");
+    input1.className = "layui-input";
+    input1.id = "name"+i;
+    input1.setAttribute('type', 'text');
+    input1.setAttribute('ReadOnly', 'True');
+    input1.value = kText;
+    div2.appendChild(input1);
+    div1.appendChild(div2);
+    var div3 = document.createElement("div");
+    div3.className = "layui-input-inline";
+    var input2 = document.createElement("input");
+    input2.className = "layui-input";
+    input2.id = "exp"+i;
+    input2.setAttribute('type', 'text');
+    input2.setAttribute("placeholder","输入经验值");
+    input2.setAttribute("oninput","value=value.replace(/[^\\d]/g,'')");
+    div3.appendChild(input2);
+    div1.appendChild(div3);
+    var div4 = document.createElement("div");
+    div4.className = "layui-input-inline";
+    div4.style.width = "120px";
+    var input3 = document.createElement("input");
+    input3.className = "layui-btn layui-btn-primary buLeng";
+    input3.setAttribute("type","button");
+    input3.value = "未使用";
+    input3.id = 'state'+i;
+    input3.onclick = selectE;
+    div4.appendChild(input3);
+    div1.appendChild(div4);
+    var div5 = document.createElement("div");
+    div5.className = "layui-input-inline";
+    var button1 = document.createElement("button");
+    button1.className = "layui-btn layui-btn-primary buLeng";
+    button1.setAttribute("type","button");
+    button1.innerHTML = "删除";
+    button1.id = ''+i;
+    button1.onclick = removeE;
+    div5.appendChild(button1);
+    div1.appendChild(div5);
+    var div6 = document.createElement("div");
+    div6.className = "layui-input-inline";
+    div6.style.width = "50px";
+    div6.style.display = "none";
+    var input4 = document.createElement("input");
+    input4.className = "layui-btn layui-btn-primary buLeng";
+    input4.id = "id"+i;
+    input4.value = kVal;
+    div6.appendChild(input4);
+    div1.appendChild(div6);
     div.appendChild(div1);
-    div.appendChild(div2);
+    i++;
+}
+
+function removeE(){
+    var id = this.id;
+    document.getElementById("formKongFu").removeChild(document.getElementById("pDiv"+id));
+}
+
+function selectE() {
+    var id = this.id;
+    var a = document.getElementById(id).value;
+    if (a === "未使用") {
+        document.getElementById(id).value = "使用";
+        document.getElementById(id).className = "layui-btn buLeng";
+    } else {
+        document.getElementById(id).value = "未使用";
+        document.getElementById(id).className = "layui-btn layui-btn-primary buLeng";
+    }
 }
 
 function addKongFu1() {
