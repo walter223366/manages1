@@ -79,6 +79,9 @@
     <select id="queryRelatKFInfo" parameterType="java.lang.String" resultType="map">
         SELECT * FROM relat_role_kongfu WHERE 1=1 AND role_id=#{baseId}
     </select>
+    <select id="queryPotentInfo" parameterType="java.lang.String" resultType="map">
+        SELECT * FROM biz_charactor_potential WHERE 1=1 AND charactor_id=#{baseId}
+    </select>
 
 
     <!--新增-->
@@ -86,10 +89,8 @@
         INSERT INTO biz_charactor_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,
         experience,school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus)
         VALUES (
-          #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex,jdbcType=INTEGER},#{level,jdbcType=INTEGER},
-          #{attitude,jdbcType=INTEGER},#{characters,jdbcType=INTEGER},#{popularity,jdbcType=INTEGER},#{coin,jdbcType=INTEGER},
-          #{gold,jdbcType=INTEGER},#{experience,jdbcType=INTEGER},#{school_contribution,jdbcType=INTEGER},#{img},#{enable},#{cancellation},
-          #{is_npc},#{last_time},#{deleteStatus}
+          #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{characters},#{popularity},#{coin},
+          #{gold},#{experience},#{school_contribution},#{img},#{enable},#{cancellation},#{is_npc},#{last_time},#{deleteStatus}
         )
     </insert>
     <insert id="baseAttInsert" parameterType="map">
@@ -101,9 +102,9 @@
         )
     </insert>
     <insert id="baseExtInsert" parameterType="map">
-        INSERT INTO biz_charactor_battle_ext(id,physique,force,muscles,chakra,sensitivity,willpower,knowledge,lucky,charactor_id)
+        INSERT INTO biz_charactor_battle_ext(id,physique,forces,muscles,chakra,sensitivity,willpower,knowledge,lucky,charactor_id)
         VALUES (
-          #{id},#{physique},#{force},#{muscles},#{chakra},#{sensitivity},#{willpower},#{knowledge},#{lucky},#{charactor_id}
+          #{id},#{physique},#{forces},#{muscles},#{chakra},#{sensitivity},#{willpower},#{knowledge},#{lucky},#{charactor_id}
         )
     </insert>
     <insert id="basePotInsert" parameterType="map">
@@ -115,9 +116,9 @@
         )
     </insert>
     <insert id="baseRrkInsert" parameterType="map">
-        INSERT INTO relat_role_kongfu(role_kongfu_id,kongfu_id,role_id,experience)
+        INSERT INTO relat_role_kongfu(role_kongfu_id,kongfu_id,role_id,experience,use)
         VALUES (
-          #{id},#{kongfu_id},#{role_id},#{experience}
+          #{id},#{kongfu_id},#{role_id},#{experience},#{use}
         )
     </insert>
 

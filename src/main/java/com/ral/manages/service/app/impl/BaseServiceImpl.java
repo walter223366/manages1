@@ -11,12 +11,14 @@ import com.ral.manages.mapper.app.*;
 import com.ral.manages.service.app.IBaseService;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.util.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.beans.Transient;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,78 +114,71 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
     }
 
     /*新增*/
-    @Transient
-    private Map<String,Object> baseInsert(Map<String,Object> map){
-        Map<String,Object> virtue = JsonUtil.formatJSON(MapUtil.getString(map,"virtue"));
-        Map<String,Object> weapon = JsonUtil.formatJSON(MapUtil.getString(map,"weapon"));
-        List<Map<String,Object>> kongFu = JsonUtil.formatList(MapUtil.getString(map,"kongFu"));
-        VerificationUtil.verificationBaseNpc(map);
+    @Transactional(propagation=Propagation.REQUIRED,readOnly=false,rollbackFor=Exception.class)
+    public Map<String,Object> baseInsert(Map<String,Object> map) {
+        VerificationUtil.verificationBase(map);
         int count = baseMapper.baseIsExist(map);
-        if(count > 0){
+        if (count > 0) {
             throw new BizException("新增失败，人物名称已存在");
         }
-        map.put("user_id",sys.getNpcAccount());//TODO 暂固定
+        map.put("user_id",sys.getNpcAccount());//TODO NPC人物固定账号ID
         map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         String id = StringUtil.getUUID();
         map.put("id",id);
-        try{
+        try {
             baseMapper.baseInsert(map);
-            extInsert(virtue,id);
-            attInsert(weapon,id);
-            kofInsert(kongFu,id);
-            //potInsert(null,id);
+            extInsert(map,id);
+            attInsert(map,id);
+            kofInsert(map,id);
+            potInsert(map,id);
             return new HashMap<>();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             log.debug("新增失败："+e.getMessage());
-            throw new BizException("新增失败："+e.getMessage());
+            throw new BizException("新增失败");
         }
     }
 
     //新增属性
-    @Transient
-    private void extInsert(Map<String,Object> map,String id){
-        if(!SetUtil.isMapNull(map)){
-            map.put("id",StringUtil.getUUID());
-            map.put("charactor_id",id);
-            baseMapper.baseExtInsert(map);
+    public void extInsert(Map<String,Object> map,String id){
+        Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
+        if(!SetUtil.isMapNull(vMap)){
+            vMap.put("id",StringUtil.getUUID());
+            vMap.put("charactor_id",id);
+            baseMapper.baseExtInsert(vMap);
         }
     }
 
     //新增造诣
-    @Transient
-    private void attInsert(Map<String,Object> map,String id){
-        if(!SetUtil.isMapNull(map)){
-            map.put("id",StringUtil.getUUID());
-            map.put("charactor_id",id);
-            baseMapper.baseAttInsert(map);
+    public void attInsert(Map<String,Object> map,String id){
+        Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
+        if(!SetUtil.isMapNull(wMap)){
+            wMap.put("id",StringUtil.getUUID());
+            wMap.put("charactor_id",id);
+            baseMapper.baseAttInsert(wMap);
         }
     }
 
     //新增武学
-    @Transient
-    private void kofInsert(List<Map<String,Object>> list,String id){
-        if(!SetUtil.isListNull(list)){
-            for(Map<String,Object> map : list){
-                map.put("id",StringUtil.getUUID());
-                map.put("role_id",id);
-                String name = MapUtil.getString(map,"name");
-                if(!StringUtil.isNull(name)){
-                    Map<String,Object> idMap = kongFuMapper.kongFuEditQuery(map);
-                    map.put("kongfu_id",MapUtil.getString(idMap,"kongfu_id"));
-                    baseMapper.baseRrkInsert(map);
-                }
+    public void kofInsert(Map<String,Object> map,String id){
+        List<Map<String,Object>> kList = (List<Map<String,Object>>) map.get("kongFu");
+        if(!SetUtil.isListNull(kList)){
+            for(Map<String,Object> kMap : kList){
+                kMap.put("id",StringUtil.getUUID());
+                kMap.put("role_id",id);
+                baseMapper.baseRrkInsert(kMap);
             }
         }
     }
 
     //新增潜力
-    @Transient
-    private void potInsert(Map<String,Object> map,String id){
-        if(!SetUtil.isMapNull(map)){
-            map.put("id",StringUtil.getUUID());
-            map.put("charactor_id",id);
-            baseMapper.basePotInsert(map);
+    public void potInsert(Map<String,Object> map,String id){
+        Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
+        if(!SetUtil.isMapNull(pMap)){
+            pMap.put("id",StringUtil.getUUID());
+            pMap.put("charactor_id",id);
+            baseMapper.basePotInsert(pMap);
         }
     }
 
@@ -193,7 +188,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         if(StringUtil.isNull(id)){
             throw new BizException("传入人物ID为空");
         }
-        VerificationUtil.verificationBaseNpc(map);
+        VerificationUtil.verificationBase(map);
         Map<String,Object> queryMap = baseMapper.baseIdQuery(map);
         if(SetUtil.isMapNull(queryMap)){
             throw new BizException("修改失败，该人物不存在");
@@ -221,34 +216,31 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
 
     //修改属性
     private void extUpdate(Map<String,Object> map){
-        Map<String,Object> virtue = JsonUtil.formatJSON(MapUtil.getString(map,"virtue"));
-        if(!SetUtil.isMapNull(virtue)){
-            virtue.put("charactor_id",MapUtil.getString(virtue,"id"));
-            baseMapper.baseExtUpdate(virtue);
+        String virtue = MapUtil.getString(map,"virtue");
+        Map<String,Object> vMap = JSONObject.fromObject(virtue);
+        if(!SetUtil.isMapNull(vMap)){
+            vMap.put("charactor_id",MapUtil.getString(map,"id"));
+            baseMapper.baseExtUpdate(vMap);
         }
     }
 
     //修改造诣
     private void attUpdata(Map<String,Object> map){
-        Map<String,Object> weapon = JsonUtil.formatJSON(MapUtil.getString(map,"weapon"));
-        if(!SetUtil.isMapNull(weapon)){
-            weapon.put("charactor_id",MapUtil.getString(map,"id"));
-            baseMapper.baseAttUpdate(weapon);
+        String weapon = MapUtil.getString(map,"weapon");
+        Map<String,Object> wMap = JSONObject.fromObject(weapon);
+        if(!SetUtil.isMapNull(wMap)){
+            wMap.put("charactor_id",MapUtil.getString(map,"id"));
+            baseMapper.baseAttUpdate(wMap);
         }
     }
 
     //修改武学
     private void kofUpdate(Map<String,Object> map){
-        List<Map<String,Object>> kongFu = JsonUtil.formatList(MapUtil.getString(map,"kongFu"));
-        if(!SetUtil.isListNull(kongFu)){
-            for(Map<String,Object> kfMap : kongFu){
+        List<Map<String,Object>> kList = (List<Map<String, Object>>) map.get("kongFu");
+        if(!SetUtil.isListNull(kList)){
+            for(Map<String,Object> kfMap : kList){
                 kfMap.put("role_id",MapUtil.getString(map,"id"));
-                String name = MapUtil.getString(map,"name");
-                if(!StringUtil.isNull(name)){
-                    Map<String,Object> idMap = kongFuMapper.kongFuEditQuery(map);
-                    kfMap.put("kongfu_id",MapUtil.getString(idMap,"kongfu_id"));
-                    baseMapper.baseRrkUpdate(kfMap);
-                }
+                baseMapper.baseRrkUpdate(kfMap);
             }
         }
     }
@@ -314,6 +306,8 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
             kofMap.put("kongFuName",MapUtil.getString(nameMap,"name"));
         }
         resultMap.put("kongFu",SetUtil.clearValueNullToList(kofList));
+        List<Map<String,Object>> potList = baseMapper.queryPotentInfo(baseId);
+        resultMap.put("potent",SetUtil.clearValueNullToList(potList));
         return SetUtil.clearValueNullToMap(resultMap);
     }
 

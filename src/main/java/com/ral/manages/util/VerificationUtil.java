@@ -94,7 +94,7 @@ public class VerificationUtil {
 
 
     /*人物管理参数校验*/
-    public static void verificationBaseNpc(Map<String,Object> map){
+    public static void verificationBase(Map<String,Object> map){
         String nickname = MapUtil.getString(map,"nickname");
         if(StringUtil.isNull(nickname)){
             throw new BizException("传入人物名称为空");

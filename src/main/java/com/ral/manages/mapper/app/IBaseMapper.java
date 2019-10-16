@@ -20,6 +20,7 @@ public interface IBaseMapper {
     List<Map<String,Object>> queryPotentialInfo(@Param("baseId") String baseId);
     List<Map<String,Object>> queryRelationInfo(@Param("baseId") String baseId);
     List<Map<String,Object>> queryRelatKFInfo(@Param("baseId") String baseId);
+    List<Map<String,Object>> queryPotentInfo(@Param("baseId") String baseId);
 
 
     /*新增*/

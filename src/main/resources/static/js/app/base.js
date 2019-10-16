@@ -47,16 +47,17 @@ function add() {
             var params = {};
             params.nickname = getVal(layero, "add_nickname");
             params.school_id = getVal(layero, "add_school");
-            params.enable = getVal(layero, "add_enable");
-            params.sex = (getVal(layero, "add_sex"));
-            params.level = (getVal(layero, "add_level"));
-            params.attitude = (getVal(layero, "add_attitude"));
-            params.characters = (getVal(layero, "add_character"));
-            params.popularity = (getVal(layero, "add_popularity"));
-            params.coin = (getVal(layero, "add_coin"));
-            params.gold = (getVal(layero, "add_gold"));
-            params.school_contribution = (getVal(layero, "add_school_contribution"));
-            params.experience = (getVal(layero, "add_experience"));
+            params.enable = Number(getVal(layero, "add_enable"));
+            params.sex = Number(getVal(layero, "add_sex"));
+            params.level = Number(getVal(layero, "add_level"));
+            params.attitude = Number(getVal(layero, "add_attitude"));
+            params.characters = Number(getVal(layero, "add_character"));
+            params.popularity = Number(getVal(layero, "add_popularity"));
+            params.coin = Number(getVal(layero, "add_coin"));
+            params.gold = Number(getVal(layero, "add_gold"));
+            params.school_contribution = Number(getVal(layero, "add_school_contribution"));
+            params.experience = Number(getVal(layero, "add_experience"));
+            params.is_npc = 1;
             if (verIfy(params) === false) {
                 return;
             }
@@ -68,7 +69,6 @@ function add() {
             params.virtue = parFormat(sessionStorage.getItem("avt"));
             params.weapon = parFormat(sessionStorage.getItem("awp"));
             params.potent = parFormat(sessionStorage.getItem("apt"));
-            alert(JSON.stringify(params));
             sessionStorage.removeItem("avt");
             sessionStorage.removeItem("akf");
             sessionStorage.removeItem("awp");
@@ -86,24 +86,25 @@ function aVirtueBut() {
         layerOpen(1, "属性分配", content, 900, 400, "确定", "重置", "",
             function (index, layero) {
                 var virtue = {};
-                virtue.physique = $("#add_mphysique").val();
-                virtue.force = $("#add_force").val();
-                virtue.muscles = $("#add_muscles").val();
-                virtue.chakra = $("#add_chakra").val();
-                virtue.sensitivity = $("#add_sensitivity").val();
-                virtue.willpower = $("#add_willpower").val();
-                virtue.knowledge = $("#add_knowledge").val();
-                virtue.lucky = $("#add_lucky").val();
-                var sum = Number(virtue.physique) + Number(virtue.force);
+                virtue.physique = Number($("#add_mphysique").val());
+                virtue.forces = Number($("#add_force").val());
+                virtue.muscles = Number($("#add_muscles").val());
+                virtue.chakra = Number($("#add_chakra").val());
+                virtue.sensitivity = Number($("#add_sensitivity").val());
+                virtue.willpower = Number($("#add_willpower").val());
+                virtue.knowledge = Number($("#add_knowledge").val());
+                virtue.lucky = Number($("#add_lucky").val());
+                var sum = Number(virtue.physique) + Number(virtue.forces);
                 sum += Number(virtue.muscles);
                 sum += Number(virtue.chakra);
                 sum += Number(virtue.sensitivity);
                 sum += Number(virtue.willpower);
                 sum += Number(virtue.knowledge);
                 sum += Number(virtue.lucky);
-                var attNum = $("#add_attributes").val();
+                var attNum = ($("#add_attributes").val());
                 if (sum > attNum) {
-                    layer.msg("各项属性值的总和已超过了属性总值");
+                    var a = Number(sum) - Number(attNum);
+                    layer.msg("各项属性值总和超出总属值的："+a);
                     return;
                 }
                 sessionStorage.setItem("avt", JSON.stringify(virtue));
@@ -130,7 +131,7 @@ function cutback(id) {
     $(obj).val(num);
 }
 
-function calcuAttNum(a,b,c,d,e,f,m,n) {
+function calAttNum(a,b,c,d,e,f,m,n) {
     var sum = Number($("#" + a)) + Number($("#" + b)) + Number($("#" + c)) + Number($("#" + d));
     sum = sum + Number($("#" + e)) + Number($("#" + f)) + Number($("#" + m)) + Number($("#" + n));
     var attNum = $("#add_attributes").val();
@@ -150,16 +151,16 @@ function aKongFuBut() {
             var kongFu = [];
             var forms = document.getElementById("formKongFu");
             var div = forms.getElementsByClassName("inp");
-            for(var i=1; i<=div.length; i++) {
+            for (var i = 1; i <= div.length; i++) {
                 var diValue = {};
-                diValue.type = document.getElementById("label"+i).innerHTML;
-                diValue.kongFuName = document.getElementById("name"+i).value;
-                diValue.experience = document.getElementById("exp"+i).value;
-                diValue.state = document.getElementById("state"+i).value;
-                diValue.kongfu_id = document.getElementById("id"+i).value;
+                diValue.type = document.getElementById("type" + i).value;
+                diValue.kongFuName = document.getElementById("name" + i).value;
+                diValue.experience = Number(document.getElementById("exp" + i).value);
+                var a = document.getElementById("use" + i).value;
+                diValue.use = (a = "未使用" ? 0 : 1);
+                diValue.kongfu_id = document.getElementById("id" + i).value;
                 kongFu.push(diValue);
             }
-            alert(JSON.stringify(kongFu));
             sessionStorage.setItem("akf", JSON.stringify(kongFu));
             layer.closeAll();
         }, function (index, layero) {
@@ -188,73 +189,81 @@ function addKongFu() {
 }
 
 function createE(typeV,kText,kVal) {
-    var div = document.getElementById("formKongFu");
+    var fkf = document.getElementById("formKongFu");
+    var div = document.createElement("div");
+    div.id = "pDiv" + i;
+    div.className = "layui-form-item inp";
     var div1 = document.createElement("div");
-    div1.id = "pDiv"+i;
-    div1.className = "layui-form-item inp";
-    var label = document.createElement("label");
-    label.className = "layui-form-label";
-    label.id = "label"+i;
-    label.innerHTML  = typeV;
-    div1.appendChild(label);
-    var div2 = document.createElement("div");
-    div2.className = "layui-input-inline";
+    div1.className = "layui-input-inline";
+    div1.style.width = "50px";
     var input1 = document.createElement("input");
     input1.className = "layui-input";
-    input1.id = "name"+i;
+    input1.id = "type" + i;
+    input1.style.width = "50px";
+    input1.style.border = "0";
     input1.setAttribute('type', 'text');
     input1.setAttribute('ReadOnly', 'True');
-    input1.value = kText;
-    div2.appendChild(input1);
-    div1.appendChild(div2);
-    var div3 = document.createElement("div");
-    div3.className = "layui-input-inline";
+    input1.value = typeV;
+    div1.appendChild(input1);
+    div.appendChild(div1);
+    var div2 = document.createElement("div");
+    div2.className = "layui-input-inline";
     var input2 = document.createElement("input");
     input2.className = "layui-input";
-    input2.id = "exp"+i;
+    input2.id = "name" + i;
     input2.setAttribute('type', 'text');
-    input2.setAttribute("placeholder","输入经验值");
-    input2.setAttribute("oninput","value=value.replace(/[^\\d]/g,'')");
-    div3.appendChild(input2);
-    div1.appendChild(div3);
+    input2.setAttribute('ReadOnly', 'True');
+    input2.value = kText;
+    div2.appendChild(input2);
+    div.appendChild(div2);
+    var div3 = document.createElement("div");
+    div3.className = "layui-input-inline";
+    var input3 = document.createElement("input");
+    input3.className = "layui-input";
+    input3.id = "exp" + i;
+    input3.setAttribute('type', 'text');
+    input3.setAttribute("placeholder", "输入经验值");
+    input3.setAttribute("oninput", "value=value.replace(/[^\\d]/g,'')");
+    div3.appendChild(input3);
+    div.appendChild(div3);
     var div4 = document.createElement("div");
     div4.className = "layui-input-inline";
     div4.style.width = "120px";
-    var input3 = document.createElement("input");
-    input3.className = "layui-btn layui-btn-primary buLeng";
-    input3.setAttribute("type","button");
-    input3.value = "未使用";
-    input3.id = 'state'+i;
-    input3.onclick = selectE;
-    div4.appendChild(input3);
-    div1.appendChild(div4);
+    var input4 = document.createElement("input");
+    input4.className = "layui-btn layui-btn-primary buLeng";
+    input4.setAttribute("type", "button");
+    input4.value = "未使用";
+    input4.id = 'use' + i;
+    input4.onclick = selectE;
+    div4.appendChild(input4);
+    div.appendChild(div4);
     var div5 = document.createElement("div");
     div5.className = "layui-input-inline";
     var button1 = document.createElement("button");
     button1.className = "layui-btn layui-btn-primary buLeng";
-    button1.setAttribute("type","button");
+    button1.setAttribute("type", "button");
     button1.innerHTML = "删除";
-    button1.id = ''+i;
+    button1.id = '' + i;
     button1.onclick = removeE;
     div5.appendChild(button1);
-    div1.appendChild(div5);
+    div.appendChild(div5);
     var div6 = document.createElement("div");
     div6.className = "layui-input-inline";
     div6.style.width = "50px";
     div6.style.display = "none";
-    var input4 = document.createElement("input");
-    input4.className = "layui-btn layui-btn-primary buLeng";
-    input4.id = "id"+i;
-    input4.value = kVal;
-    div6.appendChild(input4);
-    div1.appendChild(div6);
-    div.appendChild(div1);
+    var input6 = document.createElement("input");
+    input6.className = "layui-btn layui-btn-primary buLeng";
+    input6.id = "id" + i;
+    input6.value = kVal;
+    div6.appendChild(input6);
+    div.appendChild(div6);
+    fkf.appendChild(div);
     i++;
 }
 
-function removeE(){
+function removeE() {
     var id = this.id;
-    document.getElementById("formKongFu").removeChild(document.getElementById("pDiv"+id));
+    document.getElementById("formKongFu").removeChild(document.getElementById("pDiv" + id));
 }
 
 function selectE() {
@@ -269,33 +278,6 @@ function selectE() {
     }
 }
 
-function addKongFu1() {
-    var kongFu = $("#add_kongFu").find("option:selected").text();
-    var kongFu1 = document.getElementById("add_kongFu1");
-    var kongFu2 = document.getElementById("add_kongFu2");
-    var kongFu3 = document.getElementById("add_kongFu3");
-    var kongFu4 = document.getElementById("add_kongFu4");
-    if (kongFu === "请选择") {
-        layer.msg("请选择武学选项");
-        return;
-    }
-    if (kongFu1.value === '') {
-        kongFu1.value = kongFu;
-        $('#add_experience1').removeAttr("disabled");
-    } else if (kongFu2.value === '') {
-        kongFu2.value = kongFu;
-        $('#add_experience2').removeAttr("disabled");
-    } else if (kongFu3.value === '') {
-        kongFu3.value = kongFu;
-        $('#add_experience3').removeAttr("disabled");
-    } else if (kongFu4.value === '') {
-        kongFu4.value = kongFu;
-        $('#add_experience4').removeAttr("disabled");
-    } else {
-        layer.msg("添加武学选项已满");
-    }
-}
-
 function resetKongFu(a,b) {
     document.getElementById(a).value = '';
     document.getElementById(b).value = '';
@@ -307,14 +289,14 @@ function aWeaponBut() {
     layerOpen(1, "兵器造诣", content, 900, 400, "确定", "重置", "",
         function (index, layero) {
             var weapon = {};
-            weapon.melee_status = document.getElementById("add_melee_status").value;
-            weapon.sword_status = document.getElementById("add_sword_status").value;
-            weapon.axe_status = document.getElementById("add_axe_status").value;
-            weapon.javelin_status = document.getElementById("add_javelin_status").value;
-            weapon.hidden_weapons_status = document.getElementById("add_hidden_weapons_status").value;
-            weapon.sorcery_status = document.getElementById("add_sorcery_status").value;
-            weapon.dodge_skill_status = document.getElementById("add_dodge_skill_status").value;
-            weapon.chakra_status = document.getElementById("add_chakra_status").value;
+            weapon.melee_status = Number(document.getElementById("add_melee_status").value);
+            weapon.sword_status = Number(document.getElementById("add_sword_status").value);
+            weapon.axe_status = Number(document.getElementById("add_axe_status").value);
+            weapon.javelin_status = Number(document.getElementById("add_javelin_status").value);
+            weapon.hidden_weapons_status = Number(document.getElementById("add_hidden_weapons_status").value);
+            weapon.sorcery_status = Number(document.getElementById("add_sorcery_status").value);
+            weapon.dodge_skill_status = Number(document.getElementById("add_dodge_skill_status").value);
+            weapon.chakra_status = Number(document.getElementById("add_chakra_status").value);
             sessionStorage.setItem("awp", JSON.stringify(weapon));
             layer.closeAll();
         }, function (index, layero) {
@@ -327,26 +309,26 @@ function aPotentBut() {
     layerOpen(1, "人物潜能", content, 900, 400, "确定", "重置", "",
         function (index, layero) {
             var potent = {};
-            potent.wisdom1 = (document.getElementById("add_wisdom1").value);
-            potent.wisdom2 = (document.getElementById("add_wisdom2").value);
-            potent.wisdom3 = (document.getElementById("add_wisdom3").value);
-            potent.healthy1 = (document.getElementById("add_healthy1").value);
-            potent.healthy2 = (document.getElementById("add_healthy2").value);
-            potent.healthy3 = (document.getElementById("add_healthy3").value);
-            potent.mellow1 = (document.getElementById("add_mellow1").value);
-            potent.mellow2 = (document.getElementById("add_mellow2").value);
-            potent.mellow3 = (document.getElementById("add_mellow3").value);
-            potent.mellow4 = (document.getElementById("add_mellow4").value);
-            potent.mellow5 = (document.getElementById("add_mellow5").value);
-            potent.fineness1 = (document.getElementById("add_fineness1").value);
-            potent.fineness2 = (document.getElementById("add_fineness2").value);
-            potent.burst1 = (document.getElementById("add_burst1").value);
-            potent.burst2 = (document.getElementById("add_burst2").value);
-            potent.sharp1 = (document.getElementById("add_sharp1").value);
-            potent.sharp2 = (document.getElementById("add_sharp2").value);
-            potent.tenacity1 = (document.getElementById("add_tenacity1").value);
-            potent.tenacity2 = (document.getElementById("add_tenacity2").value);
-            potent.tenacity3 = (document.getElementById("add_tenacity3").value);
+            potent.wisdom1 = Number(document.getElementById("add_wisdom1").value);
+            potent.wisdom2 = Number(document.getElementById("add_wisdom2").value);
+            potent.wisdom3 = Number(document.getElementById("add_wisdom3").value);
+            potent.healthy1 = Number(document.getElementById("add_healthy1").value);
+            potent.healthy2 = Number(document.getElementById("add_healthy2").value);
+            potent.healthy3 = Number(document.getElementById("add_healthy3").value);
+            potent.mellow1 = Number(document.getElementById("add_mellow1").value);
+            potent.mellow2 = Number(document.getElementById("add_mellow2").value);
+            potent.mellow3 = Number(document.getElementById("add_mellow3").value);
+            potent.mellow4 = Number(document.getElementById("add_mellow4").value);
+            potent.mellow5 = Number(document.getElementById("add_mellow5").value);
+            potent.fineness1 = Number(document.getElementById("add_fineness1").value);
+            potent.fineness2 = Number(document.getElementById("add_fineness2").value);
+            potent.burst1 = Number(document.getElementById("add_burst1").value);
+            potent.burst2 = Number(document.getElementById("add_burst2").value);
+            potent.sharp1 = Number(document.getElementById("add_sharp1").value);
+            potent.sharp2 = Number(document.getElementById("add_sharp2").value);
+            potent.tenacity1 = Number(document.getElementById("add_tenacity1").value);
+            potent.tenacity2 = Number(document.getElementById("add_tenacity2").value);
+            potent.tenacity3 = Number(document.getElementById("add_tenacity3").value);
             sessionStorage.setItem("apt", JSON.stringify(potent));
             layer.closeAll();
         }, function (index, layero) {
@@ -380,9 +362,8 @@ function addReset(layero) {
     cleanVal(layero, "add_gold");
     cleanVal(layero, "add_experience");
     cleanVal(layero, "add_school_contribution");
-    cleanVal(layero, "add_img");
-    $(layero).find("iframe")[0].contentWindow.document.getElementById("add_enable").value = 1;
-    $(layero).find("iframe")[0].contentWindow.document.getElementById("add_sex").value = 1;
+    $(layero).find("iframe")[0].contentWindow.document.getElementById("add_enable").value = '1';
+    $(layero).find("iframe")[0].contentWindow.document.getElementById("add_sex").value = '1';
     layui.form.render("select");
 }
 
@@ -450,6 +431,9 @@ function see(data) {
                             document.getElementById("see_sorcery_status").value = isNull(weapon.sorcery_status);
                             document.getElementById("see_dodge_skill_status").value = isNull(weapon.dodge_skill_status);
                             document.getElementById("see_chakra_status").value = isNull(weapon.chakra_status);
+                        }
+                        if(obj.potent.length > 0){
+                            var potent = obj.potent[0];
                         }
                     }, function (index, layero) {
                         layer.closeAll();

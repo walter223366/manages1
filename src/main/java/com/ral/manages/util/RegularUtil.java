@@ -11,10 +11,13 @@ public class RegularUtil implements Serializable {
     private static final Logger LOG = Logger.getLogger(RegularUtil.class);
 
 
-    /**电话号码字符串匹配*/
-    private static Pattern phoneNumberPattern = Pattern.compile("^(\\d{3,4}-)?\\d{7,8}$");
+    //电话号码
+    public static Pattern phonePat = Pattern.compile("^(\\d{3,4}-)?\\d{7,8}$");
 
-    /**email字符串匹配*/
-    private static Pattern emailPattern = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+    //email
+    public static Pattern emailPat = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+
+    //纯数字
+    public static Pattern numberPat = Pattern.compile("^[0-9]*$ ");
 
 }
