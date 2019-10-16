@@ -210,14 +210,14 @@ function clearVal(ids,per) {
     var id;
     if(per === 1){
         for (var a = 0; a < obj.length; a++) {
-            id = "add_"+obj[a];
-            document.getElementById(id).value = '';
+            id = "#add_"+obj[a];
+            $(id).val('');
         }
     }
     if(per === 2){
         for (var e = 0; e < obj.length; e++) {
-            id = "edit_"+obj[e];
-            document.getElementById(id).value = '';
+            id = "#edit_"+obj[e];
+            $(id).val('');
         }
     }
     layui.form.render("select");
@@ -443,7 +443,8 @@ function cost(yellow,gold,green,blue,purple) {
 }
 function calAttr(level,num,elementId) {
     var attributes = level * num;
-    document.getElementById(elementId).value = isNull(attributes);
+    var id = "#"+elementId;
+    $(id).val(isNull(attributes));
     return attributes;
 }
 function cala(level,num) {

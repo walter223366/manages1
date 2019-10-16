@@ -48,12 +48,13 @@ function addReset() {
 }
 
 function see(data) {
-    document.getElementById("see_name").value = isNull(data.name);
-    document.getElementById("see_img").value = isNull(data.img);
-    document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerOpen(1, "查看详情", content, 1000, 500, "明白了", "关闭", "",
+    layerOpen(1, "查看详情", content, 1000, 500, "明白了", "关闭",
         function (index, layero) {
+            $("#see_name").val(isNull(data.name));
+            $("#see_img").val(isNull(data.img));
+            $("#see_info").val(isNull(data.info));
+        }, function (index, layero) {
             layer.closeAll();
         }, function (index, layero) {
             layer.closeAll();
@@ -66,14 +67,15 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                document.getElementById("edit_id").value = isNull(obj.article_id);
-                document.getElementById("edit_name").value = isNull(obj.name);
-                document.getElementById("edit_img").value = isNull(obj.img);
-                document.getElementById("edit_info").value = isNull(obj.info);
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 1000, 500, "立即提交", "重置", "",
+                layerOpen(1, "编辑", content, 1000, 500, "立即提交", "重置",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#edit_id").val(isNull(obj.article_id));
+                        $("#edit_name").val(isNull(obj.name));
+                        $("#edit_img").val(isNull(obj.img));
+                        $("#edit_info").val(isNull(obj.info));
+                    }, function (index, layero) {
                         var params = {};
                         params.article_id = $("#edit_id").val();
                         params.name = $("#edit_name").val();

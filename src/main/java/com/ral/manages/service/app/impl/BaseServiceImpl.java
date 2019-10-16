@@ -110,6 +110,8 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
             kofMap.put("kongFuName",MapUtil.getString(nameMap,"name"));
         }
         basicMap.put("kongFu",SetUtil.clearValueNullToList(kofList));
+        List<Map<String,Object>> potList = baseMapper.queryPotentInfo(baseId);
+        basicMap.put("potent",SetUtil.clearValueNullToList(potList));
         return SetUtil.clearValueNullToMap(basicMap);
     }
 

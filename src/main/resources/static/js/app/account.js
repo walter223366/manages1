@@ -72,15 +72,16 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                document.getElementById("edit_id").value = isNull(obj.id);
-                document.getElementById("edit_account").value = isNull(obj.account);
-                document.getElementById("edit_tellPhone").value = isNull(obj.tellphone);
-                $("#edit_source").val(String(obj.source));
-                layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 800, 450, "立即提交", "重置", "",
+                layerOpen(1, "编辑", content, 800, 450, "立即提交", "重置",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#edit_id").val(isNull(obj.id));
+                        $("#edit_account").val(isNull(obj.account));
+                        $("#edit_tellPhone").val(isNull(obj.tellphone));
+                        $("#edit_source").val(String(obj.source));
+                        layui.form.render("select");
+                    }, function (index, layero) {
                         var params = {};
                         params.id = $("#edit_id").val();
                         params.account = $("#edit_account").val();

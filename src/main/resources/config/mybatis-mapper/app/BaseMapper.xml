@@ -116,9 +116,9 @@
         )
     </insert>
     <insert id="baseRrkInsert" parameterType="map">
-        INSERT INTO relat_role_kongfu(role_kongfu_id,kongfu_id,role_id,experience,use)
+        INSERT INTO relat_role_kongfu(role_kongfu_id,kongfu_id,role_id,experience,useo)
         VALUES (
-          #{id},#{kongfu_id},#{role_id},#{experience},#{use}
+          #{id},#{kongfu_id},#{role_id},#{experience},#{useo}
         )
     </insert>
 
