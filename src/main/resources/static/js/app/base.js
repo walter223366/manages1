@@ -216,10 +216,10 @@ function see(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
                 var content = $("#seeInfo");
                 layerOpen(1, "查看详情", content, 1000, 500, "明白了", "关闭",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
                         $("#see_nickname").val(isNull(obj.nickname));
                         $("#see_level").val(isNull(obj.level));
                         $("#see_attitude").val(isNull(obj.attitude));
@@ -231,51 +231,51 @@ function see(data) {
                         $("#see_school_contribution").val(isNull(obj.school_contribution));
                         $("#see_school").val(isNull(obj.schoolName));
                         $("#see_sex").val(isNull(obj.sex));
-                        $("#see_enable").val(isNull(obj.enable=1?"已启用":"未启用"));
+                        $("#see_enable").val(isNull(obj.enable = 1 ? "已启用" : "未启用"));
                         $("#see_user").val(isNull(obj.userName));
-                        if(obj.virtue.length > 0){
+                        if (obj.virtue.length > 0) {
                             var virtue = obj.virtue[0];
-                            document.getElementById("see_mphysique").value = isNull(virtue.physique);
-                            document.getElementById("see_force").value = isNull(virtue.forces);
-                            document.getElementById("see_muscles").value = isNull(virtue.muscles);
-                            document.getElementById("see_chakra").value = isNull(virtue.chakra);
-                            document.getElementById("see_sensitivity").value = isNull(virtue.sensitivity);
-                            document.getElementById("see_willpower").value = isNull(virtue.willpower);
-                            document.getElementById("see_knowledge").value = isNull(virtue.knowledge);
-                            document.getElementById("see_lucky").value = isNull(virtue.lucky);
+                            $("#see_mphysique").val(isNull(virtue.physique));
+                            $("#see_force").val(isNull(virtue.forces));
+                            $("#see_muscles").val(isNull(virtue.muscles));
+                            $("#see_chakra").val(isNull(virtue.chakra));
+                            $("#see_sensitivity").val(isNull(virtue.sensitivity));
+                            $("#see_willpower").val(isNull(virtue.willpower));
+                            $("#see_knowledge").val(isNull(virtue.knowledge));
+                            $("#see_lucky").val(isNull(virtue.lucky));
                         }
-                        if(obj.kongFu.length > 0){
+                        if (obj.kongFu.length > 0) {
                             var kongFu1 = obj.kongFu[0];
-                            document.getElementById("see_kongFu1").value = isNull(kongFu1.kongFuName);
-                            document.getElementById("see_experience1").value = isNull(kongFu1.experience);
+                            $("#see_kongFu1").val(isNull(kongFu1.kongFuName));
+                            $("#see_experience1").val(isNull(kongFu1.experience));
                             var kongFu2 = obj.kongFu[1];
-                            if(kongFu2 !== "undefined"){
-                                document.getElementById("see_kongFu2").value = isNull(kongFu2.kongFuName);
-                                document.getElementById("see_experience3").value = isNull(kongFu2.experience);
+                            if (kongFu2 !== "undefined") {
+                                $("#see_kongFu2").val(isNull(kongFu2.kongFuName));
+                                $("#see_experience3").val(isNull(kongFu2.experience));
                             }
                             var kongFu3 = obj.kongFu[1];
-                            if(kongFu3 !== "undefined"){
-                                document.getElementById("see_kongFu3").value = isNull(kongFu3.kongFuName);
-                                document.getElementById("see_experience3").value = isNull(kongFu3.experience);
+                            if (kongFu3 !== "undefined") {
+                                $("#see_kongFu3").val(isNull(kongFu3.kongFuName));
+                                $("#see_experience3").val(isNull(kongFu3.experience));
                             }
                             var kongFu4 = obj.kongFu[1];
-                            if(kongFu4 !== "undefined"){
-                                document.getElementById("see_kongFu4").value = isNull(kongFu4.kongFuName);
-                                document.getElementById("see_experience4").value = isNull(kongFu4.experience);
+                            if (kongFu4 !== "undefined") {
+                                $("#see_kongFu4").val(isNull(kongFu4.kongFuName));
+                                $("#see_experience4").val(isNull(kongFu4.experience));
                             }
                         }
-                        if(obj.weapon.length > 0){
+                        if (obj.weapon.length > 0) {
                             var weapon = obj.weapon[0];
-                            document.getElementById("see_melee_status").value = isNull(weapon.melee_status);
-                            document.getElementById("see_sword_status").value = isNull(weapon.sword_status);
-                            document.getElementById("see_axe_status").value = isNull(weapon.axe_status);
-                            document.getElementById("see_javelin_status").value = isNull(weapon.javelin_status);
-                            document.getElementById("see_hidden_weapons_status").value = isNull(weapon.hidden_weapons_status);
-                            document.getElementById("see_sorcery_status").value = isNull(weapon.sorcery_status);
-                            document.getElementById("see_dodge_skill_status").value = isNull(weapon.dodge_skill_status);
-                            document.getElementById("see_chakra_status").value = isNull(weapon.chakra_status);
+                            $("#see_melee_status").val(isNull(weapon.melee_status));
+                            $("#see_sword_status").val(isNull(weapon.sword_status));
+                            $("#see_axe_status").val(isNull(weapon.axe_status));
+                            $("#see_javelin_status").val(isNull(weapon.javelin_status));
+                            $("#see_hidden_weapons_status").val(isNull(weapon.hidden_weapons_status));
+                            $("#see_sorcery_status").val(isNull(weapon.sorcery_status));
+                            $("#see_dodge_skill_status").val(isNull(weapon.dodge_skill_status));
+                            $("#see_chakra_status").val(isNull(weapon.chakra_status));
                         }
-                        if(obj.potent.length > 0){
+                        if (obj.potent.length > 0) {
                             var potent = obj.potent[0];
                         }
                     }, function (index, layero) {
@@ -298,10 +298,10 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
                 var content = [splictUrl + '/system/baseUpdate'];
                 layerOpen(2, "编辑", content, 1200, 600, "立即提交", "重置",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
                         editVal(layero, "edit_nickname", obj.nickname);
                         editVal(layero, "edit_level", obj.level);
                         editVal(layero, "edit_attitude", obj.attitude);
@@ -370,7 +370,7 @@ function eVirtueBut() {
                     obj = JSON.parse(sessionStorage.getItem("qvt"));
                 }
                 if (obj !== null) {
-                    $("#edit_mphysique").val(isNull(obj.physique));
+                    $("#edit_physique").val(isNull(obj.physique));
                     $("#edit_force").val(isNull(obj.forces));
                     $("#edit_muscles").val(isNull(obj.muscles));
                     $("#edit_chakra").val(isNull(obj.chakra));
@@ -381,7 +381,7 @@ function eVirtueBut() {
                 }
             }, function (index, layero) {
                 var virtue = {};
-                virtue.physique = Number($("#edit_mphysique").val());
+                virtue.physique = Number($("#edit_physique").val());
                 virtue.forces = Number($("#edit_force").val());
                 virtue.muscles = Number($("#edit_muscles").val());
                 virtue.chakra = Number($("#edit_chakra").val());
@@ -389,15 +389,13 @@ function eVirtueBut() {
                 virtue.willpower = Number($("#edit_willpower").val());
                 virtue.knowledge = Number($("#edit_knowledge").val());
                 virtue.lucky = Number($("#edit_lucky").val());
-                var sum = calAdd(virtue.physique, virtue.forces, virtue.muscles, virtue.chakra, virtue.sensitivity, virtue.willpower, virtue.knowledge, virtue.lucky);
+                var sum = calAdd(virtue);
                 var attNum = ($("#add_attributes").val());
                 if (sum > attNum) {
-                    var a = Number(sum) - Number(attNum);
-                    layer.msg("各项属性值总和超出总属值的：" + a);
+                    layer.msg("各项属性值总和超出总属值的：" + calSub(sum, attNum));
                     return;
                 } else {
-                    var b = Number(attNum) - Number(sum);
-                    layer.confirm('余下 ' + b + ' 点属性值待分配', {
+                    layer.confirm('余下 ' + calSub(attNum, sum) + ' 点属性值待分配', {
                             btn: ['确定', '取消']
                         }, function () {
                             sessionStorage.setItem("evt", JSON.stringify(virtue));

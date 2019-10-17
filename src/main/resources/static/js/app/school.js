@@ -52,14 +52,15 @@ function addReset() {
 }
 
 function see(data) {
-    document.getElementById("see_name").value = isNull(data.name);
-    document.getElementById("see_influence").value = isNull(data.influence);
-    document.getElementById("see_info").value = isNull(data.info);
     var content = $("#seeInfo");
-    layerOpen(1, "查看详情", content, 900, 450, "明白了", "关闭", "",
-        function () {
+    layerOpen(1, "查看详情", content, 900, 450, "明白了", "关闭",
+        function (index, layero) {
+            $("#see_name").val(isNull(data.name));
+            $("#see_influence").val(isNull(data.influence));
+            $("#see_info").val(isNull(data.info));
+        }, function (index, layero) {
             layer.closeAll();
-        }, function () {
+        }, function (index, layero) {
             layer.closeAll();
         });
 }
@@ -70,14 +71,15 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                document.getElementById("edit_school_id").value = isNull(obj.school_id);
-                document.getElementById("edit_name").value = isNull(obj.name);
-                document.getElementById("edit_influence").value = isNull(obj.influence);
-                document.getElementById("edit_info").value = isNull(obj.info);
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 900, 450, "立即提交", "重置", "",
-                    function () {
+                layerOpen(1, "编辑", content, 900, 450, "立即提交", "重置",
+                    function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#edit_school_id").val(isNull(obj.school_id));
+                        $("#edit_name").val(isNull(obj.name));
+                        $("#edit_influence").val(isNull(obj.influence));
+                        $("#edit_info").val(isNull(obj.info));
+                    }, function (index, layero) {
                         var params = {};
                         params.school_id = $("#edit_school_id").val();
                         params.name = $("#edit_name").val();

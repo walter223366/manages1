@@ -136,31 +136,31 @@ function see(data) {
     var content = $("#seeInfo");
     layerOpen(1, "查看详情", content, 1050, 500, "明白了", "关闭",
         function (index, layero) {
-            document.getElementById("see_name").value = isNull(data.name);
-            document.getElementById("see_target").value = isNull(data.target);
-            document.getElementById("see_hp").value = isNull(data.hp);
-            document.getElementById("see_mp_yellow").value = isNull(data.mp_yellow);
-            document.getElementById("see_mp_gold").value = isNull(data.mp_gold);
-            document.getElementById("see_mp_green").value = isNull(data.mp_green);
-            document.getElementById("see_mp_blue").value = isNull(data.mp_blue);
-            document.getElementById("see_mp_purple").value = isNull(data.mp_purple);
-            document.getElementById("see_aggressivity").value = isNull(data.Aggressivity);
-            document.getElementById("see_defense").value = isNull(data.Defense);
-            document.getElementById("see_burst").value = isNull(data.burst);
-            document.getElementById("see_injury").value = isNull(data.injury);
-            document.getElementById("see_internal_injury").value = isNull(data.internal_injury);
-            document.getElementById("see_poisoning").value = isNull(data.poisoning);
-            document.getElementById("see_stun").value = isNull(data.stun);
-            document.getElementById("see_dodge").value = isNull(data.dodge);
-            document.getElementById("see_hit_rate").value = isNull(data.hit_rate);
-            document.getElementById("see_crit_rate").value = isNull(data.crit_rate);
-            document.getElementById("see_suck_HP").value = isNull(data.suck_HP);
-            document.getElementById("see_suck_mp_yellow").value = isNull(data.suck_mp_yellow);
-            document.getElementById("see_suck_mp_gold").value = isNull(data.suck_mp_gold);
-            document.getElementById("see_suck_mp_green").value = isNull(data.suck_mp_green);
-            document.getElementById("see_suck_mp_blue").value = isNull(data.suck_mp_blue);
-            document.getElementById("see_suck_mp_purple").value = isNull(data.suck_mp_purple);
-            document.getElementById("see_info").value = isNull(data.info);
+            $("#see_name").val(isNull(data.name));
+            $("#see_target").val(isNull(data.target));
+            $("#see_hp").val(isNull(data.hp));
+            $("#see_mp_yellow").val(isNull(data.mp_yellow));
+            $("#see_mp_gold").val(isNull(data.mp_gold));
+            $("#see_mp_green").val(isNull(data.mp_green));
+            $("#see_mp_blue").val(isNull(data.mp_blue));
+            $("#see_mp_purple").val(isNull(data.mp_purple));
+            $("#see_aggressivity").val(isNull(data.Aggressivity));
+            $("#see_defense").val(isNull(data.Defense));
+            $("#see_burst").val(isNull(data.burst));
+            $("#see_injury").val(isNull(data.injury));
+            $("#see_internal_injury").val(isNull(data.internal_injury));
+            $("#see_poisoning").val(isNull(data.poisoning));
+            $("#see_stun").val(isNull(data.stun));
+            $("#see_dodge").val(isNull(data.dodge));
+            $("#see_hit_rate").val(isNull(data.hit_rate));
+            $("#see_crit_rate").val(isNull(data.crit_rate));
+            $("#see_suck_HP").val(isNull(data.suck_HP));
+            $("#see_suck_mp_yellow").val(isNull(data.suck_mp_yellow));
+            $("#see_suck_mp_gold").val(isNull(data.suck_mp_gold));
+            $("#see_suck_mp_green").val(isNull(data.suck_mp_green));
+            $("#see_suck_mp_blue").val(isNull(data.suck_mp_blue));
+            $("#see_suck_mp_purple").val(isNull(data.suck_mp_purple));
+            $("#see_info").value = isNull(data.info);
         }, function (index, layero) {
             layer.closeAll();
         }, function (index, layero) {
@@ -251,34 +251,34 @@ function eHpInfo() {
     layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置",
         function (index, layero) {
             var obj = JSON.parse(sessionStorage.getItem("ehp"));
-            if(obj === null){
+            if (obj === null) {
                 obj = JSON.parse(sessionStorage.getItem("eff"));
             }
             var yellow = obj.mp_yellow.split(",");
             //assignmentValue(yellow,"edit_hpYellow");
-            document.getElementById("edit_hpYellow1").value = (yellow[0]);
-            document.getElementById("edit_hpYellow2").value = (yellow[1]);
-            document.getElementById("edit_hpYellow3").value = (yellow[2]);
+            $("#edit_hpYellow1").val(yellow[0]);
+            $("#edit_hpYellow2").val(yellow[1]);
+            $("#edit_hpYellow3").val(yellow[2]);
             var gold = obj.mp_gold.split(",");
             //assignmentValue(gold,"edit_hpGold");
-            document.getElementById("edit_hpGold1").value = (gold[0]);
-            document.getElementById("edit_hpGold2").value = (gold[1]);
-            document.getElementById("edit_hpGold3").value = (gold[2]);
+            $("#edit_hpGold1").val(gold[0]);
+            $("#edit_hpGold2").val(gold[1]);
+            $("#edit_hpGold3").val(gold[2]);
             var green = obj.mp_green.split(",");
             //assignmentValue(green,"edit_hpGreen");
-            document.getElementById("edit_hpGreen1").value = (green[0]);
-            document.getElementById("edit_hpGreen2").value = (green[1]);
-            document.getElementById("edit_hpGreen3").value = (green[2]);
+            $("#edit_hpGreen1").val(green[0]);
+            $("#edit_hpGreen2").val(green[1]);
+            $("#edit_hpGreen3").val(green[2]);
             var blue = obj.mp_blue.split(",");
             //assignmentValue(blue,"edit_hpBlue");
-            document.getElementById("edit_hpBlue1").value = (blue[0]);
-            document.getElementById("edit_hpBlue2").value = (blue[1]);
-            document.getElementById("edit_hpBlue3").value = (blue[2]);
+            $("#edit_hpBlue1").val(blue[0]);
+            $("#edit_hpBlue2").val(blue[1]);
+            $("#edit_hpBlue3").val(blue[2]);
             var purple = obj.mp_purple.split(",");
             //assignmentValue(purple,"edit_hpPurple");
-            document.getElementById("edit_hpPurple1").value = (purple[0]);
-            document.getElementById("edit_hpPurple2").value = (purple[1]);
-            document.getElementById("edit_hpPurple3").value = (purple[2]);
+            $("#edit_hpPurple1").val(purple[0]);
+            $("#edit_hpPurple2").val(purple[1]);
+            $("#edit_hpPurple3").val(purple[2]);
         }, function (index, layero) {
             var hp = {};
             hp.mp_yellow = mergeVal("edit_hpYellow");
@@ -294,39 +294,39 @@ function eHpInfo() {
     );
 }
 
-function eSuckInfo(){
+function eSuckInfo() {
     var content = $("#eSuckInfo");
     layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置",
         function (index, layero) {
             var obj = JSON.parse(sessionStorage.getItem("emp"));
-            if(obj === null){
+            if (obj === null) {
                 obj = JSON.parse(sessionStorage.getItem("eff"));
             }
             var yellow = obj.suck_mp_yellow.split(",");
             //assignmentValue(yellow,"edit_suckYellow");
-            document.getElementById("edit_suckYellow1").value = (yellow[0]);
-            document.getElementById("edit_suckYellow2").value = (yellow[1]);
-            document.getElementById("edit_suckYellow3").value = (yellow[2]);
+            $("#edit_suckYellow1").val(yellow[0]);
+            $("#edit_suckYellow2").val(yellow[1]);
+            $("#edit_suckYellow3").val(yellow[2]);
             var gold = obj.suck_mp_gold.split(",");
             //assignmentValue(gold,"edit_suckGold");
-            document.getElementById("edit_suckGold1").value = (gold[0]);
-            document.getElementById("edit_suckGold2").value = (gold[1]);
-            document.getElementById("edit_suckGold3").value = (gold[2]);
+            $("#edit_suckGold1").val(gold[0]);
+            $("#edit_suckGold2").val(gold[1]);
+            $("#edit_suckGold3").val(gold[2]);
             var green = obj.suck_mp_green.split(",");
             //assignmentValue(green,"edit_suckGreen");
-            document.getElementById("edit_suckGreen1").value = (green[0]);
-            document.getElementById("edit_suckGreen2").value = (green[1]);
-            document.getElementById("edit_suckGreen3").value = (green[2]);
+            $("#edit_suckGreen1").val(green[0]);
+            $("#edit_suckGreen2").val(green[1]);
+            $("#edit_suckGreen3").val(green[2]);
             var blue = obj.suck_mp_blue.split(",");
             //assignmentValue(blue,"edit_suckBlue");
-            document.getElementById("edit_suckBlue1").value = (blue[0]);
-            document.getElementById("edit_suckBlue2").value = (blue[1]);
-            document.getElementById("edit_suckBlue3").value = (blue[2]);
+            $("#edit_suckBlue1").val(blue[0]);
+            $("#edit_suckBlue2").val(blue[1]);
+            $("#edit_suckBlue3").val(blue[2]);
             var purple = obj.suck_mp_purple.split(",");
             //assignmentValue(purple,"edit_suckPurple");
-            document.getElementById("edit_suckPurple1").value = (purple[0]);
-            document.getElementById("edit_suckPurple2").value = (purple[1]);
-            document.getElementById("edit_suckPurple3").value = (purple[2]);
+            $("#edit_suckPurple1").val(purple[0]);
+            $("#edit_suckPurple2").val(purple[1]);
+            $("#edit_suckPurple3").val(purple[2]);
         }, function (index, layero) {
             var suck = {};
             suck.suck_mp_yellow = mergeVal("edit_suckYellow");

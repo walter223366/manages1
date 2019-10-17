@@ -70,17 +70,18 @@ function see(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
                 var content = $("#seeInfo");
-                document.getElementById("see_name").value = isNull(obj.name);
-                document.getElementById("see_type").value = isNull(obj.type);
-                document.getElementById("see_exp").value = isNull(obj.experience_limit);
-                document.getElementById("see_attainments").value = isNull(obj.kongfu_attainments);
-                document.getElementById("see_enable").value = isNull(obj.enable);
-                document.getElementById("see_info").value = isNull(obj.info);
-                document.getElementById("see_move").value = isNull(obj.moveName.toString());
-                layerOpen(1, "查看详情", content, 1100, 500, "明白了", "关闭", "",
+                layerOpen(1, "查看详情", content, 1100, 500, "明白了", "关闭",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#see_name").val(isNull(obj.name));
+                        $("#see_type").val(isNull(obj.type));
+                        $("#see_exp").val(isNull(obj.experience_limit));
+                        $("#see_attainments").val(isNull(obj.kongfu_attainments));
+                        $("#see_enable").val(isNull(obj.enable));
+                        $("#see_info").val(isNull(obj.info));
+                        $("#see_move").val(isNull(obj.moveName.toString()));
+                    }, function (index, layero) {
                         layer.closeAll();
                     }, function (index, layero) {
                         layer.closeAll();
@@ -100,18 +101,19 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                document.getElementById("edit_id").value = isNull(obj.kongfu_id);
-                document.getElementById("edit_name").value = isNull(obj.name);
-                document.getElementById("edit_exp").value = isNull(obj.experience_limit);
-                document.getElementById("edit_attainments").value = isNull(obj.kongfu_attainments);
-                document.getElementById("edit_info").value = isNull(obj.info);
-                $("#edit_type").val(String(obj.type));
-                $("#edit_enable").val(String(obj.enable));
-                layui.form.render("select");
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 1100, 500, "立即提交", "重置", "",
+                layerOpen(1, "编辑", content, 1100, 500, "立即提交", "重置",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#edit_id").val(isNull(obj.kongfu_id));
+                        $("#edit_name").val(isNull(obj.name));
+                        $("#edit_exp").val(isNull(obj.experience_limit));
+                        $("#edit_attainments").val(isNull(obj.kongfu_attainments));
+                        $("#edit_info").val(isNull(obj.info));
+                        $("#edit_type").val(String(obj.type));
+                        $("#edit_enable").val(String(obj.enable));
+                        layui.form.render("select");
+                    }, function (index, layero) {
                         var params = {};
                         var move_id = formSelects.value('select_editMove', 'valStr');
                         params.kongfu_id = $("#edit_id").val();

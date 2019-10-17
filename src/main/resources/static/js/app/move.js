@@ -85,16 +85,17 @@ function see(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                document.getElementById("see_name").value = isNull(obj.name);
-                document.getElementById("see_cost").value = isNull(obj.MP_cost);
-                document.getElementById("see_exp").value = isNull(obj.zhaoshi_experience_cost);
-                document.getElementById("see_kongFu").value = isNull(obj.kongFuName.toString());
-                document.getElementById("see_effect").value = isNull(obj.effectName.toString());
-                document.getElementById("see_info").value = isNull(obj.info);
                 var content = $("#seeInfo");
-                layerOpen(1, "查看详情", content, 1000, 500, "明白了", "关闭", "",
+                layerOpen(1, "查看详情", content, 1000, 500, "明白了", "关闭",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#see_name").val(isNull(obj.name));
+                        $("#see_cost").val(isNull(obj.MP_cost));
+                        $("#see_exp").val(isNull(obj.zhaoshi_experience_cost));
+                        $("#see_kongFu").val(isNull(obj.kongFuName()));
+                        $("#see_effect").val(isNull(obj.effectName()));
+                        $("#see_info").val(isNull(obj.info));
+                    }, function (index, layero) {
                         layer.closeAll();
                     }, function (index, layero) {
                         layer.closeAll();
@@ -115,24 +116,25 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
-                var obj = JSON.parse(rows);
-                document.getElementById("edit_id").value = isNull(obj.zhaoshi_id);
-                document.getElementById("edit_name").value = isNull(obj.name);
-                document.getElementById("edit_exp").value = isNull(obj.zhaoshi_experience_cost);
-                document.getElementById("edit_info").value = isNull(obj.info);
-                var mpCost = obj.MP_cost.split(",");
-                document.getElementById("edit_yellowSpend").value = mpCost[0];
-                document.getElementById("edit_goldSpend").value = mpCost[1];
-                document.getElementById("edit_greenSpend").value = mpCost[2];
-                document.getElementById("edit_blueSpend").value = mpCost[3];
-                document.getElementById("edit_purpleSpend").value = mpCost[4];
-                $("#edit_kongFu").val(String(obj.kongfu_id));
-                layui.form.render("select");
-                $("#edit_effect").val();
-                formSelects.value("select_editEffect", obj.effect_id);
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 1000, 500, "立即提交", "重置", "",
+                layerOpen(1, "编辑", content, 1000, 500, "立即提交", "重置",
                     function (index, layero) {
+                        var obj = JSON.parse(rows);
+                        $("#edit_id").val(isNull(obj.zhaoshi_id));
+                        $("#edit_name").val(isNull(obj.name));
+                        $("#edit_exp").val(isNull(obj.zhaoshi_experience_cost));
+                        $("#edit_info").val(isNull(obj.info));
+                        var mpCost = obj.MP_cost.split(",");
+                        $("#edit_yellowSpend").val(mpCost[0]);
+                        $("#edit_goldSpend").val(mpCost[1]);
+                        $("#edit_greenSpend").val(mpCost[2]);
+                        $("#edit_blueSpend").val(mpCost[3]);
+                        $("#edit_purpleSpend").valu(mpCost[4]);
+                        $("#edit_kongFu").val(String(obj.kongfu_id));
+                        layui.form.render("select");
+                        $("#edit_effect").val();
+                        formSelects.value("select_editEffect", obj.effect_id);
+                    }, function (index, layero) {
                         var params = {};
                         var move_effect = formSelects.value('select_editEffect', 'valStr');
                         params.zhaoshi_id = $("#edit_id").val();
