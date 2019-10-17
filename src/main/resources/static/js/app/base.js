@@ -82,6 +82,10 @@ function add() {
 function aVirtueBut() {
     var level = $("#add_level").val();
     if (level !== "") {
+        if(level === "0"){
+            layer.msg("请填写等级大于0的数");
+            return;
+        }
         var content = $("#aAttInfo");
         layerOpen(1, "属性分配", content, 900, 400, "确定", "重置", "",
             function (index, layero) {
@@ -135,7 +139,6 @@ function aKongFuBut() {
                 diValue.kongfu_id = $("#id" + i).val();
                 kongFu.push(diValue);
             }
-            alert(JSON.stringify(kongFu));
             sessionStorage.setItem("akf", JSON.stringify(kongFu));
             layer.closeAll();
         }, function (index, layero) {
@@ -154,8 +157,8 @@ function aWeaponBut() {
             weapon.javelin_status = Number($("#add_javelin_status").val());
             weapon.hidden_weapons_status = Number($("#add_hidden_weapons_status").val());
             weapon.sorcery_status = Number($("#add_sorcery_status").val());
+            weapon.mp_status = Number($("#add_mp_status").val());
             weapon.dodge_skill_status = Number($("#add_dodge_skill_status").val());
-            weapon.chakra_status = Number($("#add_chakra_status").val());
             sessionStorage.setItem("awp", JSON.stringify(weapon));
             layer.closeAll();
         }, function (index, layero) {
@@ -196,18 +199,17 @@ function aPotentBut() {
 }
 
 function addReset(layero) {
-    cleanVal(layero, "add_nickname");
-    cleanVal(layero, "add_level");
-    cleanVal(layero, "add_attitude");
-    cleanVal(layero, "add_character");
-    cleanVal(layero, "add_popularity");
-    cleanVal(layero, "add_coin");
-    cleanVal(layero, "add_gold");
-    cleanVal(layero, "add_experience");
-    cleanVal(layero, "add_school_contribution");
-    $(layero).find("iframe")[0].contentWindow.document.getElementById("add_enable").value = '1';
-    $(layero).find("iframe")[0].contentWindow.document.getElementById("add_sex").value = '1';
-    layui.form.render("select");
+    cleanVal(layero, "add_nickname", '');
+    cleanVal(layero, "add_level", '');
+    cleanVal(layero, "add_attitude", '');
+    cleanVal(layero, "add_character", '');
+    cleanVal(layero, "add_popularity", '');
+    cleanVal(layero, "add_coin", '');
+    cleanVal(layero, "add_gold", '');
+    cleanVal(layero, "add_experience", '');
+    cleanVal(layero, "add_school_contribution", '');
+    cleanVal(layero, "add_enable", '1');
+    cleanVal(layero, "add_sex", '1');
 }
 
 function see(data) {
@@ -314,7 +316,6 @@ function edit(data) {
                         editVal(layero, "edit_enable", obj.enable);
                         editVal(layero, "edit_sex", obj.sex);
                         editVal(layero, "edit_school", obj.school_id);
-                        layui.form.render("select");
                         sessionStorage.setItem("qvt", JSON.stringify(obj.virtue[0]));
                         sessionStorage.setItem("qkf", JSON.stringify(obj.kongFu[0]));
                         sessionStorage.setItem("qwp", JSON.stringify(obj.weapon[0]));
@@ -344,7 +345,6 @@ function edit(data) {
                         params.kongFu = ekf;
                         params.virtue = parFormat(sessionStorage.getItem("evt"));
                         params.weapon = parFormat(sessionStorage.getItem("ewp"));
-                        alert(JSON.stringify(params));
                         sessionStorage.removeItem("evt");
                         sessionStorage.removeItem("ekf");
                         sessionStorage.removeItem("ewp");
@@ -478,8 +478,8 @@ function eWeaponBut() {
                 $("#edit_javelin_status").val(isNull(obj.javelin_status));
                 $("#edit_hidden_weapons_status").val(isNull(obj.hidden_weapons_status));
                 $("#edit_sorcery_status").val(isNull(obj.sorcery_status));
+                $("#edit_mp_status").val(isNull(obj.mp_status));
                 $("#edit_dodge_skill_status").val(isNull(obj.dodge_skill_status));
-                $("#edit_chakra_status").val(isNull(obj.chakra_status));
             }
         }, function (index, layero) {
             var weapon = {};
@@ -489,8 +489,8 @@ function eWeaponBut() {
             weapon.javelin_status = Number($("#edit_javelin_status").val());
             weapon.hidden_weapons_status = Number($("#edit_hidden_weapons_status").val());
             weapon.sorcery_status = Number($("#edit_sorcery_status").val());
+            weapon.mp_status = Number($("#edit_mp_status").val());
             weapon.dodge_skill_status = Number($("#edit_dodge_skill_status").val());
-            weapon.chakra_status = Number($("#edit_chakra_status").val());
             sessionStorage.setItem("ewp", JSON.stringify(weapon));
             layer.closeAll();
         }, function (index, layero) {
@@ -590,7 +590,7 @@ function verIfy(params) {
 
 virtueID = "physique,force,muscles,chakra,sensitivity,willpower,knowledge,lucky";
 kongFuID = "kongFu1,experience1,kongFu2,experience2,kongFu3,experience3,kongFu4,experience4,kongFu";
-weaponID = "melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,sorcery_status";
+weaponID = "melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,sorcery_status,mp_status,dodge_skill_status";
 potentID = "wisdom1,wisdom2,wisdom3,healthy1,healthy2,healthy3,mellow1,mellow2,mellow3,mellow4,mellow5,fineness1,fineness2,burst1,burst2,sharp1,sharp2,tenacity1,tenacity2,tenacity3";
 
 function increase(id) {

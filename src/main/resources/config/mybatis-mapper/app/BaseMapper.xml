@@ -95,10 +95,10 @@
     </insert>
     <insert id="baseAttInsert" parameterType="map">
         INSERT INTO biz_charactor_attainments(id,charactor_id,melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,
-        sorcery_status,dodge_skill_status,chakra_status,lrrq)
+        sorcery_status,mp_status,dodge_skill_status,lrrq)
         VALUES (
           #{id},#{charactor_id},#{melee_status},#{sword_status},#{axe_status},#{javelin_status},#{hidden_weapons_status},
-          #{sorcery_status},#{dodge_skill_status},#{chakra_status},#{lrrq}
+          #{sorcery_status},#{mp_status},#{dodge_skill_status},#{lrrq}
         )
     </insert>
     <insert id="baseExtInsert" parameterType="map">
@@ -134,7 +134,7 @@
     <update id="baseAttUpdate" parameterType="map">
         UPDATE biz_charactor_attainments SET melee_status=#{melee_status},sword_status=#{sword_status},axe_status=#{axe_status},
         javelin_status=#{javelin_status},hidden_weapons_status=#{hidden_weapons_status},sorcery_status=#{sorcery_status},
-        dodge_skill_status=#{dodge_skill_status},chakra_status=#{chakra_status}
+        mp_status=#{mp_status},dodge_skill_status=#{dodge_skill_status}
         WHERE 1=1 AND charactor_id=#{charactor_id}
     </update>
     <update id="baseExtUpdate" parameterType="map">

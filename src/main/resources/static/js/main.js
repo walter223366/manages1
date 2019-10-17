@@ -178,12 +178,15 @@ function x_admin_close() {
 function getVal(layero,id) {
     return $(layero).find("iframe")[0].contentWindow.document.getElementById(id).value;
 }
-function cleanVal(layero,id) {
-    $(layero).find("iframe")[0].contentWindow.document.getElementById(id).value = '';
+function cleanVal(layero,id,msg) {
+    //$(layero).find("iframe")[0].contentWindow.document.getElementById(id).value = msg;
+    var iframeWindow = $(layero).find('iframe')[0].contentWindow;
+    iframeWindow.document.getElementById(id).value = msg;
 }
 function editVal(layero,id,par) {
     var body = layer.getChildFrame('body', layero);
     body.contents().find("#"+id).val(isNull(par));
+    body.form.render("select");
 }
 function parFormat(str){
     var obj = {};
