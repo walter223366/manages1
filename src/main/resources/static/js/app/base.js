@@ -82,7 +82,7 @@ function add() {
 function aVirtueBut() {
     var level = $("#add_level").val();
     if (level !== "") {
-        if(level === "0"){
+        if (level === "0") {
             layer.msg("请填写等级大于0的数");
             return;
         }
@@ -93,7 +93,7 @@ function aVirtueBut() {
                 virtue.physique = Number($("#add_physique").val());
                 virtue.forces = Number($("#add_forces").val());
                 virtue.muscles = Number($("#add_muscles").val());
-                virtue.chakra = Number($("#add_chakra").val());
+                virtue.mp = Number($("#add_mp").val());
                 virtue.sensitivity = Number($("#add_sensitivity").val());
                 virtue.willpower = Number($("#add_willpower").val());
                 virtue.knowledge = Number($("#add_knowledge").val());
@@ -105,7 +105,7 @@ function aVirtueBut() {
                     return;
                 } else {
                     layer.confirm('余下 ' + calSub(attNum, sum) + ' 点属性值待分配', {
-                            btn: ['确定', '取消']
+                            btn: ['保存', '取消']
                         }, function () {
                             sessionStorage.setItem("avt", JSON.stringify(virtue));
                             layer.closeAll();
@@ -135,7 +135,7 @@ function aKongFuBut() {
                 diValue.kongFuName = $("#name" + i).val();
                 diValue.experience = Number($("#exp" + i).val());
                 var a = $("#use" + i).val();
-                diValue.useo = (a = "未使用" ? 0 : 1);
+                diValue.use = (a = "未使用" ? 0 : 1);
                 diValue.kongfu_id = $("#id" + i).val();
                 kongFu.push(diValue);
             }
@@ -240,7 +240,7 @@ function see(data) {
                             $("#see_mphysique").val(isNull(virtue.physique));
                             $("#see_force").val(isNull(virtue.forces));
                             $("#see_muscles").val(isNull(virtue.muscles));
-                            $("#see_chakra").val(isNull(virtue.chakra));
+                            $("#see_chakra").val(isNull(virtue.mp));
                             $("#see_sensitivity").val(isNull(virtue.sensitivity));
                             $("#see_willpower").val(isNull(virtue.willpower));
                             $("#see_knowledge").val(isNull(virtue.knowledge));
@@ -275,7 +275,7 @@ function see(data) {
                             $("#see_hidden_weapons_status").val(isNull(weapon.hidden_weapons_status));
                             $("#see_sorcery_status").val(isNull(weapon.sorcery_status));
                             $("#see_dodge_skill_status").val(isNull(weapon.dodge_skill_status));
-                            $("#see_chakra_status").val(isNull(weapon.chakra_status));
+                            $("#see_chakra_status").val(isNull(weapon.mp_status));
                         }
                         if (obj.potent.length > 0) {
                             var potent = obj.potent[0];
@@ -300,10 +300,10 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
+                var obj = JSON.parse(rows);
                 var content = [splictUrl + '/system/baseUpdate'];
                 layerOpen(2, "编辑", content, 1200, 600, "立即提交", "重置",
                     function (index, layero) {
-                        var obj = JSON.parse(rows);
                         editVal(layero, "edit_nickname", obj.nickname);
                         editVal(layero, "edit_level", obj.level);
                         editVal(layero, "edit_attitude", obj.attitude);
@@ -317,7 +317,7 @@ function edit(data) {
                         editVal(layero, "edit_sex", obj.sex);
                         editVal(layero, "edit_school", obj.school_id);
                         sessionStorage.setItem("qvt", JSON.stringify(obj.virtue[0]));
-                        sessionStorage.setItem("qkf", JSON.stringify(obj.kongFu[0]));
+                        sessionStorage.setItem("qkf", JSON.stringify(obj.kongFu));
                         sessionStorage.setItem("qwp", JSON.stringify(obj.weapon[0]));
                         sessionStorage.setItem("qpt", JSON.stringify(obj.potent[0]));
                     }, function (index, layero) {
@@ -360,20 +360,30 @@ function edit(data) {
 }
 
 function eVirtueBut() {
-    var level = $("#add_level").val();
+    var level = $("#edit_level").val();
+    alert(level);
     if (level !== "") {
+        if (level === "0") {
+            layer.msg("请填写等级大于0的数");
+            return;
+        }
         var content = $("#eAttInfo");
         layerOpen(1, "属性分配", content, 900, 400, "确定", "重置",
             function (index, layero) {
                 var obj = JSON.parse(sessionStorage.getItem("evt"));
-                if (obj === null) {
-                    obj = JSON.parse(sessionStorage.getItem("qvt"));
+                if(obj === null){
+                    var q = sessionStorage.getItem("qvt");
+                    if(q !== "undefined"){
+                        obj = JSON.parse(q);
+                        var aNum = Number(level) * Number(attNum);
+                        $("#edit_attributes").val(aNum);
+                    }
                 }
                 if (obj !== null) {
                     $("#edit_physique").val(isNull(obj.physique));
-                    $("#edit_force").val(isNull(obj.forces));
+                    $("#edit_forces").val(isNull(obj.forces));
                     $("#edit_muscles").val(isNull(obj.muscles));
-                    $("#edit_chakra").val(isNull(obj.chakra));
+                    $("#edit_mp").val(isNull(obj.mp));
                     $("#edit_sensitivity").val(isNull(obj.sensitivity));
                     $("#edit_willpower").val(isNull(obj.willpower));
                     $("#edit_knowledge").val(isNull(obj.knowledge));
@@ -382,9 +392,9 @@ function eVirtueBut() {
             }, function (index, layero) {
                 var virtue = {};
                 virtue.physique = Number($("#edit_physique").val());
-                virtue.forces = Number($("#edit_force").val());
+                virtue.forces = Number($("#edit_forces").val());
                 virtue.muscles = Number($("#edit_muscles").val());
-                virtue.chakra = Number($("#edit_chakra").val());
+                virtue.mp = Number($("#edit_mp").val());
                 virtue.sensitivity = Number($("#edit_sensitivity").val());
                 virtue.willpower = Number($("#edit_willpower").val());
                 virtue.knowledge = Number($("#edit_knowledge").val());
@@ -396,7 +406,7 @@ function eVirtueBut() {
                     return;
                 } else {
                     layer.confirm('余下 ' + calSub(attNum, sum) + ' 点属性值待分配', {
-                            btn: ['确定', '取消']
+                            btn: ['保存', '取消']
                         }, function () {
                             sessionStorage.setItem("evt", JSON.stringify(virtue));
                             layer.closeAll();
@@ -420,11 +430,14 @@ function eKongFuBut() {
     layerOpen(1, "武学信息", content, 900, 400, "确定", "关闭",
         function (layero, index) {
             var obj = JSON.parse(sessionStorage.getItem("ekf"));
-            if (obj === null) {
-                obj = JSON.parse(sessionStorage.getItem("qkf"));
+            if(obj === null){
+                var qkf = sessionStorage.getItem("qkf");
+                if(qkf.length >0){
+                    obj = JSON.parse(qkf);
+                }
             }
-            if (obj !== null) {
-
+            if(obj.length > 0){
+                editE(obj);
             }
         }, function (layero, index) {
             var kongFu = [];
@@ -433,6 +446,31 @@ function eKongFuBut() {
         }, function (index, layero) {
             layer.closeAll();
         });
+}
+
+function editE(obj) {
+    var fkf = document.getElementById("formKongFu");
+    $.each(obj,function (i,n) {
+        var div = document.createElement("div");
+        div.id = "eDiv"+i;
+        div.className = "layui-form-item enp";
+        var div1 = document.createElement("div");
+        div1.className = "layui-input-inline";
+        div1.style.width = "50px";
+        div1.style.marginLeft = "50px";
+        var input1 = document.createElement("input");
+        input1.className = "layui-input";
+        input1.id = "type" + i;
+        input1.style.width = "50px";
+        input1.style.border = "0";
+
+        input1.setAttribute('type', 'text');
+        input1.setAttribute('ReadOnly', 'True');
+        input1.value = "111000";
+        div1.appendChild(input1);
+        div.appendChild(div1);
+
+    });
 }
 
 function editKongFu() {
@@ -466,11 +504,7 @@ function eWeaponBut() {
     var content = $("#eWeaponInfo");
     layerOpen(1, "兵器造诣", content, 900, 400, "确定", "重置",
         function (index, layero) {
-            var obj = JSON.parse(sessionStorage.getItem("ewp"));
-            if (obj === null) {
-                obj = JSON.parse(sessionStorage.getItem("qwp"));
-            }
-            alert(JSON.stringify(obj));
+            var obj = getSession("ewp","qwp");
             if (obj !== null) {
                 $("#edit_melee_status").val(isNull(obj.melee_status));
                 $("#edit_sword_status").val(isNull(obj.sword_status));
@@ -502,10 +536,7 @@ function ePotentBut() {
     var content = $("#ePotentInfo");
     layerOpen(1, "人物潜能", content, 900, 400, "确定", "重置",
         function (index, layero) {
-            var obj = JSON.parse(sessionStorage.getItem("ewp"));
-            if (obj === null) {
-                obj = JSON.parse(sessionStorage.getItem("qwp"));
-            }
+            var obj = getSession("ewp","qwp");
             if (obj !== null) {
                 $("#edit_wisdom1").val(isNull(obj.wisdom1));
                 $("#edit_wisdom2").val(isNull(obj.wisdom2));
@@ -588,7 +619,18 @@ function verIfy(params) {
     return true;
 }
 
-virtueID = "physique,force,muscles,chakra,sensitivity,willpower,knowledge,lucky";
+function getSession(a,b) {
+    var obj = JSON.parse(sessionStorage.getItem(a));
+    if(obj === null){
+        var q = sessionStorage.getItem(b);
+        if(q !== "undefined"){
+            obj = JSON.parse(q);
+        }
+    }
+    return obj;
+}
+
+virtueID = "physique,forces,muscles,mp,sensitivity,willpower,knowledge,lucky";
 kongFuID = "kongFu1,experience1,kongFu2,experience2,kongFu3,experience3,kongFu4,experience4,kongFu";
 weaponID = "melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,sorcery_status,mp_status,dodge_skill_status";
 potentID = "wisdom1,wisdom2,wisdom3,healthy1,healthy2,healthy3,mellow1,mellow2,mellow3,mellow4,mellow5,fineness1,fineness2,burst1,burst2,sharp1,sharp2,tenacity1,tenacity2,tenacity3";
@@ -607,23 +649,10 @@ function cutback(id) {
     $(obj).val(num);
 }
 
-function calAttNum(a,b,c,d,e,f,m,n) {
-    var sum = Number($("#" + a)) + Number($("#" + b)) + Number($("#" + c)) + Number($("#" + d));
-    sum = sum + Number($("#" + e)) + Number($("#" + f)) + Number($("#" + m)) + Number($("#" + n));
-    var attNum = $("#add_attributes").val();
-    if (sum >= attNum) {
-        var beyond = Number(sum) - Number(attNum);
-        return "属性值分配已超出：" + beyond;
-    } else {
-        var remain = Number(attNum) - Number(sum);
-        return "剩余未分配属性值：" + remain;
-    }
-}
-
 function calAdd(virtue) {
     var sum = Number(virtue.physique) + Number(virtue.forces);
     sum += Number(virtue.muscles);
-    sum += Number(virtue.chakra);
+    sum += Number(virtue.mp);
     sum += Number(virtue.sensitivity);
     sum += Number(virtue.willpower);
     sum += Number(virtue.knowledge);
@@ -652,12 +681,6 @@ function addKongFu() {
     }
     var typeV = $("#add_kfTypes").find("option:selected").text();
     createE(typeV,kText,kongFu.val());
-}
-
-function resetKongFu(a,b) {
-    document.getElementById(a).value = '';
-    document.getElementById(b).value = '';
-    document.getElementById(b).disabled = true;
 }
 
 var i = 1;

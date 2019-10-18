@@ -142,10 +142,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">属性总值</label>
                 <div class="layui-input-inline">
-                    <input id="add_attributes" type="text" class="layui-input inLeng" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_attNum" type="button" class="layui-input see-input" onclick="calAttNum('add_mphysique','add_force','add_muscles','add_chakra','add_sensitivity','add_willpower','add_knowledge','add_lucky')">
+                    <input id="add_attributes" type="number" value="0" class="layui-input inLeng" disabled="true">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -163,13 +160,13 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">臂&emsp;&emsp;力</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" onclick="cutback('add_force')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('add_forces')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
                     <input id="add_forces" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" onclick="increase('add_force')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('add_forces')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -187,13 +184,13 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">内&emsp;&emsp;修</label>
                 <div class="layui-input-inline" style="width:45px">
-                    <button type="button" onclick="cutback('add_chakra')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
+                    <button type="button" onclick="cutback('add_mp')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_chakra" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_mp" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
-                    <button type="button" onclick="increase('add_chakra')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
+                    <button type="button" onclick="increase('add_mp')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
                 </div>
             </div>
             <div class="layui-inline layLeng">

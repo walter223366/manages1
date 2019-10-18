@@ -49,44 +49,41 @@
 
     <!--查询-->
     <select id="basePagingQuery" parameterType="map" resultType="map">
-        SELECT * FROM biz_charactor_base_info WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
+        SELECT * FROM biz_character_base_info WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="baseIsExist" parameterType="map" resultType="int">
-        SELECT COUNT(1) FROM biz_charactor_base_info WHERE 1=1 AND nickname=#{nickname}
+        SELECT COUNT(1) FROM biz_character_base_info WHERE 1=1 AND nickname=#{nickname}
     </select>
     <select id="baseEditQuery" parameterType="map" resultType="map">
-        SELECT * FROM biz_charactor_base_info WHERE 1=1 AND nickname=#{nickname}
+        SELECT * FROM biz_character_base_info WHERE 1=1 AND nickname=#{nickname}
     </select>
     <select id="baseIdQuery" parameterType="map" resultType="map">
-        SELECT * FROM biz_charactor_base_info WHERE 1=1 AND id=#{id}
+        SELECT * FROM biz_character_base_info WHERE 1=1 AND id=#{id}
     </select>
 
     <select id="queryBaseInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_base_info WHERE 1=1 AND user_id=#{userId} AND (cancellation IS NULL OR cancellation=0)
+        SELECT * FROM biz_character_base_info WHERE 1=1 AND user_id=#{userId} AND (cancellation IS NULL OR cancellation=0)
     </select>
     <select id="queryAttainmentsInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_attainments WHERE 1=1 AND charactor_id=#{baseId}
+        SELECT * FROM biz_character_attainments WHERE 1=1 AND character_id=#{baseId}
     </select>
     <select id="queryBattleInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_battle_ext WHERE 1=1 AND charactor_id=#{baseId}
+        SELECT * FROM biz_character_battle_ext WHERE 1=1 AND character_id=#{baseId}
     </select>
     <select id="queryPotentialInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_potential WHERE 1=1 AND charactor_id=#{baseId}
+        SELECT * FROM biz_character_potential WHERE 1=1 AND character_id=#{baseId}
     </select>
     <select id="queryRelationInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_relationship WHERE 1=1 AND charactor_id=#{baseId}
+        SELECT * FROM biz_charactor_relationship WHERE 1=1 AND character_id=#{baseId}
     </select>
-    <select id="queryRelatKFInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM relat_role_kongfu WHERE 1=1 AND role_id=#{baseId}
-    </select>
-    <select id="queryPotentInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM biz_charactor_potential WHERE 1=1 AND charactor_id=#{baseId}
+    <select id="queryRelatKfInfo" parameterType="java.lang.String" resultType="map">
+        SELECT * FROM relat_character_kongfu_copy WHERE 1=1 AND character_id=#{baseId}
     </select>
 
 
     <!--新增-->
     <insert id="baseInsert" parameterType="map">
-        INSERT INTO biz_charactor_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,
+        INSERT INTO biz_character_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,
         experience,school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus)
         VALUES (
           #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{characters},#{popularity},#{coin},
@@ -94,37 +91,37 @@
         )
     </insert>
     <insert id="baseAttInsert" parameterType="map">
-        INSERT INTO biz_charactor_attainments(id,charactor_id,melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,
+        INSERT INTO biz_character_attainments(id,character_id,melee_status,sword_status,axe_status,javelin_status,hidden_weapons_status,
         sorcery_status,mp_status,dodge_skill_status,lrrq)
         VALUES (
-          #{id},#{charactor_id},#{melee_status},#{sword_status},#{axe_status},#{javelin_status},#{hidden_weapons_status},
+          #{id},#{character_id},#{melee_status},#{sword_status},#{axe_status},#{javelin_status},#{hidden_weapons_status},
           #{sorcery_status},#{mp_status},#{dodge_skill_status},#{lrrq}
         )
     </insert>
     <insert id="baseExtInsert" parameterType="map">
-        INSERT INTO biz_charactor_battle_ext(id,physique,forces,muscles,chakra,sensitivity,willpower,knowledge,lucky,charactor_id)
+        INSERT INTO biz_character_battle_ext(id,physique,forces,muscles,mp,sensitivity,willpower,knowledge,lucky,character_id)
         VALUES (
-          #{id},#{physique},#{forces},#{muscles},#{chakra},#{sensitivity},#{willpower},#{knowledge},#{lucky},#{charactor_id}
+          #{id},#{physique},#{forces},#{muscles},#{mp},#{sensitivity},#{willpower},#{knowledge},#{lucky},#{character_id}
         )
     </insert>
     <insert id="basePotInsert" parameterType="map">
-        INSERT INTO biz_charactor_potential(id,wisdom1,wisdom2,wisdom3,healthy1,healthy2,healthy3,mellow1,mellow2,mellow3,mellow4,mellow5,
-        fineness1,fineness2,burst1,burst2,sharp1,sharp2,tenacity1,tenacity2,tenacity3,charactor_id)
+        INSERT INTO biz_character_potential(id,wisdom1,wisdom2,wisdom3,healthy1,healthy2,healthy3,mellow1,mellow2,mellow3,mellow4,mellow5,
+        fineness1,fineness2,burst1,burst2,sharp1,sharp2,tenacity1,tenacity2,tenacity3,character_id)
         VALUES (
           #{id},#{wisdom1},#{wisdom2},#{wisdom3},#{healthy1},#{healthy2},#{healthy3},#{mellow1},#{mellow2},#{mellow3},#{mellow4},#{mellow5},
-          #{fineness1},#{fineness2},#{burst1},#{burst2},#{sharp1},#{sharp2},#{tenacity1},#{tenacity2},#{tenacity3},#{charactor_id}
+          #{fineness1},#{fineness2},#{burst1},#{burst2},#{sharp1},#{sharp2},#{tenacity1},#{tenacity2},#{tenacity3},#{character_id}
         )
     </insert>
     <insert id="baseRrkInsert" parameterType="map">
-        INSERT INTO relat_role_kongfu(role_kongfu_id,kongfu_id,role_id,experience,useo)
+        INSERT INTO relat_character_kongfu_copy(character_kongfu_id,kongfu_id,character_id,experience,useo)
         VALUES (
-          #{id},#{kongfu_id},#{role_id},#{experience},#{useo}
+          #{id},#{kongfu_id},#{character_id},#{experience},#{use}
         )
     </insert>
 
     <!--修改-->
     <update id="baseUpdate" parameterType="map">
-        UPDATE biz_charactor_base_info SET school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},
+        UPDATE biz_character_base_info SET school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},
         sex=#{sex,jdbcType=INTEGER},level#{level,jdbcType=INTEGER},attitude=#{attitude,jdbcType=INTEGER},
         characters=#{characters,jdbcType=INTEGER},popularity=#{popularity,jdbcType=INTEGER},coin=#{coin,jdbcType=INTEGER},
         gold=#{gold,jdbcType=INTEGER},experience=#{experience,jdbcType=INTEGER},school_contribution=#{school_contribution,jdbcType=INTEGER},
@@ -132,30 +129,30 @@
         WHERE 1=1 AND id=#{id}
     </update>
     <update id="baseAttUpdate" parameterType="map">
-        UPDATE biz_charactor_attainments SET melee_status=#{melee_status},sword_status=#{sword_status},axe_status=#{axe_status},
+        UPDATE biz_character_attainments SET melee_status=#{melee_status},sword_status=#{sword_status},axe_status=#{axe_status},
         javelin_status=#{javelin_status},hidden_weapons_status=#{hidden_weapons_status},sorcery_status=#{sorcery_status},
         mp_status=#{mp_status},dodge_skill_status=#{dodge_skill_status}
-        WHERE 1=1 AND charactor_id=#{charactor_id}
+        WHERE 1=1 AND character_id=#{character_id}
     </update>
     <update id="baseExtUpdate" parameterType="map">
-        UPDATE biz_charactor_battle_ext SET physique=#{physique},force=#{force},muscles=#{muscles},chakra=#{chakra},sensitivity=#{sensitivity},
+        UPDATE biz_character_battle_ext SET physique=#{physique},force=#{force},muscles=#{muscles},mp=#{mp},sensitivity=#{sensitivity},
         willpower=#{willpower},knowledge=#{knowledge},lucky=#{lucky}
-        WHERE 1=1 AND charactor_id=#{charactor_id}
+        WHERE 1=1 AND character_id=#{character_id}
     </update>
     <update id="basePotUpdate" parameterType="map">
-        UPDATE biz_charactor_potential SET wisdom1=#{wisdom1},wisdom2=#{wisdom2},wisdom3=#{wisdom3},healthy1=#{healthy1},healthy2=#{healthy2},
+        UPDATE biz_character_potential SET wisdom1=#{wisdom1},wisdom2=#{wisdom2},wisdom3=#{wisdom3},healthy1=#{healthy1},healthy2=#{healthy2},
         healthy3=#{healthy3},mellow1=#{mellow1},mellow2=#{mellow2},mellow3=#{mellow3},mellow4=#{mellow4},mellow5=#{mellow5},fineness1=#{fineness1},
         fineness2=#{fineness2},burst1=#{burst1},burst2=#{burst2},sharp1=#{sharp1},sharp2=#{sharp2},tenacity1=#{tenacity1},tenacity2=#{tenacity2},
-        tenacity3=#{tenacity3} WHERE 1=1 AND charactor_id=#{charactor_id}
+        tenacity3=#{tenacity3} WHERE 1=1 AND character_id=#{character_id}
     </update>
     <update id="baseRrkUpdate" parameterType="map">
-        UPDATE relat_role_kongfu SET kongfu_id=#{kongfu_id},experience=#{experience} WHERE 1=1 role_kongfu_id=#{role_kongfu_id} AND role_id=#{role_id}
+        UPDATE relat_character_kongfu_copy SET kongfu_id=#{kongfu_id},experience=#{experience},useo=#{use} WHERE 1=1 character_kongfu_id=#{character_kongfu_id} AND character_id=#{character_id}
     </update>
 
 
     <!--删除-->
     <update id="baseDelete" parameterType="map">
-        UPDATE biz_charactor_base_info SET deleteStatus=#{deleteStatus} WHERE 1=1 AND nickname=#{nickname}
+        UPDATE biz_character_base_info SET deleteStatus=#{deleteStatus} WHERE 1=1 AND nickname=#{nickname}
     </update>
 
 </mapper>

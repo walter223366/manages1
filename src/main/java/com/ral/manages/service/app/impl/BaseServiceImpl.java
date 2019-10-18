@@ -103,14 +103,15 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         basicMap.put("weapon",SetUtil.clearValueNullToList(weaList));
         List<Map<String,Object>> extList = baseMapper.queryBattleInfo(baseId);
         basicMap.put("virtue",SetUtil.clearValueNullToList(extList));
-        List<Map<String,Object>> kofList = baseMapper.queryRelatKFInfo(baseId);
+        List<Map<String,Object>> kofList = baseMapper.queryRelatKfInfo(baseId);
         for(Map<String,Object> kofMap : kofList){
             String kongFuId = MapUtil.getString(kofMap,"kongfu_id");
             Map<String,Object> nameMap = kongFuMapper.kongFuQueryName(kongFuId);
             kofMap.put("kongFuName",MapUtil.getString(nameMap,"name"));
+            kofMap.put("type",MapUtil.getString(nameMap,"type"));
         }
         basicMap.put("kongFu",SetUtil.clearValueNullToList(kofList));
-        List<Map<String,Object>> potList = baseMapper.queryPotentInfo(baseId);
+        List<Map<String,Object>> potList = baseMapper.queryPotentialInfo(baseId);
         basicMap.put("potent",SetUtil.clearValueNullToList(potList));
         return SetUtil.clearValueNullToMap(basicMap);
     }
@@ -147,7 +148,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
         if(!SetUtil.isMapNull(vMap)){
             vMap.put("id",StringUtil.getUUID());
-            vMap.put("charactor_id",id);
+            vMap.put("character_id",id);
             baseMapper.baseExtInsert(vMap);
         }
     }
@@ -157,7 +158,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
         if(!SetUtil.isMapNull(wMap)){
             wMap.put("id",StringUtil.getUUID());
-            wMap.put("charactor_id",id);
+            wMap.put("character_id",id);
             baseMapper.baseAttInsert(wMap);
         }
     }
@@ -168,7 +169,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         if(!SetUtil.isListNull(kList)){
             for(Map<String,Object> kMap : kList){
                 kMap.put("id",StringUtil.getUUID());
-                kMap.put("role_id",id);
+                kMap.put("character_id",id);
                 baseMapper.baseRrkInsert(kMap);
             }
         }
@@ -179,7 +180,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
         if(!SetUtil.isMapNull(pMap)){
             pMap.put("id",StringUtil.getUUID());
-            pMap.put("charactor_id",id);
+            pMap.put("character_id",id);
             baseMapper.basePotInsert(pMap);
         }
     }
@@ -221,7 +222,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         String virtue = MapUtil.getString(map,"virtue");
         Map<String,Object> vMap = JSONObject.fromObject(virtue);
         if(!SetUtil.isMapNull(vMap)){
-            vMap.put("charactor_id",MapUtil.getString(map,"id"));
+            vMap.put("character_id",MapUtil.getString(map,"id"));
             baseMapper.baseExtUpdate(vMap);
         }
     }
@@ -231,7 +232,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         String weapon = MapUtil.getString(map,"weapon");
         Map<String,Object> wMap = JSONObject.fromObject(weapon);
         if(!SetUtil.isMapNull(wMap)){
-            wMap.put("charactor_id",MapUtil.getString(map,"id"));
+            wMap.put("character_id",MapUtil.getString(map,"id"));
             baseMapper.baseAttUpdate(wMap);
         }
     }
@@ -241,7 +242,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         List<Map<String,Object>> kList = (List<Map<String, Object>>) map.get("kongFu");
         if(!SetUtil.isListNull(kList)){
             for(Map<String,Object> kfMap : kList){
-                kfMap.put("role_id",MapUtil.getString(map,"id"));
+                kfMap.put("character_id",MapUtil.getString(map,"id"));
                 baseMapper.baseRrkUpdate(kfMap);
             }
         }
@@ -251,7 +252,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
     private void potUpdate(Map<String,Object> map){
         Map<String,Object> potent = JsonUtil.formatJSON(MapUtil.getString(map,""));
         if(!SetUtil.isMapNull(potent)){
-            potent.put("charactor_id",MapUtil.getString(map,"id"));
+            potent.put("character_id",MapUtil.getString(map,"id"));
             baseMapper.basePotUpdate(potent);
         }
     }
@@ -301,14 +302,14 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         resultMap.put("weapon",SetUtil.clearValueNullToList(weaList));
         List<Map<String,Object>> extList = baseMapper.queryBattleInfo(baseId);
         resultMap.put("virtue",SetUtil.clearValueNullToList(extList));
-        List<Map<String,Object>> kofList = baseMapper.queryRelatKFInfo(baseId);
+        List<Map<String,Object>> kofList = baseMapper.queryRelatKfInfo(baseId);
         for(Map<String,Object> kofMap : kofList){
             String kongFuId = MapUtil.getString(kofMap,"kongfu_id");
             Map<String,Object> nameMap = kongFuMapper.kongFuQueryName(kongFuId);
             kofMap.put("kongFuName",MapUtil.getString(nameMap,"name"));
         }
         resultMap.put("kongFu",SetUtil.clearValueNullToList(kofList));
-        List<Map<String,Object>> potList = baseMapper.queryPotentInfo(baseId);
+        List<Map<String,Object>> potList = baseMapper.queryPotentialInfo(baseId);
         resultMap.put("potent",SetUtil.clearValueNullToList(potList));
         return SetUtil.clearValueNullToMap(resultMap);
     }

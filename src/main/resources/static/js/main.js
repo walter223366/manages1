@@ -60,19 +60,19 @@ $(function () {
     tableCheck.init();
     $('.container .left_open i').click(function(event) {
         if($('.left-nav').css('left')=='0px'){
-            $('.left-nav').animate({left: '-221px'}, 100);
+            $('.left-nav').animate({left: '-251px'}, 100);
             $('.page-content').animate({left: '0px'}, 100);
             $('.page-content-bg').hide();
         }else{
             $('.left-nav').animate({left: '0px'}, 100);
-            $('.page-content').animate({left: '221px'}, 100);
+            $('.page-content').animate({left: '251px'}, 100);
             if($(window).width()<768){
                 $('.page-content-bg').show();
             }
         }
     });
     $('.page-content-bg').click(function(event) {
-        $('.left-nav').animate({left: '-221px'}, 100);
+        $('.left-nav').animate({left: '-251px'}, 100);
         $('.page-content').animate({left: '0px'}, 100);
         $(this).hide();
     });
@@ -186,7 +186,6 @@ function cleanVal(layero,id,msg) {
 function editVal(layero,id,par) {
     var body = layer.getChildFrame('body', layero);
     body.contents().find("#"+id).val(isNull(par));
-    body.form.render("select");
 }
 function parFormat(str){
     var obj = {};
@@ -263,6 +262,12 @@ function layerOpen(type,title,content,width,height,btn1,btn2,success,callback,re
     if (url === null || url === '') {
         url = "/manages/system/404";
     }
+    /*if (width === null || width === '') {
+        width = ($(window).width() * 0.9);
+    }
+    if (height === null || height === '') {
+        height = ($(window).height() - 50);
+    }*/
     layer.open({
         type: type,
         offset: "auto",
@@ -440,31 +445,14 @@ function mSelection(selectId){
 function lSelection(selectId) {
     layui.form.render("select");
 }
-
 function cost(yellow,gold,green,blue,purple) {
     return yellow + "," + gold + "," + green + "," + blue + "," + purple;
 }
 function calAttr(level,num,elementId) {
-    var attributes = level * num;
-    var id = "#"+elementId;
+    var attributes = Number(level) * Number(num);
+    var id = "#" + elementId;
     $(id).val(isNull(attributes));
     return attributes;
-}
-function cala(level,num) {
-    return level*num;
-}
-function calAdd(obj,min){
-    alert(obj);
-    isDisabled(obj,min);
-    obj = (Math.abs(parseInt(obj)) + 1);
-    isDisabled(obj,min);
-    return obj;
-}
-function calMin(obj,min){
-    isDisabled(obj,min);
-    obj = (Math.abs(parseInt(obj)) - 1);
-    isDisabled(obj,min);
-    return obj;
 }
 function isDisabled(obj,min) {
     if(parseInt(obj) <= 0){
