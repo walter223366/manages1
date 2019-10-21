@@ -142,7 +142,7 @@
             <div class="layui-form-item layLeng">
                 <label class="layui-form-label">属性分值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_attributes" type="number" value="0" class="layui-input inLeng" disabled="true">
+                    <input id="edit_attributes" type="text" class="layui-input inLeng" disabled="true">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -247,26 +247,27 @@
 
     <!--武学添加-->
     <div class="x-body" id="eArtsInfo" aria-hidden="true" hidden>
-        <form class="layui-form-item layui-form" id="formArtsInfo">
+        <form class="layui-form-item layui-form" id="formKfInfo">
+            <div class="layui-form-item">
+                <label class="layui-form-label">武学类型</label>
+                <div class="layui-input-inline" style="width: 390px">
+                    <select id="edit_kfTypes" onchange="changeQualifications(this)">
+                        <option value="0" selected="selected">内功</option>
+                        <option value="1">轻功</option>
+                        <option value="2">外功</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <button onclick="editTypeBut()" type="button" class="layui-btn buLeng">选中</button>
+                </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">武学选项</label>
                 <div class="layui-input-inline" style="width: 390px">
                     <select id="edit_kongFu" type="checkbox"></select>
                 </div>
                 <div class="layui-input-inline">
-                    <button onclick="editKongFu()" type="button" class="layui-btn buLeng">添加</button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">武学添四</label>
-                <div class="layui-input-inline">
-                    <input id="edit_kongFu4" type="text" class="layui-input" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="edit_experience4" type="text" class="layui-input" placeholder="输入经验值" oninput="value=value.replace(/[^\d]/g,'')" disabled="true">
-                </div>
-                <div class="layui-input-inline">
-                    <button type="button" onclick="resetKongFu('edit_kongFu4','edit_experience4')" class="layui-btn layui-btn-primary buLeng">清除</button>
+                    <button id="editKongFus" onclick="editKongFu()" type="button" class="layui-btn buLeng">添加</button>
                 </div>
             </div>
         </form>

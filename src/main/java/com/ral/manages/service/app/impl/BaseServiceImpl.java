@@ -51,8 +51,6 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = basePagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = baseEditQuery(map);
-                break;
             case ProjectConst.SEEDETAILS: result = baseSee(map);
                 break;
             case ProjectConst.INSERT: result = baseInsert(map);
@@ -89,33 +87,6 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         return PageBean.resultPage(page.getTotal(),baseList);
     }
 
-    /*编辑查询*/
-    private Map<String,Object> baseEditQuery(Map<String,Object> map) {
-        String nickname = MapUtil.getString(map,"nickname");
-        if(StringUtil.isNull(nickname)){
-            throw new BizException("传入人物名称为空");
-        }
-        Map<String,Object> basicMap =  baseMapper.baseEditQuery(map);
-        Map<String,Object> schoolMap = schoolMapper.schoolIdQuery(basicMap);
-        basicMap.put("schoolName",MapUtil.getString(schoolMap,"name"));
-        String baseId = MapUtil.getString(basicMap,"id");
-        List<Map<String,Object>> weaList = baseMapper.queryAttainmentsInfo(baseId);
-        basicMap.put("weapon",SetUtil.clearValueNullToList(weaList));
-        List<Map<String,Object>> extList = baseMapper.queryBattleInfo(baseId);
-        basicMap.put("virtue",SetUtil.clearValueNullToList(extList));
-        List<Map<String,Object>> kofList = baseMapper.queryRelatKfInfo(baseId);
-        for(Map<String,Object> kofMap : kofList){
-            String kongFuId = MapUtil.getString(kofMap,"kongfu_id");
-            Map<String,Object> nameMap = kongFuMapper.kongFuQueryName(kongFuId);
-            kofMap.put("kongFuName",MapUtil.getString(nameMap,"name"));
-            kofMap.put("type",MapUtil.getString(nameMap,"type"));
-        }
-        basicMap.put("kongFu",SetUtil.clearValueNullToList(kofList));
-        List<Map<String,Object>> potList = baseMapper.queryPotentialInfo(baseId);
-        basicMap.put("potent",SetUtil.clearValueNullToList(potList));
-        return SetUtil.clearValueNullToMap(basicMap);
-    }
-
     /*新增*/
     @Transactional(propagation=Propagation.REQUIRED,readOnly=false,rollbackFor=Exception.class)
     public Map<String,Object> baseInsert(Map<String,Object> map) {
@@ -129,59 +100,32 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         String id = StringUtil.getUUID();
         map.put("id",id);
+        Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
+        Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
+        Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
+        map.put("kongfu_have_id",Base64Util.Base64Encode(map.get("kongfu_have_id").toString()));
         try {
-            baseMapper.baseInsert(map);
-            extInsert(map,id);
-            attInsert(map,id);
-            kofInsert(map,id);
-            potInsert(map,id);
+            baseMapper.baseInsert(SetUtil.turnNull(map));
+            if(!SetUtil.isMapNull(vMap)){
+                vMap.put("id",StringUtil.getUUID());
+                vMap.put("character_id",id);
+                baseMapper.baseExtInsert(SetUtil.turnNull(vMap));
+            }
+            if(!SetUtil.isMapNull(wMap)){
+                wMap.put("id",StringUtil.getUUID());
+                wMap.put("character_id",id);
+                baseMapper.baseAttInsert(SetUtil.turnNull(wMap));
+            }
+            if(!SetUtil.isMapNull(pMap)){
+                pMap.put("id",StringUtil.getUUID());
+                pMap.put("character_id",id);
+                baseMapper.basePotInsert(SetUtil.turnNull(pMap));
+            }
             return new HashMap<>();
         } catch (Exception e) {
             e.printStackTrace();
             log.debug("新增失败："+e.getMessage());
             throw new BizException("新增失败");
-        }
-    }
-
-    //新增属性
-    public void extInsert(Map<String,Object> map,String id){
-        Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
-        if(!SetUtil.isMapNull(vMap)){
-            vMap.put("id",StringUtil.getUUID());
-            vMap.put("character_id",id);
-            baseMapper.baseExtInsert(vMap);
-        }
-    }
-
-    //新增造诣
-    public void attInsert(Map<String,Object> map,String id){
-        Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
-        if(!SetUtil.isMapNull(wMap)){
-            wMap.put("id",StringUtil.getUUID());
-            wMap.put("character_id",id);
-            baseMapper.baseAttInsert(wMap);
-        }
-    }
-
-    //新增武学
-    public void kofInsert(Map<String,Object> map,String id){
-        List<Map<String,Object>> kList = (List<Map<String,Object>>) map.get("kongFu");
-        if(!SetUtil.isListNull(kList)){
-            for(Map<String,Object> kMap : kList){
-                kMap.put("id",StringUtil.getUUID());
-                kMap.put("character_id",id);
-                baseMapper.baseRrkInsert(kMap);
-            }
-        }
-    }
-
-    //新增潜力
-    public void potInsert(Map<String,Object> map,String id){
-        Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
-        if(!SetUtil.isMapNull(pMap)){
-            pMap.put("id",StringUtil.getUUID());
-            pMap.put("character_id",id);
-            baseMapper.basePotInsert(pMap);
         }
     }
 
@@ -206,9 +150,23 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         }
         try{
             baseMapper.baseUpdate(map);
-            extUpdate(map);
-            attUpdata(map);
-            kofUpdate(map);
+            String virtue = MapUtil.getString(map,"virtue");
+            Map<String,Object> vMap = JSONObject.fromObject(virtue);
+            if(!SetUtil.isMapNull(vMap)){
+                vMap.put("character_id",MapUtil.getString(map,"id"));
+                baseMapper.baseExtUpdate(vMap);
+            }
+            String weapon = MapUtil.getString(map,"weapon");
+            Map<String,Object> wMap = JSONObject.fromObject(weapon);
+            if(!SetUtil.isMapNull(wMap)){
+                wMap.put("character_id",MapUtil.getString(map,"id"));
+                baseMapper.baseAttUpdate(wMap);
+            }
+            Map<String,Object> potent = JsonUtil.formatJSON(MapUtil.getString(map,""));
+            if(!SetUtil.isMapNull(potent)){
+                potent.put("character_id",MapUtil.getString(map,"id"));
+                baseMapper.basePotUpdate(potent);
+            }
             return new HashMap<>();
         }catch (Exception e){
             e.printStackTrace();
@@ -216,47 +174,6 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
             throw new BizException("修改失败："+e.getMessage());
         }
     }
-
-    //修改属性
-    private void extUpdate(Map<String,Object> map){
-        String virtue = MapUtil.getString(map,"virtue");
-        Map<String,Object> vMap = JSONObject.fromObject(virtue);
-        if(!SetUtil.isMapNull(vMap)){
-            vMap.put("character_id",MapUtil.getString(map,"id"));
-            baseMapper.baseExtUpdate(vMap);
-        }
-    }
-
-    //修改造诣
-    private void attUpdata(Map<String,Object> map){
-        String weapon = MapUtil.getString(map,"weapon");
-        Map<String,Object> wMap = JSONObject.fromObject(weapon);
-        if(!SetUtil.isMapNull(wMap)){
-            wMap.put("character_id",MapUtil.getString(map,"id"));
-            baseMapper.baseAttUpdate(wMap);
-        }
-    }
-
-    //修改武学
-    private void kofUpdate(Map<String,Object> map){
-        List<Map<String,Object>> kList = (List<Map<String, Object>>) map.get("kongFu");
-        if(!SetUtil.isListNull(kList)){
-            for(Map<String,Object> kfMap : kList){
-                kfMap.put("character_id",MapUtil.getString(map,"id"));
-                baseMapper.baseRrkUpdate(kfMap);
-            }
-        }
-    }
-
-    //修改潜力
-    private void potUpdate(Map<String,Object> map){
-        Map<String,Object> potent = JsonUtil.formatJSON(MapUtil.getString(map,""));
-        if(!SetUtil.isMapNull(potent)){
-            potent.put("character_id",MapUtil.getString(map,"id"));
-            baseMapper.basePotUpdate(potent);
-        }
-    }
-
 
     /*删除*/
     private Map<String,Object> baseDelete(Map<String,Object> map){
@@ -297,20 +214,26 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
             Map<String,Object> schoolMap = schoolMapper.schoolQueryName(schoolId);
             resultMap.put("schoolName",MapUtil.getString(schoolMap,"name"));
         }
-        String baseId = MapUtil.getString(resultMap,"id");
-        List<Map<String,Object>> weaList = baseMapper.queryAttainmentsInfo(baseId);
-        resultMap.put("weapon",SetUtil.clearValueNullToList(weaList));
-        List<Map<String,Object>> extList = baseMapper.queryBattleInfo(baseId);
-        resultMap.put("virtue",SetUtil.clearValueNullToList(extList));
-        List<Map<String,Object>> kofList = baseMapper.queryRelatKfInfo(baseId);
-        for(Map<String,Object> kofMap : kofList){
-            String kongFuId = MapUtil.getString(kofMap,"kongfu_id");
-            Map<String,Object> nameMap = kongFuMapper.kongFuQueryName(kongFuId);
-            kofMap.put("kongFuName",MapUtil.getString(nameMap,"name"));
+        String kongFu = Base64Util.Base64Decode(MapUtil.getString(resultMap,"kongfu_have_id"));
+        if(StringUtil.isNull(kongFu)){
+            resultMap.put("kongfu_have_id",new JSONArray());
+        }else{
+            JSONArray array = JSONArray.fromObject(kongFu);
+            for(int i=0; i<array.size(); i++){
+                JSONObject json = array.getJSONObject(i);
+                Map<String,Object> resKF = kongFuMapper.kongFuQueryName(json.optString("id"));
+                json.put("kfName",MapUtil.getString(resKF,"name"));
+                json.put("kfType",MapUtil.getString(resKF,"type"));
+            }
+            resultMap.put("kongfu_have_id",array);
         }
-        resultMap.put("kongFu",SetUtil.clearValueNullToList(kofList));
-        List<Map<String,Object>> potList = baseMapper.queryPotentialInfo(baseId);
-        resultMap.put("potent",SetUtil.clearValueNullToList(potList));
+        String baseId = MapUtil.getString(resultMap,"id");
+        Map<String,Object> weapon = baseMapper.queryAttainmentsInfo(baseId);
+        resultMap.put("weapon",SetUtil.clearValueNullToMap(weapon));
+        Map<String,Object> virtue = baseMapper.queryBattleInfo(baseId);
+        resultMap.put("virtue",SetUtil.clearValueNullToMap(virtue));
+        Map<String,Object> potent = baseMapper.queryPotentialInfo(baseId);
+        resultMap.put("potent",SetUtil.clearValueNullToMap(potent));
         return SetUtil.clearValueNullToMap(resultMap);
     }
 
@@ -336,12 +259,12 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
                 Map<String,Object> schoolMap = new HashMap<String,Object>();
                 schoolMap = schoolMapper.schoolIdQuery(infoMap);
                 result.put("schoolInfo",SetUtil.clearValueNullToMap(schoolMap));//门派信息
-                List<Map<String,Object>> attainMap = baseMapper.queryAttainmentsInfo(baseId);
-                result.put("attainInfo",SetUtil.clearValueNullToList(attainMap));//造诣信息
-                List<Map<String,Object>> battleMap = baseMapper.queryBattleInfo(baseId);
-                result.put("battleInfo",SetUtil.clearValueNullToList(battleMap));//battle信息
-                List<Map<String,Object>> potentialMap = baseMapper.queryPotentialInfo(baseId);
-                result.put("potentialInfo",SetUtil.clearValueNullToList(potentialMap));//学识表
+                Map<String,Object> attainMap = baseMapper.queryAttainmentsInfo(baseId);
+                result.put("attainInfo",SetUtil.clearValueNullToMap(attainMap));//造诣信息
+                Map<String,Object> battleMap = baseMapper.queryBattleInfo(baseId);
+                result.put("battleInfo",SetUtil.clearValueNullToMap(battleMap));//battle信息
+                Map<String,Object> potentialMap = baseMapper.queryPotentialInfo(baseId);
+                result.put("potentialInfo",SetUtil.clearValueNullToMap(potentialMap));//学识表
                 List<Map<String,Object>> relationMap = baseMapper.queryRelationInfo(baseId);
                 result.put("relationInfo",SetUtil.clearValueNullToList(relationMap));//关系表
                 result.putAll(infoMap);

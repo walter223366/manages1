@@ -22,7 +22,7 @@ function pagingQuery() {
         {field: 'sex', title: '性别'},
         {field: 'level', title: '等级', sort: true},
         {field: 'attitude', title: '态度'},
-        {field: 'character', title: '性格'},
+        {field: 'characters', title: '性格'},
         {field: 'popularity', title: '声望', sort: true},
         {field: 'experience', title: '经验值'},
         {field: 'school_contribution', title: '门派贡献值', width: 100},
@@ -31,14 +31,14 @@ function pagingQuery() {
     pQue(params, manages, "人物管理", cole, add, edit, del, see, pagingQuery);
 }
 
-
 function cleanUp() {
     $("#query_nickname").val('');
     $("#query_enable").val('');
+    $("#query_cancellation").val('');
+    $("#query_isNpc").val('');
     layui.form.render("select");
     pagingQuery();
 }
-
 
 function add() {
     var content = [splictUrl + '/system/baseAdd'];
@@ -65,7 +65,7 @@ function add() {
             if (akf === null) {
                 akf = [];
             }
-            params.kongFu = akf;
+            params.kongfu_have_id = akf;
             params.virtue = parFormat(sessionStorage.getItem("avt"));
             params.weapon = parFormat(sessionStorage.getItem("awp"));
             params.potent = parFormat(sessionStorage.getItem("apt"));
@@ -131,12 +131,14 @@ function aKongFuBut() {
             var div = forms.getElementsByClassName("inp");
             for (var i = 1; i <= div.length; i++) {
                 var diValue = {};
-                diValue.type = $("#type" + i).val();
-                diValue.kongFuName = $("#name" + i).val();
-                diValue.experience = Number($("#exp" + i).val());
+                diValue.exp = Number($("#exp" + i).val());
                 var a = $("#use" + i).val();
-                diValue.use = (a = "未使用" ? 0 : 1);
-                diValue.kongfu_id = $("#id" + i).val();
+                if(a === "未使用"){
+                    diValue.use = "0";
+                }else{
+                    diValue.use = "1";
+                }
+                diValue.id = $("#id" + i).val();
                 kongFu.push(diValue);
             }
             sessionStorage.setItem("akf", JSON.stringify(kongFu));
@@ -225,7 +227,7 @@ function see(data) {
                         $("#see_nickname").val(isNull(obj.nickname));
                         $("#see_level").val(isNull(obj.level));
                         $("#see_attitude").val(isNull(obj.attitude));
-                        $("#see_character").val(isNull(obj.characters));
+                        $("#see_characters").val(isNull(obj.characters));
                         $("#see_popularity").val(isNull(obj.popularity));
                         $("#see_coin").val(isNull(obj.coin));
                         $("#see_gold").val(isNull(obj.gold));
@@ -235,10 +237,10 @@ function see(data) {
                         $("#see_sex").val(isNull(obj.sex));
                         $("#see_enable").val(isNull(obj.enable = 1 ? "已启用" : "未启用"));
                         $("#see_user").val(isNull(obj.userName));
-                        if (obj.virtue.length > 0) {
-                            var virtue = obj.virtue[0];
-                            $("#see_mphysique").val(isNull(virtue.physique));
-                            $("#see_force").val(isNull(virtue.forces));
+                        var virtue = obj.virtue;
+                        if (virtue !== null) {
+                            $("#see_physique").val(isNull(virtue.physique));
+                            $("#see_forces").val(isNull(virtue.forces));
                             $("#see_muscles").val(isNull(virtue.muscles));
                             $("#see_chakra").val(isNull(virtue.mp));
                             $("#see_sensitivity").val(isNull(virtue.sensitivity));
@@ -246,39 +248,72 @@ function see(data) {
                             $("#see_knowledge").val(isNull(virtue.knowledge));
                             $("#see_lucky").val(isNull(virtue.lucky));
                         }
-                        if (obj.kongFu.length > 0) {
-                            var kongFu1 = obj.kongFu[0];
-                            $("#see_kongFu1").val(isNull(kongFu1.kongFuName));
-                            $("#see_experience1").val(isNull(kongFu1.experience));
-                            var kongFu2 = obj.kongFu[1];
-                            if (kongFu2 !== "undefined") {
-                                $("#see_kongFu2").val(isNull(kongFu2.kongFuName));
-                                $("#see_experience3").val(isNull(kongFu2.experience));
-                            }
-                            var kongFu3 = obj.kongFu[1];
-                            if (kongFu3 !== "undefined") {
-                                $("#see_kongFu3").val(isNull(kongFu3.kongFuName));
-                                $("#see_experience3").val(isNull(kongFu3.experience));
-                            }
-                            var kongFu4 = obj.kongFu[1];
-                            if (kongFu4 !== "undefined") {
-                                $("#see_kongFu4").val(isNull(kongFu4.kongFuName));
-                                $("#see_experience4").val(isNull(kongFu4.experience));
-                            }
-                        }
-                        if (obj.weapon.length > 0) {
-                            var weapon = obj.weapon[0];
+                        var weapon = obj.weapon;
+                        if (weapon !== null) {
                             $("#see_melee_status").val(isNull(weapon.melee_status));
                             $("#see_sword_status").val(isNull(weapon.sword_status));
                             $("#see_axe_status").val(isNull(weapon.axe_status));
                             $("#see_javelin_status").val(isNull(weapon.javelin_status));
                             $("#see_hidden_weapons_status").val(isNull(weapon.hidden_weapons_status));
                             $("#see_sorcery_status").val(isNull(weapon.sorcery_status));
+                            $("#see_mp_status").val(isNull(weapon.mp_status));
                             $("#see_dodge_skill_status").val(isNull(weapon.dodge_skill_status));
-                            $("#see_chakra_status").val(isNull(weapon.mp_status));
                         }
-                        if (obj.potent.length > 0) {
-                            var potent = obj.potent[0];
+                        var potent = obj.potent;
+                        if (potent !== null) {
+                            $("#see_wisdom1").val(isNull(potent.wisdom1));
+                            $("#see_wisdom2").val(isNull(potent.wisdom2));
+                            $("#see_wisdom3").val(isNull(potent.wisdom3));
+                            $("#see_healthy1").val(isNull(potent.healthy1));
+                            $("#see_healthy2").val(isNull(potent.healthy2));
+                            $("#see_healthy3").val(isNull(potent.healthy3));
+                            $("#see_mellow1").val(isNull(potent.mellow1));
+                            $("#see_mellow2").val(isNull(potent.mellow2));
+                            $("#see_mellow3").val(isNull(potent.mellow3));
+                            $("#see_mellow4").val(isNull(potent.mellow4));
+                            $("#see_mellow5").val(isNull(potent.mellow5));
+                            $("#see_fineness1").val(isNull(potent.fineness1));
+                            $("#see_fineness2").val(isNull(potent.fineness2));
+                            $("#see_burst1").val(isNull(potent.burst1));
+                            $("#see_burst2").val(isNull(potent.burst2));
+                            $("#see_sharp1").val(isNull(potent.sharp1));
+                            $("#see_sharp2").val(isNull(potent.sharp2));
+                            $("#see_tenacity1").val(isNull(potent.tenacity1));
+                            $("#see_tenacity2").val(isNull(potent.tenacity2));
+                            $("#see_tenacity3").val(isNull(potent.tenacity3));
+                        }
+                        var fkf = document.getElementById("formSeeKongFu");
+                        $("#formSeeKongFu").empty();
+                        if (obj.kongfu_have_id.length > 0) {
+                            var kongFu = obj.kongfu_have_id;
+                            for (var i = 0; i < kongFu.length; i++) {
+                                var div = document.createElement("div");
+                                div.id = "div" + i;
+                                div.className = "layui-form-item";
+                                div.style.marginLeft = "55px";
+                                var div1 = document.createElement("div");
+                                div1.className = "layui-input-inline";
+                                div1.style.width = "700px";
+                                var input1 = document.createElement("input");
+                                input1.setAttribute("type", "text");
+                                input1.className = "layui-input see-input";
+                                input1.style.width = "700px";
+                                var typeVale;
+                                if (kongFu[i].kfType === "0") {
+                                    typeVale = "内功";
+                                } else if (kongFu[i].kfType === "1") {
+                                    typeVale = "轻功";
+                                } else {
+                                    typeVale = "外功";
+                                }
+                                input1.value = (i + 1)+"、 武学名称：" + kongFu[i].kfName + "        " +
+                                    "武学类型：" + typeVale + "         " +
+                                    "武学经验值：" + kongFu[i].exp + "        " +
+                                    "使用情况：" + (kongFu[i].use = "0" ? "未使用" : "已使用");
+                                div1.appendChild(input1);
+                                div.appendChild(div1);
+                                fkf.appendChild(div);
+                            }
                         }
                     }, function (index, layero) {
                         layer.closeAll();
@@ -296,7 +331,7 @@ function edit(data) {
     var downs = {};
     downBox(downs, schoolBox, "edit_school", "", lSelection);
     var params = {nickname: data.nickname};
-    postRequest(params, manages, eQuery, function (data) {
+    postRequest(params, manages, sDetails, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
@@ -315,11 +350,13 @@ function edit(data) {
                         editVal(layero, "edit_school_contribution", obj.school_contribution);
                         editVal(layero, "edit_enable", obj.enable);
                         editVal(layero, "edit_sex", obj.sex);
-                        editVal(layero, "edit_school", obj.school_id);
-                        sessionStorage.setItem("qvt", JSON.stringify(obj.virtue[0]));
-                        sessionStorage.setItem("qkf", JSON.stringify(obj.kongFu));
-                        sessionStorage.setItem("qwp", JSON.stringify(obj.weapon[0]));
-                        sessionStorage.setItem("qpt", JSON.stringify(obj.potent[0]));
+                        var body = layer.getChildFrame('body', layero);
+                        body.contents().find("#edit_school").val(obj.school_id);
+                        window.layui.form.render();
+                        sessionStorage.setItem("qvt", JSON.stringify(obj.virtue));
+                        sessionStorage.setItem("qkf", JSON.stringify(obj.kongfu_have_id));
+                        sessionStorage.setItem("qwp", JSON.stringify(obj.weapon));
+                        sessionStorage.setItem("qpt", JSON.stringify(obj.potent));
                     }, function (index, layero) {
                         var params = {};
                         params.id = obj.id;
@@ -342,7 +379,7 @@ function edit(data) {
                         if (ekf === null) {
                             ekf = [];
                         }
-                        params.kongFu = ekf;
+                        params.kongfu_have_id = ekf;
                         params.virtue = parFormat(sessionStorage.getItem("evt"));
                         params.weapon = parFormat(sessionStorage.getItem("ewp"));
                         sessionStorage.removeItem("evt");
@@ -361,7 +398,6 @@ function edit(data) {
 
 function eVirtueBut() {
     var level = $("#edit_level").val();
-    alert(level);
     if (level !== "") {
         if (level === "0") {
             layer.msg("请填写等级大于0的数");
@@ -400,7 +436,7 @@ function eVirtueBut() {
                 virtue.knowledge = Number($("#edit_knowledge").val());
                 virtue.lucky = Number($("#edit_lucky").val());
                 var sum = calAdd(virtue);
-                var attNum = ($("#add_attributes").val());
+                var  attNum = ($("#edit_attributes").val());
                 if (sum > attNum) {
                     layer.msg("各项属性值总和超出总属值的：" + calSub(sum, attNum));
                     return;
@@ -449,8 +485,8 @@ function eKongFuBut() {
 }
 
 function editE(obj) {
-    var fkf = document.getElementById("formKongFu");
-    $.each(obj,function (i,n) {
+    var fkf = document.getElementById("formKfInfo");
+    for(var i=0; i<obj.length; i++){
         var div = document.createElement("div");
         div.id = "eDiv"+i;
         div.className = "layui-form-item enp";
@@ -470,33 +506,6 @@ function editE(obj) {
         div1.appendChild(input1);
         div.appendChild(div1);
 
-    });
-}
-
-function editKongFu() {
-    var kongFu = $("#edit_kongFu").find("option:selected").text();
-    var kongFu1 = document.getElementById("edit_kongFu1");
-    var kongFu2 = document.getElementById("edit_kongFu2");
-    var kongFu3 = document.getElementById("edit_kongFu3");
-    var kongFu4 = document.getElementById("edit_kongFu4");
-    if (kongFu === "请选择") {
-        layer.msg("请选择武学选项");
-        return;
-    }
-    if (kongFu1.value === '') {
-        kongFu1.value = kongFu;
-        $('#edit_experience1').removeAttr("disabled");
-    } else if (kongFu2.value === '') {
-        kongFu2.value = kongFu;
-        $('#edit_experience2').removeAttr("disabled");
-    } else if (kongFu3.value === '') {
-        kongFu3.value = kongFu;
-        $('#edit_experience3').removeAttr("disabled");
-    } else if (kongFu4.value === '') {
-        kongFu4.value = kongFu;
-        $('#edit_experience4').removeAttr("disabled");
-    } else {
-        layer.msg("添加武学选项已满");
     }
 }
 
@@ -536,7 +545,7 @@ function ePotentBut() {
     var content = $("#ePotentInfo");
     layerOpen(1, "人物潜能", content, 900, 400, "确定", "重置",
         function (index, layero) {
-            var obj = getSession("ewp","qwp");
+            var obj = getSession("ept","qpt");
             if (obj !== null) {
                 $("#edit_wisdom1").val(isNull(obj.wisdom1));
                 $("#edit_wisdom2").val(isNull(obj.wisdom2));
@@ -589,18 +598,18 @@ function ePotentBut() {
 }
 
 function editReset(layero) {
-    cleanVal(layero, "edit_nickname");
-    cleanVal(layero, "edit_level");
-    cleanVal(layero, "edit_attitude");
-    cleanVal(layero, "edit_character");
-    cleanVal(layero, "edit_popularity");
-    cleanVal(layero, "edit_coin");
-    cleanVal(layero, "edit_gold");
-    cleanVal(layero, "edit_experience");
-    cleanVal(layero, "edit_school_contribution");
-    cleanVal(layero, "edit_experience");
-    cleanVal(layero, "edit_experience");
-    cleanVal(layero, "edit_experience");
+    cleanVal(layero, "edit_nickname",'');
+    cleanVal(layero, "edit_level",'');
+    cleanVal(layero, "edit_attitude",'');
+    cleanVal(layero, "edit_character",'');
+    cleanVal(layero, "edit_popularity",'');
+    cleanVal(layero, "edit_coin",'');
+    cleanVal(layero, "edit_gold",'');
+    cleanVal(layero, "edit_experience",'');
+    cleanVal(layero, "edit_school_contribution",'');
+    cleanVal(layero, "edit_experience",'');
+    cleanVal(layero, "edit_experience",'');
+    cleanVal(layero, "edit_experience",'');
 }
 
 function verIfy(params) {
@@ -790,3 +799,22 @@ $(function () {
         calAttr(obj, attNum, "edit_attributes");
     });
 });
+
+function editTypeBut() {
+    var type = $("#edit_kfTypes").find("option:selected").val();
+    var downs = {};
+    downs.type = type;
+    $("#edit_kongFu").empty();
+    downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
+}
+
+function editKongFu() {
+    var kongFu = $("#edit_kongFu").find("option:selected");
+    var kText = kongFu.text();
+    if (kText === "请选择" || kText === "") {
+        layer.msg("请选择武学选项");
+        return;
+    }
+    var typeV = $("#edit_kfTypes").find("option:selected").text();
+    alert(typeV)
+}

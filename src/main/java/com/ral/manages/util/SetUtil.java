@@ -60,6 +60,24 @@ public class SetUtil {
         return map;
     }
 
+    public static Map<String,Object> turnNull(Map<String,Object> map){
+        if(null == map || map.size() <= 0){
+            return new HashMap<>();
+        }
+        List<String> keyList = new ArrayList<String>();
+        Set<String> keySet = map.keySet();
+        for (String key : keySet) {
+            Object value = map.get(key);
+            if("" == value){
+                keyList.add(key);
+            }
+        }
+        for (String key : keyList) {
+            map.put(key, null);
+        }
+        return map;
+    }
+
 
     //获取map集合value（String）
     public static String toMapValueString(Map<String,Object> map,String key){

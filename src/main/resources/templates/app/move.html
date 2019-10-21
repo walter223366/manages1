@@ -78,34 +78,28 @@
                     <input id="add_exp" type="number" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>功夫选项&emsp;</label>
-                <div class="layui-input-inline" style="width:685px">
+                <div class="layui-input-inline" style="width:260px ">
                     <select id="add_kongFu" type="checkbox" xm-select="select_addKongFu"></select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>效果选项&emsp;</label>
-                <div class="layui-input-inline" style="width:685px">
-                    <select id="add_effect" type="checkbox" xm-select="select_addEffect" xm-select-show-count="3" xm-select-skin="normal"></select>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
+                <div class="layui-input-inline">
+                    <input id="add_MP_cost" type="text" class="layui-input inLeng" placeholder="黄色,金色,绿色,蓝色,紫色">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="add_yellowSpend" type="number" class="layui-input" placeholder="黄色花费">
+                <label class="layui-form-label">效果选项&emsp;</label>
+                <div class="layui-input-inline" style="width:685px"><!--xm-select-show-count="3" xm-select-skin="normal"-->
+                    <select id="add_zhaoshi_effect" type="checkbox" xm-select="select_addEffect"></select>
                 </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="add_goldSpend" type="number" class="layui-input" placeholder="金色花费">
-                </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="add_greenSpend" type="number" class="layui-input" placeholder="绿色花费">
-                </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="add_blueSpend" type="number" class="layui-input" placeholder="蓝色花费">
-                </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="add_purpleSpend" type="number" class="layui-input" placeholder="紫色花费">
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">buff选项&emsp;</label>
+                <div class="layui-input-inline" style="width:685px"><!--xm-select-show-count="3" xm-select-skin="normal"-->
+                    <select id="add_zhaoshi_buff" type="checkbox" xm-select="select_addBuff"></select>
                 </div>
             </div>
             <div class="layui-form-item">

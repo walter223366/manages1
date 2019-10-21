@@ -6,7 +6,8 @@
     <!--角色表-->
     <sql id="baseResult">
         id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,experience,
-        school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus
+        school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus,title_have_id,kongfu_have_id,
+        character_relationship_tablename,talk_battle_in,talk_battle_lose,talk_battle_win,talk_meet,talk_thanks
     </sql>
     <sql id="conditionalCheck">
         <if test="nickname != null and nickname != ''">
@@ -76,18 +77,18 @@
     <select id="queryRelationInfo" parameterType="java.lang.String" resultType="map">
         SELECT * FROM biz_charactor_relationship WHERE 1=1 AND character_id=#{baseId}
     </select>
-    <select id="queryRelatKfInfo" parameterType="java.lang.String" resultType="map">
-        SELECT * FROM relat_character_kongfu_copy WHERE 1=1 AND character_id=#{baseId}
-    </select>
 
 
     <!--新增-->
     <insert id="baseInsert" parameterType="map">
         INSERT INTO biz_character_base_info(id,user_id,school_id,member_id,nickname,sex,level,attitude,characters,popularity,coin,gold,
-        experience,school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus)
+        experience,school_contribution,img,enable,cancellation,is_npc,last_time,deleteStatus,title_have_id,kongfu_have_id,
+        character_relationship_tablename,talk_battle_in,talk_battle_lose,talk_battle_win,talk_meet,talk_thanks)
         VALUES (
           #{id},#{user_id},#{school_id},#{member_id},#{nickname},#{sex},#{level},#{attitude},#{characters},#{popularity},#{coin},
-          #{gold},#{experience},#{school_contribution},#{img},#{enable},#{cancellation},#{is_npc},#{last_time},#{deleteStatus}
+          #{gold},#{experience},#{school_contribution},#{img},#{enable},#{cancellation},#{is_npc},#{last_time},#{deleteStatus},
+          #{title_have_id},#{kongfu_have_id},#{character_relationship_tablename},#{talk_battle_in},#{talk_battle_lose},
+          #{talk_battle_win},#{talk_meet},#{talk_thanks}
         )
     </insert>
     <insert id="baseAttInsert" parameterType="map">
@@ -112,20 +113,15 @@
           #{fineness1},#{fineness2},#{burst1},#{burst2},#{sharp1},#{sharp2},#{tenacity1},#{tenacity2},#{tenacity3},#{character_id}
         )
     </insert>
-    <insert id="baseRrkInsert" parameterType="map">
-        INSERT INTO relat_character_kongfu_copy(character_kongfu_id,kongfu_id,character_id,experience,useo)
-        VALUES (
-          #{id},#{kongfu_id},#{character_id},#{experience},#{use}
-        )
-    </insert>
 
     <!--修改-->
     <update id="baseUpdate" parameterType="map">
-        UPDATE biz_character_base_info SET school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},
-        sex=#{sex,jdbcType=INTEGER},level#{level,jdbcType=INTEGER},attitude=#{attitude,jdbcType=INTEGER},
-        characters=#{characters,jdbcType=INTEGER},popularity=#{popularity,jdbcType=INTEGER},coin=#{coin,jdbcType=INTEGER},
-        gold=#{gold,jdbcType=INTEGER},experience=#{experience,jdbcType=INTEGER},school_contribution=#{school_contribution,jdbcType=INTEGER},
-        img=#{img},enable=#{enable},cancellation=#{cancellation},is_npc=#{is_npc},last_time=#{last_time}
+        UPDATE biz_character_base_info SET school_id=#{school_id},member_id=#{member_id},nickname=#{nickname},sex=#{sex},level=#{level},
+        attitude=#{attitude},characters=#{characters},popularity=#{popularity},coin=#{coin},gold=#{gold},experience=#{experience},
+        school_contribution=#{school_contribution},img=#{img},enable=#{enable},cancellation=#{cancellation},is_npc=#{is_npc},
+        last_time=#{last_time},title_have_id=#{title_have_id},kongfu_have_id=#{kongfu_have_id},
+        character_relationship_tablename=#{character_relationship_tablename},talk_battle_in=#{talk_battle_in},talk_battle_lose=#{talk_battle_lose},
+        talk_battle_win=#{talk_battle_win},talk_meet=#{talk_meet},talk_thanks=#{talk_thanks}
         WHERE 1=1 AND id=#{id}
     </update>
     <update id="baseAttUpdate" parameterType="map">
@@ -135,7 +131,7 @@
         WHERE 1=1 AND character_id=#{character_id}
     </update>
     <update id="baseExtUpdate" parameterType="map">
-        UPDATE biz_character_battle_ext SET physique=#{physique},force=#{force},muscles=#{muscles},mp=#{mp},sensitivity=#{sensitivity},
+        UPDATE biz_character_battle_ext SET physique=#{physique},forces=#{forces},muscles=#{muscles},mp=#{mp},sensitivity=#{sensitivity},
         willpower=#{willpower},knowledge=#{knowledge},lucky=#{lucky}
         WHERE 1=1 AND character_id=#{character_id}
     </update>
@@ -144,9 +140,6 @@
         healthy3=#{healthy3},mellow1=#{mellow1},mellow2=#{mellow2},mellow3=#{mellow3},mellow4=#{mellow4},mellow5=#{mellow5},fineness1=#{fineness1},
         fineness2=#{fineness2},burst1=#{burst1},burst2=#{burst2},sharp1=#{sharp1},sharp2=#{sharp2},tenacity1=#{tenacity1},tenacity2=#{tenacity2},
         tenacity3=#{tenacity3} WHERE 1=1 AND character_id=#{character_id}
-    </update>
-    <update id="baseRrkUpdate" parameterType="map">
-        UPDATE relat_character_kongfu_copy SET kongfu_id=#{kongfu_id},experience=#{experience},useo=#{use} WHERE 1=1 character_kongfu_id=#{character_kongfu_id} AND character_id=#{character_id}
     </update>
 
 

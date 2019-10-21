@@ -35,7 +35,7 @@
     <select id="kongFuIdQuery" parameterType="map" resultType="map">
         SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </select>
-    <select id="kongFuQueryName" parameterType="string" resultType="map">
+    <select id="kongFuQueryName" parameterType="java.lang.String" resultType="map">
         SELECT kongfu_id,name,type FROM dict_kongfu WHERE 1=1 AND kongfu_id=#{kongFuId}
     </select>
     <select id="kongFuQueryMarquee" resultType="map">
