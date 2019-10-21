@@ -13,6 +13,7 @@ public interface IAccountMapper {
     Map<String,Object> accountEditQuery(Map<String,Object> map);
     Map<String,Object> accountIdQuery(Map<String,Object> map);
     Map<String,Object> accountQueryName(@Param("userId") String userId);
+    List<Map<String,Object>> accountQueryMarquee();
     /*新增*/
     void accountInsert(Map<String,Object> map);
     /*修改*/

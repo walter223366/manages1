@@ -2,10 +2,6 @@ url="/manages/sysAuth/server";
 splictUrl="/manages";
 eQuery="editQuery";
 sDetails="seeDetails";
-moveBox="moveBox";
-kongFuBox="kongFuBox";
-effectBox="effectBox";
-schoolBox="schoolBox";
 insert="insert";
 update="update";
 $(function () {
@@ -412,6 +408,11 @@ function del(data,manages,pagingQuery) {
         }
     );
 }
+moveBox="moveBox";
+kongFuBox="kongFuBox";
+effectBox="effectBox";
+schoolBox="schoolBox";
+accountBox="accountBox";
 function downBox(downs,method,id,selectId,mlSelection) {
     //document.getElementById(id).options.length = 0;
     postRequest(downs, "downBox", method, function (data) {
@@ -430,6 +431,8 @@ function downBox(downs,method,id,selectId,mlSelection) {
                         $(ids).append("<option value='" + n.effect_id + "'>" + n.name + "</option>");
                     } else if (method === schoolBox) {
                         $(ids).append("<option value='" + n.school_id + "'>" + n.name + "</option>");
+                    } else if (method === accountBox) {
+                        $(ids).append("<option value='" + n.id + "'>" + n.account + "</option>");
                     }
                 });
                 mlSelection(selectId);

@@ -2,10 +2,7 @@ package com.ral.manages.service.app.impl;
 
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.ProjectConst;
-import com.ral.manages.mapper.app.IEffectMapper;
-import com.ral.manages.mapper.app.IKongFuMapper;
-import com.ral.manages.mapper.app.IMoveMapper;
-import com.ral.manages.mapper.app.ISchoolMapper;
+import com.ral.manages.mapper.app.*;
 import com.ral.manages.service.app.UnifiedCall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +24,8 @@ public class DownBoxServiceImpl implements UnifiedCall {
     private ISchoolMapper schoolMapper;
     @Autowired
     private IMoveMapper moveMapper;
+    @Autowired
+    private IAccountMapper accountMapper;
 
 
     /**
@@ -47,6 +46,8 @@ public class DownBoxServiceImpl implements UnifiedCall {
             case ProjectConst.KONGFUDOWNBOX: result = kongFuDownBox(map);
                 break;
             case ProjectConst.SCHOOLDOWNBOX: result = schoolDownBox(map);
+                break;
+            case ProjectConst.ACCOUNTDOWNBOX: result = accountDownBox(map);
                 break;
             default:
                 throw new BizException("传入方法名不存在");
@@ -82,6 +83,14 @@ public class DownBoxServiceImpl implements UnifiedCall {
     private Map<String,Object> schoolDownBox(Map<String,Object> map){
         Map<String,Object> resultMap = new HashMap<String,Object>();
         List<Map<String,Object>> resultList = schoolMapper.schoolQueryMarquee();
+        resultMap.put("data",resultList);
+        return resultMap;
+    }
+
+    /*账号下拉框*/
+    private Map<String,Object> accountDownBox(Map<String,Object> map){
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        List<Map<String,Object>> resultList = accountMapper.accountQueryMarquee();
         resultMap.put("data",resultList);
         return resultMap;
     }

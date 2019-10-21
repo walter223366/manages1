@@ -42,7 +42,7 @@ function cleanUp() {
 
 function add() {
     var content = [splictUrl + '/system/baseAdd'];
-    layerOpen(2, "新增", content, 1200, 600, "立即提交", "重置", "",
+    layerOpen(2, "新增", content, 1100, 550, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
             params.nickname = getVal(layero, "add_nickname");

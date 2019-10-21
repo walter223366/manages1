@@ -24,12 +24,12 @@
                     <input id="add_nickname" type="text" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">人物类型</label>
                 <div class="layui-input-inline" style="width: 260px">
-                    <select id="add_enable" class="layui-input">
-                        <option value="1">启用</option>
-                        <option value="0">未启用</option>
+                    <select id="add_isNpc" class="layui-input">
+                        <option value="1">NPC</option>
+                        <option value="0">玩家</option>
                     </select>
                 </div>
             </div>
@@ -40,9 +40,33 @@
                 </div>
             </div>
             <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>所属账号</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="add_account" type="checkbox"></select>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label">门派贡献值</label>
                 <div class="layui-input-inline">
                     <input id="add_school_contribution" type="text" class="layui-input inLeng" placeholder="默认值为0" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">声&emsp;&emsp;望</label>
+                <div class="layui-input-inline">
+                    <input id="add_popularity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">等&emsp;&emsp;级</label>
+                <div class="layui-input-inline">
+                    <input id="add_level" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">经&ensp;验&ensp;值</label>
+                <div class="layui-input-inline">
+                    <input id="add_experience" type="text" class="layui-input inLeng" disabled="true" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -61,24 +85,6 @@
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label">等&emsp;&emsp;级</label>
-                <div class="layui-input-inline">
-                    <input id="add_level" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label">声&emsp;&emsp;望</label>
-                <div class="layui-input-inline">
-                    <input id="add_popularity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label">经&ensp;验&ensp;值</label>
-                <div class="layui-input-inline">
-                    <input id="add_experience" type="text" class="layui-input inLeng" disabled="true" oninput="value=value.replace(/[^\d]/g,'')">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
                 <label class="layui-form-label">态&emsp;&emsp;度</label>
                 <div class="layui-input-inline">
                     <input id="add_attitude" type="number" class="layui-input inLeng">
@@ -94,6 +100,15 @@
                 <label class="layui-form-label">元&emsp;&emsp;宝</label>
                 <div class="layui-input-inline">
                     <input id="add_gold" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">启用状态</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="add_enable" class="layui-input">
+                        <option value="1">启用</option>
+                        <option value="0">未启用</option>
+                    </select>
                 </div>
             </div>
         </form>
@@ -483,6 +498,10 @@
     $(function () {
         var downs = {};
         downBox(downs, schoolBox, "add_school", "", lSelection);
+    });
+    $(function () {
+        var downs = {};
+        downBox(downs, accountBox, "add_account", "", lSelection);
     });
 
     $(function() {
