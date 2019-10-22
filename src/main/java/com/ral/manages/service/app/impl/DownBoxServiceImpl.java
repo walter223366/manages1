@@ -65,7 +65,7 @@ public class DownBoxServiceImpl implements UnifiedCall {
 
     /*效果下拉框*/
     private Map<String,Object> effectDownBox(Map<String,Object> map) {
-        List<Map<String,Object>> resultList = effectMapper.effectQueryMarquee();
+        List<Map<String,Object>> resultList = effectMapper.effectQueryMarquee(map);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("data",resultList);
         return resultMap;

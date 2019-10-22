@@ -10,7 +10,7 @@ public interface IEffectMapper {
     int effectIsExist(Map<String,Object> map);
     Map<String,Object> effectEditQuery(Map<String,Object> map);
     Map<String,Object> effectIdQuery(Map<String,Object> map);
-    List<Map<String,Object>> effectQueryMarquee();
+    List<Map<String,Object>> effectQueryMarquee(Map<String,Object> map);
     List<Map<String,Object>> effectQueryMarqueeName(Map<String,Object> map);
     /*新增*/
     void effectInsert(Map<String,Object> map);

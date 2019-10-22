@@ -17,11 +17,10 @@ function pagingQuery() {
         {field: 'Aggressivity', title: '攻击力'},
         {field: 'Defense', title: '防御力'},
         {field: 'burst', title: '暴击力'},
-        {field: 'hp', title: 'HP影响', sort: true, width: 120},
+        {field: 'treatment', title: 'HP影响'},
         {field: 'injury', title: '外伤'},
         {field: 'internal_injury', title: '内伤'},
-        {field: 'poisoning', title: '毒伤'},
-        {field: 'suck_HP', title: '吸血', sort: true},
+        {field: 'poisoning', title: '毒伤', sort: true},
         {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "效果管理", cole, add, edit, del, see, pagingQuery);
@@ -35,8 +34,8 @@ function cleanUp() {
 }
 
 function add() {
-    var content = [splictUrl + '/system/effectAdd', 'no'];
-    layerOpen(2, "新增", content, 1200, 650, "立即提交", "重置", "",
+    var content = [splictUrl + '/system/effectAdd'];
+    layerOpen(2, "新增", content, 1100, 600, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
             params.name = getVal(layero, "add_name");
@@ -59,20 +58,13 @@ function add() {
             }
             var hp = JSON.parse(sessionStorage.getItem("ahp"));
             if (hp != null) {
-                params.mp_yellow = hp.mp_yellow;
-                params.mp_gold = hp.mp_gold;
-                params.mp_green = hp.mp_green;
-                params.mp_blue = hp.mp_blue;
-                params.mp_purple = hp.mp_purple;
+                //params.push(hp);
             }
             var suck = JSON.parse(sessionStorage.getItem("amp"));
             if (suck != null) {
-                params.suck_mp_yellow = suck.suck_mp_yellow;
-                params.suck_mp_gold = suck.suck_mp_gold;
-                params.suck_mp_green = suck.suck_mp_green;
-                params.suck_mp_blue = suck.suck_mp_blue;
-                params.suck_mp_purple = suck.suck_mp_purple;
+                //params.push(suck);
             }
+            alert(JSON.stringify(params));
             sessionStorage.removeItem("ahp");
             sessionStorage.removeItem("amp");
             aaUp(params, manages, insert, "新增", pagingQuery);
@@ -83,35 +75,36 @@ function add() {
 
 function aHpInfo() {
     var content = $("#aHpInfo");
-    layerOpen(1, "HP色球影响", content, 900, 410, "确定", "重置", "",
+    layerOpen(1, "HP色球影响", content, 700, 400, "保存", "重置", "",
         function (index, layero) {
             var hp = {};
-            hp.mp_yellow = mergeVal("add_hpYellow");
-            hp.mp_gold = mergeVal("add_hpGold");
-            hp.mp_green = mergeVal("add_hpGreen");
-            hp.mp_blue = mergeVal("add_hpBlue");
-            hp.mp_purple = mergeVal("add_hpPurple");
+            hp.mp_yellow = $("#add_mp_yellow").val();
+            hp.mp_gold = $("#add_mp_gold").val();
+            hp.mp_green = $("#add_mp_green").val();
+            hp.mp_blue = $("#add_mp_blue").val();
+            hp.mp_purple = $("#add_mp_purple").val();
             sessionStorage.setItem("ahp", JSON.stringify(hp));
             layer.closeAll();
         }, function (index, layero) {
-            clearValue("add_hpYellow,add_hpGold,add_hpGreen,add_hpBlue,add_hpPurple");
+            clearVal(hpID,1);
         });
 }
 
 function aSuckInfo() {
     var content = $("#aSuckInfo");
-    layerOpen(1, "吸血色球影响", content, 900, 410, "确定", "重置", "",
+    layerOpen(1, "吸血色球影响", content, 700, 400, "保存", "重置", "",
         function (index, layero) {
             var suck = {};
-            suck.suck_mp_yellow = mergeVal("add_suckYellow");
-            suck.suck_mp_gold = mergeVal("add_suckGold");
-            suck.suck_mp_green = mergeVal("add_suckGreen");
-            suck.suck_mp_blue = mergeVal("add_suckBlue");
-            suck.suck_mp_purple = mergeVal("add_suckPurple");
+            suck.suck_mp_random = $("#add_suck_mp_random").val();
+            suck.suck_mp_yellow = $("#add_suck_mp_yellow").val();
+            suck.suck_mp_gold = $("#add_suck_mp_gold").val();
+            suck.suck_mp_green = $("#add_suck_mp_green").val();
+            suck.suck_mp_blue = $("#add_suck_mp_blue").val();
+            suck.suck_mp_purple = $("#add_suck_mp_purple").val();
             sessionStorage.setItem("amp", JSON.stringify(suck));
             layer.closeAll();
         }, function (index, layero) {
-            clearValue("add_suckYellow,add_suckGold,add_suckGreen,add_suckBlue,add_suckPurple");
+            clearVal(mpID, 1);
         });
 }
 
@@ -388,3 +381,6 @@ function clearValue(ids) {
         }
     }
 }
+
+hpID = "mp_yellow,mp_gold,mp_green,mp_blue,mp_purple";
+mpID = "suck_mp_random,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple";

@@ -48,15 +48,27 @@
                 </div>
             </div>
             <div class="layui-inline layLeng">
+                <label class="layui-form-label">保&emsp;&emsp;护</label>
+                <div class="layui-input-inline">
+                    <input id="add_preserve" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">气&emsp;&emsp;墙</label>
+                <div class="layui-input-inline">
+                    <input id="add_PowerWall" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label">攻&ensp;击&ensp;力</label>
                 <div class="layui-input-inline">
-                    <input id="add_aggressivity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_Aggressivity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">防&ensp;御&ensp;力</label>
                 <div class="layui-input-inline">
-                    <input id="add_defense" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_Defense" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -90,9 +102,15 @@
                 </div>
             </div>
             <div class="layui-inline layLeng">
+                <label class="layui-form-label">反&ensp;击&ensp;率</label>
+                <div class="layui-input-inline">
+                    <input id="add_Counterattack" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label">HP&nbsp;影&nbsp;响</label>
                 <div class="layui-input-inline">
-                    <input id="add_hp" type="text" class="layui-input inLeng" placeholder="请输入HP影响值" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_treatment" type="text" class="layui-input inLeng" placeholder="请输入HP影响值" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -104,13 +122,13 @@
             <div class="layui-form-item layLeng">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-inline">
-                    <button onclick="aHpInfo()" type="button" class="layui-btn btncc">点击填写(HP)色球影响值</button>
+                    <button onclick="aHpInfo()" type="button" class="layui-btn btncc">点击填写 - HP色球影响值</button>
                 </div>
             </div>
             <div class="layui-form-item layLeng">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-inline">
-                    <button onclick="aSuckInfo()" type="button" class="layui-btn btncc">点击填写吸血色球影响值</button>
+                    <button onclick="aSuckInfo()" type="button" class="layui-btn btncc">点击填写 - 吸血色球影响值</button>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -126,64 +144,34 @@
     <!--hp色球影响-->
     <div class="x-body" id="aHpInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">黄球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_hpYellow1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpYellow2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpYellow3" type="text" class="layui-input">
+                    <input id="add_mp_yellow" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">金球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_hpGold1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpGold2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpGold3" type="text" class="layui-input">
+                    <input id="add_mp_gold" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">绿球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_hpGreen1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpGreen2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpGreen3" type="text" class="layui-input">
+                    <input id="add_mp_green" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">蓝球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_hpBlue1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpBlue2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpBlue3" type="text" class="layui-input">
+                    <input id="add_mp_blue" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">紫球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_hpPurple1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpPurple2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_hpPurple3" type="text" class="layui-input">
+                    <input id="add_mp_purple" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
         </form>
@@ -193,64 +181,40 @@
     <!--吸血色球影响-->
     <div class="x-body" id="aSuckInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
+                <label class="layui-form-label">任意颜色</label>
+                <div class="layui-input-inline">
+                    <input id="add_suck_mp_random" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
+                </div>
+            </div>
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">黄球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_suckYellow1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckYellow2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckYellow3" type="text" class="layui-input">
+                    <input id="add_suck_mp_yellow" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">金球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_suckGold1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckGold2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckGold3" type="text" class="layui-input">
+                    <input id="add_suck_mp_gold" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">绿球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_suckGreen1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckGreen2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckGreen3" type="text" class="layui-input">
+                    <input id="add_suck_mp_green" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">蓝球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_suckBlue1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckBlue2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckBlue3" type="text" class="layui-input">
+                    <input id="add_suck_mp_blue" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
-            <div class="layui-form-item" hidden>
+            <div class="layui-form-item layLeng">
                 <label class="layui-form-label">紫球影响</label>
                 <div class="layui-input-inline">
-                    <input id="add_suckPurple1" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckPurple2" type="text" class="layui-input">
-                </div>
-                <div class="layui-input-inline">
-                    <input id="add_suckPurple3" type="text" class="layui-input">
+                    <input id="add_suck_mp_purple" type="text" class="layui-input inLeng" placeholder="格式如：80,80,60">
                 </div>
             </div>
         </form>
