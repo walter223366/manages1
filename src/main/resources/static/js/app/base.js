@@ -220,7 +220,7 @@ function addReset(layero) {
 
 function see(data) {
     var params = {nickname: data.nickname};
-    postRequest(params, manages, sDetails, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
@@ -334,7 +334,7 @@ function see(data) {
 
 function edit(data) {
     var params = {nickname: data.nickname};
-    postRequest(params, manages, sDetails, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {

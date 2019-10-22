@@ -4,10 +4,8 @@ public class ProjectConst {
 
     //分页查询
     public final static String PAGINGQUERY = "pagingQuery";
-    //编辑查询
-    public final static String EDITQUERY = "editQuery";
     //详情
-    public final static String SEEDETAILS = "seeDetails";
+    public final static String SEEQUERY = "seeQuery";
     //新增
     public final static String INSERT = "insert";
     //修改

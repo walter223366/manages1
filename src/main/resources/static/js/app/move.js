@@ -73,7 +73,7 @@ function addReset() {
 
 function see(data) {
     var params = {name: data.name};
-    postRequest(params, manages, sDetails, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
@@ -104,7 +104,7 @@ function edit(data) {
     downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
     downBox(downs, effectBox, "edit_effect", "select_editEffect", mSelection);
     var params = {name: data.name};
-    postRequest(params, manages, eQuery, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {

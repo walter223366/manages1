@@ -51,7 +51,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = basePagingQuery(map);
                 break;
-            case ProjectConst.SEEDETAILS: result = baseSee(map);
+            case ProjectConst.SEEQUERY: result = baseSee(map);
                 break;
             case ProjectConst.INSERT: result = baseInsert(map);
                 break;
@@ -150,21 +150,21 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         }
         map.put("kongfu_have_id",Base64Util.Base64Encode(MapUtil.getString(map,"kongfu_have_id")));
         try{
-            baseMapper.baseUpdate(map);
+            baseMapper.baseUpdate(SetUtil.turnNull(map));
             Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
             if(!SetUtil.isMapNull(vMap)){
                 vMap.put("character_id",MapUtil.getString(map,"id"));
-                baseMapper.baseExtUpdate(vMap);
+                baseMapper.baseExtUpdate(SetUtil.turnNull(vMap));
             }
             Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
             if(!SetUtil.isMapNull(wMap)){
                 wMap.put("character_id",MapUtil.getString(map,"id"));
-                baseMapper.baseAttUpdate(wMap);
+                baseMapper.baseAttUpdate(SetUtil.turnNull(wMap));
             }
             Map<String,Object> potent = (Map<String,Object>) map.get("potent");
             if(!SetUtil.isMapNull(potent)){
                 potent.put("character_id",MapUtil.getString(map,"id"));
-                baseMapper.basePotUpdate(potent);
+                baseMapper.basePotUpdate(SetUtil.turnNull(potent));
             }
             return new HashMap<>();
         }catch (Exception e){
@@ -192,7 +192,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         }
     }
 
-    /*查看详情*/
+    /*详情*/
     private Map<String,Object> baseSee(Map<String,Object> map) {
         String name = MapUtil.getString(map,"nickname");
         if(StringUtil.isNull(name)){

@@ -37,7 +37,7 @@ public class SchoolServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = schoolPagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = schoolEditQuery(map);
+            case ProjectConst.SEEQUERY: result = schoolSee(map);
                 break;
             case ProjectConst.INSERT: result = schoolInsert(map);
                 break;
@@ -58,12 +58,6 @@ public class SchoolServiceImpl implements UnifiedCall {
         return PageBean.resultPage(page.getTotal(),schoolList);
     }
 
-    /*编辑查询*/
-    private Map<String,Object> schoolEditQuery(Map<String,Object> map) {
-        VerificationUtil.verificationSchool(map);
-        return schoolMapper.schoolEditQuery(map);
-    }
-
     /*新增*/
     private Map<String,Object> schoolInsert(Map<String,Object> map) {
         VerificationUtil.verificationSchool(map);
@@ -74,7 +68,7 @@ public class SchoolServiceImpl implements UnifiedCall {
         map.put("school_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            schoolMapper.schoolInsert(map);
+            schoolMapper.schoolInsert(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -102,7 +96,7 @@ public class SchoolServiceImpl implements UnifiedCall {
             }
         }
         try{
-            schoolMapper.schoolUpdate(map);
+            schoolMapper.schoolUpdate(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e) {
             log.debug("修改失败："+e.getMessage());
@@ -126,5 +120,11 @@ public class SchoolServiceImpl implements UnifiedCall {
             log.debug("删除失败："+e.getMessage());
             throw new BizException("删除失败："+e.getMessage());
         }
+    }
+
+    /*详情*/
+    private Map<String,Object> schoolSee(Map<String,Object> map) {
+        VerificationUtil.verificationSchool(map);
+        return schoolMapper.schoolEditQuery(map);
     }
 }

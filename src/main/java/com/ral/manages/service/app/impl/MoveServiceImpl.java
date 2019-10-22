@@ -15,10 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 @Service("move")
 public class MoveServiceImpl implements UnifiedCall {
@@ -44,15 +42,13 @@ public class MoveServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = movePagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = moveEditQuery(map);
+            case ProjectConst.SEEQUERY: result = moveSee(map);
                 break;
             case ProjectConst.INSERT: result = moveInsert(map);
                 break;
             case ProjectConst.UPDATE: result = moveUpdate(map);
                 break;
             case ProjectConst.DELETE: result = moveDelete(map);
-                break;
-            case ProjectConst.SEEDETAILS: result = moveSee(map);
                 break;
             default:
                 throw new BizException("传入方法名不存在");
@@ -91,11 +87,10 @@ public class MoveServiceImpl implements UnifiedCall {
         if(count > 0){
             throw new BizException("新增失败，招式名称已存在");
         }
-        //String cost = spliceString(map);//map.put("MP_cost",cost);
         map.put("zhaoshi_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            moveMapper.moveInsert(map);
+            moveMapper.moveInsert(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -123,7 +118,7 @@ public class MoveServiceImpl implements UnifiedCall {
             }
         }
         try{
-            moveMapper.moveUpdate(map);
+            moveMapper.moveUpdate(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -149,7 +144,7 @@ public class MoveServiceImpl implements UnifiedCall {
         }
     }
 
-    /*查看详情*/
+    /*详情*/
     private Map<String,Object> moveSee(Map<String,Object> map) {
         String name = MapUtil.getString(map,"name");
         if(StringUtil.isNull(name)){

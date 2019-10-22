@@ -63,7 +63,7 @@ function see(data) {
 
 function edit(data) {
     var params = {name: data.name};
-    postRequest(params, manages, eQuery, function (data) {
+    postRequest(params, manages, Query, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
@@ -97,7 +97,7 @@ function edit(data) {
     });
 }
 
-function verIfy(params){
+function verIfy(params) {
     if (params.name === null || params.name === "") {
         layer.msg("物品名称不能为空", {icon: 2});
         return false;
@@ -109,9 +109,9 @@ function verIfy(params){
     return true;
 }
 
-layui.use('upload', function(){
+layui.use('upload', function() {
     //TODO
-    var $ = layui.jquery,upload = layui.upload;
+    var $ = layui.jquery, upload = layui.upload;
     upload.render({
         elem: '#add_img',
         url: '/upload/',

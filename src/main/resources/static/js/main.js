@@ -1,7 +1,6 @@
 url="/manages/sysAuth/server";
 splictUrl="/manages";
-eQuery="editQuery";
-sDetails="seeDetails";
+sQuery="seeQuery";
 insert="insert";
 update="update";
 $(function () {

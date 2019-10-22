@@ -170,7 +170,7 @@ function see(data) {
 
 function edit(data) {
     var params = {name: data.name};
-    postRequest(params, manages, eQuery, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {

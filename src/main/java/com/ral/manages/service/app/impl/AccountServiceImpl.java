@@ -45,7 +45,7 @@ public class AccountServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = accountPagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = accountEditQuery(map);
+            case ProjectConst.SEEQUERY: result = accountSee(map);
                 break;
             case ProjectConst.INSERT: result = accountInsert(map);
                 break;
@@ -82,15 +82,6 @@ public class AccountServiceImpl implements UnifiedCall {
         return PageBean.resultPage(page.getTotal(),accountList);
     }
 
-    /*编辑查询*/
-    private Map<String,Object> accountEditQuery(Map<String,Object> map) {
-        String account = MapUtil.getString(map,"account");
-        if(StringUtil.isNull(account)){
-            throw new BizException("传入账号名称为空");
-        }
-        return accountMapper.accountEditQuery(map);
-    }
-
     /*新增*/
     private Map<String,Object> accountInsert(Map<String,Object> map) {
         VerificationUtil.verificationAccount(map);
@@ -103,7 +94,7 @@ public class AccountServiceImpl implements UnifiedCall {
         map.put("lrrq",TimeUtil.currentTime());
         map.put("id",StringUtil.getUUID());
         try{
-            accountMapper.accountInsert(map);
+            accountMapper.accountInsert(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -131,7 +122,7 @@ public class AccountServiceImpl implements UnifiedCall {
             }
         }
         try{
-            accountMapper.accountUpdate(map);
+            accountMapper.accountUpdate(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -155,6 +146,15 @@ public class AccountServiceImpl implements UnifiedCall {
             log.debug("删除失败："+e.getMessage());
             throw new BizException("删除失败："+e.getMessage());
         }
+    }
+
+    /*详情*/
+    private Map<String,Object> accountSee(Map<String,Object> map) {
+        String account = MapUtil.getString(map,"account");
+        if(StringUtil.isNull(account)){
+            throw new BizException("传入账号名称为空");
+        }
+        return accountMapper.accountEditQuery(map);
     }
 
     /*登陆、未注册返回状态*/

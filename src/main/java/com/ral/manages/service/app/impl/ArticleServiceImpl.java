@@ -37,7 +37,7 @@ public class ArticleServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = articlePagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = articleEditQuery(map);
+            case ProjectConst.SEEQUERY: result = articleSee(map);
                 break;
             case ProjectConst.INSERT: result = articleInsert(map);
                 break;
@@ -58,15 +58,6 @@ public class ArticleServiceImpl implements UnifiedCall {
         return PageBean.resultPage(page.getTotal(),articleList);
     }
 
-    /*编辑查询*/
-    private Map<String,Object> articleEditQuery(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入物品名称为空");
-        }
-        return articleMapper.articleEditQuery(map);
-    }
-
     /*新增*/
     private Map<String,Object> articleInsert(Map<String,Object> map) {
         VerificationUtil.verificationArticle(map);
@@ -77,7 +68,7 @@ public class ArticleServiceImpl implements UnifiedCall {
         map.put("id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            articleMapper.articleInsert(map);
+            articleMapper.articleInsert(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -105,7 +96,7 @@ public class ArticleServiceImpl implements UnifiedCall {
             }
         }
         try{
-            articleMapper.articleUpdate(map);
+            articleMapper.articleUpdate(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -129,5 +120,14 @@ public class ArticleServiceImpl implements UnifiedCall {
             log.debug("批量删除失败："+e.getMessage());
             throw new BizException("批量删除失败："+e.getMessage());
         }
+    }
+
+    /*详情*/
+    private Map<String,Object> articleSee(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入物品名称为空");
+        }
+        return articleMapper.articleEditQuery(map);
     }
 }

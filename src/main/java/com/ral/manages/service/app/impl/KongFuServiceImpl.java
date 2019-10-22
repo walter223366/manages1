@@ -41,15 +41,13 @@ public class KongFuServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = kongFuPagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = kongFuEditQuery(map);
+            case ProjectConst.SEEQUERY: result =  kongFuSee(map);
                 break;
             case ProjectConst.INSERT: result = kongFuInsert(map);
                 break;
             case ProjectConst.UPDATE: result = kongFuUpdate(map);
                 break;
             case ProjectConst.DELETE: result = kongFuDelete(map);
-                break;
-            case ProjectConst.SEEDETAILS: result = kongFuSee(map);
                 break;
             default:
                 throw new BizException("传入方法名不存在");
@@ -89,7 +87,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         map.put("kongfu_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            kongFuMapper.kongFuInsert(map);
+            kongFuMapper.kongFuInsert(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -117,7 +115,7 @@ public class KongFuServiceImpl implements UnifiedCall {
             }
         }
         try{
-            kongFuMapper.kongFuUpdate(map);
+            kongFuMapper.kongFuUpdate(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -143,7 +141,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         }
     }
 
-    /*查看详情*/
+    /*详情*/
     private Map<String,Object> kongFuSee(Map<String,Object> map) {
         String name = MapUtil.getString(map,"name");
         if(StringUtil.isNull(name)){

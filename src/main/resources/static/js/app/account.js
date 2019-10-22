@@ -68,7 +68,7 @@ function see(data) {
 
 function edit(data) {
     var params = {account: data.account};
-    postRequest(params, manages, eQuery, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
@@ -102,12 +102,12 @@ function edit(data) {
     });
 }
 
-layui.use('laydate', function(){
+layui.use('laydate', function() {
     var laydate = layui.laydate;
     laydate.render({
-        elem:'#query_time'
-        ,type:'datetime'
-        ,range: true
+        elem: '#query_time'
+        , type: 'datetime'
+        , range: true
     });
 });
 

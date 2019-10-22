@@ -37,7 +37,7 @@ public class EffectServiceImpl implements UnifiedCall {
         switch (method){
             case ProjectConst.PAGINGQUERY: result = effectPagingQuery(map);
                 break;
-            case ProjectConst.EDITQUERY: result = effectEditQuery(map);
+            case ProjectConst.SEEQUERY: result = effectSee(map);
                 break;
             case ProjectConst.INSERT: result = effectInsert(map);
                 break;
@@ -63,15 +63,6 @@ public class EffectServiceImpl implements UnifiedCall {
         return PageBean.resultPage(page.getTotal(),effectList);
     }
 
-    /*编辑查询*/
-    private Map<String,Object> effectEditQuery(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入效果名称错误");
-        }
-        return effectMapper.effectEditQuery(map);
-    }
-
     /*新增*/
     private Map<String,Object> effectInsert(Map<String,Object> map) {
         VerificationUtil.verificationEffect(map);
@@ -82,7 +73,7 @@ public class EffectServiceImpl implements UnifiedCall {
         map.put("effect_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
-            effectMapper.effectInsert(map);
+            effectMapper.effectInsert(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -110,7 +101,7 @@ public class EffectServiceImpl implements UnifiedCall {
             }
         }
         try{
-            effectMapper.effectUpdate(map);
+            effectMapper.effectUpdate(SetUtil.turnNull(map));
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -134,5 +125,14 @@ public class EffectServiceImpl implements UnifiedCall {
             log.debug("删除失败："+e.getMessage());
             throw new BizException("删除失败："+e.getMessage());
         }
+    }
+
+    /*详情*/
+    private Map<String,Object> effectSee(Map<String,Object> map) {
+        String name = MapUtil.getString(map,"name");
+        if(StringUtil.isNull(name)){
+            throw new BizException("传入效果名称错误");
+        }
+        return effectMapper.effectEditQuery(map);
     }
 }

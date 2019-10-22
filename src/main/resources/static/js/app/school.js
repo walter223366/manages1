@@ -1,6 +1,6 @@
 charset="utf-8";
 manages="school";
-$(function(){
+$(function() {
     pagingQuery();
 });
 
@@ -20,7 +20,7 @@ function pagingQuery() {
     pQue(params, manages, "门派管理", cole, add, edit, del, see, pagingQuery);
 }
 
-function cleanUp(){
+function cleanUp() {
     $("#query_name").val('');
     $("#query_sinfluence").val('');
     $("#query_einfluence").val('');
@@ -67,7 +67,7 @@ function see(data) {
 
 function edit(data) {
     var params = {name: data.name};
-    postRequest(params, manages, eQuery, function (data) {
+    postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
