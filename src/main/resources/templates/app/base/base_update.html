@@ -24,12 +24,12 @@
                     <input id="edit_nickname" type="text" class="layui-input inLeng">
                 </div>
             </div>
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">人物类型</label>
                 <div class="layui-input-inline" style="width: 260px">
-                    <select id="edit_enable" class="layui-input">
-                        <option value="1">启用</option>
-                        <option value="0">未启用</option>
+                    <select id="edit_isNpc" class="layui-input">
+                        <option value="1">NPC</option>
+                        <option value="0">玩家</option>
                     </select>
                 </div>
             </div>
@@ -40,9 +40,33 @@
                 </div>
             </div>
             <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>所属账号</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="edit_account" type="checkbox"></select>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
                 <label class="layui-form-label">门派贡献值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_school_contribution" type="text" class="layui-input inLeng" placeholder="默认值为0" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_school_contribution" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">声&emsp;&emsp;望</label>
+                <div class="layui-input-inline">
+                    <input id="edit_popularity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">等&emsp;&emsp;级</label>
+                <div class="layui-input-inline">
+                    <input id="edit_level" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">经&ensp;验&ensp;值</label>
+                <div class="layui-input-inline">
+                    <input id="edit_experience" type="text" class="layui-input inLeng" disabled="true" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -57,25 +81,7 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">性&emsp;&emsp;格</label>
                 <div class="layui-input-inline">
-                    <input id="edit_character" type="number" class="layui-input inLeng">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label">等&emsp;&emsp;级</label>
-                <div class="layui-input-inline">
-                    <input id="edit_level" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label">声&emsp;&emsp;望</label>
-                <div class="layui-input-inline">
-                    <input id="edit_popularity" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label">经&ensp;验&ensp;值</label>
-                <div class="layui-input-inline">
-                    <input id="edit_experience" type="text" class="layui-input inLeng" disabled="true" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="edit_characters" type="number" class="layui-input inLeng">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -94,6 +100,15 @@
                 <label class="layui-form-label">元&emsp;&emsp;宝</label>
                 <div class="layui-input-inline">
                     <input id="edit_gold" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label"><span class="x-red">*</span>启用状态</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="edit_enable" class="layui-input">
+                        <option value="1">启用</option>
+                        <option value="0">未启用</option>
+                    </select>
                 </div>
             </div>
         </form>
@@ -482,7 +497,54 @@
 <script type="text/javascript">
     $(function () {
         var downs = {};
-        downBox(downs, schoolBox, "edit_school", "", lSelection)
+        layui.use('form', function () {
+            $ = layui.jquery;
+            var form = layui.form;
+            postRequest(downs, "downBox", schoolBox, function (data) {
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    var rows = $.base64.atob(data.rows, charset);
+                    if (isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        var novelType = document.getElementById("edit_school");
+                        var schoolId = sessionStorage.getItem("schoolID");
+                        $.each(obj.data, function (i, n) {
+                            var option = document.createElement("option");
+                            option.setAttribute("value", n.school_id);
+                            if (n.school_id === schoolId) {
+                                option.setAttribute("selected", 'true');
+                            }
+                            option.innerText = n.name;
+                            novelType.appendChild(option);
+                            form.render('select');
+                        });
+                    }
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            });
+            postRequest(downs, "downBox", accountBox, function (data) {
+                if (data.code === "0" && data.result === "SUCCESS") {
+                    var rows = $.base64.atob(data.rows, charset);
+                    if (isJSON(rows)) {
+                        var obj = JSON.parse(rows);
+                        var novelType = document.getElementById("edit_account");
+                        var userId = sessionStorage.getItem("userID");
+                        $.each(obj.data, function (i, n) {
+                            var option = document.createElement("option");
+                            option.setAttribute("value", n.id);
+                            if (n.id === userId) {
+                                option.setAttribute("selected", 'true');
+                            }
+                            option.innerText = n.account;
+                            novelType.appendChild(option);
+                            form.render('select');
+                        });
+                    }
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            });
+        });
     });
 </script>
 </html>

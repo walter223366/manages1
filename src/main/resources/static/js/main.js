@@ -251,6 +251,8 @@ function postRequest(params,manages,method,callback) {
             if (typeof callback === "function") {
                 callback(data);
             }
+        }, error: function () {
+            layer.msg("请求调用失败")
         }
     });
 }
@@ -436,6 +438,8 @@ function downBox(downs,method,id,selectId,mlSelection) {
                     }
                 });
                 mlSelection(selectId);
+            } else {
+                layer.msg("调用失败，JSON格式错误", {icon: 2});
             }
         } else {
             layer.msg(data.msg, {icon: 2});
@@ -446,7 +450,7 @@ function mSelection(selectId){
     layui.formSelects.config(selectId,{direction:'down'});
 }
 function lSelection(selectId) {
-    layui.form.render("select");
+    layui.form.render();
 }
 function cost(yellow,gold,green,blue,purple) {
     return yellow + "," + gold + "," + green + "," + blue + "," + purple;

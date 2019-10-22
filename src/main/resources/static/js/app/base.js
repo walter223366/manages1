@@ -42,7 +42,7 @@ function cleanUp() {
 
 function add() {
     var content = [splictUrl + '/system/baseAdd'];
-    layerOpen(2, "新增", content, 1100, 550, "立即提交", "重置", "",
+    layerOpen(2, "新增", content, 1100, 600, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
             params.nickname = getVal(layero, "add_nickname");
@@ -51,13 +51,14 @@ function add() {
             params.sex = Number(getVal(layero, "add_sex"));
             params.level = Number(getVal(layero, "add_level"));
             params.attitude = Number(getVal(layero, "add_attitude"));
-            params.characters = Number(getVal(layero, "add_character"));
+            params.characters = Number(getVal(layero, "add_characters"));
             params.popularity = Number(getVal(layero, "add_popularity"));
             params.coin = Number(getVal(layero, "add_coin"));
             params.gold = Number(getVal(layero, "add_gold"));
             params.school_contribution = Number(getVal(layero, "add_school_contribution"));
             params.experience = Number(getVal(layero, "add_experience"));
-            params.is_npc = 1;
+            params.is_npc = Number(getVal(layero, "add_isNpc"));
+            params.user_id = getVal(layero, "add_account");
             if (verIfy(params) === false) {
                 return;
             }
@@ -87,7 +88,7 @@ function aVirtueBut() {
             return;
         }
         var content = $("#aAttInfo");
-        layerOpen(1, "属性分配", content, 900, 400, "确定", "重置", "",
+        layerOpen(1, "属性分配", content, 900, 400, "保存", "重置", "",
             function (index, layero) {
                 var virtue = {};
                 virtue.physique = Number($("#add_physique").val());
@@ -105,7 +106,7 @@ function aVirtueBut() {
                     return;
                 } else {
                     layer.confirm('余下 ' + calSub(attNum, sum) + ' 点属性值待分配', {
-                            btn: ['保存', '取消']
+                            btn: ['确认', '取消']
                         }, function () {
                             sessionStorage.setItem("avt", JSON.stringify(virtue));
                             layer.closeAll();
@@ -124,7 +125,7 @@ function aVirtueBut() {
 
 function aKongFuBut() {
     var content = $("#aArtsInfo");
-    layerOpen(1, "武学信息", content, 1000, 400, "确定", "关闭", "",
+    layerOpen(1, "武学信息", content, 900, 400, "保存", "关闭", "",
         function (layero, index) {
             var kongFu = [];
             var forms = document.getElementById("formKongFu");
@@ -150,7 +151,7 @@ function aKongFuBut() {
 
 function aWeaponBut() {
     var content = $("#aWeaponInfo");
-    layerOpen(1, "兵器造诣", content, 900, 400, "确定", "重置", "",
+    layerOpen(1, "兵器造诣", content, 900, 400, "保存", "重置", "",
         function (index, layero) {
             var weapon = {};
             weapon.melee_status = Number($("#add_melee_status").val());
@@ -170,7 +171,7 @@ function aWeaponBut() {
 
 function aPotentBut() {
     var content = $("#aPotentInfo");
-    layerOpen(1, "人物潜能", content, 900, 400, "确定", "重置", "",
+    layerOpen(1, "人物潜能", content, 900, 400, "保存", "重置", "",
         function (index, layero) {
             var potent = {};
             potent.wisdom1 = Number($("#add_wisdom1").val());
@@ -204,14 +205,17 @@ function addReset(layero) {
     cleanVal(layero, "add_nickname", '');
     cleanVal(layero, "add_level", '');
     cleanVal(layero, "add_attitude", '');
-    cleanVal(layero, "add_character", '');
+    cleanVal(layero, "add_characters", '');
     cleanVal(layero, "add_popularity", '');
     cleanVal(layero, "add_coin", '');
     cleanVal(layero, "add_gold", '');
     cleanVal(layero, "add_experience", '');
     cleanVal(layero, "add_school_contribution", '');
+    cleanVal(layero, "add_school", '');
+    cleanVal(layero, "add_account", '');
     cleanVal(layero, "add_enable", '1');
     cleanVal(layero, "add_sex", '1');
+    cleanVal(layero, "add_isNpc", '1');
 }
 
 function see(data) {
@@ -237,6 +241,7 @@ function see(data) {
                         $("#see_sex").val(isNull(obj.sex));
                         $("#see_enable").val(isNull(obj.enable = 1 ? "已启用" : "未启用"));
                         $("#see_user").val(isNull(obj.userName));
+                        $("#see_isNpc").val(isNull(obj.is_npc = 1 ? "NPC" : "玩家"));
                         var virtue = obj.virtue;
                         if (virtue !== null) {
                             $("#see_physique").val(isNull(virtue.physique));
@@ -306,7 +311,7 @@ function see(data) {
                                 } else {
                                     typeVale = "外功";
                                 }
-                                input1.value = (i + 1)+"、 武学名称：" + kongFu[i].kfName + "        " +
+                                input1.value = (i + 1) + "、 武学名称：" + kongFu[i].kfName + "        " +
                                     "武学类型：" + typeVale + "         " +
                                     "武学经验值：" + kongFu[i].exp + "        " +
                                     "使用情况：" + (kongFu[i].use = "0" ? "未使用" : "已使用");
@@ -328,8 +333,6 @@ function see(data) {
 }
 
 function edit(data) {
-    var downs = {};
-    downBox(downs, schoolBox, "edit_school", "", lSelection);
     var params = {nickname: data.nickname};
     postRequest(params, manages, sDetails, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
@@ -337,22 +340,22 @@ function edit(data) {
             if (isJSON(rows)) {
                 var obj = JSON.parse(rows);
                 var content = [splictUrl + '/system/baseUpdate'];
-                layerOpen(2, "编辑", content, 1200, 600, "立即提交", "重置",
+                layerOpen(2, "编辑", content, 1100, 600, "立即提交", "重置",
                     function (index, layero) {
                         editVal(layero, "edit_nickname", obj.nickname);
                         editVal(layero, "edit_level", obj.level);
                         editVal(layero, "edit_attitude", obj.attitude);
-                        editVal(layero, "edit_character", obj.characters);
+                        editVal(layero, "edit_characters", obj.characters);
                         editVal(layero, "edit_popularity", obj.popularity);
                         editVal(layero, "edit_coin", obj.coin);
                         editVal(layero, "edit_gold", obj.gold);
                         editVal(layero, "edit_experience", obj.experience);
                         editVal(layero, "edit_school_contribution", obj.school_contribution);
                         editVal(layero, "edit_enable", obj.enable);
+                        editVal(layero, "edit_isNpc", obj.is_npc);
                         editVal(layero, "edit_sex", obj.sex);
-                        var body = layer.getChildFrame('body', layero);
-                        body.contents().find("#edit_school").val(obj.school_id);
-                        window.layui.form.render();
+                        sessionStorage.setItem("schoolID", obj.school_id);
+                        sessionStorage.setItem("userID", obj.user_id);
                         sessionStorage.setItem("qvt", JSON.stringify(obj.virtue));
                         sessionStorage.setItem("qkf", JSON.stringify(obj.kongfu_have_id));
                         sessionStorage.setItem("qwp", JSON.stringify(obj.weapon));
@@ -366,26 +369,24 @@ function edit(data) {
                         params.sex = Number(getVal(layero, "edit_sex"));
                         params.level = Number(getVal(layero, "edit_level"));
                         params.attitude = Number(getVal(layero, "edit_attitude"));
-                        params.characters = Number(getVal(layero, "edit_character"));
+                        params.characters = Number(getVal(layero, "edit_characters"));
                         params.popularity = Number(getVal(layero, "edit_popularity"));
                         params.coin = Number(getVal(layero, "edit_coin"));
                         params.gold = Number(getVal(layero, "edit_gold"));
                         params.school_contribution = Number(getVal(layero, "edit_school_contribution"));
                         params.experience = Number(getVal(layero, "edit_experience"));
+                        params.school_id = getVal(layero, "edit_school");
+                        params.user_id = getVal(layero, "edit_account");
+                        params.is_npc = Number(getVal(layero,"edit_isNpc"));
                         if (verIfy(params) === false) {
                             return;
                         }
-                        var ekf = JSON.parse(sessionStorage.getItem("ekf"));
-                        if (ekf === null) {
-                            ekf = [];
-                        }
-                        params.kongfu_have_id = ekf;
-                        params.virtue = parFormat(sessionStorage.getItem("evt"));
-                        params.weapon = parFormat(sessionStorage.getItem("ewp"));
-                        sessionStorage.removeItem("evt");
-                        sessionStorage.removeItem("ekf");
-                        sessionStorage.removeItem("ewp");
+                        params.kongfu_have_id = getSessionValue("ekf", "qkf");
+                        params.virtue = getSessionValue("evt", "qvt");
+                        params.weapon = getSessionValue("ewp", "qwp");
+                        params.potent = getSessionValue("ept", "qpt");
                         aaUp(params, manages, update, "修改", pagingQuery);
+                        removeSession();
                     }, function (index, layero) {
                         editReset(layero);
                     });
@@ -404,7 +405,7 @@ function eVirtueBut() {
             return;
         }
         var content = $("#eAttInfo");
-        layerOpen(1, "属性分配", content, 900, 400, "确定", "重置",
+        layerOpen(1, "属性分配", content, 900, 400, "保存", "重置",
             function (index, layero) {
                 var obj = JSON.parse(sessionStorage.getItem("evt"));
                 if(obj === null){
@@ -442,7 +443,7 @@ function eVirtueBut() {
                     return;
                 } else {
                     layer.confirm('余下 ' + calSub(attNum, sum) + ' 点属性值待分配', {
-                            btn: ['保存', '取消']
+                            btn: ['确认', '取消']
                         }, function () {
                             sessionStorage.setItem("evt", JSON.stringify(virtue));
                             layer.closeAll();
@@ -463,7 +464,7 @@ function eKongFuBut() {
     var downs = {};
     downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
     var content = $("#eArtsInfo");
-    layerOpen(1, "武学信息", content, 900, 400, "确定", "关闭",
+    layerOpen(1, "武学信息", content, 900, 400, "保存", "关闭",
         function (layero, index) {
             var obj = JSON.parse(sessionStorage.getItem("ekf"));
             if(obj === null){
@@ -511,7 +512,7 @@ function editE(obj) {
 
 function eWeaponBut() {
     var content = $("#eWeaponInfo");
-    layerOpen(1, "兵器造诣", content, 900, 400, "确定", "重置",
+    layerOpen(1, "兵器造诣", content, 900, 400, "保存", "重置",
         function (index, layero) {
             var obj = getSession("ewp","qwp");
             if (obj !== null) {
@@ -543,7 +544,7 @@ function eWeaponBut() {
 
 function ePotentBut() {
     var content = $("#ePotentInfo");
-    layerOpen(1, "人物潜能", content, 900, 400, "确定", "重置",
+    layerOpen(1, "人物潜能", content, 900, 400, "保存", "重置",
         function (index, layero) {
             var obj = getSession("ept","qpt");
             if (obj !== null) {
@@ -601,7 +602,7 @@ function editReset(layero) {
     cleanVal(layero, "edit_nickname",'');
     cleanVal(layero, "edit_level",'');
     cleanVal(layero, "edit_attitude",'');
-    cleanVal(layero, "edit_character",'');
+    cleanVal(layero, "edit_characters",'');
     cleanVal(layero, "edit_popularity",'');
     cleanVal(layero, "edit_coin",'');
     cleanVal(layero, "edit_gold",'');
@@ -615,6 +616,14 @@ function editReset(layero) {
 function verIfy(params) {
     if (params.nickname === null || params.nickname === "") {
         layer.msg("人物名称不能为空", {icon: 2});
+        return false;
+    }
+    if (params.is_npc === null || params.is_npc === "") {
+        layer.msg("人物类型不能为空", {icon: 2});
+        return false;
+    }
+    if (params.user_id === null || params.user_id === "") {
+        layer.msg("所属账号不能为空", {icon: 2});
         return false;
     }
     if (params.school_id === null || params.school_id === "") {
@@ -817,4 +826,29 @@ function editKongFu() {
     }
     var typeV = $("#edit_kfTypes").find("option:selected").text();
     alert(typeV)
+}
+
+function getSessionValue(a,b) {
+    var obj = JSON.parse(sessionStorage.getItem(a));
+    if (obj === null) {
+        obj = JSON.parse(sessionStorage.getItem(b));
+        if(b === "qkf"){
+            $.each(obj,function (i,n) {
+                delete obj[i].kfName;
+                delete obj[i].kfType;
+            })
+        }
+    }
+    return obj;
+}
+
+function removeSession() {
+    sessionStorage.removeItem("evt");
+    sessionStorage.removeItem("ekf");
+    sessionStorage.removeItem("ewp");
+    sessionStorage.removeItem("ept");
+    sessionStorage.removeItem("qvt");
+    sessionStorage.removeItem("qkf");
+    sessionStorage.removeItem("qwp");
+    sessionStorage.removeItem("qpt");
 }

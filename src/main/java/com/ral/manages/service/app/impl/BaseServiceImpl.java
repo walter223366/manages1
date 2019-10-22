@@ -95,27 +95,27 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         if (count > 0) {
             throw new BizException("新增失败，人物名称已存在");
         }
-        map.put("user_id",sys.getNpcAccount());//TODO NPC人物固定账号ID
+        //map.put("user_id",sys.getNpcAccount());//TODO NPC人物固定账号ID
         map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         String id = StringUtil.getUUID();
         map.put("id",id);
-        Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
-        Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
-        Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
         map.put("kongfu_have_id",Base64Util.Base64Encode(map.get("kongfu_have_id").toString()));
         try {
             baseMapper.baseInsert(SetUtil.turnNull(map));
+            Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
             if(!SetUtil.isMapNull(vMap)){
                 vMap.put("id",StringUtil.getUUID());
                 vMap.put("character_id",id);
                 baseMapper.baseExtInsert(SetUtil.turnNull(vMap));
             }
+            Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
             if(!SetUtil.isMapNull(wMap)){
                 wMap.put("id",StringUtil.getUUID());
                 wMap.put("character_id",id);
                 baseMapper.baseAttInsert(SetUtil.turnNull(wMap));
             }
+            Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
             if(!SetUtil.isMapNull(pMap)){
                 pMap.put("id",StringUtil.getUUID());
                 pMap.put("character_id",id);
@@ -125,7 +125,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         } catch (Exception e) {
             e.printStackTrace();
             log.debug("新增失败："+e.getMessage());
-            throw new BizException("新增失败");
+            throw new BizException("新增失败"+e.getMessage());
         }
     }
 
@@ -148,21 +148,20 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
                 throw new BizException("修改失败，账号名称已存在");
             }
         }
+        map.put("kongfu_have_id",Base64Util.Base64Encode(MapUtil.getString(map,"kongfu_have_id")));
         try{
             baseMapper.baseUpdate(map);
-            String virtue = MapUtil.getString(map,"virtue");
-            Map<String,Object> vMap = JSONObject.fromObject(virtue);
+            Map<String,Object> vMap = (Map<String,Object>) map.get("virtue");
             if(!SetUtil.isMapNull(vMap)){
                 vMap.put("character_id",MapUtil.getString(map,"id"));
                 baseMapper.baseExtUpdate(vMap);
             }
-            String weapon = MapUtil.getString(map,"weapon");
-            Map<String,Object> wMap = JSONObject.fromObject(weapon);
+            Map<String,Object> wMap = (Map<String,Object>) map.get("weapon");
             if(!SetUtil.isMapNull(wMap)){
                 wMap.put("character_id",MapUtil.getString(map,"id"));
                 baseMapper.baseAttUpdate(wMap);
             }
-            Map<String,Object> potent = JsonUtil.formatJSON(MapUtil.getString(map,""));
+            Map<String,Object> potent = (Map<String,Object>) map.get("potent");
             if(!SetUtil.isMapNull(potent)){
                 potent.put("character_id",MapUtil.getString(map,"id"));
                 baseMapper.basePotUpdate(potent);
