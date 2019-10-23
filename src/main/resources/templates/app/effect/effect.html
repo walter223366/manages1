@@ -15,8 +15,6 @@
     .see-input{background-color:transparent;border:0;}
 </style>
 <div class="x-body"><div class="x-body">
-
-    <!--搜索栏-->
     <div class="layui-row">
         <div class="search-conditional">
             <form class="layui-form-item layui-form">
@@ -64,152 +62,188 @@
     <!--查看栏-->
     <div class="x-body" id="seeInfo" aria-hidden="true" hidden style="overflow-y: hidden">
         <form class="layui-form-item layui-form">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0"><span class="x-font">效果信息</span></legend>
+            </fieldset>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">效果名称：</span></label>
+                <label class="layui-form-label">效果名称：</label>
                 <div class="layui-input-inline">
                     <input id="see_name" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">执行目标：</span></label>
+                <label class="layui-form-label">执行目标：</label>
                 <div class="layui-input-inline">
                     <input id="see_target" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">HP&nbsp;影&nbsp;响：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_hp" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">黄球影响：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_mp_yellow" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">金球影响：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_mp_gold" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">绿球影响：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_mp_green" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">蓝球影响：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_mp_blue" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">紫球影响：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_mp_purple" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">攻&ensp;击&ensp;力：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_aggressivity" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">防&ensp;御&ensp;力：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_defense" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">暴&ensp;击&ensp;力：</span></label>
-                <div class="layui-input-inline">
-                    <input id="see_burst" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">外&emsp;&emsp;伤：</span></label>
+                <label class="layui-form-label">外&emsp;&emsp;伤：</label>
                 <div class="layui-input-inline">
                     <input id="see_injury" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">内&emsp;&emsp;伤：</span></label>
+                <label class="layui-form-label">内&emsp;&emsp;伤：</label>
                 <div class="layui-input-inline">
                     <input id="see_internal_injury" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">毒&emsp;&emsp;伤：</span></label>
+                <label class="layui-form-label">毒&emsp;&emsp;伤：</label>
                 <div class="layui-input-inline">
                     <input id="see_poisoning" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">击&ensp;晕&ensp;率：</span></label>
+                <label class="layui-form-label">保&emsp;&emsp;护：</label>
+                <div class="layui-input-inline">
+                    <input id="see_preserve" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">气&emsp;&emsp;墙：</label>
+                <div class="layui-input-inline">
+                    <input id="see_PowerWall" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">攻&ensp;击&ensp;力：</label>
+                <div class="layui-input-inline">
+                    <input id="see_Aggressivity" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">防&ensp;御&ensp;力：</label>
+                <div class="layui-input-inline">
+                    <input id="see_Defense" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">暴&ensp;击&ensp;力：</label>
+                <div class="layui-input-inline">
+                    <input id="see_burst" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">击&ensp;晕&ensp;率：</label>
                 <div class="layui-input-inline">
                     <input id="see_stun" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">闪&ensp;避&ensp;率：</span></label>
+                <label class="layui-form-label">闪&ensp;避&ensp;率：</label>
                 <div class="layui-input-inline">
                     <input id="see_dodge" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">命&ensp;中&ensp;率：</span></label>
+                <label class="layui-form-label">命&ensp;中&ensp;率：</label>
                 <div class="layui-input-inline">
                     <input id="see_hit_rate" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">暴&ensp;击&ensp;率：</span></label>
+                <label class="layui-form-label">暴&ensp;击&ensp;率：</label>
                 <div class="layui-input-inline">
                     <input id="see_crit_rate" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">吸&emsp;&emsp;血：</span></label>
+                <label class="layui-form-label">反&ensp;击&ensp;率：</label>
+                <div class="layui-input-inline">
+                    <input id="see_Counterattack" class="layui-input see-input">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0"><span class="x-font">HP色球影响</span></legend>
+            </fieldset>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">HP&nbsp;影&nbsp;响：</label>
+                <div class="layui-input-inline">
+                    <input id="see_treatment" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">黄球影响：</label>
+                <div class="layui-input-inline">
+                    <input id="see_mp_yellow" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">金球影响：</label>
+                <div class="layui-input-inline">
+                    <input id="see_mp_gold" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">绿球影响：</label>
+                <div class="layui-input-inline">
+                    <input id="see_mp_green" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">蓝球影响：</label>
+                <div class="layui-input-inline">
+                    <input id="see_mp_blue" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">紫球影响：</label>
+                <div class="layui-input-inline">
+                    <input id="see_mp_purple" class="layui-input see-input">
+                </div>
+            </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0"><span class="x-font">吸血色球影响</span></legend>
+            </fieldset>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">吸&emsp;&emsp;血：</label>
                 <div class="layui-input-inline">
                     <input id="see_suck_HP" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">黄球影响：</span></label>
+                <label class="layui-form-label">任意颜色：</label>
+                <div class="layui-input-inline">
+                    <input id="see_suck_mp_random" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">黄球影响：</label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_yellow" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">金球影响：</span></label>
+                <label class="layui-form-label">金球影响：</label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_gold" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">绿球影响：</span></label>
+                <label class="layui-form-label">绿球影响：</label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_green" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">蓝球影响：</span></label>
+                <label class="layui-form-label">蓝球影响：</label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_blue" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-font">紫球影响：</span></label>
+                <label class="layui-form-label">紫球影响：</label>
                 <div class="layui-input-inline">
                     <input id="see_suck_mp_purple" class="layui-input see-input">
                 </div>
             </div>
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend style="margin-left:0"><span class="x-font">效果说明</span></legend>
+            </fieldset>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">效果说明：</span></label>
+                <label class="layui-form-label">效果说明：</label>
                 <div class="layui-input-inline">
                     <textarea id="see_info" class="layui-textarea see-textarea see-input"></textarea>
                 </div>
