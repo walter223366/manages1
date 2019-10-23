@@ -63,7 +63,19 @@ function addReset() {
 }
 
 function see(data) {
-    layer.msg("暂未处理");
+    var content = $("#seeInfo");
+    layerOpen(1, "查看详情", content, 800, 450, "明白了", "关闭",
+        function (index, layero) {
+            $("#see_account").val(isNull(data.account));
+            $("#see_tellPhone").val(isNull(data.tellphone));
+            $("#see_source").val(isNull(data.sourceValue));
+            $("#see_lrrq").val(isNull(data.lrrq));
+            $("#see_cancellation").val(isNull(data.cancelValue));
+        }, function (index, layero) {
+            layer.closeAll();
+        }, function (index, layero) {
+            layer.closeAll();
+        });
 }
 
 function edit(data) {
@@ -72,18 +84,17 @@ function edit(data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
+                var obj = JSON.parse(rows);
                 var content = $("#editInfo");
                 layerOpen(1, "编辑", content, 800, 450, "立即提交", "重置",
                     function (index, layero) {
-                        var obj = JSON.parse(rows);
-                        $("#edit_id").val(isNull(obj.id));
                         $("#edit_account").val(isNull(obj.account));
                         $("#edit_tellPhone").val(isNull(obj.tellphone));
                         $("#edit_source").val(String(obj.source));
                         layui.form.render("select");
                     }, function (index, layero) {
                         var params = {};
-                        params.id = $("#edit_id").val();
+                        params.id = obj.id;
                         params.account = $("#edit_account").val();
                         params.tellphone = Number($("#edit_tellPhone").val());
                         params.lrrq = $("#edit_lrrq").val();
