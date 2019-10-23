@@ -58,7 +58,7 @@ public class EffectServiceImpl implements UnifiedCall {
         for(Map<String,Object> effectMap : effectList){
             int target = SetUtil.toMapValueInt(effectMap,"target");
             String target_value = (target==0? TableCode.TARGET_ZERO.getName(): TableCode.TARGET_ONE.getName());
-            effectMap.put("target",target_value);
+            effectMap.put("targetValue",target_value);
         }
         return PageBean.resultPage(page.getTotal(),effectList);
     }

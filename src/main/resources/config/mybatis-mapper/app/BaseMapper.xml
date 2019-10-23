@@ -120,8 +120,8 @@
         attitude=#{attitude},characters=#{characters},popularity=#{popularity},coin=#{coin},gold=#{gold},experience=#{experience},
         school_contribution=#{school_contribution},img=#{img},enable=#{enable},cancellation=#{cancellation},is_npc=#{is_npc},
         last_time=#{last_time},title_have_id=#{title_have_id},kongfu_have_id=#{kongfu_have_id},
-        character_relationship_tablename=#{character_relationship_tablename},talk_battle_in=#{talk_battle_in},talk_battle_lose=#{talk_battle_lose},
-        talk_battle_win=#{talk_battle_win},talk_meet=#{talk_meet},talk_thanks=#{talk_thanks}
+        character_relationship_tablename=#{character_relationship_tablename},talk_battle_in=#{talk_battle_in},
+        talk_battle_lose=#{talk_battle_lose},talk_battle_win=#{talk_battle_win},talk_meet=#{talk_meet},talk_thanks=#{talk_thanks}
         WHERE 1=1 AND id=#{id}
     </update>
     <update id="baseAttUpdate" parameterType="map">

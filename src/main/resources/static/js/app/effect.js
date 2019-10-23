@@ -13,7 +13,7 @@ function pagingQuery() {
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt'},
         {field: 'name', title: '效果名称', sort: true, width: 120},
-        {field: 'target', title: '执行目标'},
+        {field: 'targetValue', title: '执行目标'},
         {field: 'Aggressivity', title: '攻击力'},
         {field: 'Defense', title: '防御力'},
         {field: 'burst', title: '暴击力'},

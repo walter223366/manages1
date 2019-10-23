@@ -13,9 +13,6 @@
     <script th:src="@{/layui/formSelects-v4.js}" type="text/javascript"></script>
 </head>
 <body>
-<style>
-    .spends{width: 115px}
-</style>
 <div class="x-body"><div class="x-body">
     <div class="layui-row">
         <div class="search-conditional">
@@ -73,11 +70,11 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">招式经验值</label>
                 <div class="layui-input-inline">
-                    <input id="add_exp" type="number" class="layui-input inLeng">
+                    <input id="add_zhaoshi_experience_cost" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫选项&emsp;</label>
+                <label class="layui-form-label"><span class="x-red">*</span>所属武学&emsp;</label>
                 <div class="layui-input-inline" style="width:260px ">
                     <select id="add_kongFu" type="checkbox" xm-select="select_addKongFu"></select>
                 </div>
@@ -85,7 +82,7 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
                 <div class="layui-input-inline">
-                    <input id="add_MP_cost" type="text" class="layui-input inLeng" placeholder="黄色,金色,绿色,蓝色,紫色">
+                    <input id="add_MP_cost" type="text" class="layui-input inLeng" placeholder="格式如：黄色,金色,绿色,蓝色,紫色">
                 </div>
             </div>
             <div class="layui-inline">
@@ -96,7 +93,7 @@
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">buff选项&emsp;</label>
-                <div class="layui-input-inline" style="width:685px"><!--xm-select-show-count="3" xm-select-skin="normal"-->
+                <div class="layui-input-inline" style="width:685px">
                     <select id="add_zhaoshi_buff" type="checkbox" xm-select="select_addBuff"></select>
                 </div>
             </div>
@@ -113,12 +110,6 @@
     <!--编辑栏-->
     <div class="x-body" id="editInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
-            <div class="layui-form-item" hidden>
-                <label class="layui-form-label">招式id</label>
-                <div class="layui-input-inline">
-                    <input id="edit_id" type="text" class="layui-input">
-                </div>
-            </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label"><span class="x-red">*</span>招式名称&emsp;</label>
                 <div class="layui-input-inline">
@@ -128,43 +119,37 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">招式经验值</label>
                 <div class="layui-input-inline">
-                    <input id="edit_exp" type="number" class="layui-input inLeng">
+                    <input id="edit_zhaoshi_experience_cost" type="text" class="layui-input inLeng" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫选项&emsp;</label>
-                <div class="layui-input-inline" style="width:685px">
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>所属武学&emsp;</label>
+                <div class="layui-input-inline" style="width:260px ">
                     <select id="edit_kongFu" type="checkbox"></select>
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>招式效果&emsp;</label>
-                <div class="layui-input-inline" style="width:685px">
-                    <select id="edit_effect" type="checkbox" xm-select="select_editEffect" xm-select-show-count="3" xm-select-skin="normal"></select>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
+                <div class="layui-input-inline">
+                    <input id="edit_MP_cost" type="text" class="layui-input inLeng" placeholder="格式如：黄色,金色,绿色,蓝色,紫色">
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label"><span class="x-red">*</span>内力花费&emsp;</label>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="edit_yellowSpend" type="number" class="layui-input" placeholder="黄色花费">
+                <label class="layui-form-label">效果选项&emsp;</label>
+                <div class="layui-input-inline" style="width:685px">
+                    <select id="edit_zhaoshi_effect" type="checkbox" xm-select="select_editEffect"></select>
                 </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="edit_goldSpend" type="number" class="layui-input" placeholder="金色花费">
-                </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="edit_greenSpend" type="number" class="layui-input" placeholder="绿色花费">
-                </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="edit_blueSpend" type="number" class="layui-input" placeholder="蓝色花费">
-                </div>
-                <div class="layui-input-inline" style="width:129px;">
-                    <input id="edit_purpleSpend" type="number" class="layui-input" placeholder="紫色花费">
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">buff选项&emsp;</label>
+                <div class="layui-input-inline" style="width:685px">
+                    <select id="edit_zhaoshi_buff" type="checkbox" xm-select="select_editBuff"></select>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>招式说明&emsp;</label>
+                <label class="layui-form-label">招式说明&emsp;</label>
                 <div class="layui-input-inline">
-                    <textarea id="edit_info" class="layui-textarea layui-input-width1" placeholder="请输入内容"></textarea>
+                    <textarea id="edit_info" class="layui-textarea layui-input-width1"  placeholder="请输入内容"></textarea>
                 </div>
             </div>
         </form>
@@ -175,33 +160,39 @@
     <div class="x-body" id="seeInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">招式名称：</span></label>
+                <label class="layui-form-label">招式名称：</label>
                 <div class="layui-input-inline">
                     <input id="see_name" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">内力花费：</span></label>
+                <label class="layui-form-label">招式经验：</label>
                 <div class="layui-input-inline" >
-                    <input id="see_cost" class="layui-input see-input">
+                    <input id="see_zhaoshi_experience_cost" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">武学经验：</span></label>
-                <div class="layui-input-inline" >
-                    <input id="see_exp" class="layui-input see-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">功夫类型：</span></label>
+                <label class="layui-form-label">所属武学：</label>
                 <div class="layui-input-inline" >
                     <input id="see_kongFu" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">效果类型：</span></label>
+                <label class="layui-form-label">内力花费：</label>
                 <div class="layui-input-inline" >
-                    <input id="see_effect" class="layui-input see-input">
+                    <input id="see_MP_cost" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属效果：</label>
+                <div class="layui-input-inline" >
+                    <input id="see_zhaoshi_effect" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属buff：</label>
+                <div class="layui-input-inline" >
+                    <input id="see_zhaoshi_buff" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-form-item">

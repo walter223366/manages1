@@ -72,7 +72,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
         for(Map<String,Object> baseMap : baseList){
             int sex = MapUtil.getInt(baseMap,"sex");
             String sexValue = (sex== TableCode.SEX_ZERO.getCode()?TableCode.SEX_ZERO.getName():TableCode.SEX_ONE.getName());
-            baseMap.put("sex",sexValue);
+            baseMap.put("sexValue",sexValue);
             String schoolId = MapUtil.getString(baseMap,"school_id");
             if(!StringUtil.isNull(schoolId)){
                 Map<String,Object> shcoolMap = schoolMapper.schoolIdQuery(baseMap);

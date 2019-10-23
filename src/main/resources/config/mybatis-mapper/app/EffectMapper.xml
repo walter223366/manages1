@@ -37,7 +37,10 @@
         SELECT <include refid="effectResult"/> FROM dict_effect WHERE 1=1 AND effect_id=#{effect_id}
     </select>
     <select id="effectQueryMarquee" parameterType="map" resultType="map">
-        SELECT effect_id,name FROM dict_effect WHERE target=#{target}
+        SELECT effect_id,name FROM dict_effect WHERE 1=1
+        <if test="target !=null and target != ''">
+          target=#{target}
+        </if>
     </select>
     <select id="effectQueryMarqueeName" parameterType="map" resultType="map">
         SELECT name FROM dict_effect WHERE 1=1 AND effect_id IN
@@ -85,8 +88,7 @@
         Basic_attribute_physique=#{Basic_attribute_physique},Basic_attribute_forces=#{Basic_attribute_forces},
         Basic_attribute_muscles=#{Basic_attribute_muscles},Basic_attribute_mp=#{Basic_attribute_mp},
         Basic_attribute_sensitivity=#{Basic_attribute_sensitivity},Basic_attribute_willpower=#{Basic_attribute_willpower},
-        Basic_attribute_knowledge=#{Basic_attribute_knowledge},
-        Basic_attribute_lucky=#{Basic_attribute_lucky},deleteStatus=#{deleteStatus}
+        Basic_attribute_knowledge=#{Basic_attribute_knowledge},Basic_attribute_lucky=#{Basic_attribute_lucky}
         WHERE 1=1 AND effect_id=#{effect_id}
     </update>
 

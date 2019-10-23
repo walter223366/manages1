@@ -65,10 +65,10 @@ public class VerificationUtil {
         if(StringUtil.isNull(name)){
             throw new BizException("传入招式名称为空");
         }
-        /*String cost = MapUtil.getString(map,"MP_cost");
+        String cost = MapUtil.getString(map,"MP_cost");
         if(StringUtil.isNull(cost)){
             throw new BizException("传入内力花费为空");
-        }*/
+        }
         String kongfu_id = MapUtil.getString(map,"kongfu_id");
         if(StringUtil.isNull(kongfu_id)){
             throw new BizException("传入武学选项为空");
@@ -86,9 +86,13 @@ public class VerificationUtil {
         if(StringUtil.isNull(name)){
             throw new BizException("传入物品名称为空");
         }
-        String img = MapUtil.getString(map,"img");
-        if(StringUtil.isNull(img)){
-            throw new BizException("传入物品图片为空");
+        String type = MapUtil.getString(map,"type");
+        if(StringUtil.isNull(type)){
+            throw new BizException("传入物品类型为空");
+        }
+        String weapon = MapUtil.getString(map,"weapon_type");
+        if(StringUtil.isNull(weapon)){
+            throw new BizException("传入武器类型为空");
         }
     }
 

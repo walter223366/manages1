@@ -44,7 +44,15 @@ public enum TableCode {
 
         /*性别*/
         SEX_ZERO("女",0),
-        SEX_ONE("男",1);
+        SEX_ONE("男",1),
+
+        ARTICLE_ZERO("武器",0),
+        ARTICLE_ONE("衣着",1),
+        ARTICLE_TWO("披风",2),
+        ARTICLE_THREE("头饰",3),
+        ARTICLE_FOUR("护手",4),
+        ARTICLE_FIVES("鞋具",5),
+        ARTICLE_SIX("饰物",6);
 
         private String name;
         private int code;

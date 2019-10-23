@@ -19,7 +19,7 @@ function pagingQuery() {
         {field: 'nickname', title: '人物名称', width: 100},
         {field: 'userName', title: '所属账号', width: 100},
         {field: 'schoolName', title: '所属门派', width: 100},
-        {field: 'sex', title: '性别'},
+        {field: 'sexValue', title: '性别'},
         {field: 'level', title: '等级', sort: true},
         {field: 'attitude', title: '态度'},
         {field: 'characters', title: '性格'},
@@ -303,18 +303,10 @@ function see(data) {
                                 input1.setAttribute("type", "text");
                                 input1.className = "layui-input see-input";
                                 input1.style.width = "700px";
-                                var typeVale;
-                                if (kongFu[i].kfType === "0") {
-                                    typeVale = "内功";
-                                } else if (kongFu[i].kfType === "1") {
-                                    typeVale = "轻功";
-                                } else {
-                                    typeVale = "外功";
-                                }
                                 input1.value = (i + 1) + "、 武学名称：" + kongFu[i].kfName + "        " +
-                                    "武学类型：" + typeVale + "         " +
+                                    "武学类型：" + typeValue(kongFu[i].kfType) + "         " +
                                     "武学经验值：" + kongFu[i].exp + "        " +
-                                    "使用情况：" + (kongFu[i].use = "0" ? "未使用" : "已使用");
+                                    "使用情况：" + useValue(kongFu[i].use);
                                 div1.appendChild(input1);
                                 div.appendChild(div1);
                                 fkf.appendChild(div);
@@ -351,7 +343,7 @@ function edit(data) {
                         editVal(layero, "edit_gold", obj.gold);
                         editVal(layero, "edit_experience", obj.experience);
                         editVal(layero, "edit_school_contribution", obj.school_contribution);
-                        editVal(layero, "edit_enable", obj.enable);
+                        editVal(layero, "edit_enable", setEnable(obj.enable));
                         editVal(layero, "edit_isNpc", obj.is_npc);
                         editVal(layero, "edit_sex", obj.sex);
                         sessionStorage.setItem("schoolID", obj.school_id);

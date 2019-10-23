@@ -467,3 +467,35 @@ function isDisabled(obj,min) {
         min.attr('disabled',false);
     }
 }
+
+function setEnable(enable) {
+    var enableValue;
+    if(enable === "1" ){
+        enableValue = "1";
+    }else{
+        enableValue = "0";
+    }
+    return enableValue;
+}
+
+function typeValue(type) {
+    var typeVal;
+    if (type === "0") {
+        typeVal = "内功";
+    } else if (type === "1") {
+        typeVal = "轻功";
+    } else {
+        typeVal = "外功";
+    }
+    return typeVal;
+}
+
+function useValue(use) {
+    var useVal;
+    if(use === "0"){
+        useVal = "未使用";
+    }else{
+        useVal = "已使用";
+    }
+    return useVal;
+}

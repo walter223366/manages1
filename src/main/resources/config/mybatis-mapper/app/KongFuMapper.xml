@@ -4,7 +4,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IKongFuMapper">
 
     <sql id="kongFuResult">
-        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi,Special_buff
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -17,14 +17,22 @@
             AND kongfu_attainments=#{attainments}
         </if>
         <if test="enable != null and enable != ''">
-            AND enable=#{enable}
+            <choose>
+                <when test="enable == 1">
+                    AND enable=#{enable}
+                </when>
+                <otherwise>
+                    AND (enable IS NULL OR enable=0)
+                </otherwise>
+            </choose>
         </if>
     </sql>
 
 
     <!--查询-->
     <select id="kongFuPagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/> AND (deleteStatus IS NULL OR deleteStatus=0)
+        SELECT <include refid="kongFuResult"/> FROM dict_kongfu WHERE 1=1 <include refid="conditionalCheck"/>
+        AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="kongFuIsExist" parameterType="map" resultType="int">
         SELECT COUNT(1) FROM dict_kongfu WHERE 1=1 AND name=#{name}
@@ -64,15 +72,20 @@
 
     <!--新增-->
     <insert id="kongFuInsert" parameterType="map">
-        INSERT INTO dict_kongfu(kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi)
-        VALUES(#{kongfu_id},#{name},#{info},#{type},#{experience_limit},#{kongfu_attainments},#{enable},#{deleteStatus},#{kongfu_zhaoshi})
+        INSERT INTO dict_kongfu(
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi,Special_buff
+        )
+        VALUES(
+        #{kongfu_id},#{name},#{info},#{type},#{experience_limit},#{kongfu_attainments},#{enable},
+        #{deleteStatus},#{kongfu_zhaoshi},#{Special_buff}
+        )
     </insert>
 
 
     <!--修改-->
     <update id="kongFuUpdate" parameterType="map">
         UPDATE dict_kongfu SET  name=#{name},info=#{info},type=#{type},experience_limit=#{experience_limit},
-        kongfu_attainments=#{kongfu_attainments},enable=#{enable},kongfu_zhaoshi=#{kongfu_zhaoshi}
+        kongfu_attainments=#{kongfu_attainments},enable=#{enable},kongfu_zhaoshi=#{kongfu_zhaoshi},Special_buff=#{Special_buff}
         WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </update>
 
@@ -81,5 +94,4 @@
     <update id="kongFuDelete" parameterType="map">
         UPDATE dict_kongfu SET deleteStatus=#{deleteStatus} WHERE 1=1 AND  name=#{name}
     </update>
-
 </mapper>

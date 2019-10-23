@@ -15,10 +15,9 @@ function pagingQuery() {
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 100},
         {field: 'name', title: '功夫名称', sort: true},
-        {field: 'type', title: '功夫类型'},
+        {field: 'typeValue', title: '功夫类型'},
         {field: 'experience_limit', title: '可学经验上限', sort: true},
         {field: 'kongfu_attainments', title: '造诣', sort: true},
-        {field: 'enable', title: '状态'},
         {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "武学管理", cole, add, edit, del, see, pagingQuery);
@@ -35,17 +34,17 @@ function cleanUp() {
 function add() {
     addReset();
     var downs = {};
-    downBox(downs, moveBox, "add_move", "select_addMove", mSelection);
+    downBox(downs, moveBox, "add_kongfu_zhaoshi", "select_addMove", mSelection);
     var content = $("#addInfo");
-    layerOpen(1, "新增", content, 1100, 500, "立即提交", "重置", "",
+    layerOpen(1, "新增", content, 950, 500, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
             var move_id = formSelects.value('select_addMove', 'valStr');
             params.name = $("#add_name").val();
-            params.type = Number($("#add_type").val());
+            params.type = $("#add_type").val();
             params.info = $("#add_info").val();
-            params.experience_limit = Number($("#add_exp").val());
-            params.kongfu_attainments = $("#add_attainments").val();
+            params.experience_limit = Number($("#add_experience_limit").val());
+            params.kongfu_attainments = $("#add_kongfu_attainments").val();
             params.enable = $("#add_enable").val();
             params.kongfu_zhaoshi = move_id;
             if (verIfy(params) === false) {
@@ -59,9 +58,14 @@ function add() {
 
 function addReset() {
     $("#add_name").val('');
+    $("#add_type").val('');
+    $("#add_experience_limit").val(100);
+    $("#add_enable").val('1');
+    $("#add_kongfu_attainments").val('');
+    $("#add_kongfu_zhaoshi").val('');
+    $("#add_Special_buff").val('');
     $("#add_info").val('');
-    $("#add_exp").val(100);
-    $("#add_attainments").val('');
+    layui.form.render("select");
 }
 
 function see(data) {
@@ -71,16 +75,17 @@ function see(data) {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
                 var content = $("#seeInfo");
-                layerOpen(1, "查看详情", content, 1100, 500, "明白了", "关闭",
+                layerOpen(1, "查看详情", content, 900, 500, "明白了", "关闭",
                     function (index, layero) {
                         var obj = JSON.parse(rows);
                         $("#see_name").val(isNull(obj.name));
-                        $("#see_type").val(isNull(obj.type));
-                        $("#see_exp").val(isNull(obj.experience_limit));
-                        $("#see_attainments").val(isNull(obj.kongfu_attainments));
-                        $("#see_enable").val(isNull(obj.enable));
+                        $("#see_type").val(isNull(obj.typeValue));
+                        $("#see_experience_limit").val(isNull(obj.experience_limit));
+                        $("#see_kongfu_attainments").val(isNull(obj.kongfu_attainments));
+                        $("#see_enable").val(isNull(obj.enableValue));
                         $("#see_info").val(isNull(obj.info));
-                        $("#see_move").val(isNull(obj.moveName.toString()));
+                        $("#see_kongfu_zhaoshi").val(isNull(obj.moveName.toString()));
+                        layui.form.render("select");
                     }, function (index, layero) {
                         layer.closeAll();
                     }, function (index, layero) {
@@ -95,44 +100,50 @@ function see(data) {
 
 function edit(data) {
     var downs = {};
-    downBox(downs, moveBox, "edit_move", "select_editMove", mSelection);
+    downBox(downs, moveBox, "edit_kongfu_zhaoshi", "select_editMove", mSelection);
     var params = {name: data.name};
     postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
             if (isJSON(rows)) {
+                var obj = JSON.parse(rows);
                 var content = $("#editInfo");
-                layerOpen(1, "编辑", content, 1100, 500, "立即提交", "重置",
+                layerOpen(1, "编辑", content, 950, 500, "立即提交", "重置",
                     function (index, layero) {
-                        var obj = JSON.parse(rows);
-                        $("#edit_id").val(isNull(obj.kongfu_id));
                         $("#edit_name").val(isNull(obj.name));
-                        $("#edit_exp").val(isNull(obj.experience_limit));
-                        $("#edit_attainments").val(isNull(obj.kongfu_attainments));
-                        $("#edit_info").val(isNull(obj.info));
-                        $("#edit_type").val(String(obj.type));
-                        $("#edit_enable").val(String(obj.enable));
+                        $("#edit_type").val(isNull(obj.type));
+                        $("#edit_experience_limit").val(isNull(obj.experience_limit));
+                        $("#edit_enable").val(isNull(setEnable(obj.enable)));
+                        $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
+                        $("#edit_kongfu_zhaoshi").val(obj.kongfu_zhaoshi);
+                        $("#edit_Special_buff").val(obj.Special_buff);
+                        $("#edit_info").val(obj.info);
                         layui.form.render("select");
                     }, function (index, layero) {
                         var params = {};
                         var move_id = formSelects.value('select_editMove', 'valStr');
-                        params.kongfu_id = $("#edit_id").val();
+                        params.kongfu_id = obj.kongfu_id;
                         params.name = $("#edit_name").val();
-                        params.info = $("#edit_info").val();
-                        params.type = Number($("#edit_type").val());
-                        params.experience_limit = Number($("#edit_exp").val());
-                        params.kongfu_attainments = $("#edit_attainments").val();
-                        params.enable = Number($("#edit_enable").val());
+                        params.type = $("#edit_type").val();
+                        params.experience_limit = Number($("#edit_experience_limit").val());
+                        params.enable = $("#edit_enable").val();
+                        params.kongfu_attainments = $("#edit_kongfu_attainments").val();
                         params.kongfu_zhaoshi = move_id;
+                        params.info = $("#edit_info").val();
                         if (verIfy(params) === false) {
                             return;
                         }
                         aaUp(params, manages, update, "修改", pagingQuery);
                     }, function (index, layero) {
                         $("#edit_name").val('');
-                        $("#edit_exp").val(100);
-                        $("#edit_attainments").val('');
+                        $("#edit_type").val('');
+                        $("#edit_experience_limit").val(100);
+                        $("#edit_enable").val('1');
+                        $("#edit_kongfu_attainments").val('');
+                        $("#edit_kongfu_zhaoshi").val('');
+                        $("#edit_Special_buff").val('');
                         $("#edit_info").val('');
+                        layui.form.render("select");
                     });
             }
         } else {

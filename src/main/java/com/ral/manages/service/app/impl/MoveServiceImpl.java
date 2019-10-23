@@ -71,15 +71,6 @@ public class MoveServiceImpl implements UnifiedCall {
         return PageBean.resultPage(page.getTotal(),moveList);
     }
 
-    /*编辑查询*/
-    private Map<String,Object> moveEditQuery(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-            throw new BizException("传入招式名称为空");
-        }
-        return moveMapper.moveEditQuery(map);
-    }
-
     /*新增*/
     private Map<String,Object> moveInsert(Map<String,Object> map) {
         VerificationUtil.verificationMove(map);
@@ -151,13 +142,14 @@ public class MoveServiceImpl implements UnifiedCall {
             throw new BizException("传入招式名称为空");
         }
         Map<String,Object> resultMap = moveMapper.moveEditQuery(map);
-        String kongFuId = SetUtil.toMapValueString(resultMap,"kongfu_id");
+        String kongFuId = MapUtil.getString(resultMap,"kongfu_id");
         if(StringUtil.isNull(kongFuId)){
             resultMap.put("kongFuName","");
         }else{
-            resultMap.put("kongFuName",seeKongFuName(kongFuId));
+            Map<String,Object> seeMap = kongFuMapper.kongFuQueryName(kongFuId);
+            resultMap.put("kongFuName",MapUtil.getString(seeMap,"name"));
         }
-        String effectId = SetUtil.toMapValueString(resultMap,"zhaoshi_effect");
+        String effectId =  MapUtil.getString(resultMap,"zhaoshi_effect");
         if(StringUtil.isNull(effectId)){
             resultMap.put("effectName","");
         }else{

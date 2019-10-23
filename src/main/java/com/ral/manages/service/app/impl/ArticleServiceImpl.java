@@ -55,6 +55,10 @@ public class ArticleServiceImpl implements UnifiedCall {
     private Map<String,Object> articlePagingQuery(Map<String,Object> map) {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> articleList = articleMapper.articlePagingQuery(map);
+        for(Map<String,Object> artMap : articleList){
+            artMap.put("typeValue",articleType(MapUtil.getString(artMap,"type")));
+            artMap.put("weaponValue",weaponType(MapUtil.getString(artMap,"weapon_type")));
+        }
         return PageBean.resultPage(page.getTotal(),articleList);
     }
 
@@ -65,7 +69,7 @@ public class ArticleServiceImpl implements UnifiedCall {
         if(count > 0){
            throw new BizException("新增失败，物品名称已存在");
         }
-        map.put("id",StringUtil.getUUID());
+        map.put("equipment_id",StringUtil.getUUID());
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             articleMapper.articleInsert(SetUtil.turnNull(map));
@@ -78,7 +82,7 @@ public class ArticleServiceImpl implements UnifiedCall {
 
     /*修改*/
     private Map<String,Object> articleUpdate(Map<String,Object> map) {
-        String article_id = MapUtil.getString(map,"article_id");
+        String article_id = MapUtil.getString(map,"equipment_id");
         if(StringUtil.isNull(article_id)){
             throw new BizException("传入物品ID为空");
         }
@@ -117,8 +121,8 @@ public class ArticleServiceImpl implements UnifiedCall {
             }
             return new HashMap<>();
         }catch (Exception e){
-            log.debug("批量删除失败："+e.getMessage());
-            throw new BizException("批量删除失败："+e.getMessage());
+            log.debug("删除失败："+e.getMessage());
+            throw new BizException("删除失败："+e.getMessage());
         }
     }
 
@@ -129,5 +133,30 @@ public class ArticleServiceImpl implements UnifiedCall {
             throw new BizException("传入物品名称为空");
         }
         return articleMapper.articleEditQuery(map);
+    }
+
+    private String articleType(String type){
+        switch (type){
+            case "0":return TableCode.ARTICLE_ZERO.getName();
+            case "1":return TableCode.ARTICLE_ONE.getName();
+            case "2":return TableCode.ARTICLE_TWO.getName();
+            case "3":return TableCode.ARTICLE_THREE.getName();
+            case "4":return TableCode.ARTICLE_FOUR.getName();
+            case "5":return TableCode.ARTICLE_FIVES.getName();
+            case "6":return TableCode.ARTICLE_SIX.getName();
+            default:return "其他";
+        }
+    }
+
+    private String weaponType(String type){
+        switch (type){
+            case "0":return TableCode.TYPE_TWO.getName();
+            case "1":return TableCode.TYPE_THREE.getName();
+            case "2":return TableCode.TYPE_FOUR.getName();
+            case "3":return TableCode.TYPE_FIVES.getName();
+            case "4":return TableCode.TYPE_SIX.getName();
+            case "5":return TableCode.TYPE_SEVEN.getName();
+            default:return "其他";
+        }
     }
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IArticleMapper">
 
     <sql id="articleResult">
-        article_id,img,name,info,deleteStatus
+        equipment_id,img,name,info,deleteStatus,type,weapon_type,Endurance,effect,buff,Blessing1,Blessing2
     </sql>
 
     <sql id="conditionalCheck">
@@ -16,34 +16,42 @@
 
     <!--查询-->
     <select id="articlePagingQuery" parameterType="map" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 <include refid="conditionalCheck"/>  AND (deleteStatus IS NULL OR deleteStatus=0)
+        SELECT <include refid="articleResult"/> FROM biz_equipment WHERE 1=1 <include refid="conditionalCheck"/>
+        AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
     <select id="articleIsExist" parameterType="map" resultType="int">
-        SELECT COUNT(1) FROM dict_article WHERE 1=1 AND name=#{name}
+        SELECT COUNT(1) FROM biz_equipment WHERE 1=1 AND name=#{name}
     </select>
     <select id="articleEditQuery" parameterType="map" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 AND name=#{name}
+        SELECT <include refid="articleResult"/> FROM biz_equipment WHERE 1=1 AND name=#{name}
     </select>
     <select id="articleIdQuery" parameterType="map" resultType="map">
-        SELECT <include refid="articleResult"/> FROM dict_article WHERE 1=1 AND article_id=#{article_id}
+        SELECT <include refid="articleResult"/> FROM biz_equipment WHERE 1=1 AND equipment_id=#{equipment_id}
     </select>
 
 
     <!--新增-->
     <insert id="articleInsert" parameterType="map">
-        INSERT INTO dict_article(article_id,img,name,info,deleteStatus)VALUES (#{article_id},#{img},#{name},#{info},#{deleteStatus})
+        INSERT INTO biz_equipment(
+        equipment_id,img,name,info,deleteStatus,type,weapon_type,Endurance,effect,buff,Blessing1,Blessing2
+        )VALUES (
+        #{equipment_id},#{img},#{name},#{info},#{deleteStatus},#{type},#{weapon_type},#{Endurance},#{effect},
+        #{buff},#{Blessing1},#{Blessing2}
+        )
     </insert>
 
 
     <!--修改-->
     <update id="articleUpdate" parameterType="map">
-        UPDATE dict_article SET img=#{img},name=#{name},info=#{info} WHERE 1=1 AND article_id=#{article_id}
+        UPDATE biz_equipment SET img=#{img},name=#{name},info=#{info},type=#{type},weapon_type=#{weapon_type},
+        Endurance=#{Endurance},effect=#{effect},buff=#{buff},Blessing1=#{Blessing1},Blessing2=#{Blessing2}
+        WHERE 1=1 AND equipment_id=#{equipment_id}
     </update>
 
 
     <!--删除-->
     <update id="articleDelete" parameterType="map">
-        UPDATE dict_article SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
+        UPDATE biz_equipment SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
 
 </mapper>

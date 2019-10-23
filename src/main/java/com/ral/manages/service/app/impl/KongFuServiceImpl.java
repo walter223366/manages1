@@ -60,21 +60,12 @@ public class KongFuServiceImpl implements UnifiedCall {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> kongFuList = kongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
-            kongFuMap.put("type",kongFuType(MapUtil.getInt(kongFuMap,"type")));
+            kongFuMap.put("typeValue",kongFuType(MapUtil.getInt(kongFuMap,"type")));
             int enable = MapUtil.getInt(kongFuMap,"enable");
             String enableValue = (enable== TableCode.ENABLE_ONE.getCode()? TableCode.ENABLE_ONE.getName(): TableCode.ENABLE_ZERO.getName());
-            kongFuMap.put("enable",enableValue);
+            kongFuMap.put("enableValue",enableValue);
         }
         return PageBean.resultPage(page.getTotal(),kongFuList);
-    }
-
-    /*编辑查询*/
-    private Map<String,Object> kongFuEditQuery(Map<String,Object> map) {
-        String name = MapUtil.getString(map,"name");
-        if(StringUtil.isNull(name)){
-           throw new BizException("传入功夫名称为空");
-        }
-        return kongFuMapper.kongFuEditQuery(map);
     }
 
     /*新增*/
@@ -155,10 +146,10 @@ public class KongFuServiceImpl implements UnifiedCall {
             resultMap.put("moveName",seeMoveName(moveId));
         }
         int type = MapUtil.getInt(resultMap,"type");
-        resultMap.put("type",kongFuType(type));
+        resultMap.put("typeValue",kongFuType(type));
         int enable = MapUtil.getInt(resultMap,"enable");
         String enableValue = (enable== TableCode.ENABLE_ONE.getCode()? TableCode.ENABLE_ONE.getName(): TableCode.ENABLE_ZERO.getName());
-        resultMap.put("enable",enableValue);
+        resultMap.put("enableValue",enableValue);
         return resultMap;
     }
 

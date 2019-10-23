@@ -74,10 +74,10 @@ public class AccountServiceImpl implements UnifiedCall {
         for(Map<String,Object> accountMap : accountList){
             int source = SetUtil.toMapValueInt(accountMap,"source");
             String source_value = (source==0? TableCode.SOURCE_ZERO.getName(): TableCode.SOURCE_ONE.getName());
-            accountMap.put("source",source_value);
+            accountMap.put("sourceValue",source_value);
             int cancellation = SetUtil.toMapValueInt(accountMap,"cancellation");
             String cancellation_value = (cancellation==0? TableCode.CANCELLATION_ZERO.getName(): TableCode.CANCELLATION_ONE.getName());
-            accountMap.put("cancellation",cancellation_value);
+            accountMap.put("cancelValue",cancellation_value);
         }
         return PageBean.resultPage(page.getTotal(),accountList);
     }
