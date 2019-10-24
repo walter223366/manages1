@@ -12,7 +12,7 @@ function pagingQuery() {
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt'},
-        {field: 'name', title: '效果名称', sort: true, width: 120},
+        {field: 'name', title: '效果名称', sort: true, width: 100},
         {field: 'targetValue', title: '执行目标'},
         {field: 'Aggressivity', title: '攻击力'},
         {field: 'Defense', title: '防御力'},
@@ -21,7 +21,7 @@ function pagingQuery() {
         {field: 'injury', title: '外伤'},
         {field: 'internal_injury', title: '内伤'},
         {field: 'poisoning', title: '毒伤', sort: true},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 250, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "效果管理", cole, add, edit, del, see, pagingQuery);
 }
@@ -56,11 +56,30 @@ function add() {
             params.treatment = Number(getVal(layero, "add_treatment"));
             params.suck_HP = Number(getVal(layero, "add_suck_HP"));
             params.info = getVal(layero, "add_info");
+            params.Acupoint_su = Number(getVal(layero,"add_Acupoint_su"));
+            params.Acupoint_zhong = Number(getVal(layero,"add_Acupoint_zhong"));
+            params.Acupoint_qiao = Number(getVal(layero,"add_Acupoint_qiao"));
+            params.Acupoint_shan = Number(getVal(layero,"add_Acupoint_shan"));
+            params.Acupoint_tiao = Number(getVal(layero,"add_Acupoint_tiao"));
+            params.Acupoint_fang= Number(getVal(layero,"add_Acupoint_fang"));
+            params.getweapon = Number(getVal(layero,"add_getweapon"));
+            params.Basic_attribute_physique = Number(getVal(layero,"add_Basic_attribute_physique"));
+            params.Basic_attribute_forces = Number(getVal(layero,"add_Basic_attribute_forces"));
+            params.Basic_attribute_muscles = Number(getVal(layero,"add_Basic_attribute_muscles"));
+            params.Basic_attribute_mp = Number(getVal(layero,"add_Basic_attribute_mp"));
+            params.Basic_attribute_sensitivity = Number(getVal(layero,"add_Basic_attribute_sensitivity"));
+            params.Basic_attribute_willpower = Number(getVal(layero,"add_Basic_attribute_willpower"));
+            params.Basic_attribute_knowledge = Number(getVal(layero,"add_Basic_attribute_knowledge"));
+            params.Basic_attribute_lucky= Number(getVal(layero,"add_Basic_attribute_lucky"));
+            params.penetrate_defense = Number(getVal(layero,"add_penetrate_defense"));
+            params.penetrate_powerWall = Number(getVal(layero,"add_penetrate_powerWall"));
+            params.Aggressivity_powerWall= Number(getVal(layero,"add_Aggressivity_powerWall"));
             if (verIfy(params) === false) {
                 return;
             }
             var hp = JSON.parse(sessionStorage.getItem("ahp"));
             if (hp != null) {
+                params.mp_random = hp.mp_random;
                 params.mp_yellow = hp.mp_yellow;
                 params.mp_gold = hp.mp_gold;
                 params.mp_green = hp.mp_green;
@@ -86,9 +105,10 @@ function add() {
 
 function aHpInfo() {
     var content = $("#aHpInfo");
-    layerOpen(1, "HP色球影响", content, 700, 400, "保存", "重置", "",
+    layerOpen(1, "色球影响", content, 700, 400, "保存", "重置", "",
         function (index, layero) {
             var hp = {};
+            hp.mp_random = $("#add_mp_random").val();
             hp.mp_yellow = $("#add_mp_yellow").val();
             hp.mp_gold = $("#add_mp_gold").val();
             hp.mp_green = $("#add_mp_green").val();
@@ -103,7 +123,7 @@ function aHpInfo() {
 
 function aSuckInfo() {
     var content = $("#aSuckInfo");
-    layerOpen(1, "吸血色球影响", content, 700, 400, "保存", "重置", "",
+    layerOpen(1, "吸血率色球影响", content, 700, 400, "保存", "重置", "",
         function (index, layero) {
             var suck = {};
             suck.suck_mp_random = $("#add_suck_mp_random").val();
@@ -139,6 +159,24 @@ function addReset(layero) {
     cleanVal(layero, "add_treatment", '');
     cleanVal(layero, "add_suck_HP", '');
     cleanVal(layero, "add_info", '');
+    cleanVal(layero, "add_Acupoint_su", '');
+    cleanVal(layero, "add_Acupoint_zhong", '');
+    cleanVal(layero, "add_Acupoint_qiao", '');
+    cleanVal(layero, "add_Acupoint_shan", '');
+    cleanVal(layero, "add_Acupoint_tiao", '');
+    cleanVal(layero, "add_Acupoint_fang", '');
+    cleanVal(layero, "add_getweapon", '');
+    cleanVal(layero, "add_Basic_attribute_physique", '');
+    cleanVal(layero, "add_Basic_attribute_forces", '');
+    cleanVal(layero, "add_Basic_attribute_muscles", '');
+    cleanVal(layero, "add_Basic_attribute_mp", '');
+    cleanVal(layero, "add_Basic_attribute_sensitivity", '');
+    cleanVal(layero, "add_Basic_attribute_willpower", '');
+    cleanVal(layero, "add_Basic_attribute_knowledge", '');
+    cleanVal(layero, "add_Basic_attribute_lucky", '');
+    cleanVal(layero, "add_penetrate_defense", '');
+    cleanVal(layero, "add_penetrate_powerWall", '');
+    cleanVal(layero, "add_Aggressivity_powerWall", '');
 }
 
 function see(data) {
@@ -161,6 +199,7 @@ function see(data) {
             $("#see_crit_rate").val(isNull(data.crit_rate));
             $("#see_Counterattack").val(isNull(data.Counterattack));
             $("#see_treatment").val(isNull(data.treatment));
+            $("#see_mp_random").val(isNull(data.mp_random));
             $("#see_mp_yellow").val(isNull(data.mp_yellow));
             $("#see_mp_gold").val(isNull(data.mp_gold));
             $("#see_mp_green").val(isNull(data.mp_green));
@@ -174,6 +213,24 @@ function see(data) {
             $("#see_suck_mp_blue").val(isNull(data.suck_mp_blue));
             $("#see_suck_mp_purple").val(isNull(data.suck_mp_purple));
             $("#see_info").val(isNull(data.info));
+            $("#see_Acupoint_su").val(isNull(data.Acupoint_su));
+            $("#see_Acupoint_zhong").val(isNull(data.Acupoint_zhong));
+            $("#see_Acupoint_qiao").val(isNull(data.Acupoint_qiao));
+            $("#see_Acupoint_shan").val(isNull(data.Acupoint_shan));
+            $("#see_Acupoint_tiao").val(isNull(data.Acupoint_tiao));
+            $("#see_Acupoint_fang").val(isNull(data.Acupoint_fang));
+            $("#see_getweapon").val(isNull(data.getweapon));
+            $("#see_Basic_attribute_physique").val(isNull(data.Basic_attribute_physique));
+            $("#see_Basic_attribute_forces").val(isNull(data.Basic_attribute_forces));
+            $("#see_Basic_attribute_muscles").val(isNull(data.Basic_attribute_muscles));
+            $("#see_Basic_attribute_mp").val(isNull(data.Basic_attribute_mp));
+            $("#see_Basic_attribute_sensitivity").val(isNull(data.Basic_attribute_sensitivity));
+            $("#see_Basic_attribute_willpower").val(isNull(data.Basic_attribute_willpower));
+            $("#see_Basic_attribute_knowledge").val(isNull(data.Basic_attribute_knowledge));
+            $("#see_Basic_attribute_lucky").val(isNull(data.Basic_attribute_lucky));
+            $("#see_penetrate_defense").val(isNull(data.penetrate_defense));
+            $("#see_penetrate_powerWall").val(isNull(data.penetrate_powerWall));
+            $("#see_Aggressivity_powerWall").val(isNull(data.Aggressivity_powerWall));
         }, function (index, layero) {
             layer.closeAll();
         }, function (index, layero) {
@@ -209,6 +266,24 @@ function edit(data) {
                         editVal(layero, "edit_treatment", obj.treatment);
                         editVal(layero, "edit_suck_HP", obj.suck_HP);
                         editVal(layero, "edit_info", obj.info);
+                        editVal(layero, "edit_Acupoint_su", obj.Acupoint_su);
+                        editVal(layero, "edit_Acupoint_zhong", obj.Acupoint_zhong);
+                        editVal(layero, "edit_Acupoint_qiao", obj.Acupoint_qiao);
+                        editVal(layero, "edit_Acupoint_shan", obj.Acupoint_shan);
+                        editVal(layero, "edit_Acupoint_tiao", obj.Acupoint_tiao);
+                        editVal(layero, "edit_Acupoint_fang", obj.Acupoint_fang);
+                        editVal(layero, "edit_getweapon", obj.getweapon);
+                        editVal(layero, "edit_Basic_attribute_physique", obj.Basic_attribute_physique);
+                        editVal(layero, "edit_Basic_attribute_forces", obj.Basic_attribute_forces);
+                        editVal(layero, "edit_Basic_attribute_muscles", obj.Basic_attribute_muscles);
+                        editVal(layero, "edit_Basic_attribute_mp", obj.Basic_attribute_mp);
+                        editVal(layero, "edit_Basic_attribute_sensitivity", obj.Basic_attribute_sensitivity);
+                        editVal(layero, "edit_Basic_attribute_willpower", obj.Basic_attribute_willpower);
+                        editVal(layero, "edit_Basic_attribute_knowledge", obj.Basic_attribute_knowledge);
+                        editVal(layero, "edit_Basic_attribute_lucky", obj.Basic_attribute_lucky);
+                        editVal(layero, "edit_penetrate_defense", obj.penetrate_defense);
+                        editVal(layero, "edit_penetrate_powerWall", obj.penetrate_powerWall);
+                        editVal(layero, "edit_Aggressivity_powerWall", obj.Aggressivity_powerWall);
                         sessionStorage.setItem("eff", JSON.stringify(obj));
                     }, function (index, layero) {
                         var params = {};
@@ -231,10 +306,29 @@ function edit(data) {
                         params.treatment = Number(getVal(layero, "edit_treatment"));
                         params.suck_HP = Number(getVal(layero, "edit_suck_HP"));
                         params.info = getVal(layero, "edit_info");
+                        params.Acupoint_su = Number(getVal(layero,"edit_Acupoint_su"));
+                        params.Acupoint_zhong = Number(getVal(layero,"edit_Acupoint_zhong"));
+                        params.Acupoint_qiao = Number(getVal(layero,"edit_Acupoint_qiao"));
+                        params.Acupoint_shan = Number(getVal(layero,"edit_Acupoint_shan"));
+                        params.Acupoint_tiao = Number(getVal(layero,"edit_Acupoint_tiao"));
+                        params.Acupoint_fang= Number(getVal(layero,"edit_Acupoint_fang"));
+                        params.getweapon = Number(getVal(layero,"edit_getweapon"));
+                        params.Basic_attribute_physique = Number(getVal(layero,"edit_Basic_attribute_physique"));
+                        params.Basic_attribute_forces = Number(getVal(layero,"edit_Basic_attribute_forces"));
+                        params.Basic_attribute_muscles = Number(getVal(layero,"edit_Basic_attribute_muscles"));
+                        params.Basic_attribute_mp = Number(getVal(layero,"edit_Basic_attribute_mp"));
+                        params.Basic_attribute_sensitivity = Number(getVal(layero,"edit_Basic_attribute_sensitivity"));
+                        params.Basic_attribute_willpower = Number(getVal(layero,"edit_Basic_attribute_willpower"));
+                        params.Basic_attribute_knowledge = Number(getVal(layero,"edit_Basic_attribute_knowledge"));
+                        params.Basic_attribute_lucky= Number(getVal(layero,"edit_Basic_attribute_lucky"));
+                        params.penetrate_defense = Number(getVal(layero,"edit_penetrate_defense"));
+                        params.penetrate_powerWall = Number(getVal(layero,"edit_penetrate_powerWall"));
+                        params.Aggressivity_powerWall= Number(getVal(layero,"edit_Aggressivity_powerWall"));
                         if (verIfy(params) === false) {
                             return;
                         }
                         var hp = getSessionValue("ehp", "eff");
+                        params.mp_random = hp.mp_random;
                         params.mp_yellow = hp.mp_yellow;
                         params.mp_gold = hp.mp_gold;
                         params.mp_green = hp.mp_green;
@@ -269,6 +363,7 @@ function eHpInfo() {
             if (obj === null) {
                 obj = JSON.parse(sessionStorage.getItem("eff"));
             }
+            $("#edit_mp_random").val(obj.mp_random);
             $("#edit_mp_yellow").val(obj.mp_yellow);
             $("#edit_mp_gold").val(obj.mp_gold);
             $("#edit_mp_green").val(obj.mp_green);
@@ -276,6 +371,7 @@ function eHpInfo() {
             $("#edit_mp_purple").val(obj.mp_purple);
         }, function (index, layero) {
             var hp = {};
+            hp.mp_random = $("#edit_mp_random").val();
             hp.mp_yellow = $("#edit_mp_yellow").val();
             hp.mp_gold = $("#edit_mp_gold").val();
             hp.mp_green = $("#edit_mp_green").val();
@@ -338,6 +434,24 @@ function editReset(layero) {
     cleanVal(layero, "edit_treatment", '');
     cleanVal(layero, "edit_suck_HP", '');
     cleanVal(layero, "edit_info", '');
+    cleanVal(layero, "edit_Acupoint_su", '');
+    cleanVal(layero, "edit_Acupoint_zhong", '');
+    cleanVal(layero, "edit_Acupoint_qiao", '');
+    cleanVal(layero, "edit_Acupoint_shan", '');
+    cleanVal(layero, "edit_Acupoint_tiao", '');
+    cleanVal(layero, "edit_Acupoint_fang", '');
+    cleanVal(layero, "edit_getweapon", '');
+    cleanVal(layero, "edit_Basic_attribute_physique", '');
+    cleanVal(layero, "edit_Basic_attribute_forces", '');
+    cleanVal(layero, "edit_Basic_attribute_muscles", '');
+    cleanVal(layero, "edit_Basic_attribute_mp", '');
+    cleanVal(layero, "edit_Basic_attribute_sensitivity", '');
+    cleanVal(layero, "edit_Basic_attribute_willpower", '');
+    cleanVal(layero, "edit_Basic_attribute_knowledge", '');
+    cleanVal(layero, "edit_Basic_attribute_lucky", '');
+    cleanVal(layero, "edit_penetrate_defense", '');
+    cleanVal(layero, "edit_penetrate_powerWall", '');
+    cleanVal(layero, "edit_Aggressivity_powerWall", '');
 }
 
 function verIfy(params) {
@@ -370,7 +484,7 @@ function clearValue(ids) {
     }
 }
 
-hpID = "mp_yellow,mp_gold,mp_green,mp_blue,mp_purple";
+hpID = "mp_random,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple";
 mpID = "suck_mp_random,suck_mp_yellow,suck_mp_gold,suck_mp_green,suck_mp_blue,suck_mp_purple";
 
 

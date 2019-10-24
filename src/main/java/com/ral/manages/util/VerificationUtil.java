@@ -69,14 +69,6 @@ public class VerificationUtil {
         if(StringUtil.isNull(cost)){
             throw new BizException("传入内力花费为空");
         }
-        String kongfu_id = MapUtil.getString(map,"kongfu_id");
-        if(StringUtil.isNull(kongfu_id)){
-            throw new BizException("传入武学选项为空");
-        }
-        String zhaoshi_effect = MapUtil.getString(map,"zhaoshi_effect");
-        if(StringUtil.isNull(zhaoshi_effect)){
-            throw new BizException("传入效果选项为空");
-        }
     }
 
 
