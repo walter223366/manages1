@@ -75,10 +75,21 @@ public class KongFuServiceImpl implements UnifiedCall {
         if(count > 0){
             throw new BizException("新增失败，功夫名称已存在");
         }
-        map.put("kongfu_id",StringUtil.getUUID());
+        String id = StringUtil.getUUID();
+        map.put("kongfu_id",id);
         map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
         try{
             kongFuMapper.kongFuInsert(SetUtil.turnNull(map));
+            String kMove = MapUtil.getString(map,"kongfu_zhaoshi");
+            if(!StringUtil.isNull(kMove)){
+                String[] moveIds = kMove.split(",");
+                for(int i=0; i<moveIds.length; i++){
+                    Map<String,Object> moveMap = new HashMap<>();
+                    moveMap.put("moveId",moveIds[i]);
+                    moveMap.put("kongfu_id",id);
+                    moveMapper.moveUpdateKF(moveMap);
+                }
+            }
             return new HashMap<>();
         }catch (Exception e){
             log.debug("新增失败："+e.getMessage());
@@ -107,6 +118,10 @@ public class KongFuServiceImpl implements UnifiedCall {
         }
         try{
             kongFuMapper.kongFuUpdate(SetUtil.turnNull(map));
+            List<Map<String,Object>> moveIds = getUnseMoveId(qMap,map);
+            for(Map<String,Object> moveId: moveIds){
+                moveMapper.moveUpdateKF(moveId);
+            }
             return new HashMap<>();
         }catch (Exception e){
             log.debug("修改失败："+e.getMessage());
@@ -165,7 +180,7 @@ public class KongFuServiceImpl implements UnifiedCall {
         List<Map<String,Object>> resultList = moveMapper.moveQueryMarqueeName(result);
         List<String> nameList = new ArrayList<String>();
         for(Map<String,Object> map : resultList){
-            nameList.add(SetUtil.toMapValueString(map,"name"));
+            nameList.add(MapUtil.getString(map,"name"));
         }
         return nameList;
     }
@@ -184,4 +199,14 @@ public class KongFuServiceImpl implements UnifiedCall {
             default:return "其他";
         }
     }
+
+    private List<Map<String,Object>> getUnseMoveId(Map<String,Object> qMap,Map<String,Object> map){
+        String[] moveIds = MapUtil.getString(qMap,"kongfu_zhaoshi").split(",");
+        String[] zhaoIds = MapUtil.getString(map,"kongfu_zhaoshi").split(",");
+        for(int i=0; i<moveIds.length; i++){
+
+        }
+        return null;
+    }
+
 }

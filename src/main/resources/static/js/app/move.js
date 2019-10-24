@@ -15,7 +15,7 @@ function pagingQuery() {
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
         {field: 'name', title: '招式名称', sort: true},
-        {field: 'kongFuName', title: '武学类型'},
+        {field: 'kongFuName', title: '所属武学'},
         {field: 'MP_cost', title: '内力花费'},
         {field: 'zhaoshi_experience_cost', title: '招式经验', sort: true},
         {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
@@ -117,8 +117,10 @@ function edit(data) {
                         $("#edit_MP_cost").val(isNull(obj.MP_cost));
                         $("#edit_zhaoshi_buff").val(isNull(obj.zhaoshi_buff));
                         $("#edit_info").val(isNull(obj.info));
-                        var effId = multipleBox(obj.zhaoshi_effect);
-                        formSelects.value("select_editEffect", effId);
+                        var effIds = multipleBox(obj.zhaoshi_effect);
+                        if(effIds.length > 0) {
+                            formSelects.value("select_editEffect", effIds);
+                        }
                         layui.form.render("select");
                     }, function (index, layero) {
                         var params = {};
@@ -169,13 +171,4 @@ function verIfs(yellow,gold,green,blue,purple) {
         return false;
     }
     return true;
-}
-
-function multipleBox(obj) {
-    var res = [];
-    var eff = obj.split(",");
-    for(var i=0; i<eff.length; i++){
-        res.push(eff[i]);
-    }
-    return res;
 }

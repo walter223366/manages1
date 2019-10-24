@@ -14,10 +14,13 @@ public interface IMoveMapper {
     List<Map<String,Object>> moveQueryMarquee();
     Map<String,Object> moveQueryName(@Param("moveId") String moveId);
     List<Map<String,Object>> moveQueryMarqueeName(Map<String,Object> map);
+    List<Map<String,Object>> moveQueryKFIsNull();
+    Map<String,Object> moveQueryExistKF(@Param("moveId") String moveId);
     /*新增*/
     void moveInsert(Map<String,Object> map);
     /*修改*/
     void moveUpdate(Map<String,Object> map);
+    void moveUpdateKF(Map<String,Object> map);
     /*删除*/
     void moveDelete(Map<String,Object> map);
 }

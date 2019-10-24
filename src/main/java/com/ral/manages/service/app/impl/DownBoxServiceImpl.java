@@ -4,10 +4,15 @@ import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.entity.ProjectConst;
 import com.ral.manages.mapper.app.*;
 import com.ral.manages.service.app.UnifiedCall;
+import com.ral.manages.util.MapUtil;
+import com.ral.manages.util.SetUtil;
+import com.ral.manages.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +53,8 @@ public class DownBoxServiceImpl implements UnifiedCall {
             case ProjectConst.SCHOOLDOWNBOX: result = schoolDownBox(map);
                 break;
             case ProjectConst.ACCOUNTDOWNBOX: result = accountDownBox(map);
+                break;
+            case ProjectConst.MOVENULDOWNBOX: result = moveNulDownBox(map);
                 break;
             default:
                 throw new BizException("传入方法名不存在");
@@ -92,6 +99,30 @@ public class DownBoxServiceImpl implements UnifiedCall {
         Map<String,Object> resultMap = new HashMap<String,Object>();
         List<Map<String,Object>> resultList = accountMapper.accountQueryMarquee();
         resultMap.put("data",resultList);
+        return resultMap;
+    }
+
+    /*招式下拉框-单*/
+    private Map<String,Object> moveNulDownBox(Map<String,Object> map){
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+        resultList = moveMapper.moveQueryKFIsNull();
+        if(SetUtil.isMapNull(map)){
+            resultMap.put("data",resultList);
+        }else{
+            String name = MapUtil.getString(map,"name");
+            if(StringUtil.isNull(name)){
+                throw new BizException("传入功夫名称为空");
+            }
+            Map<String,Object> kongMap = kongFuMapper.kongFuEditQuery(map);
+            String moveId = MapUtil.getString(kongMap,"kongfu_zhaoshi");
+            String [] moveIds = moveId.split(",");
+            for(int i=0; i<moveIds.length; i++){
+                Map<String,Object> objMap = moveMapper.moveQueryExistKF(moveIds[i]);
+                resultList.add(objMap);
+            }
+            resultMap.put("data",resultList);
+        }
         return resultMap;
     }
 }

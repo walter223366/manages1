@@ -26,4 +26,6 @@ public class ProjectConst {
     public final static String SCHOOLDOWNBOX = "schoolBox";
     //账号下拉框
     public final static String ACCOUNTDOWNBOX = "accountBox";
+    //招式下拉框-单
+    public final static String MOVENULDOWNBOX = "moveNulBox";
 }

@@ -1,6 +1,6 @@
 charset="utf-8";
 manages="kongFu";
-var formSelects=layui.formSelects;
+var formSelects = layui.formSelects;
 $(function(){
     pagingQuery();
 });
@@ -13,12 +13,12 @@ function pagingQuery() {
     params.enable = $("#query_enable").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
-        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 100},
+        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
         {field: 'name', title: '功夫名称', sort: true},
         {field: 'typeValue', title: '功夫类型'},
         {field: 'experience_limit', title: '可学经验上限', sort: true},
         {field: 'kongfu_attainments', title: '造诣', sort: true},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 250, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "武学管理", cole, add, edit, del, see, pagingQuery);
 }
@@ -34,7 +34,7 @@ function cleanUp() {
 function add() {
     addReset();
     var downs = {};
-    downBox(downs, moveBox, "add_kongfu_zhaoshi", "select_addMove", mSelection);
+    downBox(downs, "moveNulBox", "add_kongfu_zhaoshi", "select_addMove", mSelection);
     var content = $("#addInfo");
     layerOpen(1, "新增", content, 950, 500, "立即提交", "重置", "",
         function (index, layero) {
@@ -99,9 +99,8 @@ function see(data) {
 }
 
 function edit(data) {
-    var downs = {};
-    downBox(downs, moveBox, "edit_kongfu_zhaoshi", "select_editMove", mSelection);
     var params = {name: data.name};
+    downBox(params, "moveNulBox", "edit_kongfu_zhaoshi", "select_editMove", mSelection);
     postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
@@ -115,9 +114,12 @@ function edit(data) {
                         $("#edit_experience_limit").val(isNull(obj.experience_limit));
                         $("#edit_enable").val(isNull(setEnable(obj.enable)));
                         $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
-                        $("#edit_kongfu_zhaoshi").val(obj.kongfu_zhaoshi);
                         $("#edit_Special_buff").val(obj.Special_buff);
                         $("#edit_info").val(obj.info);
+                        var movIds = multipleBox(obj.kongfu_zhaoshi);
+                        if(movIds.length > 0) {
+                            //formSelects.value("select_editMove", movIds);
+                        }
                         layui.form.render("select");
                     }, function (index, layero) {
                         var params = {};

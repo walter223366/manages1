@@ -170,6 +170,18 @@ function x_admin_close() {
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
 }
+function multipleBox(obj) {
+    var res = [];
+    if(obj === null || obj === ''){
+        return res;
+    }else{
+        var eff = obj.split(",");
+        for(var i=0; i<eff.length; i++){
+            res.push(eff[i]);
+        }
+        return res;
+    }
+}
 function getVal(layero,id) {
     return $(layero).find("iframe")[0].contentWindow.document.getElementById(id).value;
 }
@@ -251,7 +263,7 @@ function postRequest(params,manages,method,callback) {
                 callback(data);
             }
         }, error: function () {
-            layer.msg("请求调用失败")
+
         }
     });
 }
@@ -259,12 +271,6 @@ function layerOpen(type,title,content,width,height,btn1,btn2,success,callback,re
     if (url === null || url === '') {
         url = "/manages/system/404";
     }
-    /*if (width === null || width === '') {
-        width = ($(window).width() * 0.9);
-    }
-    if (height === null || height === '') {
-        height = ($(window).height() - 50);
-    }*/
     layer.open({
         type: type,
         offset: "auto",
@@ -424,7 +430,7 @@ function downBox(downs,method,id,selectId,mlSelection) {
                 var ids = "#" + id;
                 $(ids).prepend("<option value=''>请选择</option>");
                 $.each(obj.data, function (i, n) {
-                    if (method === moveBox) {
+                    if (method === moveBox || method === "moveNulBox") {
                         $(ids).append("<option value='" + n.zhaoshi_id + "'>" + n.name + "</option>");
                     } else if (method === kongFuBox) {
                         $(ids).append("<option value='" + n.kongfu_id + "'>" + n.name + "</option>");
