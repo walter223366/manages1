@@ -191,13 +191,4 @@ public class MoveServiceImpl implements UnifiedCall {
         }
         return nameList;
     }
-
-    private String spliceString(Map<String,Object> map){
-        int yellowSend = MapUtil.getInt(map,"yellowSpend");
-        int goldSpend = MapUtil.getInt(map,"goldSpend");
-        int greenSpend = MapUtil.getInt(map,"greenSpend");
-        int blueSpend = MapUtil.getInt(map,"blueSpend");
-        int purpleSpend = MapUtil.getInt(map,"purpleSpend");
-        return yellowSend+","+goldSpend+"."+greenSpend+","+blueSpend+","+purpleSpend;
-    }
 }
