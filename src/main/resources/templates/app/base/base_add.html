@@ -262,11 +262,11 @@
 
     <!--武学添加-->
     <div class="x-body" id="aArtsInfo" aria-hidden="true" hidden>
-        <form class="layui-form-item layui-form" id="formKongFu">
+        <form class="layui-form-item layui-form" name="form1" method="post" action="" role="form">
             <div class="layui-form-item">
                 <label class="layui-form-label">武学类型</label>
                 <div class="layui-input-inline" style="width: 390px">
-                    <select id="add_kfTypes" onchange="changeQualifications(this)">
+                    <select id="add_kfTypes" name="addKfType">
                         <option value="0" selected="selected">内功</option>
                         <option value="1">轻功</option>
                         <option value="2">外功</option>
@@ -279,7 +279,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">武学选项</label>
                 <div class="layui-input-inline" style="width: 390px">
-                    <select id="add_kongFu" type="checkbox"></select>
+                    <select id="add_kongFu" name="addKongFu" type="checkbox" onchange="getKfType()"></select>
                 </div>
                 <div class="layui-input-inline">
                     <button id="addKongFus" onclick="addKongFu()" type="button" class="layui-btn buLeng">添加</button>
@@ -504,13 +504,25 @@
         downBox(downs, accountBox, "add_account", "", lSelection);
     });
 
-    $(function() {
-        $("select[id='add_kfTypes']").change(function(){
-            changeQualifications(this);
+    $(function () {
+        $("#add_kfTypes").on("change", function (e) {
+            getKfType();
         });
     });
-    function changeQualifications(a) {
-        alert(a)
+
+    function getKfType() {
+        var downs = {};
+        var type = $("#add_kfTypes").find("option:selected").val();
+        alert(type);
+        $("#add_kongFu").empty();
+        if (type === "0") {
+            downs.type = "0";
+        } else if (type === "1") {
+            downs.type = "1";
+        } else if (type === "2") {
+            downs.type = "2";
+        }
+        downBox(downs, kongFuBox, "add_kongFu", "", lSelection);
     }
 </script>
 </html>

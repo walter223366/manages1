@@ -4,7 +4,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IEffectMapper">
 
     <sql id="effectResult">
-        effect_id,name,info,target,Aggressivity,Defense,preserve,treatment,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,
+        effect_id,name,info,target,Aggressivity,Defense,preserve,treatment,mp_random,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,
         injury,internal_injury,poisoning,stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_random,suck_mp_yellow,suck_mp_gold,
         suck_mp_green,suck_mp_blue,suck_mp_purple,Counterattack,PowerWall,penetrate_defense,penetrate_powerWall,Acupoint_su,
         Acupoint_zhong,Acupoint_qiao,Acupoint_shan,Acupoint_tiao,Acupoint_fang,getweapon,Aggressivity_powerWall,
@@ -53,7 +53,7 @@
     <!--新增-->
     <insert id="effectInsert" parameterType="map">
         INSERT INTO dict_effect(
-        effect_id,name,info,target,Aggressivity,Defense,preserve,treatment,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,
+        effect_id,name,info,target,Aggressivity,Defense,preserve,treatment,mp_random,mp_yellow,mp_gold,mp_green,mp_blue,mp_purple,
         injury,internal_injury,poisoning,stun,dodge,hit_rate,crit_rate,burst,suck_HP,suck_mp_random,suck_mp_yellow,suck_mp_gold,
         suck_mp_green,suck_mp_blue,suck_mp_purple,Counterattack,PowerWall,penetrate_defense,penetrate_powerWall,Acupoint_su,
         Acupoint_zhong,Acupoint_qiao,Acupoint_shan,Acupoint_tiao,Acupoint_fang,getweapon,Aggressivity_powerWall,
@@ -61,13 +61,13 @@
         Basic_attribute_willpower,Basic_attribute_knowledge,Basic_attribute_lucky,deleteStatus
         )
         VALUES (
-        #{effect_id},#{name},#{info},#{target},#{Aggressivity},#{Defense},#{preserve},#{treatment},#{mp_yellow},#{mp_gold},
-        #{mp_green},#{mp_blue},#{mp_purple},#{injury},#{internal_injury},#{poisoning},#{stun},#{dodge},#{hit_rate},#{crit_rate},
-        #{burst},#{suck_HP},#{suck_mp_random},#{suck_mp_yellow},#{suck_mp_gold},#{suck_mp_green},#{suck_mp_blue},#{suck_mp_purple},
-        #{Counterattack},#{PowerWall},#{penetrate_defense},#{penetrate_powerWall},#{Acupoint_su},#{Acupoint_zhong},
-        #{Acupoint_qiao},#{Acupoint_shan},#{Acupoint_tiao},#{Acupoint_fang},#{getweapon},#{Aggressivity_powerWall},
-        #{Basic_attribute_physique},#{Basic_attribute_forces},#{Basic_attribute_muscles},#{Basic_attribute_mp},
-        #{Basic_attribute_sensitivity},#{Basic_attribute_willpower},#{Basic_attribute_knowledge},
+        #{effect_id},#{name},#{info},#{target},#{Aggressivity},#{Defense},#{preserve},#{treatment},#{mp_random},#{mp_yellow},
+        #{mp_gold},#{mp_green},#{mp_blue},#{mp_purple},#{injury},#{internal_injury},#{poisoning},#{stun},#{dodge},#{hit_rate},
+        #{crit_rate},#{burst},#{suck_HP},#{suck_mp_random},#{suck_mp_yellow},#{suck_mp_gold},#{suck_mp_green},#{suck_mp_blue},
+        #{suck_mp_purple},#{Counterattack},#{PowerWall},#{penetrate_defense},#{penetrate_powerWall},#{Acupoint_su},
+        #{Acupoint_zhong},#{Acupoint_qiao},#{Acupoint_shan},#{Acupoint_tiao},#{Acupoint_fang},#{getweapon},
+        #{Aggressivity_powerWall},#{Basic_attribute_physique},#{Basic_attribute_forces},#{Basic_attribute_muscles},
+        #{Basic_attribute_mp},#{Basic_attribute_sensitivity},#{Basic_attribute_willpower},#{Basic_attribute_knowledge},
         #{Basic_attribute_lucky},#{deleteStatus}
         )
     </insert>
@@ -78,7 +78,7 @@
         UPDATE dict_effect SET name=#{name},info=#{info},target=#{target},Aggressivity=#{Aggressivity},Defense=#{Defense},
         preserve=#{preserve},treatment=#{treatment},mp_yellow=#{mp_yellow},mp_gold=#{mp_gold},mp_green=#{mp_green},
         mp_blue=#{mp_blue},mp_purple=#{mp_purple},injury=#{injury},internal_injury=#{internal_injury},poisoning=#{poisoning},
-        stun=#{stun},dodge=#{dodge},hit_rate=#{hit_rate},crit_rate=#{crit_rate},
+        stun=#{stun},dodge=#{dodge},hit_rate=#{hit_rate},crit_rate=#{crit_rate},mp_random=#{mp_random}
         burst=#{burst},suck_HP=#{suck_HP},suck_mp_random=#{suck_mp_random},suck_mp_yellow=#{suck_mp_yellow},
         suck_mp_gold=#{suck_mp_gold},suck_mp_green=#{suck_mp_green},suck_mp_blue=#{suck_mp_blue},suck_mp_purple=#{suck_mp_purple},
         Counterattack=#{Counterattack},PowerWall=#{PowerWall},penetrate_defense=#{penetrate_defense},

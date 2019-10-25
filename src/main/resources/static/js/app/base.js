@@ -498,7 +498,6 @@ function editE(obj) {
         input1.value = "111000";
         div1.appendChild(input1);
         div.appendChild(div1);
-
     }
 }
 
