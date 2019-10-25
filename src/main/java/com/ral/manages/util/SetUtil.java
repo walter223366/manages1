@@ -108,4 +108,15 @@ public class SetUtil {
         }
         return value;
     }
+
+    public static List<String> getListSplit(String str){
+        List<String> list = new ArrayList<String>();
+        if(!StringUtil.isNull(str)) {
+            String[] strs = str.split(",");
+            for (int i = 0; i < strs.length; i++) {
+                list.add(strs[i]);
+            }
+        }
+        return list;
+    }
 }

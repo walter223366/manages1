@@ -778,7 +778,7 @@ function selectE() {
     var a = document.getElementById(id).value;
     if (a === "未使用") {
         document.getElementById(id).value = "使用";
-        document.getElementById(id).className = "layui-btn buLeng";
+        document.getElementById(id).className = "layui-btn layui-btn-danger buLeng";
     } else {
         document.getElementById(id).value = "未使用";
         document.getElementById(id).className = "layui-btn layui-btn-primary buLeng";

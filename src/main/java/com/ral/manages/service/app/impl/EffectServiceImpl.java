@@ -56,7 +56,7 @@ public class EffectServiceImpl implements UnifiedCall {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map),PageBean.pageSize(map));
         List<Map<String,Object>> effectList = effectMapper.effectPagingQuery(map);
         for(Map<String,Object> effectMap : effectList){
-            int target = SetUtil.toMapValueInt(effectMap,"target");
+            int target = MapUtil.getInt(effectMap,"target");
             String target_value = (target==0? TableCode.TARGET_ZERO.getName(): TableCode.TARGET_ONE.getName());
             effectMap.put("targetValue",target_value);
         }
@@ -133,6 +133,7 @@ public class EffectServiceImpl implements UnifiedCall {
         if(StringUtil.isNull(name)){
             throw new BizException("传入效果名称错误");
         }
-        return effectMapper.effectEditQuery(map);
+        Map<String,Object> resMap = effectMapper.effectEditQuery(map);
+        return SetUtil.clearValueNullToMap(resMap);
     }
 }

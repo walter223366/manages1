@@ -119,8 +119,11 @@ public class KongFuServiceImpl implements UnifiedCall {
         try{
             kongFuMapper.kongFuUpdate(SetUtil.turnNull(map));
             List<Map<String,Object>> moveIds = getUnMoveId(qMap,map);
-            for(Map<String,Object> moveId: moveIds){
-                moveMapper.moveUpdateKF(moveId);
+            if(moveIds.size() > 0){
+                for(int i=0; i<moveIds.size(); i++){
+                    Map<String,Object> moveMap = moveIds.get(i);
+                    moveMapper.moveUpdateKF(moveMap);
+                }
             }
             return new HashMap<>();
         }catch (Exception e){
@@ -202,37 +205,32 @@ public class KongFuServiceImpl implements UnifiedCall {
 
     private List<Map<String,Object>> getUnMoveId(Map<String,Object> qMap,Map<String,Object> map){
         List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
-        List<String> moveList = getListSplit(MapUtil.getString(qMap,"kongfu_zhaoshi"));
-        List<String> zhiList = getListSplit(MapUtil.getString(map,"kongfu_zhaoshi"));
-        for(String moveId : moveList){
+        List<String> moveList = SetUtil.getListSplit(MapUtil.getString(qMap,"kongfu_zhaoshi"));
+        List<String> zhiList = SetUtil.getListSplit(MapUtil.getString(map,"kongfu_zhaoshi"));
+        for(int x=0; x<moveList.size(); x++){
             for(int i=0; i<zhiList.size(); i++){
-                if(moveId.equals(zhiList.get(i))){
-                    moveList.remove(moveId);
+                if(moveList.get(x).equals(zhiList.get(i))){
+                    moveList.remove(moveList.get(x));
                     zhiList.remove(zhiList.get(i));
                 }
             }
         }
-        for(String moveId : moveList){
-            Map<String,Object> moveMap = new HashMap<String,Object>();
-            moveMap.put("moveId",moveId);
-            moveMap.put("kongfu_id","");
-            result.add(moveMap);
+        if(moveList.size() > 0){
+            for(String moveId : moveList){
+                Map<String,Object> moveMap = new HashMap<String,Object>();
+                moveMap.put("moveId",moveId);
+                moveMap.put("kongfu_id",null);
+                result.add(moveMap);
+            }
         }
-        for(String zhiId : zhiList){
-            Map<String,Object> zhiMap = new HashMap<String,Object>();
-            zhiMap.put("moveId",zhiId);
-            zhiMap.put("kongfu_id",MapUtil.getString(map,"kongfu_id"));
-            result.add(zhiMap);
+        if(zhiList.size() > 0){
+            for(String zhiId : zhiList){
+                Map<String,Object> zhiMap = new HashMap<String,Object>();
+                zhiMap.put("moveId",zhiId);
+                zhiMap.put("kongfu_id",MapUtil.getString(map,"kongfu_id"));
+                result.add(zhiMap);
+            }
         }
         return result;
-    }
-
-    private List<String> getListSplit(String str){
-        String[] strs = str.split(",");
-        List<String> list = new ArrayList<String>();
-        for(int i=0; i<strs.length; i++){
-            list.add(strs[i]);
-        }
-        return list;
     }
 }

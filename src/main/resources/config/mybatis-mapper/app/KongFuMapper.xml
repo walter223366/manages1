@@ -84,7 +84,7 @@
 
     <!--修改-->
     <update id="kongFuUpdate" parameterType="map">
-        UPDATE dict_kongfu SET  name=#{name},info=#{info},type=#{type},experience_limit=#{experience_limit},
+        UPDATE dict_kongfu SET name=#{name},info=#{info},type=#{type},experience_limit=#{experience_limit},
         kongfu_attainments=#{kongfu_attainments},enable=#{enable},kongfu_zhaoshi=#{kongfu_zhaoshi},Special_buff=#{Special_buff}
         WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </update>

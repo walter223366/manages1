@@ -108,12 +108,12 @@ function aHpInfo() {
     layerOpen(1, "色球影响", content, 700, 400, "保存", "重置", "",
         function (index, layero) {
             var hp = {};
-            hp.mp_random = $("#add_mp_random").val();
-            hp.mp_yellow = $("#add_mp_yellow").val();
-            hp.mp_gold = $("#add_mp_gold").val();
-            hp.mp_green = $("#add_mp_green").val();
-            hp.mp_blue = $("#add_mp_blue").val();
-            hp.mp_purple = $("#add_mp_purple").val();
+            hp.mp_random = String($("#add_mp_random").val());
+            hp.mp_yellow = String($("#add_mp_yellow").val());
+            hp.mp_gold = String($("#add_mp_gold").val());
+            hp.mp_green = String($("#add_mp_green").val());
+            hp.mp_blue = String($("#add_mp_blue").val());
+            hp.mp_purple = String($("#add_mp_purple").val());
             sessionStorage.setItem("ahp", JSON.stringify(hp));
             layer.closeAll();
         }, function (index, layero) {
@@ -126,12 +126,12 @@ function aSuckInfo() {
     layerOpen(1, "吸血率色球影响", content, 700, 400, "保存", "重置", "",
         function (index, layero) {
             var suck = {};
-            suck.suck_mp_random = $("#add_suck_mp_random").val();
-            suck.suck_mp_yellow = $("#add_suck_mp_yellow").val();
-            suck.suck_mp_gold = $("#add_suck_mp_gold").val();
-            suck.suck_mp_green = $("#add_suck_mp_green").val();
-            suck.suck_mp_blue = $("#add_suck_mp_blue").val();
-            suck.suck_mp_purple = $("#add_suck_mp_purple").val();
+            suck.suck_mp_random = String($("#add_suck_mp_random").val());
+            suck.suck_mp_yellow = String($("#add_suck_mp_yellow").val());
+            suck.suck_mp_gold = String($("#add_suck_mp_gold").val());
+            suck.suck_mp_green = String($("#add_suck_mp_green").val());
+            suck.suck_mp_blue = String($("#add_suck_mp_blue").val());
+            suck.suck_mp_purple = String($("#add_suck_mp_purple").val());
             sessionStorage.setItem("amp", JSON.stringify(suck));
             layer.closeAll();
         }, function (index, layero) {
@@ -341,6 +341,7 @@ function edit(data) {
                         params.suck_mp_green = suck.suck_mp_green;
                         params.suck_mp_blue = suck.suck_mp_blue;
                         params.suck_mp_purple = suck.suck_mp_purple;
+                        alert(JSON.stringify(params));
                         aaUp(params, manages, update, "修改", pagingQuery);
                         sessionStorage.removeItem("ehp");
                         sessionStorage.removeItem("emp");
@@ -371,12 +372,12 @@ function eHpInfo() {
             $("#edit_mp_purple").val(obj.mp_purple);
         }, function (index, layero) {
             var hp = {};
-            hp.mp_random = $("#edit_mp_random").val();
-            hp.mp_yellow = $("#edit_mp_yellow").val();
-            hp.mp_gold = $("#edit_mp_gold").val();
-            hp.mp_green = $("#edit_mp_green").val();
-            hp.mp_blue = $("#edit_mp_blue").val();
-            hp.mp_purple = $("#edit_mp_purple").val();
+            hp.mp_random = String($("#edit_mp_random").val());
+            hp.mp_yellow = String($("#edit_mp_yellow").val());
+            hp.mp_gold = String($("#edit_mp_gold").val());
+            hp.mp_green = String($("#edit_mp_green").val());
+            hp.mp_blue = String($("#edit_mp_blue").val());
+            hp.mp_purple = String($("#edit_mp_purple").val());
             sessionStorage.setItem("ehp", JSON.stringify(hp));
             layer.closeAll();
         }, function (index, layero) {
@@ -401,12 +402,12 @@ function eSuckInfo() {
             $("#edit_suck_mp_purple").val(obj.suck_mp_purple);
         }, function (index, layero) {
             var suck = {};
-            suck.suck_mp_random = $("#edit_suck_mp_random").val();
-            suck.suck_mp_yellow = $("#edit_suck_mp_yellow").val();
-            suck.suck_mp_gold = $("#edit_suck_mp_gold").val();
-            suck.suck_mp_green = $("#edit_suck_mp_green").val();
-            suck.suck_mp_blue = $("#edit_suck_mp_blue").val();
-            suck.suck_mp_purple = $("#edit_suck_mp_purple").val();
+            suck.suck_mp_random = String($("#edit_suck_mp_random").val());
+            suck.suck_mp_yellow = String($("#edit_suck_mp_yellow").val());
+            suck.suck_mp_gold = String($("#edit_suck_mp_gold").val());
+            suck.suck_mp_green = String($("#edit_suck_mp_green").val());
+            suck.suck_mp_blue = String($("#edit_suck_mp_blue").val());
+            suck.suck_mp_purple = String($("#edit_suck_mp_purple").val());
             sessionStorage.setItem("emp", JSON.stringify(suck));
             layer.closeAll();
         }, function (index, layero) {

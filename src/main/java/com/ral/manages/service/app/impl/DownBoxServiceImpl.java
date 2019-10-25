@@ -115,11 +115,21 @@ public class DownBoxServiceImpl implements UnifiedCall {
                 throw new BizException("传入功夫名称为空");
             }
             Map<String,Object> kongMap = kongFuMapper.kongFuEditQuery(map);
-            String moveId = MapUtil.getString(kongMap,"kongfu_zhaoshi");
-            String [] moveIds = moveId.split(",");
-            for(int i=0; i<moveIds.length; i++){
-                Map<String,Object> objMap = moveMapper.moveQueryExistKF(moveIds[i]);
-                resultList.add(objMap);
+            List<String> list = SetUtil.getListSplit(MapUtil.getString(kongMap,"kongfu_zhaoshi"));
+            if(list.size() > 0){
+                for(int i=0; i<list.size(); i++){
+                    Map<String,Object> objMap = moveMapper.moveQueryExistKF(list.get(i));
+                    if(resultList.size() > 0){
+                        for(int j=0; j<resultList.size(); j++){
+                            Map<String,Object> resMap = resultList.get(j);
+                            if(!resMap.equals(objMap)){
+                                resultList.add(objMap);
+                            }
+                        }
+                    }else {
+                        resultList.add(objMap);
+                    }
+                }
             }
             resultMap.put("data",resultList);
         }

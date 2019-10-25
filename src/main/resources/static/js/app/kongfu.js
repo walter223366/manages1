@@ -114,11 +114,11 @@ function edit(data) {
                         $("#edit_experience_limit").val(isNull(obj.experience_limit));
                         $("#edit_enable").val(isNull(setEnable(obj.enable)));
                         $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
-                        $("#edit_Special_buff").val(obj.Special_buff);
+                        //$("#edit_Special_buff").val(obj.Special_buff);
                         $("#edit_info").val(obj.info);
                         var movIds = multipleBox(obj.kongfu_zhaoshi);
                         if(movIds.length > 0) {
-                            //formSelects.value("select_editMove", movIds);
+                            formSelects.value("select_editMove", movIds);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {
