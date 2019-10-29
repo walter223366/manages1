@@ -1,6 +1,5 @@
 charset="utf-8";
 manages="move";
-var formSelects = layui.formSelects;
 $(function(){
     pagingQuery();
 });
@@ -39,8 +38,8 @@ function add() {
     layerOpen(1, "新增", content, 950, 500, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
-            var move_effect = formSelects.value('select_addEffect', 'valStr');
-            //var move_buff = formSelects.value('select_addBuff', 'valStr');
+            var move_effect = layui.formSelects.value('select_addEffect', 'valStr');
+            //var move_buff = layui.formSelects.value('select_addBuff', 'valStr');
             //params.zhaoshi_buff = move_buff;
             params.name = $("#add_name").val();
             params.zhaoshi_effect = move_effect;
@@ -119,12 +118,12 @@ function edit(data) {
                         $("#edit_info").val(isNull(obj.info));
                         var effIds = multipleBox(obj.zhaoshi_effect);
                         if(effIds.length > 0) {
-                            formSelects.value("select_editEffect", effIds);
+                            layui.formSelects.value("select_editEffect", effIds);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {
                         var params = {};
-                        var move_effect = formSelects.value('select_editEffect', 'valStr');
+                        var move_effect = layui.formSelects.value('select_editEffect', 'valStr');
                         params.zhaoshi_id = obj.zhaoshi_id;
                         params.name = $("#edit_name").val();
                         params.kongfu_id = $("#edit_kongFu").val();

@@ -1,6 +1,5 @@
 charset="utf-8";
 manages="kongFu";
-var formSelects = layui.formSelects;
 $(function(){
     pagingQuery();
 });
@@ -39,7 +38,7 @@ function add() {
     layerOpen(1, "新增", content, 950, 500, "立即提交", "重置", "",
         function (index, layero) {
             var params = {};
-            var move_id = formSelects.value('select_addMove', 'valStr');
+            var move_id = layui.formSelects.value('select_addMove', 'valStr');
             params.name = $("#add_name").val();
             params.type = $("#add_type").val();
             params.info = $("#add_info").val();
@@ -118,12 +117,12 @@ function edit(data) {
                         $("#edit_info").val(obj.info);
                         var movIds = multipleBox(obj.kongfu_zhaoshi);
                         if(movIds.length > 0) {
-                            formSelects.value('select_editMoves', movIds);
+                            layui.formSelects.value('select_editMoves', movIds, true);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {
                         var params = {};
-                        var move_id = formSelects.value('select_editMove', 'valStr');
+                        var move_id = layui.formSelects.value('select_editMoves', 'valStr');
                         params.kongfu_id = obj.kongfu_id;
                         params.name = $("#edit_name").val();
                         params.type = $("#edit_type").val();
