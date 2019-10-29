@@ -134,9 +134,9 @@ function aKongFuBut() {
                 var diValue = {};
                 diValue.exp = Number($("#exp" + i).val());
                 var a = $("#use" + i).val();
-                if(a === "未使用"){
+                if (a === "未使用") {
                     diValue.use = "0";
-                }else{
+                } else {
                     diValue.use = "1";
                 }
                 diValue.id = $("#id" + i).val();
@@ -673,14 +673,6 @@ function calSub(a,b) {
     return Number(a) - Number(b);
 }
 
-function addTypeBut() {
-    var type = $("#add_kfTypes").find("option:selected").val();
-    var downs = {};
-    downs.type = type;
-    $("#add_kongFu").empty();
-    downBox(downs, kongFuBox, "add_kongFu", "", lSelection);
-}
-
 function addKongFu() {
     var kongFu = $("#add_kongFu").find("option:selected");
     var kText = kongFu.text();
@@ -709,6 +701,9 @@ function createE(typeV,kText,kVal) {
     input1.style.border = "0";
     input1.setAttribute('type', 'text');
     input1.setAttribute('ReadOnly', 'True');
+    if(onlyJudgeType(typeV,i) === false){
+        return;
+    }
     input1.value = typeV;
     div1.appendChild(input1);
     div.appendChild(div1);
@@ -719,6 +714,9 @@ function createE(typeV,kText,kVal) {
     input2.id = "name" + i;
     input2.setAttribute('type', 'text');
     input2.setAttribute('ReadOnly', 'True');
+    if(onlyJudgeName(kText,i) === false){
+        return;
+    }
     input2.value = kText;
     div2.appendChild(input2);
     div.appendChild(div2);
@@ -765,6 +763,53 @@ function createE(typeV,kText,kVal) {
     div.appendChild(div6);
     fkf.appendChild(div);
     i++;
+}
+
+function onlyJudgeName(kText,i) {
+    if (i === 1 || i === "1") {
+        return true;
+    } else {
+        i -= 1;
+        if (i > 0) {
+            var list = new Array();
+            for (var n = 1; n <= i; n++) {
+                var text = $("#name" + n).val();
+                list.push(text);
+            }
+        }
+        for (var m = 0; m < list.length; m++) {
+            if (kText === list[m]) {
+                layer.msg("请不要重复添加同一项武学");
+                return false;
+            }
+        }
+    }
+}
+
+n=0;
+function onlyJudgeType(typeV,i) {
+    var list0 = new Array();
+    var list1 = new Array();
+    var list2 = new Array();
+    for (var x = 1; x <= i; x++) {
+        var text = $("#type" + x).val();
+        n++;
+        if (text === "外功") {
+            list0.push(text + n);
+        } else if (text === "内功") {
+            list1.push(text + n);
+        } else if (text === "轻功") {
+            list2.push(text + n);
+        }
+    }
+    if (list1.length > 1) {
+        layer.msg("请只选择一项内功武学");
+        return false;
+    }
+    if (list2.length > 3) {
+        layer.msg("请选择不多于三项轻功武学");
+        return false;
+    }
 }
 
 function removeE() {

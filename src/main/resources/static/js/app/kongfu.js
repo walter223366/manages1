@@ -116,8 +116,9 @@ function edit(data) {
                         $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
                         $("#edit_info").val(obj.info);
                         var movIds = multipleBox(obj.kongfu_zhaoshi);
+                        var flag = true;
                         if(movIds.length > 0) {
-                            layui.formSelects.value('select_editMoves', movIds, true);
+                            layui.formSelects.value('select_editMoves', movIds, flag);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {
