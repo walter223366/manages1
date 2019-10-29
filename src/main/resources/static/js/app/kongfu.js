@@ -62,8 +62,8 @@ function addReset() {
     $("#add_experience_limit").val(100);
     $("#add_enable").val('1');
     $("#add_kongfu_attainments").val('');
-    $("#add_kongfu_zhaoshi").val('');
-    $("#add_Special_buff").val('');
+    //$("#add_kongfu_zhaoshi").val('');
+    //$("#add_Special_buff").val('');
     $("#add_info").val('');
     layui.form.render("select");
 }
@@ -99,8 +99,9 @@ function see(data) {
 }
 
 function edit(data) {
+    var downs = {name: data.name};
+    downBox(downs, "moveNulBox", "edit_kongfu_zhaoshi", "select_editMoves", mSelection);
     var params = {name: data.name};
-    downBox(params, "moveNulBox", "edit_kongfu_zhaoshi", "select_editMove", mSelection);
     postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
             var rows = $.base64.atob(data.rows, charset);
@@ -114,11 +115,10 @@ function edit(data) {
                         $("#edit_experience_limit").val(isNull(obj.experience_limit));
                         $("#edit_enable").val(isNull(setEnable(obj.enable)));
                         $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
-                        //$("#edit_Special_buff").val(obj.Special_buff);
                         $("#edit_info").val(obj.info);
                         var movIds = multipleBox(obj.kongfu_zhaoshi);
                         if(movIds.length > 0) {
-                            formSelects.value("select_editMove", movIds);
+                            formSelects.value('select_editMoves', movIds);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {

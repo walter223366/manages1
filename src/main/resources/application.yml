@@ -15,9 +15,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.106.185.221:3306/gamerdb?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-    username: gamer
-    password: gamer123456
+    url: jdbc:mysql://47.106.185.221:1521/gamerdb?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: Aiurorigin_2019
     druid:
       initial-size: 5
       min-idle: 5

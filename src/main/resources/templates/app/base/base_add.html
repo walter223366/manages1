@@ -262,7 +262,7 @@
 
     <!--武学添加-->
     <div class="x-body" id="aArtsInfo" aria-hidden="true" hidden>
-        <form class="layui-form-item layui-form" name="form1" method="post" action="" role="form">
+        <form class="layui-form-item layui-form" id="formKongFu">
             <div class="layui-form-item">
                 <label class="layui-form-label">武学类型</label>
                 <div class="layui-input-inline" style="width: 390px">
@@ -279,10 +279,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">武学选项</label>
                 <div class="layui-input-inline" style="width: 390px">
-                    <select id="add_kongFu" name="addKongFu" type="checkbox" onchange="getKfType()"></select>
+                    <select id="add_kongFu" type="checkbox"></select>
                 </div>
                 <div class="layui-input-inline">
-                    <button id="addKongFus" onclick="addKongFu()" type="button" class="layui-btn buLeng">添加</button>
+                    <button onclick="addKongFu()" type="button" class="layui-btn buLeng">添加</button>
                 </div>
             </div>
         </form>
@@ -504,11 +504,11 @@
         downBox(downs, accountBox, "add_account", "", lSelection);
     });
 
-    $(function () {
+    /*$(function () {
         $("#add_kfTypes").on("change", function (e) {
             getKfType();
         });
-    });
+    });*/
 
     function getKfType() {
         var downs = {};
