@@ -267,7 +267,8 @@
                 <label class="layui-form-label">武学类型</label>
                 <div class="layui-input-inline" style="width: 390px">
                     <select id="add_kfTypes" lay-filter="addKfType" lay-verify="required">
-                        <option value="0" selected>内功</option>
+                        <option value="" >请选择</option>
+                        <option value="0">内功</option>
                         <option value="1">轻功</option>
                         <option value="2">外功</option>
                     </select>
@@ -504,16 +505,19 @@
                 $ = layui.jquery,
                 form = layui.form;
             var downs = {};
-            form.on('select(addKfType)', function(data){
-                if(data.value === "0"){
+            form.on('select(addKfType)', function (data) {
+                if (data.value === "0") {
                     $("#add_kongFu").empty();
                     downs.type = "0";
-                }else if(data.value === "1"){
+                } else if (data.value === "1") {
                     $("#add_kongFu").empty();
                     downs.type = "1";
-                }else if(data.value === "2"){
+                } else if (data.value === "2") {
                     $("#add_kongFu").empty();
                     downs.type = "2";
+                } else if (data.value === "") {
+                    $("#add_kongFu").empty();
+                    downs.type = "999";
                 }
                 downBox(downs, kongFuBox, "add_kongFu", "", lSelection);
             });

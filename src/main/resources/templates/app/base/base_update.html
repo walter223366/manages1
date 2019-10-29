@@ -266,14 +266,12 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">武学类型</label>
                 <div class="layui-input-inline" style="width: 390px">
-                    <select id="edit_kfTypes" onchange="changeQualifications(this)">
-                        <option value="0" selected="selected">内功</option>
+                    <select id="edit_kfTypes" lay-filter="editKfType" lay-verify="required">
+                        <option value="" >请选择</option>
+                        <option value="0">内功</option>
                         <option value="1">轻功</option>
                         <option value="2">外功</option>
                     </select>
-                </div>
-                <div class="layui-input-inline">
-                    <button onclick="editTypeBut()" type="button" class="layui-btn buLeng">选中</button>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -282,7 +280,7 @@
                     <select id="edit_kongFu" type="checkbox"></select>
                 </div>
                 <div class="layui-input-inline">
-                    <button id="editKongFus" onclick="editKongFu()" type="button" class="layui-btn buLeng">添加</button>
+                    <button onclick="editKongFu()" type="button" class="layui-btn buLeng">添加</button>
                 </div>
             </div>
         </form>
@@ -543,6 +541,31 @@
                 } else {
                     layer.msg(data.msg, {icon: 2});
                 }
+            });
+        });
+    });
+
+    $(function () {
+        layui.use(['layer', 'jquery', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form;
+            var downs = {};
+            form.on('select(editKfType)', function (data) {
+                if (data.value === "0") {
+                    $("#edit_kongFu").empty();
+                    downs.type = "0";
+                } else if (data.value === "1") {
+                    $("#edit_kongFu").empty();
+                    downs.type = "1";
+                } else if (data.value === "2") {
+                    $("#edit_kongFu").empty();
+                    downs.type = "2";
+                } else if (data.value === "") {
+                    $("#edit_kongFu").empty();
+                    downs.type = "999";
+                }
+                downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
             });
         });
     });

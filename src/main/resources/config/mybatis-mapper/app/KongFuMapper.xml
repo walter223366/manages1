@@ -56,8 +56,11 @@
                 <when test="type == 1 or type == '1'">
                     AND type=#{type}
                 </when>
-                <otherwise>
+                <when test="type == 2 or type == '2'">
                     AND (type!=0 AND type!=1)
+                </when>
+                <otherwise>
+                    AND type=#{type}
                 </otherwise>
             </choose>
         </if>
