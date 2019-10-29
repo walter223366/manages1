@@ -681,12 +681,12 @@ function addKongFu() {
         return;
     }
     var typeV = $("#add_kfTypes").find("option:selected").text();
-    createE(typeV,kText,kongFu.val());
+    var fkf = document.getElementById("formKongFu");
+    createE(typeV,kText,kongFu.val(),fkf);
 }
 
 var i = 1;
-function createE(typeV,kText,kVal) {
-    var fkf = document.getElementById("formKongFu");
+function createE(typeV,kText,kVal,fkf) {
     var div = document.createElement("div");
     div.id = "pDiv" + i;
     div.className = "layui-form-item inp";
@@ -845,14 +845,6 @@ $(function () {
     });
 });
 
-function editTypeBut() {
-    var type = $("#edit_kfTypes").find("option:selected").val();
-    var downs = {};
-    downs.type = type;
-    $("#edit_kongFu").empty();
-    downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
-}
-
 function editKongFu() {
     var kongFu = $("#edit_kongFu").find("option:selected");
     var kText = kongFu.text();
@@ -861,7 +853,8 @@ function editKongFu() {
         return;
     }
     var typeV = $("#edit_kfTypes").find("option:selected").text();
-    alert(typeV)
+    var fkf = document.getElementById("formKongFu");
+    createE(typeV,kText,kongFu.val(),fkf);
 }
 
 function getSessionValue(a,b) {
