@@ -11,17 +11,17 @@ function pagingQuery() {
     params.target = $("#query_target").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
-        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt'},
-        {field: 'name', title: '效果名称', sort: true, width: 100},
+        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
+        {field: 'name', title: '效果名称'},
         {field: 'targetValue', title: '执行目标'},
         {field: 'Aggressivity', title: '攻击力'},
         {field: 'Defense', title: '防御力'},
         {field: 'burst', title: '暴击力'},
-        {field: 'treatment', title: 'HP影响'},
+        {field: 'treatment', title: 'HP影响', sort: true},
         {field: 'injury', title: '外伤'},
         {field: 'internal_injury', title: '内伤'},
-        {field: 'poisoning', title: '毒伤', sort: true},
-        {fixed: 'right', title: '操作', width: 250, align: 'center', toolbar: '#operational'}
+        {field: 'poisoning', title: '毒伤'},
+        {fixed: 'right', title: '操作', width: 240, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "效果管理", cole, add, edit, del, see, pagingQuery);
 }

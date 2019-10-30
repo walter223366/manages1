@@ -13,10 +13,10 @@ function pagingQuery() {
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
-        {field: 'name', title: '功夫名称', sort: true},
+        {field: 'name', title: '功夫名称'},
         {field: 'typeValue', title: '功夫类型'},
         {field: 'experience_limit', title: '可学经验上限', sort: true},
-        {field: 'kongfu_attainments', title: '造诣', sort: true},
+        {field: 'kongfu_attainments', title: '造诣'},
         {fixed: 'right', title: '操作', width: 250, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "武学管理", cole, add, edit, del, see, pagingQuery);
@@ -116,9 +116,8 @@ function edit(data) {
                         $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
                         $("#edit_info").val(obj.info);
                         var movIds = multipleBox(obj.kongfu_zhaoshi);
-                        var flag = true;
                         if(movIds.length > 0) {
-                            layui.formSelects.value('select_editMoves', movIds, flag);
+                            //layui.formSelects.value('select_editMoves', movIds);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {

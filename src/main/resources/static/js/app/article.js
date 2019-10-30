@@ -10,11 +10,11 @@ function pagingQuery() {
     params.name = $("#query_name").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
-        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 100},
-        {field: 'name', title: '物品名称', sort: true},
+        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
+        {field: 'name', title: '物品名称'},
         {field: 'typeValue', title: '物品类型'},
         {field: 'weaponValue', title: '武器类型'},
-        {fixed: 'right', title: '操作', width: 400, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 240, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "物品管理", cole, add, edit, del, see, pagingQuery);
 }

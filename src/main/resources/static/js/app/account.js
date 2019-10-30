@@ -14,13 +14,13 @@ function pagingQuery() {
     params.cancellation = $("#query_cancellation").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
-        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 70},
-        {field: 'account', title: '账号', sort: true},
-        {field: 'tellphone', title: '手机号码', sort: true},
+        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
+        {field: 'account', title: '账号'},
+        {field: 'tellphone', title: '手机号码'},
         {field: 'sourceValue', title: '来源'},
         {field: 'lrrq', title: '创建时间', sort: true},
         {field: 'cancelValue', title: '状态'},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 240, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "账号管理", cole, add, edit, del, see, pagingQuery);
 }

@@ -13,11 +13,11 @@ function pagingQuery() {
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
-        {field: 'name', title: '招式名称', sort: true},
+        {field: 'name', title: '招式名称'},
         {field: 'kongFuName', title: '所属武学'},
         {field: 'MP_cost', title: '内力花费'},
         {field: 'zhaoshi_experience_cost', title: '招式经验', sort: true},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 240, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "招式管理", cole, add, edit, del, see, pagingQuery);
 }

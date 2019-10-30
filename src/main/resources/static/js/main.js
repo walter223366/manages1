@@ -476,7 +476,7 @@ function isDisabled(obj,min) {
 
 function setEnable(enable) {
     var enableValue;
-    if(enable === "1" ){
+    if(enable === "1" || enable === 1){
         enableValue = "1";
     }else{
         enableValue = "0";

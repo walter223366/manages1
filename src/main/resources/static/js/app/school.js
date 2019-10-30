@@ -12,10 +12,10 @@ function pagingQuery() {
     params.einfluence = $("#query_einfluence").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
-        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 150},
-        {field: 'name', title: '门派名称', sort: true},
+        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
+        {field: 'name', title: '门派名称'},
         {field: 'influence', title: '门派影响力值', sort: true},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {fixed: 'right', title: '操作', width: 240, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "门派管理", cole, add, edit, del, see, pagingQuery);
 }

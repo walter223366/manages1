@@ -15,18 +15,18 @@ function pagingQuery() {
     params.is_npc = $("#query_isNpc").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
-        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 100},
-        {field: 'nickname', title: '人物名称', width: 100},
-        {field: 'userName', title: '所属账号', width: 100},
-        {field: 'schoolName', title: '所属门派', width: 100},
+        {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
+        {field: 'nickname', title: '人物名称'},
+        {field: 'userName', title: '所属账号'},
+        {field: 'schoolName', title: '所属门派'},
         {field: 'sexValue', title: '性别'},
         {field: 'level', title: '等级', sort: true},
         {field: 'attitude', title: '态度'},
         {field: 'characters', title: '性格'},
         {field: 'popularity', title: '声望', sort: true},
         {field: 'experience', title: '经验值'},
-        {field: 'school_contribution', title: '门派贡献值', width: 100},
-        {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#operational'}
+        {field: 'school_contribution', title: '门派贡献值', sort: true},
+        {fixed: 'right', title: '操作', width: 240, align: 'center', toolbar: '#operational'}
     ];
     pQue(params, manages, "人物管理", cole, add, edit, del, see, pagingQuery);
 }
@@ -128,25 +128,37 @@ function aKongFuBut() {
     layerOpen(1, "武学信息", content, 900, 400, "保存", "关闭", "",
         function (layero, index) {
             var kongFu = [];
-            var forms = document.getElementById("formKongFu");
+            var forms = document.getElementById("aFormKongFu");
             var div = forms.getElementsByClassName("inp");
-            for (var i = 1; i <= div.length; i++) {
-                var diValue = {};
-                diValue.exp = Number($("#exp" + i).val());
-                var a = $("#use" + i).val();
-                if (a === "未使用") {
-                    diValue.use = "0";
-                } else {
-                    diValue.use = "1";
+            if (div.length > 0) {
+                for (var i = 0; i < div.length; i++) {
+                    var json = div[i].getElementsByTagName("input");
+                    var keys = getKeys(json);
+                    var diValue = {};
+                    diValue.exp = Number($("#" + keys[7]).val());
+                    var a = $("#" + keys[8]).val();
+                    if (a === "未使用") {
+                        diValue.use = "0";
+                    } else {
+                        diValue.use = "1";
+                    }
+                    diValue.id = $("#" + keys[9]).val();
+                    kongFu.push(diValue);
                 }
-                diValue.id = $("#id" + i).val();
-                kongFu.push(diValue);
             }
             sessionStorage.setItem("akf", JSON.stringify(kongFu));
             layer.closeAll();
         }, function (index, layero) {
             layer.closeAll();
         });
+}
+
+function getKeys(json) {
+    var keys = [];
+    for(var key in json){
+        keys.push(key);
+    }
+    return keys;
 }
 
 function aWeaponBut() {
@@ -459,46 +471,46 @@ function eKongFuBut() {
     layerOpen(1, "武学信息", content, 900, 400, "保存", "关闭",
         function (layero, index) {
             var obj = JSON.parse(sessionStorage.getItem("ekf"));
-            if(obj === null){
+            if (obj === null) {
                 var qkf = sessionStorage.getItem("qkf");
-                if(qkf.length >0){
+                if (qkf.length > 0) {
                     obj = JSON.parse(qkf);
                 }
             }
-            if(obj.length > 0){
-                editE(obj);
+            if (obj.length > 0) {
+                var fkf = document.getElementById("eFormKongFu");
+                var enp = document.getElementsByClassName("enp");
+                if (enp.length <= 0) {
+                    for (var i = 0; i < obj.length; i++) {
+                        createEe('', '', '', obj[i]);
+                    }
+                }
             }
         }, function (layero, index) {
             var kongFu = [];
+            var forms = document.getElementById("eFormKongFu");
+            var div = forms.getElementsByClassName("enp");
+            if (div.length > 0) {
+                for (var i = 0; i < div.length; i++) {
+                    var json = div[i].getElementsByTagName("input");
+                    var keys = getKeys(json);
+                    var diValue = {};
+                    diValue.exp = Number($("#" + keys[7]).val());
+                    var a = $("#" + keys[8]).val();
+                    if (a === "未使用") {
+                        diValue.use = "0";
+                    } else {
+                        diValue.use = "1";
+                    }
+                    diValue.id = $("#" + keys[9]).val();
+                    kongFu.push(diValue);
+                }
+            }
             sessionStorage.setItem("ekf", JSON.stringify(kongFu));
             layer.closeAll();
         }, function (index, layero) {
             layer.closeAll();
         });
-}
-
-function editE(obj) {
-    var fkf = document.getElementById("formKfInfo");
-    for(var i=0; i<obj.length; i++){
-        var div = document.createElement("div");
-        div.id = "eDiv"+i;
-        div.className = "layui-form-item enp";
-        var div1 = document.createElement("div");
-        div1.className = "layui-input-inline";
-        div1.style.width = "50px";
-        div1.style.marginLeft = "50px";
-        var input1 = document.createElement("input");
-        input1.className = "layui-input";
-        input1.id = "type" + i;
-        input1.style.width = "50px";
-        input1.style.border = "0";
-
-        input1.setAttribute('type', 'text');
-        input1.setAttribute('ReadOnly', 'True');
-        input1.value = "111000";
-        div1.appendChild(input1);
-        div.appendChild(div1);
-    }
 }
 
 function eWeaponBut() {
@@ -681,12 +693,12 @@ function addKongFu() {
         return;
     }
     var typeV = $("#add_kfTypes").find("option:selected").text();
-    var fkf = document.getElementById("formKongFu");
-    createE(typeV,kText,kongFu.val(),fkf);
+    createEa(typeV,kText,kongFu.val());
 }
 
 var i = 1;
-function createE(typeV,kText,kVal,fkf) {
+function createEa(typeV,kText,kVal) {
+    var fkf = document.getElementById("aFormKongFu");
     var div = document.createElement("div");
     div.id = "pDiv" + i;
     div.className = "layui-form-item inp";
@@ -701,7 +713,7 @@ function createE(typeV,kText,kVal,fkf) {
     input1.style.border = "0";
     input1.setAttribute('type', 'text');
     input1.setAttribute('ReadOnly', 'True');
-    if(onlyJudgeType(typeV,i) === false){
+    if(onlyJudgeType(typeV,i,"#type") === false){
         return;
     }
     input1.value = typeV;
@@ -714,7 +726,7 @@ function createE(typeV,kText,kVal,fkf) {
     input2.id = "name" + i;
     input2.setAttribute('type', 'text');
     input2.setAttribute('ReadOnly', 'True');
-    if(onlyJudgeName(kText,i) === false){
+    if(onlyJudgeName(kText,i,"#name") === false){
         return;
     }
     input2.value = kText;
@@ -748,7 +760,7 @@ function createE(typeV,kText,kVal,fkf) {
     button1.setAttribute("type", "button");
     button1.innerHTML = "删除";
     button1.id = '' + i;
-    button1.onclick = removeE;
+    button1.onclick = removeEa;
     div5.appendChild(button1);
     div.appendChild(div5);
     var div6 = document.createElement("div");
@@ -756,6 +768,7 @@ function createE(typeV,kText,kVal,fkf) {
     div6.style.width = "50px";
     div6.style.display = "none";
     var input6 = document.createElement("input");
+    input6.setAttribute('type', 'text');
     input6.className = "layui-btn layui-btn-primary buLeng";
     input6.id = "id" + i;
     input6.value = kVal;
@@ -765,7 +778,7 @@ function createE(typeV,kText,kVal,fkf) {
     i++;
 }
 
-function onlyJudgeName(kText,i) {
+function onlyJudgeName(kText,i,id) {
     if (i === 1 || i === "1") {
         return true;
     } else {
@@ -773,7 +786,7 @@ function onlyJudgeName(kText,i) {
         if (i > 0) {
             var list = new Array();
             for (var n = 1; n <= i; n++) {
-                var text = $("#name" + n).val();
+                var text = $(id + n).val();
                 list.push(text);
             }
         }
@@ -787,12 +800,12 @@ function onlyJudgeName(kText,i) {
 }
 
 n=0;
-function onlyJudgeType(typeV,i) {
+function onlyJudgeType(typeV,i,id) {
     var list0 = new Array();
     var list1 = new Array();
     var list2 = new Array();
     for (var x = 1; x <= i; x++) {
-        var text = $("#type" + x).val();
+        var text = $(id + x).val();
         n++;
         if (text === "外功") {
             list0.push(text + n);
@@ -812,9 +825,9 @@ function onlyJudgeType(typeV,i) {
     }
 }
 
-function removeE() {
+function removeEa() {
     var id = this.id;
-    document.getElementById("formKongFu").removeChild(document.getElementById("pDiv" + id));
+    document.getElementById("aFormKongFu").removeChild(document.getElementById("pDiv" + id));
 }
 
 function selectE() {
@@ -835,9 +848,6 @@ $(function () {
         calAttr(obj, expNum, "add_experience");
         calAttr(obj, attNum, "add_attributes");
     });
-});
-
-$(function () {
     $("#edit_level").on("input", function (e) {
         var obj = e.delegateTarget.value;
         calAttr(obj, expNum, "edit_experience");
@@ -847,14 +857,17 @@ $(function () {
 
 function editKongFu() {
     var kongFu = $("#edit_kongFu").find("option:selected");
+    var typeV = $("#edit_kfTypes").find("option:selected").text();
+    if(typeV === "请选择" || typeV === ""){
+        layer.msg("请选择武学类型");
+        return;
+    }
     var kText = kongFu.text();
     if (kText === "请选择" || kText === "") {
         layer.msg("请选择武学选项");
         return;
     }
-    var typeV = $("#edit_kfTypes").find("option:selected").text();
-    var fkf = document.getElementById("formKongFu");
-    createE(typeV,kText,kongFu.val(),fkf);
+    createEe(typeV,kText,kongFu.val(),null);
 }
 
 function getSessionValue(a,b) {
@@ -880,4 +893,106 @@ function removeSession() {
     sessionStorage.removeItem("qkf");
     sessionStorage.removeItem("qwp");
     sessionStorage.removeItem("qpt");
+}
+
+var m = 1;
+function createEe(typeV,kText,kVal,json) {
+    var fkf = document.getElementById("eFormKongFu");
+    var div = document.createElement("div");
+    div.id = "eDiv" + m;
+    div.className = "layui-form-item enp";
+    var div1 = document.createElement("div");
+    div1.className = "layui-input-inline";
+    div1.style.width = "50px";
+    div1.style.marginLeft = "50px";
+    var input1 = document.createElement("input");
+    input1.className = "layui-input";
+    input1.id = "eType" + m;
+    input1.style.width = "50px";
+    input1.style.border = "0";
+    input1.setAttribute('type', 'text');
+    input1.setAttribute('ReadOnly', 'True');
+    if(onlyJudgeType(typeV,m,"#eType") === false) {
+        return;
+    }
+    div1.appendChild(input1);
+    div.appendChild(div1);
+    var div2 = document.createElement("div");
+    div2.className = "layui-input-inline";
+    var input2 = document.createElement("input");
+    input2.className = "layui-input";
+    input2.id = "eName" + m;
+    input2.setAttribute('type', 'text');
+    input2.setAttribute('ReadOnly', 'True');
+    if(onlyJudgeName(kText,m,"#eName") === false) {
+        return;
+    }
+    div2.appendChild(input2);
+    div.appendChild(div2);
+    var div3 = document.createElement("div");
+    div3.className = "layui-input-inline";
+    var input3 = document.createElement("input");
+    input3.className = "layui-input";
+    input3.id = "eExp" + m;
+    input3.setAttribute('type', 'text');
+    input3.setAttribute("placeholder", "输入经验值");
+    input3.setAttribute("oninput", "value=value.replace(/[^\\d]/g,'')");
+    div3.appendChild(input3);
+    div.appendChild(div3);
+    var div4 = document.createElement("div");
+    div4.className = "layui-input-inline";
+    div4.style.width = "120px";
+    var input4 = document.createElement("input");
+    input4.setAttribute("type", "button");
+    input4.id = 'eUse' + m;
+    input4.onclick = selectE;
+    div4.appendChild(input4);
+    div.appendChild(div4);
+    var div5 = document.createElement("div");
+    div5.className = "layui-input-inline";
+    var button1 = document.createElement("button");
+    button1.className = "layui-btn layui-btn-primary buLeng";
+    button1.setAttribute("type", "button");
+    button1.innerHTML = "删除";
+    button1.id = 'e' + m;
+    button1.onclick = removeEe;
+    div5.appendChild(button1);
+    div.appendChild(div5);
+    var div6 = document.createElement("div");
+    div6.className = "layui-input-inline";
+    div6.style.width = "50px";
+    div6.style.display = "none";
+    var input6 = document.createElement("input");
+    input6.setAttribute('type', 'text');
+    input6.className = "layui-btn layui-btn-primary buLeng";
+    input6.id = "eId" + m;
+    if(json !== null){
+        input1.value = typeValue(json.kfType);
+        input2.value = json.kfName;
+        input3.value = json.exp;
+        if (json.use === "1" || json.use === 1) {
+            input4.className = "layui-btn layui-btn-danger buLeng";
+            input4.value = "使用";
+        } else {
+            input4.className = "layui-btn layui-btn-primary buLeng";
+            input4.value = "未使用";
+        }
+        input6.value = json.id;
+    }else{
+        input1.value = typeV;
+        input2.value = kText;
+        input4.className = "layui-btn layui-btn-primary buLeng";
+        input4.value = "未使用";
+        input6.value = kVal;
+    }
+    div6.appendChild(input6);
+    div.appendChild(div6);
+    fkf.appendChild(div);
+    m++;
+}
+
+function removeEe() {
+    var id = this.id;
+    id = id.replace("e","");
+    document.getElementById("eFormKongFu").removeChild(document.getElementById("eDiv" + id));
 }
