@@ -33,7 +33,7 @@ function cleanUp() {
 function add() {
     addReset();
     var downs = {};
-    downBox(downs, "moveNulBox", "add_kongfu_zhaoshi", "select_addMove", mSelection);
+    downBox(downs, moveNulBox, "add_kongfu_zhaoshi", "select_addMove", mSelection);
     var content = $("#addInfo");
     layerOpen(1, "新增", content, 950, 500, "立即提交", "重置", "",
         function (index, layero) {
@@ -98,8 +98,8 @@ function see(data) {
 }
 
 function edit(data) {
-    var downs = {name: data.name};
-    downBox(downs, "moveNulBox", "edit_kongfu_zhaoshi", "select_editMoves", mSelection);
+    var downs = {};
+    downBox(downs, moveNulBox, "edit_kongfu_zhaoshi", "select_editMoves", mSelection);
     var params = {name: data.name};
     postRequest(params, manages, sQuery, function (data) {
         if (data.code === "0" && data.result === "SUCCESS") {
@@ -115,9 +115,9 @@ function edit(data) {
                         $("#edit_enable").val(isNull(setEnable(obj.enable)));
                         $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
                         $("#edit_info").val(obj.info);
-                        var movIds = multipleBox(obj.kongfu_zhaoshi);
-                        if(movIds.length > 0) {
-                            //layui.formSelects.value('select_editMoves', movIds);
+                        var zhaoId = multipleBox(obj.kongfu_zhaoshi);
+                        if(zhaoId.length > 0) {
+                            layui.formSelects.value('select_editMoves', zhaoId);
                         }
                         layui.form.render("select");
                     }, function (index, layero) {

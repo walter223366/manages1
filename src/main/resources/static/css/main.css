@@ -595,8 +595,9 @@ button[disabled="true"]{
     background-color: #5FB878
 }
 .btncc{
-    background-color: #2F4056;
+    background-color: #fbfbfb;
     width:685px;
+    color: #111111;
 }
 .layLeng{width: 410px;}
 .inLeng{width: 260px}

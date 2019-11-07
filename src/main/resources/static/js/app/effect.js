@@ -74,6 +74,10 @@ function add() {
             params.penetrate_defense = Number(getVal(layero,"add_penetrate_defense"));
             params.penetrate_powerWall = Number(getVal(layero,"add_penetrate_powerWall"));
             params.Aggressivity_powerWall= Number(getVal(layero,"add_Aggressivity_powerWall"));
+            params.Aggressivity_min = Number(getVal(layero, "add_Aggressivity_min"));
+            params.Hardhit = Number(getVal(layero,"add_Hardhit"));
+            params.Defense_stun = Number(getVal(layero,"add_Defense_stun"));
+            params.Defense_death = Number(getVal(layero,"add_Defense_death"));
             if (verIfy(params) === false) {
                 return;
             }
@@ -177,6 +181,10 @@ function addReset(layero) {
     cleanVal(layero, "add_penetrate_defense", '');
     cleanVal(layero, "add_penetrate_powerWall", '');
     cleanVal(layero, "add_Aggressivity_powerWall", '');
+    cleanVal(layero, "add_Aggressivity_min", '');
+    cleanVal(layero, "add_Hardhit", '');
+    cleanVal(layero, "add_Defense_stun", '');
+    cleanVal(layero, "add_Defense_death", '');
 }
 
 function see(data) {
@@ -231,6 +239,10 @@ function see(data) {
             $("#see_penetrate_defense").val(isNull(data.penetrate_defense));
             $("#see_penetrate_powerWall").val(isNull(data.penetrate_powerWall));
             $("#see_Aggressivity_powerWall").val(isNull(data.Aggressivity_powerWall));
+            $("#see_Aggressivity_min").val(isNull(data.Aggressivity_min));
+            $("#see_Hardhit").val(isNull(data.Hardhit));
+            $("#see_Defense_stun").val(isNull(data.Defense_stun));
+            $("#see_Defense_death").val(isNull(data.Defense_death));
         }, function (index, layero) {
             layer.closeAll();
         }, function (index, layero) {
@@ -284,6 +296,10 @@ function edit(data) {
                         editVal(layero, "edit_penetrate_defense", obj.penetrate_defense);
                         editVal(layero, "edit_penetrate_powerWall", obj.penetrate_powerWall);
                         editVal(layero, "edit_Aggressivity_powerWall", obj.Aggressivity_powerWall);
+                        editVal(layero, "add_Aggressivity_min", obj.Aggressivity_min);
+                        editVal(layero, "add_Hardhit", obj.Hardhit);
+                        editVal(layero, "add_Defense_stun", obj.Defense_stun);
+                        editVal(layero, "add_Defense_death", obj.Defense_death);
                         sessionStorage.setItem("eff", JSON.stringify(obj));
                     }, function (index, layero) {
                         var params = {};
@@ -306,24 +322,28 @@ function edit(data) {
                         params.treatment = Number(getVal(layero, "edit_treatment"));
                         params.suck_HP = Number(getVal(layero, "edit_suck_HP"));
                         params.info = getVal(layero, "edit_info");
-                        params.Acupoint_su = Number(getVal(layero,"edit_Acupoint_su"));
-                        params.Acupoint_zhong = Number(getVal(layero,"edit_Acupoint_zhong"));
-                        params.Acupoint_qiao = Number(getVal(layero,"edit_Acupoint_qiao"));
-                        params.Acupoint_shan = Number(getVal(layero,"edit_Acupoint_shan"));
-                        params.Acupoint_tiao = Number(getVal(layero,"edit_Acupoint_tiao"));
-                        params.Acupoint_fang= Number(getVal(layero,"edit_Acupoint_fang"));
-                        params.getweapon = Number(getVal(layero,"edit_getweapon"));
-                        params.Basic_attribute_physique = Number(getVal(layero,"edit_Basic_attribute_physique"));
-                        params.Basic_attribute_forces = Number(getVal(layero,"edit_Basic_attribute_forces"));
-                        params.Basic_attribute_muscles = Number(getVal(layero,"edit_Basic_attribute_muscles"));
-                        params.Basic_attribute_mp = Number(getVal(layero,"edit_Basic_attribute_mp"));
-                        params.Basic_attribute_sensitivity = Number(getVal(layero,"edit_Basic_attribute_sensitivity"));
-                        params.Basic_attribute_willpower = Number(getVal(layero,"edit_Basic_attribute_willpower"));
-                        params.Basic_attribute_knowledge = Number(getVal(layero,"edit_Basic_attribute_knowledge"));
-                        params.Basic_attribute_lucky= Number(getVal(layero,"edit_Basic_attribute_lucky"));
-                        params.penetrate_defense = Number(getVal(layero,"edit_penetrate_defense"));
-                        params.penetrate_powerWall = Number(getVal(layero,"edit_penetrate_powerWall"));
-                        params.Aggressivity_powerWall= Number(getVal(layero,"edit_Aggressivity_powerWall"));
+                        params.Acupoint_su = Number(getVal(layero, "edit_Acupoint_su"));
+                        params.Acupoint_zhong = Number(getVal(layero, "edit_Acupoint_zhong"));
+                        params.Acupoint_qiao = Number(getVal(layero, "edit_Acupoint_qiao"));
+                        params.Acupoint_shan = Number(getVal(layero, "edit_Acupoint_shan"));
+                        params.Acupoint_tiao = Number(getVal(layero, "edit_Acupoint_tiao"));
+                        params.Acupoint_fang = Number(getVal(layero, "edit_Acupoint_fang"));
+                        params.getweapon = Number(getVal(layero, "edit_getweapon"));
+                        params.Basic_attribute_physique = Number(getVal(layero, "edit_Basic_attribute_physique"));
+                        params.Basic_attribute_forces = Number(getVal(layero, "edit_Basic_attribute_forces"));
+                        params.Basic_attribute_muscles = Number(getVal(layero, "edit_Basic_attribute_muscles"));
+                        params.Basic_attribute_mp = Number(getVal(layero, "edit_Basic_attribute_mp"));
+                        params.Basic_attribute_sensitivity = Number(getVal(layero, "edit_Basic_attribute_sensitivity"));
+                        params.Basic_attribute_willpower = Number(getVal(layero, "edit_Basic_attribute_willpower"));
+                        params.Basic_attribute_knowledge = Number(getVal(layero, "edit_Basic_attribute_knowledge"));
+                        params.Basic_attribute_lucky = Number(getVal(layero, "edit_Basic_attribute_lucky"));
+                        params.penetrate_defense = Number(getVal(layero, "edit_penetrate_defense"));
+                        params.penetrate_powerWall = Number(getVal(layero, "edit_penetrate_powerWall"));
+                        params.Aggressivity_powerWall = Number(getVal(layero, "edit_Aggressivity_powerWall"));
+                        params.Aggressivity_min = Number(getVal(layero, "edit_Aggressivity_min"));
+                        params.Hardhit = Number(getVal(layero, "edit_Hardhit"));
+                        params.Defense_stun = Number(getVal(layero, "edit_Defense_stun"));
+                        params.Defense_death = Number(getVal(layero, "edit_Defense_death"));
                         if (verIfy(params) === false) {
                             return;
                         }
@@ -453,6 +473,10 @@ function editReset(layero) {
     cleanVal(layero, "edit_penetrate_defense", '');
     cleanVal(layero, "edit_penetrate_powerWall", '');
     cleanVal(layero, "edit_Aggressivity_powerWall", '');
+    cleanVal(layero, "edit_Aggressivity_min", '');
+    cleanVal(layero, "edit_Hardhit", '');
+    cleanVal(layero, "edit_Defense_stun", '');
+    cleanVal(layero, "edit_Defense_death", '');
 }
 
 function verIfy(params) {
