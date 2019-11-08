@@ -10,11 +10,13 @@ function pagingQuery() {
     params.name = $("#query_name").val();
     params.type = $("#query_type").val();
     params.enable = $("#query_enable").val();
+    params.LV = $("#query_LV").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
-        {field: 'name', title: '功夫名称'},
-        {field: 'typeValue', title: '功夫类型'},
+        {field: 'name', title: '武学名称'},
+        {field: 'typeValue', title: '武学类型'},
+        {field: 'LV', title: '武学等级'},
         {field: 'experience_limit', title: '可学经验上限', sort: true},
         {field: 'kongfu_attainments', title: '造诣'},
         {fixed: 'right', title: '操作', width: 250, align: 'center', toolbar: '#operational'}
@@ -24,8 +26,9 @@ function pagingQuery() {
 
 function cleanUp() {
     $("#query_name").val('');
-    $("#query_type").val("");
-    $("#query_enable").val("");
+    $("#query_type").val('');
+    $("#query_enable").val('');
+    $("#query_LV").val('');
     layui.form.render("select");
     pagingQuery();
 }
@@ -42,10 +45,12 @@ function add() {
             params.name = $("#add_name").val();
             params.type = $("#add_type").val();
             params.info = $("#add_info").val();
-            params.experience_limit = Number($("#add_experience_limit").val());
+            var def = $("#add_experience_limit").val();
+            params.experience_limit = setDefaults(def);
             params.kongfu_attainments = $("#add_kongfu_attainments").val();
             params.enable = $("#add_enable").val();
             params.kongfu_zhaoshi = move_id;
+            params.LV = $("#add_LV").val();
             if (verIfy(params) === false) {
                 return;
             }
@@ -55,15 +60,17 @@ function add() {
         });
 }
 
+//todo 多选下拉框清空未实现
 function addReset() {
     $("#add_name").val('');
     $("#add_type").val('');
-    $("#add_experience_limit").val(100);
+    $("#add_experience_limit").val(1000);
     $("#add_enable").val('1');
     $("#add_kongfu_attainments").val('');
+    $("#add_LV").val('');
+    $("#add_info").val('');
     //$("#add_kongfu_zhaoshi").val('');
     //$("#add_Special_buff").val('');
-    $("#add_info").val('');
     layui.form.render("select");
 }
 
@@ -84,7 +91,7 @@ function see(data) {
                         $("#see_enable").val(isNull(obj.enableValue));
                         $("#see_info").val(isNull(obj.info));
                         $("#see_kongfu_zhaoshi").val(isNull(obj.moveName.toString()));
-                        layui.form.render("select");
+                        $("#see_LV").val(isNull(obj.LV));
                     }, function (index, layero) {
                         layer.closeAll();
                     }, function (index, layero) {
@@ -111,10 +118,11 @@ function edit(data) {
                     function (index, layero) {
                         $("#edit_name").val(isNull(obj.name));
                         $("#edit_type").val(isNull(obj.type));
-                        $("#edit_experience_limit").val(isNull(obj.experience_limit));
-                        $("#edit_enable").val(isNull(setEnable(obj.enable)));
-                        $("#edit_kongfu_attainments").val(obj.kongfu_attainments);
-                        $("#edit_info").val(obj.info);
+                        $("#edit_experience_limit").val(obj.experience_limit);
+                        $("#edit_enable").val(setEnable(obj.enable));
+                        $("#edit_kongfu_attainments").val(isNull(obj.kongfu_attainments));
+                        $("#edit_info").val(isNull(obj.info));
+                        $("#edit_LV").val(obj.LV);
                         var zhaoId = multipleBox(obj.kongfu_zhaoshi);
                         if(zhaoId.length > 0) {
                             layui.formSelects.value('select_editMoves', zhaoId);
@@ -126,11 +134,13 @@ function edit(data) {
                         params.kongfu_id = obj.kongfu_id;
                         params.name = $("#edit_name").val();
                         params.type = $("#edit_type").val();
-                        params.experience_limit = Number($("#edit_experience_limit").val());
+                        var def = $("#edit_experience_limit").val();
+                        params.experience_limit = setDefaults(def);
                         params.enable = $("#edit_enable").val();
                         params.kongfu_attainments = $("#edit_kongfu_attainments").val();
                         params.kongfu_zhaoshi = move_id;
                         params.info = $("#edit_info").val();
+                        params.LV = $("#edit_LV").val();
                         if (verIfy(params) === false) {
                             return;
                         }
@@ -138,7 +148,7 @@ function edit(data) {
                     }, function (index, layero) {
                         $("#edit_name").val('');
                         $("#edit_type").val('');
-                        $("#edit_experience_limit").val(100);
+                        $("#edit_experience_limit").val(1000);
                         $("#edit_enable").val('1');
                         $("#edit_kongfu_attainments").val('');
                         $("#edit_kongfu_zhaoshi").val('');
@@ -155,12 +165,25 @@ function edit(data) {
 
 function verIfy(params) {
     if (params.name === null || params.name === "") {
-        layer.msg("功夫名称不能为空", {icon: 2});
+        layer.msg("武学名称不能为空", {icon: 2});
         return false;
     }
     if (params.type === null || params.type === "") {
-        layer.msg("功夫类型不能为空", {icon: 2});
+        layer.msg("武学类型不能为空", {icon: 2});
+        return false;
+    }
+    if (params.LV === null || params.LV === "") {
+        layer.msg("武学等级不能为空", {icon: 2});
         return false;
     }
     return true;
+}
+
+function setDefaults(def) {
+    var defVal = 1000;
+    if (def === null || def === "") {
+        return defVal;
+    } else {
+        return def;
+    }
 }

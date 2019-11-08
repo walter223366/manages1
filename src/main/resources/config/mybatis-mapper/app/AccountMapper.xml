@@ -52,8 +52,21 @@
     <select id="accountQueryName" parameterType="string" resultType="map">
         SELECT id,account FROM biz_user WHERE 1=1 AND id=#{userId}
     </select>
-    <select id="accountQueryMarquee" resultType="map">
-        SELECT id,account FROM biz_user
+    <select id="accountQueryMarquee" parameterType="map" resultType="map">
+        SELECT id,account FROM biz_user WHERE 1=1
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 0 or type == '0'">
+                    AND id NOT IN('6f00b488965611e9840c00163e0c3718')
+                </when>
+                <when test="type == 1 or type == '1'">
+                    AND id IN('6f00b488965611e9840c00163e0c3718')
+                </when>
+                <otherwise>
+                    AND id=#{type}
+                </otherwise>
+            </choose>
+        </if>
     </select>
 
 

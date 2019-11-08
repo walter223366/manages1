@@ -27,14 +27,15 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">人物类型</label>
                 <div class="layui-input-inline" style="width: 260px">
-                    <select id="add_isNpc" class="layui-input">
-                        <option value="1">NPC</option>
+                    <select id="add_isNpc" class="layui-input" lay-filter="addIsNpc" lay-verify="required">
+                        <option value="">请选择</option>
                         <option value="0">玩家</option>
+                        <option value="1">NPC</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>所属门派</label>
+                <label class="layui-form-label">所属门派</label>
                 <div class="layui-input-inline" style="width: 260px">
                     <select id="add_school" type="checkbox"></select>
                 </div>
@@ -166,7 +167,7 @@
                     <button type="button" onclick="cutback('add_physique')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_physique" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_physique" type="number"  value="0" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_physique')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -178,7 +179,7 @@
                     <button type="button" onclick="cutback('add_forces')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_forces" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_forces" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_forces')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -190,7 +191,7 @@
                     <button type="button" onclick="cutback('add_muscles')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_muscles" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_muscles" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_muscles')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -202,7 +203,7 @@
                     <button type="button" onclick="cutback('add_mp')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_mp" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_mp" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_mp')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -214,7 +215,7 @@
                     <button type="button" onclick="cutback('add_sensitivity')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_sensitivity" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_sensitivity" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_sensitivity')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -226,7 +227,7 @@
                     <button type="button" onclick="cutback('add_willpower')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_willpower" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_willpower" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_willpower')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -238,7 +239,7 @@
                     <button type="button" onclick="cutback('add_knowledge')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_knowledge" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_knowledge" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_knowledge')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -250,7 +251,7 @@
                     <button type="button" onclick="cutback('add_lucky')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">-</span></button>
                 </div>
                 <div class="layui-input-inline" style="width:145px">
-                    <input id="add_lucky" type="text" class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
+                    <input id="add_lucky" type="number" value="0"  class="layui-input" oninput="value=value.replace(/[^\d]/g,'')">
                 </div>
                 <div class="layui-input-inline" style="width:50px">
                     <button type="button" onclick="increase('add_lucky')" class="layui-btn layui-btn-radius layui-btn-primary"><span class="fontWith">+</span></button>
@@ -496,7 +497,7 @@
     $(function () {
         var downs = {};
         downBox(downs, schoolBox, "add_school", "", lSelection);
-        downBox(downs, accountBox, "add_account", "", lSelection);
+        //downBox(downs, accountBox, "add_account", "", lSelection);
     });
 
     $(function () {
@@ -508,19 +509,41 @@
             form.on('select(addKfType)', function (data) {
                 if (data.value === "0") {
                     $("#add_kongFu").empty();
-                    downs.type = "0";
+                    downs.type = data.value;
                 } else if (data.value === "1") {
                     $("#add_kongFu").empty();
-                    downs.type = "1";
+                    downs.type = data.value;
                 } else if (data.value === "2") {
                     $("#add_kongFu").empty();
-                    downs.type = "2";
+                    downs.type = data.value;
                 } else {
                     $("#add_kongFu").empty();
                     downs.type = "999";
                 }
                 downBox(downs, kongFuBox, "add_kongFu", "", lSelection);
             });
+        });
+    });
+
+    $(function () {
+        layui.use(['layer', 'jquery', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form;
+            var downs1 = {};
+            form.on('select(addIsNpc)', function (data) {
+                if (data.value === "0") {
+                    $("#add_account").empty();
+                    downs1.type = data.value;
+                } else if (data.value === "1") {
+                    $("#add_account").empty();
+                    downs1.type = data.value;
+                } else {
+                    $("#add_account").empty();
+                    downs1.type = "999";
+                }
+                downBox(downs1, accountBox, "add_account", "", lSelection);
+            })
         });
     });
 </script>

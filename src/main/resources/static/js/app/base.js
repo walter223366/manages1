@@ -1,7 +1,7 @@
 charset="utf-8";
 manages="base";
 expNum=100;//TODO 暂时为1等级为100经验值
-attNum=5;//TODO 1等级5点属性值
+attNum=13;//TODO 1等级13点属性值
 $(function(){
     pagingQuery();
 });
@@ -70,11 +70,11 @@ function add() {
             params.virtue = parFormat(sessionStorage.getItem("avt"));
             params.weapon = parFormat(sessionStorage.getItem("awp"));
             params.potent = parFormat(sessionStorage.getItem("apt"));
+            aaUp(params, manages, insert, "新增", pagingQuery);
             sessionStorage.removeItem("avt");
             sessionStorage.removeItem("akf");
             sessionStorage.removeItem("awp");
             sessionStorage.removeItem("apt");
-            aaUp(params, manages, insert, "新增", pagingQuery);
         }, function (index, layero) {
             addReset(layero);
         });
@@ -116,7 +116,7 @@ function aVirtueBut() {
                     );
                 }
             }, function (index, layero) {
-                clearVal(virtueID, 1);
+                clearVal(virtueID, 1, 0);
             });
     } else {
         layer.msg("等级不能为空");
@@ -177,7 +177,7 @@ function aWeaponBut() {
             sessionStorage.setItem("awp", JSON.stringify(weapon));
             layer.closeAll();
         }, function (index, layero) {
-            clearVal(weaponID, 1);
+            clearVal(weaponID, 1, '');
         });
 }
 
@@ -186,30 +186,30 @@ function aPotentBut() {
     layerOpen(1, "人物潜能", content, 900, 400, "保存", "重置", "",
         function (index, layero) {
             var potent = {};
-            potent.wisdom1 = Number($("#add_wisdom1").val());
-            potent.wisdom2 = Number($("#add_wisdom2").val());
-            potent.wisdom3 = Number($("#add_wisdom3").val());
-            potent.healthy1 = Number($("#add_healthy1").val());
-            potent.healthy2 = Number($("#add_healthy2").val());
-            potent.healthy3 = Number($("#add_healthy3").val());
-            potent.mellow1 = Number($("#add_mellow1").val());
-            potent.mellow2 = Number($("#add_mellow2").val());
-            potent.mellow3 = Number($("#add_mellow3").val());
-            potent.mellow4 = Number($("#add_mellow4").val());
-            potent.mellow5 = Number($("#add_mellow5").val());
-            potent.fineness1 = Number($("#add_fineness1").val());
-            potent.fineness2 = Number($("#add_fineness2").val());
-            potent.burst1 = Number($("#add_burst1").val());
-            potent.burst2 = Number($("#add_burst2").val());
-            potent.sharp1 = Number($("#add_sharp1").val());
-            potent.sharp2 = Number($("#add_sharp2").val());
-            potent.tenacity1 = Number($("#add_tenacity1").val());
-            potent.tenacity2 = Number($("#add_tenacity2").val());
-            potent.tenacity3 = Number($("#add_tenacity3").val());
+            potent.wisdom1 = ($("#add_wisdom1").val());
+            potent.wisdom2 = ($("#add_wisdom2").val());
+            potent.wisdom3 = ($("#add_wisdom3").val());
+            potent.healthy1 = ($("#add_healthy1").val());
+            potent.healthy2 = ($("#add_healthy2").val());
+            potent.healthy3 = ($("#add_healthy3").val());
+            potent.mellow1 = ($("#add_mellow1").val());
+            potent.mellow2 = ($("#add_mellow2").val());
+            potent.mellow3 = ($("#add_mellow3").val());
+            potent.mellow4 = ($("#add_mellow4").val());
+            potent.mellow5 = ($("#add_mellow5").val());
+            potent.fineness1 = ($("#add_fineness1").val());
+            potent.fineness2 = ($("#add_fineness2").val());
+            potent.burst1 = ($("#add_burst1").val());
+            potent.burst2 = ($("#add_burst2").val());
+            potent.sharp1 = ($("#add_sharp1").val());
+            potent.sharp2 = ($("#add_sharp2").val());
+            potent.tenacity1 = ($("#add_tenacity1").val());
+            potent.tenacity2 = ($("#add_tenacity2").val());
+            potent.tenacity3 = ($("#add_tenacity3").val());
             sessionStorage.setItem("apt", JSON.stringify(potent));
             layer.closeAll();
         }, function (index, layero) {
-            clearVal(potentID, 1);
+            clearVal(potentID, 1, '');
         });
 }
 
@@ -358,6 +358,7 @@ function edit(data) {
                         editVal(layero, "edit_enable", setEnable(obj.enable));
                         editVal(layero, "edit_isNpc", obj.is_npc);
                         editVal(layero, "edit_sex", obj.sex);
+                        sessionStorage.setItem("is_npc", obj.is_npc);
                         sessionStorage.setItem("schoolID", obj.school_id);
                         sessionStorage.setItem("userID", obj.user_id);
                         sessionStorage.setItem("qvt", JSON.stringify(obj.virtue));
@@ -381,7 +382,7 @@ function edit(data) {
                         params.experience = Number(getVal(layero, "edit_experience"));
                         params.school_id = getVal(layero, "edit_school");
                         params.user_id = getVal(layero, "edit_account");
-                        params.is_npc = Number(getVal(layero,"edit_isNpc"));
+                        params.is_npc = Number(getVal(layero, "edit_isNpc"));
                         if (verIfy(params) === false) {
                             return;
                         }
@@ -412,11 +413,11 @@ function eVirtueBut() {
         layerOpen(1, "属性分配", content, 900, 400, "保存", "重置",
             function (index, layero) {
                 var obj = JSON.parse(sessionStorage.getItem("evt"));
-                if(obj === null){
+                if (obj === null) {
                     var q = sessionStorage.getItem("qvt");
-                    if(q !== "undefined"){
+                    if (q !== "undefined") {
                         obj = JSON.parse(q);
-                        var aNum = Number(level) * Number(attNum);
+                        var aNum = ((Number(level)-1) * Number(attNum))+80;
                         $("#edit_attributes").val(aNum);
                     }
                 }
@@ -441,7 +442,7 @@ function eVirtueBut() {
                 virtue.knowledge = Number($("#edit_knowledge").val());
                 virtue.lucky = Number($("#edit_lucky").val());
                 var sum = calAdd(virtue);
-                var  attNum = ($("#edit_attributes").val());
+                var attNum = ($("#edit_attributes").val());
                 if (sum > attNum) {
                     layer.msg("各项属性值总和超出总属值的：" + calSub(sum, attNum));
                     return;
@@ -457,7 +458,7 @@ function eVirtueBut() {
                     );
                 }
             }, function (index, layero) {
-                clearVal(virtueID, 2);
+                clearVal(virtueID, 2, 0);
             });
     } else {
         layer.msg("等级不能为空");
@@ -517,7 +518,7 @@ function eWeaponBut() {
     var content = $("#eWeaponInfo");
     layerOpen(1, "兵器造诣", content, 900, 400, "保存", "重置",
         function (index, layero) {
-            var obj = getSession("ewp","qwp");
+            var obj = getSession("ewp", "qwp");
             if (obj !== null) {
                 $("#edit_melee_status").val(isNull(obj.melee_status));
                 $("#edit_sword_status").val(isNull(obj.sword_status));
@@ -541,7 +542,7 @@ function eWeaponBut() {
             sessionStorage.setItem("ewp", JSON.stringify(weapon));
             layer.closeAll();
         }, function (index, layero) {
-            clearVal(weaponID, 2);
+            clearVal(weaponID, 2, '');
         });
 }
 
@@ -549,7 +550,7 @@ function ePotentBut() {
     var content = $("#ePotentInfo");
     layerOpen(1, "人物潜能", content, 900, 400, "保存", "重置",
         function (index, layero) {
-            var obj = getSession("ept","qpt");
+            var obj = getSession("ept", "qpt");
             if (obj !== null) {
                 $("#edit_wisdom1").val(isNull(obj.wisdom1));
                 $("#edit_wisdom2").val(isNull(obj.wisdom2));
@@ -597,7 +598,7 @@ function ePotentBut() {
             sessionStorage.setItem("ept", JSON.stringify(potent));
             layer.closeAll();
         }, function (index, layero) {
-            clearVal(weaponID, 2);
+            clearVal(weaponID, 2, '');
         });
 }
 
@@ -627,10 +628,6 @@ function verIfy(params) {
     }
     if (params.user_id === null || params.user_id === "") {
         layer.msg("所属账号不能为空", {icon: 2});
-        return false;
-    }
-    if (params.school_id === null || params.school_id === "") {
-        layer.msg("所属门派不能为空", {icon: 2});
         return false;
     }
     if (params.level <= 0) {
@@ -845,12 +842,12 @@ function selectE() {
 $(function () {
     $("#add_level").on("input", function (e) {
         var obj = e.delegateTarget.value;
-        calAttr(obj, expNum, "add_experience");
+        calExp(obj, expNum, "add_experience");
         calAttr(obj, attNum, "add_attributes");
     });
     $("#edit_level").on("input", function (e) {
         var obj = e.delegateTarget.value;
-        calAttr(obj, expNum, "edit_experience");
+        calExp(obj, expNum, "edit_experience");
         calAttr(obj, attNum, "edit_attributes");
     });
 });

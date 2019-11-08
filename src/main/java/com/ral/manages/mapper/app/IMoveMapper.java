@@ -11,7 +11,7 @@ public interface IMoveMapper {
     int moveIsExist(Map<String,Object> map);
     Map<String,Object> moveEditQuery(Map<String,Object> map);
     Map<String,Object> moveIdQuery(Map<String,Object> map);
-    List<Map<String,Object>> moveQueryMarquee();
+    List<Map<String,Object>> moveQueryMarquee(Map<String,Object> map);
     Map<String,Object> moveQueryName(@Param("moveId") String moveId);
     List<Map<String,Object>> moveQueryMarqueeName(Map<String,Object> map);
     List<Map<String,Object>> moveQueryKFIsNull();

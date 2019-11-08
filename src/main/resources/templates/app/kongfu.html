@@ -18,13 +18,13 @@
         <div class="search-conditional">
             <form class="layui-form-item layui-form">
                 <div class="layui-inline">
-                    <label class="layui-form-label">功夫名称</label>
+                    <label class="layui-form-label">武学名称</label>
                     <div class="layui-input-inline">
                         <input id="query_name" type="text" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">功夫类型</label>
+                    <label class="layui-form-label">武学类型</label>
                     <div class="layui-input-inline">
                         <select id="query_type" class="layui-input">
                             <option value="">全选</option>
@@ -32,10 +32,25 @@
                             <option value="1">轻功</option>
                             <option value="2">拳脚</option>
                             <option value="3">剑术</option>
-                            <option value="4">刀斧</option>
+                            <option value="4">刀法</option>
                             <option value="5">枪棍</option>
                             <option value="6">暗器</option>
                             <option value="7">异功</option>
+                            <option value="8">钝器</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">武学等级</label>
+                    <div class="layui-input-inline">
+                        <select id="query_LV" class="layui-input">
+                            <option value="">全选</option>
+                            <option value="0">0级</option>
+                            <option value="1">1级</option>
+                            <option value="2">2级</option>
+                            <option value="3">3级</option>
+                            <option value="4">4级</option>
+                            <option value="5">5级</option>
                         </select>
                     </div>
                 </div>
@@ -78,13 +93,13 @@
     <div class="x-body" id="addInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
+                <label class="layui-form-label"><span class="x-red">*</span>武学名称</label>
                 <div class="layui-input-inline">
                     <input id="add_name" type="text" class="layui-input inLeng">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫类型</label>
+                <label class="layui-form-label"><span class="x-red">*</span>武学类型</label>
                 <div class="layui-input-inline" style="width: 260px">
                     <select id="add_type" class="layui-input">
                         <option value="">请选择</option>
@@ -92,17 +107,32 @@
                         <option value="1">轻功</option>
                         <option value="2">拳脚</option>
                         <option value="3">剑术</option>
-                        <option value="4">刀斧</option>
+                        <option value="4">刀法</option>
                         <option value="5">枪棍</option>
                         <option value="6">暗器</option>
                         <option value="7">异功</option>
+                        <option value="8">钝器</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">武学等级</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="add_LV" class="layui-input">
+                        <option value="">请选择</option>
+                        <option value="0">0级</option>
+                        <option value="1">1级</option>
+                        <option value="2">2级</option>
+                        <option value="3">3级</option>
+                        <option value="4">4级</option>
+                        <option value="5">5级</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">可学经验</label>
                 <div class="layui-input-inline">
-                    <input id="add_experience_limit" type="text" value="100" class="layui-input inLeng" placeholder="默认值为100">
+                    <input id="add_experience_limit" type="text" value="1000" class="layui-input inLeng" placeholder="默认值为1000">
                 </div>
             </div>
             <div class="layui-inline layLeng">
@@ -134,7 +164,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">功夫说明</label>
+                <label class="layui-form-label">武学说明</label>
                 <div class="layui-input-inline">
                     <textarea  id="add_info" class="layui-textarea layui-input-width1" placeholder="请输入内容"></textarea>
                 </div>
@@ -147,13 +177,13 @@
     <div class="x-body" id="editInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫名称</label>
+                <label class="layui-form-label"><span class="x-red">*</span>武学名称</label>
                 <div class="layui-input-inline">
                     <input id="edit_name" type="text" class="layui-input inLeng">
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>功夫类型</label>
+                <label class="layui-form-label"><span class="x-red">*</span>武学类型</label>
                 <div class="layui-input-inline" style="width: 260px">
                     <select id="edit_type" class="layui-input">
                         <option value="">请选择</option>
@@ -161,10 +191,25 @@
                         <option value="1">轻功</option>
                         <option value="2">拳脚</option>
                         <option value="3">剑术</option>
-                        <option value="4">刀斧</option>
+                        <option value="4">刀法</option>
                         <option value="5">枪棍</option>
                         <option value="6">暗器</option>
                         <option value="7">异功</option>
+                        <option value="8">钝器</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layLeng">
+                <label class="layui-form-label">武学等级</label>
+                <div class="layui-input-inline" style="width: 260px">
+                    <select id="edit_LV" class="layui-input">
+                        <option value="">请选择</option>
+                        <option value="0">0级</option>
+                        <option value="1">1级</option>
+                        <option value="2">2级</option>
+                        <option value="3">3级</option>
+                        <option value="4">4级</option>
+                        <option value="5">5级</option>
                     </select>
                 </div>
             </div>
@@ -202,7 +247,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">功夫说明</label>
+                <label class="layui-form-label">武学说明</label>
                 <div class="layui-input-inline">
                     <textarea  id="edit_info" class="layui-textarea layui-input-width1" placeholder="请输入内容"></textarea>
                 </div>
@@ -215,15 +260,21 @@
     <div class="x-body" id="seeInfo" aria-hidden="true" hidden>
         <form class="layui-form-item layui-form">
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">功夫名称：</span></label>
+                <label class="layui-form-label"><span class="x-font">武学名称：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_name" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">功夫类型：</span></label>
+                <label class="layui-form-label"><span class="x-font">武学类型：</span></label>
                 <div class="layui-input-inline">
                     <input id="see_type" class="layui-input see-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-font">武学等级：</span></label>
+                <div class="layui-input-inline">
+                    <input id="see_LV" class="layui-input see-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -235,7 +286,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="x-font">造&emsp;&emsp;诣：</span></label>
                 <div class="layui-input-inline">
-                    <input id="see_kongfu_attainments" class="layui-input see-input">
+                    <input id="see_kongfu_attainments" class="layui-input see-input" style="width: 700px">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -257,7 +308,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-font">功夫说明：</span></label>
+                <label class="layui-form-label"><span class="x-font">武学说明：</span></label>
                 <div class="layui-input-inline">
                     <textarea  id="see_info" class="layui-textarea see-textarea see-input"></textarea>
                 </div>

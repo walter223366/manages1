@@ -12,8 +12,6 @@ public class ProjectConst {
     public final static String UPDATE = "update";
     //删除
     public final static String DELETE = "delete";
-    //注册
-    public final static String SIGNUP = "signUp";
     //登陆
     public final static String SINGIN = "signIn";
     //招式下拉框

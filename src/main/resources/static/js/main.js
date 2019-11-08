@@ -192,7 +192,7 @@ function cleanVal(layero,id,msg) {
 }
 function editVal(layero,id,par) {
     var body = layer.getChildFrame('body', layero);
-    body.contents().find("#"+id).val(isNull(par));
+    body.contents().find("#"+id).val(par);
 }
 function parFormat(str){
     var obj = {};
@@ -214,19 +214,19 @@ function mergeVal(id) {
     var a = obj + id + 1, b = obj + id + 2, c = obj + id + 3;
     return Number($(a).val()) + "," + Number($(b).val()) + "," + Number($(c).val());
 }
-function clearVal(ids,per) {
+function clearVal(ids,per,msg) {
     var obj = ids.split(",");
     var id;
     if(per === 1){
         for (var a = 0; a < obj.length; a++) {
             id = "#add_"+obj[a];
-            $(id).val('');
+            $(id).val(msg);
         }
     }
     if(per === 2){
         for (var e = 0; e < obj.length; e++) {
             id = "#edit_"+obj[e];
-            $(id).val('');
+            $(id).val(msg);
         }
     }
     layui.form.render("select");
@@ -420,6 +420,7 @@ kongFuBox="kongFuBox";
 effectBox="effectBox";
 schoolBox="schoolBox";
 accountBox="accountBox";
+moveNulBox="moveNulBox";
 function downBox(downs,method,id,selectId,mlSelection) {
     //document.getElementById(id).options.length = 0;
     postRequest(downs, "downBox", method, function (data) {
@@ -430,7 +431,7 @@ function downBox(downs,method,id,selectId,mlSelection) {
                 var ids = "#" + id;
                 $(ids).prepend("<option value=''>请选择</option>");
                 $.each(obj.data, function (i, n) {
-                    if (method === moveBox || method === "moveNulBox") {
+                    if (method === moveBox || method === moveNulBox) {
                         $(ids).append("<option value='" + n.zhaoshi_id + "'>" + n.name + "</option>");
                     } else if (method === kongFuBox) {
                         $(ids).append("<option value='" + n.kongfu_id + "'>" + n.name + "</option>");
@@ -451,6 +452,27 @@ function downBox(downs,method,id,selectId,mlSelection) {
         }
     });
 }
+function moveDownBox(params,id,selectId,mlSelection) {
+    postRequest(params, "downBox", moveBox, function (data) {
+        if (data.code === "0" && data.result === "SUCCESS") {
+            var rows = $.base64.atob(data.rows, charset);
+            if (isJSON(rows)) {
+                var obj = JSON.parse(rows);
+                var ids = "#" + id;
+                $(ids).prepend("<option value=''>请选择</option>");
+                $.each(obj.data, function (i, n) {
+                    $(ids).append("<option value='" + n.zhaoshi_id + "'>" + n.name + "</option>");
+                });
+                mlSelection(selectId);
+            } else {
+                layer.msg("调用失败，JSON格式错误", {icon: 2});
+            }
+        } else {
+            layer.msg(data.msg, {icon: 2});
+        }
+    });
+}
+
 function mSelection(selectId){
     layui.formSelects.config(selectId,{direction:'down'});
 }
@@ -460,8 +482,14 @@ function lSelection(selectId) {
 function cost(yellow,gold,green,blue,purple) {
     return yellow + "," + gold + "," + green + "," + blue + "," + purple;
 }
+function calExp(level,num,elementId) {
+    var attributes = Number(level) * (Number(num));
+    var id = "#" + elementId;
+    $(id).val(isNull(attributes));
+    return attributes;
+}
 function calAttr(level,num,elementId) {
-    var attributes = Number(level) * Number(num);
+    var attributes = ((Number(level) - 1) * Number(num)) + 80;
     var id = "#" + elementId;
     $(id).val(isNull(attributes));
     return attributes;

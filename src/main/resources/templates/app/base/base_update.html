@@ -27,14 +27,15 @@
             <div class="layui-inline layLeng">
                 <label class="layui-form-label">人物类型</label>
                 <div class="layui-input-inline" style="width: 260px">
-                    <select id="edit_isNpc" class="layui-input">
-                        <option value="1">NPC</option>
+                    <select id="edit_isNpc" class="layui-input" lay-filter="editIsNpc" lay-verify="required">
+                        <option value="">请选择</option>
                         <option value="0">玩家</option>
+                        <option value="1">NPC</option>
                     </select>
                 </div>
             </div>
             <div class="layui-inline layLeng">
-                <label class="layui-form-label"><span class="x-red">*</span>所属门派</label>
+                <label class="layui-form-label">所属门派</label>
                 <div class="layui-input-inline" style="width: 260px">
                     <select id="edit_school" type="checkbox"></select>
                 </div>
@@ -495,9 +496,10 @@
 <script type="text/javascript">
     $(function () {
         var downs = {};
-        layui.use('form', function () {
-            $ = layui.jquery;
-            var form = layui.form;
+        layui.use(['layer', 'jquery', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form;
             postRequest(downs, "downBox", schoolBox, function (data) {
                 if (data.code === "0" && data.result === "SUCCESS") {
                     var rows = $.base64.atob(data.rows, charset);
@@ -520,9 +522,11 @@
                     layer.msg(data.msg, {icon: 2});
                 }
             });
-            postRequest(downs, "downBox", accountBox, function (data) {
-                if (data.code === "0" && data.result === "SUCCESS") {
-                    var rows = $.base64.atob(data.rows, charset);
+            var params = {};
+            params.type = sessionStorage.getItem("is_npc");
+            postRequest(params, "downBox", accountBox, function (data1) {
+                if (data1.code === "0" && data1.result === "SUCCESS") {
+                    var rows = $.base64.atob(data1.rows, charset);
                     if (isJSON(rows)) {
                         var obj = JSON.parse(rows);
                         var novelType = document.getElementById("edit_account");
@@ -539,8 +543,9 @@
                         });
                     }
                 } else {
-                    layer.msg(data.msg, {icon: 2});
+                    layer.msg(data1.msg, {icon: 2});
                 }
+
             });
         });
     });
@@ -554,18 +559,40 @@
             form.on('select(editKfType)', function (data) {
                 if (data.value === "0") {
                     $("#edit_kongFu").empty();
-                    downs.type = "0";
+                    downs.type = data.value;
                 } else if (data.value === "1") {
                     $("#edit_kongFu").empty();
-                    downs.type = "1";
+                    downs.type = data.value;
                 } else if (data.value === "2") {
                     $("#edit_kongFu").empty();
-                    downs.type = "2";
+                    downs.type = data.value;
                 } else {
                     $("#edit_kongFu").empty();
                     downs.type = "999";
                 }
                 downBox(downs, kongFuBox, "edit_kongFu", "", lSelection);
+            });
+        });
+    });
+
+    $(function () {
+        layui.use(['layer', 'jquery', 'form'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery,
+                form = layui.form;
+            var downs = {};
+            form.on('select(editIsNpc)', function (data) {
+                if (data.value === "0") {
+                    $("#edit_account").empty();
+                    downs.type = data.value;
+                } else if (data.value === "1") {
+                    $("#edit_account").empty();
+                    downs.type = data.value;
+                } else {
+                    $("#edit_account").empty();
+                    downs.type = "999";
+                }
+                downBox(downs, accountBox, "edit_account", "", lSelection);
             });
         });
     });

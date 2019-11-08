@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.ral.manages.mapper.app.IArticleMapper">
+<mapper namespace="com.ral.manages.mapper.app.IGoodsMapper">
 
     <sql id="articleResult">
-        equipment_id,img,name,info,deleteStatus,type,weapon_type,Endurance,effect,buff,Blessing1,Blessing2
+        goods_id,name,info,type,effect,buff,deleteStatus
     </sql>
 
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
             AND name like '%${name}%'
         </if>
+        <if test="type != null and type != ''">
+            AND type=#{type}
+        </if>
     </sql>
 
 
     <!--查询-->
-    <select id="articlePagingQuery" parameterType="map" resultType="map">
+    <select id="goodsPagingQuery" parameterType="map" resultType="map">
         SELECT <include refid="articleResult"/> FROM biz_equipment WHERE 1=1 <include refid="conditionalCheck"/>
         AND (deleteStatus IS NULL OR deleteStatus=0)
     </select>
-    <select id="articleIsExist" parameterType="map" resultType="int">
+    <select id="goodsIsExist" parameterType="map" resultType="int">
         SELECT COUNT(1) FROM biz_equipment WHERE 1=1 AND name=#{name}
     </select>
-    <select id="articleEditQuery" parameterType="map" resultType="map">
+    <select id="goodsEditQuery" parameterType="map" resultType="map">
         SELECT <include refid="articleResult"/> FROM biz_equipment WHERE 1=1 AND name=#{name}
     </select>
-    <select id="articleIdQuery" parameterType="map" resultType="map">
+    <select id="goodsIdQuery" parameterType="map" resultType="map">
         SELECT <include refid="articleResult"/> FROM biz_equipment WHERE 1=1 AND equipment_id=#{equipment_id}
     </select>
 
 
     <!--新增-->
-    <insert id="articleInsert" parameterType="map">
+    <insert id="goodsInsert" parameterType="map">
         INSERT INTO biz_equipment(
         equipment_id,img,name,info,deleteStatus,type,weapon_type,Endurance,effect,buff,Blessing1,Blessing2
         )VALUES (
@@ -42,7 +45,7 @@
 
 
     <!--修改-->
-    <update id="articleUpdate" parameterType="map">
+    <update id="goodsUpdate" parameterType="map">
         UPDATE biz_equipment SET img=#{img},name=#{name},info=#{info},type=#{type},weapon_type=#{weapon_type},
         Endurance=#{Endurance},effect=#{effect},buff=#{buff},Blessing1=#{Blessing1},Blessing2=#{Blessing2}
         WHERE 1=1 AND equipment_id=#{equipment_id}
@@ -50,7 +53,7 @@
 
 
     <!--删除-->
-    <update id="articleDelete" parameterType="map">
+    <update id="goodsDelete" parameterType="map">
         UPDATE biz_equipment SET deleteStatus=#{deleteStatus} WHERE 1=1 AND name=#{name}
     </update>
 

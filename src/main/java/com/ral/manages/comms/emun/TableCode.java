@@ -29,10 +29,11 @@ public enum TableCode {
         TYPE_ONE("轻功",1),
         TYPE_TWO("拳脚",2),
         TYPE_THREE("剑术",3),
-        TYPE_FOUR("刀斧",4),
+        TYPE_FOUR("刀法",4),
         TYPE_FIVES("枪棍",5),
         TYPE_SIX("暗器",6),
         TYPE_SEVEN("异功",7),
+        TYPE_EIGHT("钝器",8),
 
         /*启动状态*/
         ENABLE_ZERO("未启动",0),
@@ -52,7 +53,15 @@ public enum TableCode {
         ARTICLE_THREE("头饰",3),
         ARTICLE_FOUR("护手",4),
         ARTICLE_FIVES("鞋具",5),
-        ARTICLE_SIX("饰物",6);
+        ARTICLE_SIX("饰物",6),
+
+
+        MOVE_TYPE_ZERO("速",0),
+        MOVE_TYPE_ONE("重",1),
+        MOVE_TYPE_TWO("巧",2),
+        MOVE_TYPE_THREE("闪",3),
+        MOVE_TYPE_FOUR("防",4),
+        MOVE_TYPE_FIVES("调",5);
 
         private String name;
         private int code;

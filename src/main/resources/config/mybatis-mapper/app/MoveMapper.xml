@@ -4,7 +4,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IMoveMapper">
 
     <sql id="moveResult">
-        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_buff,Attacks,zhaoshi_experience_cost,deleteStatus
+        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_buff,Attacks,zhaoshi_experience_cost,deleteStatus,type
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -15,6 +15,16 @@
         </if>
         <if test="eexperience != null and eexperience != ''">
             AND zhaoshi_experience_cost <![CDATA[<=]]> #{eexperience}
+        </if>
+        <if test="type != null and type != ''">
+            <choose>
+                <when test="type == 0 and type == '0'">
+                    AND type=0
+                </when>
+                <otherwise>
+                    AND type=#{type}
+                </otherwise>
+            </choose>
         </if>
     </sql>
 
@@ -33,7 +43,7 @@
     <select id="moveIdQuery" parameterType="map" resultType="map">
         SELECT <include refid="moveResult"/> FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{zhaoshi_id}
     </select>
-    <select id="moveQueryMarquee" resultType="map">
+    <select id="moveQueryMarquee" parameterType="map" resultType="map">
         SELECT zhaoshi_id,name FROM dict_zhaoshi
     </select>
     <select id="moveQueryName" parameterType="java.lang.String" resultType="map">
@@ -49,18 +59,18 @@
          SELECT zhaoshi_id,name FROM dict_zhaoshi WHERE 1=1 AND (kongfu_id='' or kongfu_id IS NULL)
     </select>
     <select id="moveQueryExistKF" parameterType="java.lang.String" resultType="map">
-        SELECT zhaoshi_id,name FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{moveId}
+        SELECT name,zhaoshi_id FROM dict_zhaoshi WHERE 1=1 AND zhaoshi_id=#{moveId}
     </select>
 
 
     <!--新增-->
     <insert id="moveInsert" parameterType="map">
         INSERT INTO dict_zhaoshi(
-        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_buff,Attacks,zhaoshi_experience_cost,deleteStatus
+        zhaoshi_id,kongfu_id,name,MP_cost,info,zhaoshi_effect,zhaoshi_buff,Attacks,zhaoshi_experience_cost,deleteStatus,type
         )
         VALUES(
         #{zhaoshi_id},#{kongfu_id},#{name},#{MP_cost},#{info},#{zhaoshi_effect},#{zhaoshi_buff},#{Attacks},
-        #{zhaoshi_experience_cost},#{deleteStatus}
+        #{zhaoshi_experience_cost},#{deleteStatus},#{type}
         )
     </insert>
 
@@ -68,7 +78,7 @@
     <!--修改-->
     <update id="moveUpdate" parameterType="map">
         UPDATE dict_zhaoshi SET kongfu_id=#{kongfu_id},name=#{name},MP_cost=#{MP_cost},info=#{info},
-        zhaoshi_effect=#{zhaoshi_effect},zhaoshi_buff=#{zhaoshi_buff},
+        zhaoshi_effect=#{zhaoshi_effect},zhaoshi_buff=#{zhaoshi_buff},type=#{type},
         Attacks=#{Attacks},zhaoshi_experience_cost=#{zhaoshi_experience_cost}
         WHERE 1=1 AND zhaoshi_id=#{zhaoshi_id}
     </update>

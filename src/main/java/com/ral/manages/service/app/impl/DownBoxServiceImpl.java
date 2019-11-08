@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,8 +63,9 @@ public class DownBoxServiceImpl implements UnifiedCall {
 
     /*招式下拉框*/
     private Map<String,Object> moveDownBox(Map<String,Object> map) {
-        List<Map<String,Object>> resultList = moveMapper.moveQueryMarquee();
         Map<String,Object> resultMap = new HashMap<String,Object>();
+        List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+        resultList = moveMapper.moveQueryMarquee(map);
         resultMap.put("data",resultList);
         return resultMap;
     }
@@ -97,7 +97,7 @@ public class DownBoxServiceImpl implements UnifiedCall {
     /*账号下拉框*/
     private Map<String,Object> accountDownBox(Map<String,Object> map){
         Map<String,Object> resultMap = new HashMap<String,Object>();
-        List<Map<String,Object>> resultList = accountMapper.accountQueryMarquee();
+        List<Map<String,Object>> resultList =resultList = accountMapper.accountQueryMarquee(map);
         resultMap.put("data",resultList);
         return resultMap;
     }

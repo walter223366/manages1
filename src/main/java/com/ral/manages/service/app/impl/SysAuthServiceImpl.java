@@ -3,10 +3,7 @@ package com.ral.manages.service.app.impl;
 import com.ral.manages.comms.exception.BizException;
 import com.ral.manages.service.app.UnifiedCall;
 import com.ral.manages.service.app.ISysAuthService;
-import com.ral.manages.util.Base64Util;
-import com.ral.manages.util.JsonUtil;
-import com.ral.manages.util.MapUtil;
-import com.ral.manages.util.StringUtil;
+import com.ral.manages.util.*;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -43,7 +40,7 @@ public class SysAuthServiceImpl implements ISysAuthService , ApplicationContextA
             dataMap.put("limit",limit);
             dataMap.put("page",page);
         }
-        UnifiedCall accountService = (UnifiedCall) applicationContext.getBean(manages);
-        return accountService.uCall(method,dataMap);
+        UnifiedCall service = (UnifiedCall) applicationContext.getBean(manages);
+        return service.uCall(method, SetUtil.removeNull(dataMap));
     }
 }

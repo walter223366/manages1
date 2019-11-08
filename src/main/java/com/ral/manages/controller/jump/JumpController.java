@@ -37,7 +37,7 @@ public class JumpController {
     public String jumpKongFu(){ return "app/kongfu.html"; }
 
     @RequestMapping("article")
-    public String jumpArticle(){ return "app/article.html"; }
+    public String jumpArticle(){ return "app/goods.html"; }
 
     @RequestMapping("base")
     public String jumpBaseNpc(){ return "app/base/base.html"; }

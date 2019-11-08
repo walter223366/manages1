@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service("move")
@@ -61,12 +60,14 @@ public class MoveServiceImpl implements UnifiedCall {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map),PageBean.pageSize(map));
         List<Map<String,Object>> moveList = moveMapper.movePagingQuery(map);
         for(Map<String,Object> moveMap : moveList){
-            String kongFuId = SetUtil.toMapValueString(moveMap,"kongfu_id");
+            String kongFuId = MapUtil.getString(moveMap,"kongfu_id");
             if(StringUtil.isNull(kongFuId)){
                 moveMap.put("kongFuName","");
             }else{
                 moveMap.put("kongFuName",seeKongFuName(kongFuId));
             }
+            String type = MapUtil.getString(moveMap,"type");
+            moveMap.put("typeValue",getTypeValue(type));
         }
         return PageBean.resultPage(page.getTotal(),moveList);
     }
@@ -155,6 +156,8 @@ public class MoveServiceImpl implements UnifiedCall {
         }else{
             resultMap.put("effectName",seeEffectName(effectId));
         }
+        String type = MapUtil.getString(resultMap,"type");
+        resultMap.put("typeValue",getTypeValue(type));
         return resultMap;
     }
 
@@ -190,5 +193,29 @@ public class MoveServiceImpl implements UnifiedCall {
             nameList.add(SetUtil.toMapValueString(map,"name"));
         }
         return nameList;
+    }
+
+    /*处理招式类型*/
+    private String getTypeValue(String type){
+        String value;
+        switch (type){
+            case "": value = "无";
+                break;
+            case "0": value = TableCode.MOVE_TYPE_ZERO.getName();
+                break;
+            case "1": value = TableCode.MOVE_TYPE_ONE.getName();
+                break;
+            case "2": value = TableCode.MOVE_TYPE_TWO.getName();
+                break;
+            case "3": value = TableCode.MOVE_TYPE_THREE.getName();
+                break;
+            case "4": value = TableCode.MOVE_TYPE_FOUR.getName();
+                break;
+            case "5": value = TableCode.MOVE_TYPE_FIVES.getName();
+                break;
+            default: value = "其他";
+                break;
+        }
+        return value;
     }
 }

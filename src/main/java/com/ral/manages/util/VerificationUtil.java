@@ -37,11 +37,15 @@ public class VerificationUtil {
     public static void verificationKongFu(Map<String,Object> map){
         String name = MapUtil.getString(map,"name");
         if(StringUtil.isNull(name)){
-            throw new BizException("传入功夫名称为空");
+            throw new BizException("传入武学名称为空");
         }
         String type = MapUtil.getString(map,"type");
         if(StringUtil.isNull(type)){
-            throw new BizException("传入功夫类型为空");
+            throw new BizException("传入武学类型为空");
+        }
+        String lv = MapUtil.getString(map,"LV");
+        if(StringUtil.isNull(lv)){
+            throw new BizException("传入武学等级为空");
         }
     }
 
@@ -73,7 +77,7 @@ public class VerificationUtil {
 
 
     /**物品管理参数校验*/
-    public static void verificationArticle(Map<String,Object> map){
+    public static void verificationGoods(Map<String,Object> map){
         String name = MapUtil.getString(map,"name");
         if(StringUtil.isNull(name)){
             throw new BizException("传入物品名称为空");
@@ -81,10 +85,6 @@ public class VerificationUtil {
         String type = MapUtil.getString(map,"type");
         if(StringUtil.isNull(type)){
             throw new BizException("传入物品类型为空");
-        }
-        String weapon = MapUtil.getString(map,"weapon_type");
-        if(StringUtil.isNull(weapon)){
-            throw new BizException("传入武器类型为空");
         }
     }
 

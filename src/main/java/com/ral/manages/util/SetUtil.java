@@ -78,6 +78,14 @@ public class SetUtil {
         return map;
     }
 
+    public static Map<String,Object> removeNull(Map<String,Object> map){
+        /*Set<String> keySet = map.keySet();
+        for (String key : keySet) {
+            Object value = map.get(key);
+            map.put(key,StringUtil.notSpace(value));
+        }*/
+        return map;
+    }
 
     //获取map集合value（String）
     public static String toMapValueString(Map<String,Object> map,String key){

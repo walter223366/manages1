@@ -55,8 +55,6 @@ public class AccountServiceImpl implements UnifiedCall {
                 break;
             case ProjectConst.SINGIN: result = accountSignIn(map);
                 break;
-            case ProjectConst.SIGNUP: result = accountSignUp(map);
-                break;
             default:
                 throw new BizException("传入方法名不存在");
         }
@@ -172,36 +170,21 @@ public class AccountServiceImpl implements UnifiedCall {
 
     /*注册*/
     @Transient
-    private Map<String,Object> accountSignUp(Map<String,Object> map){
+    private void accountSignUp(Map<String,Object> map){
         String account = MapUtil.getString(map,"account");
         if(StringUtil.isNull(account)){
             throw new BizException("传入账号ID为空");
         }
-        String nickname = MapUtil.getString(map,"nickname");
-        if(StringUtil.isNull(nickname)){
-            throw new BizException("传入人物呢称为空");
-        }
-        Map<String,Object> userMap = new HashMap<String,Object>();
-        userMap.put("account",account);
-        userMap.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
-        userMap.put("source",TableCode.SOURCE_ZERO.getCode());
-        userMap.put("lrrq", TimeUtil.currentTime());
-        String id = StringUtil.getUUID();
-        userMap.put("id",id);
-
-        map.put("last_time",TableCode.LASTTIME_ONE.getCode());
-        map.put("enable",TableCode.ENABLE_ONE.getCode());
-        map.put("id",StringUtil.getUUID());
-        map.put("user_id",id);
         map.put("cancellation",TableCode.CANCELLATION_ZERO.getCode());
+        map.put("deleteStatus",TableCode.DELETE_ZERO.getCode());
+        map.put("lrrq", TimeUtil.currentTime());
+        map.put("id",StringUtil.getUUID());
         try {
-            accountMapper.accountInsert(userMap);
-            baseMapper.baseIsExist(map);
+            accountMapper.accountInsert(map);
         } catch (Exception e) {
             log.debug("注册失败：" + e.getMessage());
             throw new BizException("注册失败：" + e.getMessage());
         }
-        return new HashMap<>();
     }
 
     /*已有账号时，查询人物信息*/
@@ -217,6 +200,7 @@ public class AccountServiceImpl implements UnifiedCall {
     private Map<String,Object> registered(Map<String,Object> map){
         Map<String,Object> infoMap = SetUtil.clearValueNullToMap(map);
         Map<String,Object> qMap = new HashMap<String,Object>();
+        accountSignUp(map);
         map.put("isType",TableCode.REGISTERED.getCode());//注册状态
         map.put("character",qMap);//角色信息（初始化角色为空）
         return map;

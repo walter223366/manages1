@@ -4,7 +4,7 @@
 <mapper namespace="com.ral.manages.mapper.app.IKongFuMapper">
 
     <sql id="kongFuResult">
-        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi,Special_buff
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi,Special_buff,LV
     </sql>
     <sql id="conditionalCheck">
         <if test="name != null and name != ''">
@@ -23,6 +23,16 @@
                 </when>
                 <otherwise>
                     AND (enable IS NULL OR enable=0)
+                </otherwise>
+            </choose>
+        </if>
+        <if test="LV != null and LV != ''">
+            <choose>
+                <when test="LV == 0 and LV == '0'">
+                    AND LV=0
+                </when>
+                <otherwise>
+                    AND LV=#{LV}
                 </otherwise>
             </choose>
         </if>
@@ -76,11 +86,11 @@
     <!--新增-->
     <insert id="kongFuInsert" parameterType="map">
         INSERT INTO dict_kongfu(
-        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi,Special_buff
+        kongfu_id,name,info,type,experience_limit,kongfu_attainments,enable,deleteStatus,kongfu_zhaoshi,Special_buff,LV
         )
         VALUES(
         #{kongfu_id},#{name},#{info},#{type},#{experience_limit},#{kongfu_attainments},#{enable},
-        #{deleteStatus},#{kongfu_zhaoshi},#{Special_buff}
+        #{deleteStatus},#{kongfu_zhaoshi},#{Special_buff},#{LV}
         )
     </insert>
 
@@ -88,7 +98,8 @@
     <!--修改-->
     <update id="kongFuUpdate" parameterType="map">
         UPDATE dict_kongfu SET name=#{name},info=#{info},type=#{type},experience_limit=#{experience_limit},
-        kongfu_attainments=#{kongfu_attainments},enable=#{enable},kongfu_zhaoshi=#{kongfu_zhaoshi},Special_buff=#{Special_buff}
+        kongfu_attainments=#{kongfu_attainments},enable=#{enable},kongfu_zhaoshi=#{kongfu_zhaoshi},
+        Special_buff=#{Special_buff},LV=#{LV}
         WHERE 1=1 AND kongfu_id=#{kongfu_id}
     </update>
 

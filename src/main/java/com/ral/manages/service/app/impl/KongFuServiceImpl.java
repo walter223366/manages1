@@ -60,7 +60,8 @@ public class KongFuServiceImpl implements UnifiedCall {
         Page<Map<String,Object>> page = PageHelper.startPage(PageBean.pageNum(map), PageBean.pageSize(map));
         List<Map<String,Object>> kongFuList = kongFuMapper.kongFuPagingQuery(map);
         for(Map<String,Object> kongFuMap : kongFuList){
-            kongFuMap.put("typeValue",kongFuType(MapUtil.getInt(kongFuMap,"type")));
+            String type = MapUtil.getString(kongFuMap,"type");
+            kongFuMap.put("typeValue",getKongFuType(type));
             int enable = MapUtil.getInt(kongFuMap,"enable");
             String enableValue = (enable== TableCode.ENABLE_ONE.getCode()? TableCode.ENABLE_ONE.getName(): TableCode.ENABLE_ZERO.getName());
             kongFuMap.put("enableValue",enableValue);
@@ -163,8 +164,8 @@ public class KongFuServiceImpl implements UnifiedCall {
         }else{
             resultMap.put("moveName",seeMoveName(moveId));
         }
-        int type = MapUtil.getInt(resultMap,"type");
-        resultMap.put("typeValue",kongFuType(type));
+        String type = MapUtil.getString(resultMap,"type");
+        resultMap.put("typeValue",getKongFuType(type));
         int enable = MapUtil.getInt(resultMap,"enable");
         String enableValue = (enable== TableCode.ENABLE_ONE.getCode()? TableCode.ENABLE_ONE.getName(): TableCode.ENABLE_ZERO.getName());
         resultMap.put("enableValue",enableValue);
@@ -189,18 +190,33 @@ public class KongFuServiceImpl implements UnifiedCall {
     }
 
    /*处理功夫类型*/
-    private String kongFuType(int type){
-        switch (type){
-            case 0:return TableCode.TYPE_ZERO.getName();
-            case 1:return TableCode.TYPE_ONE.getName();
-            case 2:return TableCode.TYPE_TWO.getName();
-            case 3:return TableCode.TYPE_THREE.getName();
-            case 4:return TableCode.TYPE_FOUR.getName();
-            case 5:return TableCode.TYPE_FIVES.getName();
-            case 6:return TableCode.TYPE_SIX.getName();
-            case 7:return TableCode.TYPE_SEVEN.getName();
-            default:return "其他";
+    private String getKongFuType(String type) {
+        String value;
+        switch (type) {
+            case "": value = "无";
+                break;
+            case "0": value = TableCode.TYPE_ZERO.getName();
+                break;
+            case "1": value = TableCode.TYPE_ONE.getName();
+                break;
+            case "2": value = TableCode.TYPE_TWO.getName();
+                break;
+            case "3": value = TableCode.TYPE_THREE.getName();
+                break;
+            case "4": value = TableCode.TYPE_FOUR.getName();
+                break;
+            case "5": value = TableCode.TYPE_FIVES.getName();
+                break;
+            case "6": value = TableCode.TYPE_SIX.getName();
+                break;
+            case "7": value = TableCode.TYPE_SEVEN.getName();
+                break;
+            case "8": value = TableCode.TYPE_EIGHT.getName();
+                break;
+            default: value =  "其他";
+                break;
         }
+        return value;
     }
 
     private List<Map<String,Object>> getUnMoveId(Map<String,Object> qMap,Map<String,Object> map){

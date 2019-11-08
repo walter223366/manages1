@@ -10,10 +10,12 @@ function pagingQuery() {
     params.name = $("#query_name").val();
     params.sexperience = Number($("#query_sExp").val());
     params.eexperience = Number($("#query_eExp").val());
+    params.type = $("#query_type").val();
     var cole = [
         {type: 'checkbox', fixed: 'felt'},
         {type: 'numbers', title: '序号', align: 'center', fixed: 'felt', width: 60},
         {field: 'name', title: '招式名称'},
+        {field: 'typeValue', title: '招式种类'},
         {field: 'kongFuName', title: '所属武学'},
         {field: 'MP_cost', title: '内力花费'},
         {field: 'zhaoshi_experience_cost', title: '招式经验', sort: true},
@@ -26,6 +28,8 @@ function cleanUp() {
     $("#query_name").val('');
     $("#query_sExp").val('');
     $("#query_eExp").val('');
+    $("#query_type").val('');
+    layui.form.render("select");
     pagingQuery();
 }
 
@@ -46,6 +50,8 @@ function add() {
             params.zhaoshi_experience_cost = Number($("#add_zhaoshi_experience_cost").val());
             params.MP_cost = $("#add_MP_cost").val();
             params.info = $("#add_info").val();
+            params.Attacks = $("#add_Attacks").val();
+            params.type = $("#add_type").val();
             if (verIfy(params) === false) {
                 return;
             }
@@ -58,13 +64,12 @@ function add() {
 //todo 多选项暂无法清空
 function addReset() {
     $("#add_name").val('');
-    $("#add_zhaoshi_experience_cost").val('');
+    $("#add_zhaoshi_experience_cost").val(0);
     $("#add_MP_cost").val('');
     $("#add_info").val('');
-    $("#add_zhaoshi_effect").val('');
-    $("#add_zhaoshi_buff").val('');
-    //formSelects.value('select_addEffect', ['']);
-    //formSelects.value('select_addBuff', ['']);
+    $("#add_Attacks").val('');
+    $("#add_type").val('');
+    layui.formSelects.closed("add_zhaoshi_effect");
     layui.form.render("select");
 }
 
@@ -85,6 +90,8 @@ function see(data) {
                         $("#see_zhaoshi_effect").val(isNull(obj.effectName));
                         $("#see_zhaoshi_buff").val(isNull(obj.zhaoshi_buff));
                         $("#see_info").val(isNull(obj.info));
+                        $("#see_Attacks").val(isNull(obj.Attacks));
+                        $("#see_type").val(isNull(obj.typeValue));
                     }, function (index, layero) {
                         layer.closeAll();
                     }, function (index, layero) {
@@ -111,13 +118,15 @@ function edit(data) {
                 layerOpen(1, "编辑", content, 950, 500, "立即提交", "重置",
                     function (index, layero) {
                         $("#edit_name").val(isNull(obj.name));
-                        $("#edit_zhaoshi_experience_cost").val(isNull(obj.zhaoshi_experience_cost));
+                        $("#edit_zhaoshi_experience_cost").val(obj.zhaoshi_experience_cost);
                         $("#edit_kongFu").val(isNull(obj.kongfu_id));
                         $("#edit_MP_cost").val(isNull(obj.MP_cost));
                         $("#edit_zhaoshi_buff").val(isNull(obj.zhaoshi_buff));
                         $("#edit_info").val(isNull(obj.info));
+                        $("#edit_type").val(obj.type);
+                        $("#edit_Attacks").val(obj.Attacks);
                         var effIds = multipleBox(obj.zhaoshi_effect);
-                        if(effIds.length > 0) {
+                        if (effIds.length > 0) {
                             layui.formSelects.value("select_editEffect", effIds);
                         }
                         layui.form.render("select");
@@ -131,6 +140,8 @@ function edit(data) {
                         params.zhaoshi_experience_cost = Number($("#edit_zhaoshi_experience_cost").val());
                         params.MP_cost = $("#edit_MP_cost").val();
                         params.info = $("#edit_info").val();
+                        params.type = $("#edit_type").val();
+                        params.Attacks = $("#edit_Attacks").val();
                         if (verIfy(params) === false) {
                             return;
                         }
@@ -138,9 +149,11 @@ function edit(data) {
                     }, function (index, layero) {
                         $("#edit_name").val('');
                         $("#edit_kongFu").val('');
-                        $("#edit_zhaoshi_experience_cost").val('');
+                        $("#edit_zhaoshi_experience_cost").val(0);
                         $("#edit_MP_cost").val('');
                         $("#edit_info").val('');
+                        $("#edit_type").val('');
+                        $("#edit_Attacks").val('');
                         layui.form.render("select");
                     });
             }
@@ -155,18 +168,12 @@ function verIfy(params) {
         layer.msg("招式名称不能为空", {icon: 2});
         return false;
     }
-    if(params.MP_cost === null || params.MP_cost === ""){
-        layer.msg("内力花费不能为空", {icon: 2});
+    if (parmas.type === null || params.type === "") {
+        layer.msg("招式种类不能为空", {icon: 2});
         return false;
     }
-    return true;
-}
-
-function verIfs(yellow,gold,green,blue,purple) {
-    var ter = new RegExp("[0-9]");
-    if (!ter.test(yellow) || !ter.test(gold) || !ter.test(green)
-        || !ter.test(blue) || !ter.test(purple)) {
-        layer.msg("内力花费格式错误", {icon: 2});
+    if (params.MP_cost === null || params.MP_cost === "") {
+        layer.msg("内力花费不能为空", {icon: 2});
         return false;
     }
     return true;

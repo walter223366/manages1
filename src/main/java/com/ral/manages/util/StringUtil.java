@@ -28,8 +28,8 @@ public class StringUtil {
     }
 
     //去掉空格
-    public static String notSpace(String value){
-        value = value.replace(" ","");
+    public static Object notSpace(Object value){
+        value = value.toString().replace(" ","");
         return value;
     }
 

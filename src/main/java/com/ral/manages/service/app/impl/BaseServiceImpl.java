@@ -113,6 +113,7 @@ public class BaseServiceImpl implements UnifiedCall, IBaseService {
             if(!SetUtil.isMapNull(wMap)){
                 wMap.put("id",StringUtil.getUUID());
                 wMap.put("character_id",id);
+                wMap.put("lrrq",TimeUtil.currentTime());
                 baseMapper.baseAttInsert(SetUtil.turnNull(wMap));
             }
             Map<String,Object> pMap = (Map<String,Object>) map.get("potent");
